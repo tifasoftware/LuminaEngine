@@ -4,6 +4,7 @@ project(psprpg)
 
 file (GLOB_RECURSE SOURCES "src/*.cpp")
 file (GLOB PNG_ASSETS "assets/*.png")
+file (GLOB LMAP_ASSETS "assets/*.lmap")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
@@ -38,5 +39,11 @@ create_pbp_file(
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
     ${PNG_ASSETS}
+    ${CMAKE_BINARY_DIR}
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    ${LMAP_ASSETS}
     ${CMAKE_BINARY_DIR}
 )

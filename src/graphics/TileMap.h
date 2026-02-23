@@ -2,6 +2,8 @@
 
 #include <SDL.h>
 #include <SDL_image.h>
+#include <cstdio>
+#include <cstring>
 #include <graphics/Renderer.h>
 
 //PSP Resolution Width - 480
@@ -12,9 +14,14 @@ static const int tileSize = 16;
 
 class TileMap{
     public:
-    TileMap(Renderer* r);
+    TileMap(const char* file, Renderer* r);
     void drawMap();
+    void disposeMap();
 
     private:
+    bool loadFromFile(const char* file);
+    void parse_textures(FILE* file);
+    void parse_layout(FILE* file);
     Renderer* renderer;
+    int tiles[tileW][tileH];
 };

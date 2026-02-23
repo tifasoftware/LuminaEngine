@@ -38,7 +38,7 @@ int main(int argc, char *argv[])
 
     SDL_Delay(1000);
 
-    TileMap* tm = new TileMap(r);
+    TileMap* tm = new TileMap("maptest.lmap", r);
 
     int running = 1;
     SDL_Event event;
