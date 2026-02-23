@@ -1,0 +1,54 @@
+# Build
+build/
+cmake-build-debug/
+cmake-build-release/
+
+# CMake
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+*.cmake
+
+# PSP output
+*.elf
+*.prx
+*.pbp
+EBOOT.PBP
+
+# Compiled objects
+*.o
+*.obj
+*.a
+*.lib
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverrides
+*.xcodeproj
+*.xcworkspace
+
+# Affinity Projects
+*.af
+*.af~lock~
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+*.suo
+*.user
+
+# Assets - ignore source files, keep PNGs
+*.psd
+*.ai
+*.xcf
+*.aseprite
+
+# Lua bytecode
+*.luac
+
+# Logs
+*.log
