@@ -94,3 +94,7 @@ Contributions are welcome! If you'd like to help:
 5. Open a Pull Request
 
 Please keep PSP hardware constraints in mind — 32MB RAM, 480x272 resolution.
+
+## Credits
+
+Test Character Sprite created using [[https://www.avatarsinpixels.com/]]
