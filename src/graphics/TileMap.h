@@ -8,9 +8,14 @@
 
 //PSP Resolution Width - 480
 //PSP Resolution Height - 272
-static const int tileW = 30;
-static const int tileH = 17;
-static const int tileSize = 16;
+static const int SCREEN_W = 480;
+static const int SCREEN_H = 272;
+
+static const int TILE_SIZE = 16;
+
+static const int TILE_W = SCREEN_W / TILE_SIZE;
+static const int TILE_H = SCREEN_H / TILE_SIZE;
+
 
 class TileMap{
     public:
@@ -23,5 +28,5 @@ class TileMap{
     void parse_textures(FILE* file);
     void parse_layout(FILE* file);
     Renderer* renderer;
-    int tiles[tileW][tileH];
+    int tiles[TILE_W][TILE_H];
 };

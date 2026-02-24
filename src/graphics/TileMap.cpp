@@ -13,8 +13,8 @@ TileMap::TileMap(const char* file, Renderer* r)
     } else {
         r->loadTexture("grass.png");
 
-        for (int x = 0; x < tileW; x++){
-            for (int y = 0; y < tileH; y++){
+        for (int x = 0; x < TILE_W; x++){
+            for (int y = 0; y < TILE_H; y++){
                 tiles[x][y] = 0;
             }
         }
@@ -23,9 +23,9 @@ TileMap::TileMap(const char* file, Renderer* r)
 
 void TileMap::drawMap()
 {
-    for (int x = 0; x < tileW; x++){
-        for (int y = 0; y < tileH; y++){
-            renderer->drawTile(tiles[x][y], x * tileSize, y * tileSize);
+    for (int x = 0; x < TILE_W; x++){
+        for (int y = 0; y < TILE_H; y++){
+            renderer->drawTile(tiles[x][y], x * TILE_SIZE, y * TILE_SIZE);
         }
     }
 }
@@ -80,13 +80,13 @@ void TileMap::parse_layout(FILE* file)
 
         int x = 0;
         char* token = strtok(line, ",");
-        while (token != nullptr && x < tileW) {
+        while (token != nullptr && x < TILE_W) {
             tiles[x][y] = atoi(token);
             x++;
             token = strtok(nullptr, ",");
         }
 
         y++;
-        if (y >= tileH) break;
+        if (y >= TILE_H) break;
     }
 }
