@@ -2,7 +2,7 @@
 #include <SDL_image.h>
 #include <pspkernel.h>
 #include <pspdisplay.h>
-#include <graphics/TileMap.h>
+#include <entities/TileMap.h>
 
 TileMap::TileMap(const char* file, Renderer* r)
 {

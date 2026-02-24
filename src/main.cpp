@@ -4,7 +4,7 @@
 #include <pspdisplay.h>
 #include <graphics/Renderer.h>
 #include <graphics/Texture.h>
-#include <graphics/TileMap.h>
+#include <entities/TileMap.h>
 #include <graphics/effects/fade.h>
 #include <entities/character.h>
 
