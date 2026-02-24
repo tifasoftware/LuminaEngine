@@ -14,6 +14,7 @@ public:
     int drawSprite(int texIndex, int x, int y);
     int loadTexture(const char* file);
     int unloadAllTextures();
+    void floodOverlay(int r, int g, int b, int alpha);
     void clear();
     void present();
     void shutdown();
