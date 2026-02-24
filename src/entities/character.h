@@ -5,14 +5,17 @@
 class Character 
 {
     public:
-    void rawCharacter(int x, int y, Renderer* r);
+    Character();
+    Character(const char* biofile);
+    void drawCharacter(int x, int y, Renderer* r);
     void loadCharacterSprite(Renderer* r);
 
     private:
-    char[]* characterName;
+    const char* characterName;
+    const char* textureFile;
     int health;
     int magic;
     int level;
-    int texIndex;
+    int texIndex = -1;
 
 };
