@@ -5,6 +5,8 @@
 #include <graphics/Renderer.h>
 #include <graphics/Texture.h>
 #include <graphics/TileMap.h>
+#include <graphics/effects/fade.h>
+#include <entities/character.h>
 
 int main(int argc, char *argv[])
 {
@@ -25,11 +27,32 @@ int main(int argc, char *argv[])
     Renderer* r = new Renderer(window);
 
     r->loadTexture("splash.png");
-    r->clear();
-    r->drawSprite(0, 0, 0);
-    r->present();
+
+    const int FRAME_RATE = 60;
+    const int REDRAW_DELAY = 1000 / FRAME_RATE;
+
+    Fade* f = new Fade(r);
+    f->FadeIn(1.0f);
+
+    while (f->isFading()){
+        r->clear();
+        r->drawSprite(0, 0, 0);
+        f->Render(1.0f / FRAME_RATE);
+        r->present();
+        SDL_Delay(REDRAW_DELAY);
+    }
 
     SDL_Delay(3000);
+
+    f->FadeOut(1.0f);
+
+    while (f->isFading()){
+        r->clear();
+        r->drawSprite(0, 0, 0);
+        f->Render(1.0f / FRAME_RATE);
+        r->present();
+        SDL_Delay(REDRAW_DELAY);
+    }
 
     r->unloadAllTextures();
 
@@ -40,8 +63,15 @@ int main(int argc, char *argv[])
 
     TileMap* tm = new TileMap("maptest.lmap", r);
 
+    Character* lumina = new Character();
+
+    lumina->loadCharacterSprite(r);
+
     int running = 1;
     SDL_Event event;
+
+    f->FadeIn(1.0f);
+
     while (running) { 
         // Process input
         if (SDL_PollEvent(&event)) {
@@ -69,6 +99,11 @@ int main(int argc, char *argv[])
         // Draw the 'grass' sprite
         tm->drawMap();
 
+        lumina->drawCharacter(480 / 2, 272 / 2, r);
+
+        if (f->isFading()){
+            f->Render(1.0f / FRAME_RATE);
+        }
         // Draw everything on a white background
         
         r->present();
