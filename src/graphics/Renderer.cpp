@@ -81,3 +81,8 @@ void Renderer::shutdown()
 {
     SDL_DestroyRenderer(sdl_r);
 }
+
+Texture* Renderer::getTexture(int index)
+{
+    return &m_textures[index];
+}

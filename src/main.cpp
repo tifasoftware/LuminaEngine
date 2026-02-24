@@ -66,6 +66,13 @@ int main(int argc, char *argv[])
     Character* lumina = new Character();
 
     lumina->loadCharacterSprite(r);
+    int luminaX = 480 / 2;
+    int luminaY = 272 / 2;
+
+    int luminaMoveX = 0;
+    int luminaMoveY = 0;
+
+    int luminaMoveRate = 2;
 
     int running = 1;
     SDL_Event event;
@@ -88,18 +95,48 @@ int main(int argc, char *argv[])
                     if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
                         // Close the program if start is pressed
                         running = 0;
+                    } 
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+                        luminaMoveY = -1 * luminaMoveRate;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+                        luminaMoveY = luminaMoveRate;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+                        luminaMoveX = -1 * luminaMoveRate;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+                        luminaMoveX = luminaMoveRate;
+                    }
+                    break;
+                case SDL_CONTROLLERBUTTONUP:
+                    if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+                        luminaMoveY = 0;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+                        luminaMoveY = 0;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+                        luminaMoveX = 0;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+                        luminaMoveX = 0;
                     }
                     break;
             }
         }
 
+        if (!tm->isColliding(luminaX + luminaMoveX, luminaY + luminaMoveY)){
+            luminaX += luminaMoveX;
+            luminaY += luminaMoveY;
+        }
         // Clear the screen
         r->clear();
 
         // Draw the 'grass' sprite
         tm->drawMap();
 
-        lumina->drawCharacter(480 / 2, 272 / 2, r);
+        lumina->drawCharacter(luminaX, luminaY, r);
 
         if (f->isFading()){
             f->Render(1.0f / FRAME_RATE);
@@ -107,6 +144,7 @@ int main(int argc, char *argv[])
         // Draw everything on a white background
         
         r->present();
+        SDL_Delay(REDRAW_DELAY);
     }
     r->shutdown();
     SDL_DestroyWindow(window);

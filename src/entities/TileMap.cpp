@@ -90,3 +90,13 @@ void TileMap::parse_layout(FILE* file)
         if (y >= TILE_H) break;
     }
 }
+
+//This algorithm is rudimentary, as its set to the bounds of the psp's screen for now.
+bool TileMap::isColliding(int x, int y)
+{
+    if (x < 16 || y < 16 || x > 464 || y > 256)
+    {
+        return true;
+    }
+    return false;
+}

@@ -22,11 +22,18 @@ class TileMap{
     TileMap(const char* file, Renderer* r);
     void drawMap();
     void disposeMap();
+    void shiftMap(int x, int y);
+    bool isColliding(int x, int y);
 
     private:
     bool loadFromFile(const char* file);
     void parse_textures(FILE* file);
     void parse_layout(FILE* file);
+    void parse_collision(FILE* file);
     Renderer* renderer;
     int tiles[TILE_W][TILE_H];
+    //int collision[TILE_W][TILE_H];
+    int offsetX = 0;
+    int offsetY = 0;
+
 };

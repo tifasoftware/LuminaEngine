@@ -17,5 +17,6 @@ class Character
     int magic;
     int level;
     int texIndex = -1;
-
+    int charHeight = 32;
+    int charWidth = 32;
 };

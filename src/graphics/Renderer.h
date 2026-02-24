@@ -18,6 +18,7 @@ public:
     void clear();
     void present();
     void shutdown();
+    Texture* getTexture(int index);
 
 private:
     SDL_Renderer* sdl_r;
