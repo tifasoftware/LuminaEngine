@@ -2,11 +2,7 @@
 #include <SDL_image.h>
 #include <pspkernel.h>
 #include <pspdisplay.h>
-#include <graphics/Renderer.h>
-#include <graphics/Texture.h>
-#include <entities/TileMap.h>
-#include <graphics/effects/fade.h>
-#include <entities/character.h>
+#include "lumina.h"
 
 int main(int argc, char *argv[])
 {
