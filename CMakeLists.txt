@@ -1,6 +1,6 @@
 cmake_minimum_required(VERSION 3.11)
 
-project(psprpg)
+project(LuminaEngine)
 
 file (GLOB_RECURSE SOURCES "src/*.cpp")
 file (GLOB PNG_ASSETS "assets/*.png")
