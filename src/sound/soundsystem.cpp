@@ -3,7 +3,7 @@
 
 SoundSystem::SoundSystem()
 {
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048);
 }
 
 void SoundSystem::shutdown()
