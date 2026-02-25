@@ -22,7 +22,7 @@ class Panel
     int getH();
 
     private:
-    Renderer* render;
+    Renderer* renderer;
 
     int x = 0;
     int y = 0;
