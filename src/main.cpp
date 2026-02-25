@@ -20,7 +20,10 @@ int main(int argc, char *argv[])
         0
     );
 
+    SoundSystem* snd = new SoundSystem();
     Renderer* r = new Renderer(window);
+
+    snd->startMusic("bgm0.ogg");
 
     r->loadTexture("splash.png");
 
@@ -142,6 +145,7 @@ int main(int argc, char *argv[])
         r->present();
         SDL_Delay(REDRAW_DELAY);
     }
+    snd->shutdown();
     r->shutdown();
     SDL_DestroyWindow(window);
     SDL_Quit();

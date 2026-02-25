@@ -6,3 +6,4 @@
 #include <graphics/effects/fade.h>
 #include <entities/character.h>
 #include <common/types.h>
+#include <sound/soundsystem.h>
