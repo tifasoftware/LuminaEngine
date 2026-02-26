@@ -12,3 +12,10 @@ enum CollisionType
     VERTICAL
 };
 
+enum GameState
+{
+    WORLD,
+    BATTLE,
+    MENU,
+    EXIT
+};
