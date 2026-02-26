@@ -8,3 +8,4 @@
 #include <common/types.h>
 #include <sound/soundsystem.h>
 #include <vgui/text.h>
+#include <game/gameplay.h>
