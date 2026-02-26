@@ -5,6 +5,7 @@ project(LuminaEngine)
 file (GLOB_RECURSE SOURCES "src/*.cpp")
 file (GLOB PNG_ASSETS "assets/*.png")
 file (GLOB OGG_ASSETS "assets/*.ogg")
+file (GLOB WAV_ASSETS "assets/*.wav")
 file (GLOB LMAP_ASSETS "assets/*.lmap")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
@@ -52,6 +53,12 @@ add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
     ${OGG_ASSETS}
+    ${CMAKE_BINARY_DIR}
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+    COMMAND ${CMAKE_COMMAND} -E copy
+    ${WAV_ASSETS}
     ${CMAKE_BINARY_DIR}
 )
 

@@ -15,6 +15,7 @@ class SoundSystem
 
     int loadSFX(const char* file);
     bool unloadAllSFX();
+    bool unloadSFX(int index);
     void playSFX(int index);
 
     private:
@@ -22,5 +23,6 @@ class SoundSystem
     Mix_Chunk* sfxBank[MAX_SFX];
     bool musicLoaded = false;
     int sfxCount = -1;
+    int firstOpenSlot();
 
 };

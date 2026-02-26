@@ -24,6 +24,8 @@ int main(int argc, char *argv[])
     Renderer* r = new Renderer(window);
 
     snd->startMusic("bgm0.ogg");
+    int clink = snd->loadSFX("hover.wav");
+    int chime = snd->loadSFX("select.wav");
 
     r->loadTexture("splash.png");
 
@@ -96,6 +98,7 @@ int main(int argc, char *argv[])
                     if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
                         // Close the program if start is pressed
                         running = 0;
+                        snd->playSFX(chime);
                     } 
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
                         luminaMoveY = -1 * luminaMoveRate;
@@ -149,6 +152,29 @@ int main(int argc, char *argv[])
         r->present();
         SDL_Delay(REDRAW_DELAY);
     }
+
+    f->FadeOut(2.0f);
+
+    while (f->isFading())
+    {
+        r->clear();
+
+        // Draw the 'grass' sprite
+        tm->drawMap();
+
+        text->Render(r);
+
+        lumina->drawCharacter(luminaX, luminaY, r);
+
+        if (f->isFading()){
+            f->Render(1.0f / FRAME_RATE);
+        }
+        // Draw everything on a white background
+        
+        r->present();
+        SDL_Delay(REDRAW_DELAY);
+    }
+
     snd->shutdown();
     r->shutdown();
     SDL_DestroyWindow(window);
