@@ -7,3 +7,4 @@
 #include <entities/character.h>
 #include <common/types.h>
 #include <sound/soundsystem.h>
+#include <vgui/text.h>

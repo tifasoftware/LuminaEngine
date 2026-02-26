@@ -12,8 +12,10 @@ public:
     Renderer(SDL_Window * win);
     int drawTile(int texIndex, int x, int y);
     int drawSprite(int texIndex, int x, int y);
+    int drawSubSprite(int texIndex, int x, int y, int cX, int cY, int cW, int cH);
     int loadTexture(const char* file);
     int unloadAllTextures();
+    int unloadTexture(int index);
     void floodOverlay(int r, int g, int b, int alpha);
     void clear();
     void present();

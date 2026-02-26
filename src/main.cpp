@@ -64,6 +64,8 @@ int main(int argc, char *argv[])
 
     Character* lumina = new Character();
 
+    Text* text = new Text("The Quick Brown Fox Jumps Over The Lazy Dog", r->loadTexture("fontatlas.png"), 16, 16);
+
     lumina->loadCharacterSprite(r);
     int luminaX = 480 / 2;
     int luminaY = 272 / 2;
@@ -134,6 +136,8 @@ int main(int argc, char *argv[])
 
         // Draw the 'grass' sprite
         tm->drawMap();
+
+        text->Render(r);
 
         lumina->drawCharacter(luminaX, luminaY, r);
 
