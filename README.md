@@ -97,4 +97,4 @@ Please keep PSP hardware constraints in mind — 32MB RAM, 480x272 resolution.
 
 ## Credits
 
-Test Character Sprite created using [[https://www.avatarsinpixels.com/]]
+Test Character Sprite created using https://www.avatarsinpixels.com/
