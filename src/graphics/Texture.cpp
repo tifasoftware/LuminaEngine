@@ -18,12 +18,15 @@ Texture::Texture(const char* file, SDL_Renderer* render){
     } else {
         tile_size = height;
     }
+
+    isOpen = false;
 }
 
 int Texture::release(){
     if (tex != nullptr) {
         SDL_DestroyTexture(tex);
         tex = nullptr;
+        isOpen = true;
         return 0;
     }
     return -1;

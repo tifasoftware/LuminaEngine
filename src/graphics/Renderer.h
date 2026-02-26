@@ -26,4 +26,5 @@ private:
     SDL_Renderer* sdl_r;
     Texture m_textures[MAX_TEXTURES];
     int m_texture_count = 0;
+    int firstOpenSlot();
 };

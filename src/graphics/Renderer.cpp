@@ -7,12 +7,37 @@ Renderer::Renderer(SDL_Window * win) {
     sdl_r = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 }
 
-int Renderer::loadTexture(const char* file) {
+int Renderer::firstOpenSlot()
+{
+    for (int i = 0; i < MAX_TEXTURES; i++)
+    {
+        if (m_textures[i].isTextureFree())
+        {
+            return i;
+        }
+    }
+    return -1;
+}
+
+//Old Implemetation
+/* int Renderer::loadTexture(const char* file) {
     if (m_texture_count >= MAX_TEXTURES) {
         return -1;
     }
     m_textures[m_texture_count] = Texture(file, sdl_r);
     return m_texture_count++;
+} */
+
+int Renderer::loadTexture(const char* file) 
+{
+    int slot = firstOpenSlot();
+
+    if (slot != -1)
+    {
+        m_textures[slot] = Texture(file, sdl_r);
+    }
+    
+    return slot;
 }
 
 int Renderer::unloadAllTextures(){
