@@ -38,10 +38,9 @@ void Text::Render(Renderer* r)
             oY += 16;
         } else {
             oX += 8;
-        }
-
-        SDL_SetTextureColorMod(r->getTexture(fontTexIndex)->get_SDLTex(), 255, 255, 255);
+        } 
     }
+    SDL_SetTextureColorMod(r->getTexture(fontTexIndex)->get_SDLTex(), 255, 255, 255);
 }
 
 void Text::SetFGColor(int r, int g, int b)

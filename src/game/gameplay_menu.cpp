@@ -6,6 +6,7 @@ void GamePlay::MenuStart()
     chime = snd->loadSFX("select.wav");
     fontAtlas = r->loadTexture("fontatlas.png");
     text = new Text("Main Menu", fontAtlas, 0, 0);
+    text->SetFGColor(0,100,255);
     inTransition = false;
 }
 
