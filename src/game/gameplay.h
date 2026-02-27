@@ -7,6 +7,18 @@ class GamePlay
     public:
     GamePlay();
     void WorldDraw();
+    void MenuDraw();
+    void BattleDraw();
+
+    void WorldStart();
+    void MenuStart();
+    void BattleStart();
+
+    void WorldExit();
+    void MenuExit();
+    void BattleExit();
+
+    void SwitchState(GameState newState);
 
     bool gameRunning();
     void Exit();

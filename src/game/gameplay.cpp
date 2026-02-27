@@ -57,6 +57,11 @@ GamePlay::GamePlay()
 
     SDL_Delay(1000);
 
+    WorldStart();
+}
+
+void GamePlay::WorldStart()
+{
     tm = new TileMap("maptest.lmap", r);
 
     lumina = new Character();
@@ -85,8 +90,7 @@ void GamePlay::WorldDraw()
                 case SDL_CONTROLLERBUTTONDOWN:
                     if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
                         // Close the program if start is pressed
-                        gameState = EXIT;
-                        snd->playSFX(chime);
+                        SwitchState(EXIT);
                     } 
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
                         luminaMoveY = -1 * luminaMoveRate;
@@ -138,10 +142,9 @@ void GamePlay::WorldDraw()
         // Draw everything on a white background
         
         r->present();
-        SDL_Delay(REDRAW_DELAY);
 }
 
-void GamePlay::Exit()
+void GamePlay::WorldExit()
 {
     f->FadeOut(2.0f);
 
@@ -164,7 +167,67 @@ void GamePlay::Exit()
         r->present();
         SDL_Delay(REDRAW_DELAY);
     }
+}
 
+void GamePlay::MenuDraw()
+{
+    if (SDL_PollEvent(&event)) {
+            switch (event.type) {
+                case SDL_QUIT:
+                    // End the loop if the programs is being closed
+                    gameState = EXIT;
+                    break;
+                case SDL_CONTROLLERDEVICEADDED:
+                    // Connect a controller when it is connected
+                    SDL_GameControllerOpen(event.cdevice.which);
+                    break;
+                case SDL_CONTROLLERBUTTONDOWN:
+                    if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
+                        // Close the program if start is pressed
+                        snd->playSFX(chime);
+                    } 
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+                        luminaMoveY = -1 * luminaMoveRate;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+                        luminaMoveY = luminaMoveRate;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+                        luminaMoveX = -1 * luminaMoveRate;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+                        luminaMoveX = luminaMoveRate;
+                    }
+                    break;
+                case SDL_CONTROLLERBUTTONUP:
+                    if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+                        luminaMoveY = 0;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+                        luminaMoveY = 0;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+                        luminaMoveX = 0;
+                    }
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+                        luminaMoveX = 0;
+                    }
+                    break;
+            }
+        }
+
+        // Clear the screen
+        r->clear();
+
+        text->Render(r);
+        // Draw everything on a white background
+        
+        r->present();
+        
+}
+
+void GamePlay::Exit()
+{
     snd->shutdown();
     r->shutdown();
     SDL_DestroyWindow(window);
@@ -188,10 +251,52 @@ void GamePlay::GameLoop()
             case EXIT:
             break;
         }
+        SDL_Delay(REDRAW_DELAY);
 }
 
 bool GamePlay::gameRunning()
 {
     if (gameState == EXIT) return false;
     return true;
+}
+
+void GamePlay::SwitchState(GameState newState)
+{
+    switch (gameState)
+    {
+        case WORLD:
+        WorldExit();
+        break;
+
+        case MENU:
+        //MenuExit();
+        break;
+
+        case BATTLE:
+        //BattleExit();
+        break;
+
+        case EXIT:
+        break;
+    }
+
+    switch (gameState)
+    {
+        case WORLD:
+        WorldStart();
+        break;
+
+        case MENU:
+        //MenuStart();
+        break;
+
+        case BATTLE:
+        //BattleStart();
+        break;
+
+        case EXIT:
+        break;
+    }
+
+    gameState = newState;
 }
