@@ -108,14 +108,13 @@ void GamePlay::WorldExit()
         SDL_Delay(REDRAW_DELAY);
     }
 
-    tm->disposeMap();
+    //tm->disposeMap();
     
     r->unloadAllTextures();
 
     delete tm;
     delete lumina;
     delete text;
-
 }
 
 
