@@ -1,5 +1,10 @@
 #include <game/gameplay.h>
 
+void GamePlay::MenuStart()
+{
+    //snd->loadSFX()
+}
+
 void GamePlay::MenuDraw()
 {
     if (SDL_PollEvent(&event)) {
@@ -54,5 +59,9 @@ void GamePlay::MenuDraw()
         // Draw everything on a white background
         
         r->present();
-        
+}
+
+void GamePlay::MenuExit()
+{
+
 }
