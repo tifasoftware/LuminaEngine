@@ -11,6 +11,7 @@ Text::Text(const char* t, int fti, int _x, int _y)
 
 void Text::Render(Renderer* r)
 {
+    SDL_SetTextureColorMod(r->getTexture(fontTexIndex)->get_SDLTex(), fg_r, fg_g, fg_b);
     int oX = 0;
     int oY = 0;
 
@@ -38,7 +39,8 @@ void Text::Render(Renderer* r)
         } else {
             oX += 8;
         }
-        
+
+        SDL_SetTextureColorMod(r->getTexture(fontTexIndex)->get_SDLTex(), 255, 255, 255);
     }
 }
 
