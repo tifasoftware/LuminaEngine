@@ -120,6 +120,8 @@ void GamePlay::SwitchState(GameState newState)
         break;
     }
 
+    r->clear();
+    r->present();
     SDL_Delay(200);
 
     switch (newState)
