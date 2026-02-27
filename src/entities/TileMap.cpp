@@ -4,14 +4,19 @@
 #include <pspdisplay.h>
 #include <entities/TileMap.h>
 
-TileMap::TileMap(const char* file, Renderer* r)
+TileMap::TileMap(const char* f, Renderer* r)
 {
     renderer = r;
 
-    if (loadFromFile(file)) {
+    file = f;
+}
 
+bool TileMap::loadMap()
+{
+    if (loadFromFile(file)) {
+        return true;
     } else {
-        r->loadTexture("grass.png");
+        renderer->loadTexture("grass.png");
 
         for (int x = 0; x < TILE_W; x++){
             for (int y = 0; y < TILE_H; y++){
@@ -19,13 +24,14 @@ TileMap::TileMap(const char* file, Renderer* r)
             }
         }
     }
+    return false;
 }
 
 void TileMap::drawMap()
 {
     for (int x = 0; x < TILE_W; x++){
         for (int y = 0; y < TILE_H; y++){
-            renderer->drawTile(tiles[x][y], x * TILE_SIZE, y * TILE_SIZE);
+            renderer->drawTile(textureAddresses[tiles[x][y]], x * TILE_SIZE, y * TILE_SIZE);
         }
     }
 }
@@ -56,6 +62,7 @@ bool TileMap::loadFromFile(const char* file)
 
 void TileMap::parse_textures(FILE* file)
 {
+    int texC = 0;
     char line[256];
     while (fgets(line, sizeof(line), file))
     {
@@ -64,7 +71,8 @@ void TileMap::parse_textures(FILE* file)
         if (strcmp(line, "LAYOUT") == 0)
             break;
 
-        renderer->loadTexture(line);
+        textureAddresses[texC] = renderer->loadTexture(line);
+        texC++;
     }
 }
 

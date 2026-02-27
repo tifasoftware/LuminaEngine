@@ -20,8 +20,6 @@ GamePlay::GamePlay()
     r = new Renderer(window);
 
     snd->startMusic("bgm0.ogg");
-    clink = snd->loadSFX("hover.wav");
-    chime = snd->loadSFX("select.wav");
 
     r->loadTexture("splash.png");
 
@@ -55,6 +53,10 @@ GamePlay::GamePlay()
     r->clear();
     r->present();
 
+    tm = new TileMap("maptest.lmap", r);
+
+    lumina = new Character();
+
     SDL_Delay(1000);
 
     WorldStart();
@@ -70,22 +72,26 @@ void GamePlay::Exit()
 
 void GamePlay::GameLoop()
 {
-    switch (gameState)
-        {
-            case WORLD:
-            WorldDraw();
-            break;
+    if (!inTransition)
+    {
+        switch (gameState)
+            {
+                case WORLD:
+                WorldDraw();
+                break;
 
-            case BATTLE:
-            break;
+                case BATTLE:
+                break;
 
-            case MENU:
-            break;
+                case MENU:
+                MenuDraw();
+                break;
 
-            case EXIT:
-            break;
-        }
+                case EXIT:
+                break;
+            }
         SDL_Delay(REDRAW_DELAY);
+    }
 }
 
 bool GamePlay::gameRunning()
@@ -103,7 +109,7 @@ void GamePlay::SwitchState(GameState newState)
         break;
 
         case MENU:
-        //MenuExit();
+        MenuExit();
         break;
 
         case BATTLE:
@@ -114,14 +120,16 @@ void GamePlay::SwitchState(GameState newState)
         break;
     }
 
-    switch (gameState)
+    SDL_Delay(200);
+
+    switch (newState)
     {
         case WORLD:
         WorldStart();
         break;
 
         case MENU:
-        //MenuStart();
+        MenuStart();
         break;
 
         case BATTLE:

@@ -40,9 +40,11 @@ class GamePlay
     SDL_Event event;
 
     GameState gameState = WORLD;
+    bool inTransition = true;
 
     int clink = -1;
     int chime = -1;
+    int fontAtlas = -1;
 
     int luminaX;
     int luminaY;

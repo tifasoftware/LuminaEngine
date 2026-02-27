@@ -19,21 +19,25 @@ static const int TILE_H = SCREEN_H / TILE_SIZE;
 
 class TileMap{
     public:
-    TileMap(const char* file, Renderer* r);
+    TileMap(const char* f, Renderer* r);
     void drawMap();
     void disposeMap();
     void shiftMap(int x, int y);
     bool isColliding(int x, int y);
+    bool loadMap();
 
     private:
     bool loadFromFile(const char* file);
     void parse_textures(FILE* file);
     void parse_layout(FILE* file);
     void parse_collision(FILE* file);
+    const char* file;
     Renderer* renderer;
     int tiles[TILE_W][TILE_H];
     //int collision[TILE_W][TILE_H];
     int offsetX = 0;
     int offsetY = 0;
+
+    int textureAddresses[MAX_TEXTURES];
 
 };

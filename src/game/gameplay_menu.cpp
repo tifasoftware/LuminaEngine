@@ -2,7 +2,11 @@
 
 void GamePlay::MenuStart()
 {
-    //snd->loadSFX()
+    clink = snd->loadSFX("hover.wav");
+    chime = snd->loadSFX("select.wav");
+    fontAtlas = r->loadTexture("fontatlas.png");
+    text = new Text("Main Menu", fontAtlas, 0, 0);
+    inTransition = false;
 }
 
 void GamePlay::MenuDraw()
@@ -11,7 +15,7 @@ void GamePlay::MenuDraw()
             switch (event.type) {
                 case SDL_QUIT:
                     // End the loop if the programs is being closed
-                    gameState = EXIT;
+                    SwitchState(EXIT);
                     break;
                 case SDL_CONTROLLERDEVICEADDED:
                     // Connect a controller when it is connected
@@ -21,6 +25,7 @@ void GamePlay::MenuDraw()
                     if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
                         // Close the program if start is pressed
                         snd->playSFX(chime);
+                        SwitchState(WORLD);
                     } 
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
                         luminaMoveY = -1 * luminaMoveRate;
@@ -63,5 +68,7 @@ void GamePlay::MenuDraw()
 
 void GamePlay::MenuExit()
 {
-
+    inTransition = true;
+    snd->unloadAllSFX();
+    r->unloadAllTextures();
 }

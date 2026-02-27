@@ -2,17 +2,17 @@
 
 void GamePlay::WorldStart()
 {
-    tm = new TileMap("maptest.lmap", r);
+    fontAtlas = r->loadTexture("fontatlas.png");
+    text = new Text("The Quick Brown Fox Jumps Over The Lazy Dog", fontAtlas, 16, 16);
 
-    lumina = new Character();
-
-    text = new Text("The Quick Brown Fox Jumps Over The Lazy Dog", r->loadTexture("fontatlas.png"), 16, 16);
-
+    tm->loadMap();
     lumina->loadCharacterSprite(r);
+    
     luminaX = 480 / 2;
     luminaY = 272 / 2;
 
     f->FadeIn(1.0f);
+    inTransition = false;
 }
 
 void GamePlay::WorldDraw()
@@ -21,7 +21,7 @@ void GamePlay::WorldDraw()
             switch (event.type) {
                 case SDL_QUIT:
                     // End the loop if the programs is being closed
-                    gameState = EXIT;
+                    SwitchState(EXIT);
                     break;
                 case SDL_CONTROLLERDEVICEADDED:
                     // Connect a controller when it is connected
@@ -29,8 +29,8 @@ void GamePlay::WorldDraw()
                     break;
                 case SDL_CONTROLLERBUTTONDOWN:
                     if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
-                        // Close the program if start is pressed
-                        SwitchState(EXIT);
+                        // Open Main Menu if start is pressed
+                        SwitchState(MENU);
                     } 
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
                         luminaMoveY = -1 * luminaMoveRate;
@@ -86,6 +86,7 @@ void GamePlay::WorldDraw()
 
 void GamePlay::WorldExit()
 {
+    inTransition = true;
     f->FadeOut(2.0f);
 
     while (f->isFading())
@@ -112,8 +113,6 @@ void GamePlay::WorldExit()
     
     r->unloadAllTextures();
 
-    delete tm;
-    delete lumina;
     delete text;
 }
 
