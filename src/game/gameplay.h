@@ -10,6 +10,8 @@ class GamePlay
     void MenuDraw();
     void BattleDraw();
 
+    void BlackDraw();
+
     void WorldStart();
     void MenuStart();
     void BattleStart();
@@ -34,7 +36,7 @@ class GamePlay
     Renderer* r;
     SoundSystem* snd;
     Fade* f;
-    Text* text;
+    Text text;
 
     SDL_Window* window;
     SDL_Event event;

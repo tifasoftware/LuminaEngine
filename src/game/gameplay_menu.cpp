@@ -5,8 +5,28 @@ void GamePlay::MenuStart()
     clink = snd->loadSFX("hover.wav");
     chime = snd->loadSFX("select.wav");
     fontAtlas = r->loadTexture("fontatlas.png");
-    text = new Text("Main Menu", fontAtlas, 0, 0);
-    text->SetFGColor(0,100,255);
+    text = Text("Main Menu", fontAtlas, 0, 0);
+    text.SetFGColor(0,100,255);
+    
+
+    f->FadeIn(0.5f);
+
+    while (f->isFading())
+    {
+        r->clear();
+
+        text.Render(r);
+        // Draw everything on a white background
+        
+        if (f->isFading()){
+            f->Render(1.0f / FRAME_RATE);
+        }
+
+        r->present();
+        
+        SDL_Delay(REDRAW_DELAY);
+    }
+
     inTransition = false;
 }
 
@@ -61,7 +81,7 @@ void GamePlay::MenuDraw()
         // Clear the screen
         r->clear();
 
-        text->Render(r);
+        text.Render(r);
         // Draw everything on a white background
         
         r->present();
@@ -70,6 +90,24 @@ void GamePlay::MenuDraw()
 void GamePlay::MenuExit()
 {
     inTransition = true;
+
+    f->FadeOut(0.5f);
+
+    while (f->isFading())
+    {
+        r->clear();
+
+        text.Render(r);
+        // Draw everything on a white background
+        
+        if (f->isFading()){
+            f->Render(1.0f / FRAME_RATE);
+        }
+
+        r->present();
+        SDL_Delay(REDRAW_DELAY);
+    }
+
     snd->unloadAllSFX();
     r->unloadAllTextures();
 }

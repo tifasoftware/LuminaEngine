@@ -1,6 +1,14 @@
 #include <graphics/Renderer.h>
 #include <vgui/text.h>
 
+Text::Text()
+{
+    text = "";
+    fontTexIndex = -1;
+    x = 0;
+    y = 0;
+}
+
 Text::Text(const char* t, int fti, int _x, int _y)
 {
     text = t;

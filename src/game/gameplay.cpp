@@ -89,9 +89,9 @@ void GamePlay::GameLoop()
 
                 case EXIT:
                 break;
-            }
-        SDL_Delay(REDRAW_DELAY);
+            }      
     }
+    SDL_Delay(REDRAW_DELAY);
 }
 
 bool GamePlay::gameRunning()

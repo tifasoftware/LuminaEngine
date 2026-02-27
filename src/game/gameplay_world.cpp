@@ -3,15 +3,15 @@
 void GamePlay::WorldStart()
 {
     fontAtlas = r->loadTexture("fontatlas.png");
-    text = new Text("The Quick Brown Fox Jumps Over The Lazy Dog", fontAtlas, 16, 16);
+    //text = new Text("The Quick Brown Fox Jumps Over The Lazy Dog", fontAtlas, 16, 16);
 
     tm->loadMap();
     lumina->loadCharacterSprite(r);
-    
+
     luminaX = 480 / 2;
     luminaY = 272 / 2;
 
-    f->FadeIn(1.0f);
+    f->FadeIn(0.5f);
     inTransition = false;
 }
 
@@ -72,7 +72,7 @@ void GamePlay::WorldDraw()
         // Draw the 'grass' sprite
         tm->drawMap();
 
-        text->Render(r);
+        //text->Render(r);
 
         lumina->drawCharacter(luminaX, luminaY, r);
 
@@ -87,7 +87,7 @@ void GamePlay::WorldDraw()
 void GamePlay::WorldExit()
 {
     inTransition = true;
-    f->FadeOut(2.0f);
+    f->FadeOut(0.5f);
 
     while (f->isFading())
     {
@@ -96,7 +96,7 @@ void GamePlay::WorldExit()
         // Draw the 'grass' sprite
         tm->drawMap();
 
-        text->Render(r);
+        //text->Render(r);
 
         lumina->drawCharacter(luminaX, luminaY, r);
 
@@ -113,7 +113,7 @@ void GamePlay::WorldExit()
     
     r->unloadAllTextures();
 
-    delete text;
+    //delete text;
 }
 
 
