@@ -37,7 +37,7 @@ class GamePlay
     Renderer* r;
     SoundSystem* snd;
     Fade* f;
-    Text* text;
+    Panel* panel;
 
     SDL_Window* window;
     SDL_Event event;

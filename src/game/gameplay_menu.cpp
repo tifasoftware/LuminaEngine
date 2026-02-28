@@ -5,9 +5,7 @@ void GamePlay::MenuStart()
     clink = snd->loadSFX("hover.wav");
     chime = snd->loadSFX("select.wav");
     fontAtlas = r->loadTexture("fontatlas.png");
-    text = new Text("Main Menu", fontAtlas, 0, 0);
-    text->SetFGColor(0,100,255);
-    
+    panel = new Panel(r, 300, 200);
 
     f->FadeIn(0.5f);
 
@@ -15,7 +13,7 @@ void GamePlay::MenuStart()
     {
         r->clear();
 
-        text->Render(r);
+        panel->Render();
         // Draw everything on a white background
         
         if (f->isFading()){
@@ -83,7 +81,7 @@ void GamePlay::MenuDraw()
         r->clear();
 
         //if (text != nullptr)
-        text->Render(r);
+        panel->Render();
         // Draw everything on a white background
         
         r->present();
@@ -100,7 +98,7 @@ void GamePlay::MenuExit()
     {
         r->clear();
 
-        text->Render(r);
+        panel->Render();
         // Draw everything on a white background
         
         if (f->isFading()){
@@ -114,6 +112,7 @@ void GamePlay::MenuExit()
     snd->unloadAllSFX();
     r->unloadAllTextures();
 
-    delete text;
-    text = nullptr;
+    panel->destroy();
+    delete panel;
+    panel = nullptr;
 }

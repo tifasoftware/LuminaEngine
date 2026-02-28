@@ -10,19 +10,21 @@ class Panel
     public:
     Panel(Renderer* r, int x, int y, int w, int h);
     Panel(Renderer* r, int w, int h);
-    void render();
+    void Render();
     void setBGColor(int r, int g, int b);
     void setFGColor(int r, int g, int b);
-    int addElement(UIElement element);
+    int addElement(UIElement* element);
     void destroy();
 
-    int getX();
-    int getY();
-    int getW();
-    int getH();
+    int getX() const { return x; }
+    int getY() const { return y; }
+    int getW() const { return w; }
+    int getH() const { return h; }
 
     private:
     Renderer* renderer;
+
+    void populateArray();
 
     int x = 0;
     int y = 0;

@@ -21,6 +21,7 @@ public:
     void present();
     void shutdown();
     Texture* getTexture(int index);
+    SDL_Renderer* getRenderer() const { return sdl_r; }
 
 private:
     SDL_Renderer* sdl_r;
