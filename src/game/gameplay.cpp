@@ -23,8 +23,6 @@ GamePlay::GamePlay()
 
     r->loadTexture("splash.png");
 
-    
-
     f = new Fade(r);
     f->FadeIn(1.0f);
 
@@ -99,10 +97,17 @@ bool GamePlay::gameRunning()
     if (gameState == EXIT) return false;
     return true;
 }
-
-void GamePlay::SwitchState(GameState newState)
+void GamePlay::RequestSwitchState(GameState newState)
 {
-    switch (gameState)
+    newGameState = newState;
+    wantNewState = true;
+}
+
+void GamePlay::SwitchState()
+{
+    GameState oldState = gameState;
+    gameState = TRANSITION;
+    switch (oldState)
     {
         case WORLD:
         WorldExit();
@@ -116,7 +121,7 @@ void GamePlay::SwitchState(GameState newState)
         //BattleExit();
         break;
 
-        case EXIT:
+        default:
         break;
     }
 
@@ -124,7 +129,7 @@ void GamePlay::SwitchState(GameState newState)
     r->present();
     SDL_Delay(200);
 
-    switch (newState)
+    switch (newGameState)
     {
         case WORLD:
         WorldStart();
@@ -138,9 +143,10 @@ void GamePlay::SwitchState(GameState newState)
         //BattleStart();
         break;
 
-        case EXIT:
+        default:
         break;
     }
 
-    gameState = newState;
+    gameState = newGameState;
+    wantNewState = false;
 }

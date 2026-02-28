@@ -57,3 +57,8 @@ void Text::SetFGColor(int r, int g, int b)
     fg_g = g;
     fg_b = b;
 }
+
+Text::~Text()
+{
+
+}

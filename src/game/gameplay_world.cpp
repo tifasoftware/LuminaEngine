@@ -21,7 +21,7 @@ void GamePlay::WorldDraw()
             switch (event.type) {
                 case SDL_QUIT:
                     // End the loop if the programs is being closed
-                    SwitchState(EXIT);
+                    RequestSwitchState(EXIT);
                     break;
                 case SDL_CONTROLLERDEVICEADDED:
                     // Connect a controller when it is connected
@@ -30,7 +30,7 @@ void GamePlay::WorldDraw()
                 case SDL_CONTROLLERBUTTONDOWN:
                     if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
                         // Open Main Menu if start is pressed
-                        SwitchState(MENU);
+                        RequestSwitchState(MENU);
                     } 
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
                         luminaMoveY = -1 * luminaMoveRate;
@@ -82,6 +82,7 @@ void GamePlay::WorldDraw()
         // Draw everything on a white background
         
         r->present();
+        if (wantNewState) SwitchState();
 }
 
 void GamePlay::WorldExit()

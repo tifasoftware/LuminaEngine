@@ -17,5 +17,6 @@ enum GameState
     WORLD,
     BATTLE,
     MENU,
-    EXIT
+    EXIT,
+    TRANSITION
 };

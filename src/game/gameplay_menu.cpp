@@ -5,8 +5,8 @@ void GamePlay::MenuStart()
     clink = snd->loadSFX("hover.wav");
     chime = snd->loadSFX("select.wav");
     fontAtlas = r->loadTexture("fontatlas.png");
-    text = Text("Main Menu", fontAtlas, 0, 0);
-    text.SetFGColor(0,100,255);
+    text = new Text("Main Menu", fontAtlas, 0, 0);
+    text->SetFGColor(0,100,255);
     
 
     f->FadeIn(0.5f);
@@ -15,7 +15,7 @@ void GamePlay::MenuStart()
     {
         r->clear();
 
-        text.Render(r);
+        text->Render(r);
         // Draw everything on a white background
         
         if (f->isFading()){
@@ -32,11 +32,12 @@ void GamePlay::MenuStart()
 
 void GamePlay::MenuDraw()
 {
+    if (inTransition) return;
     if (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
                     // End the loop if the programs is being closed
-                    SwitchState(EXIT);
+                    RequestSwitchState(EXIT);
                     break;
                 case SDL_CONTROLLERDEVICEADDED:
                     // Connect a controller when it is connected
@@ -46,7 +47,7 @@ void GamePlay::MenuDraw()
                     if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
                         // Close the program if start is pressed
                         snd->playSFX(chime);
-                        SwitchState(WORLD);
+                        RequestSwitchState(WORLD);
                     } 
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
                         luminaMoveY = -1 * luminaMoveRate;
@@ -81,10 +82,12 @@ void GamePlay::MenuDraw()
         // Clear the screen
         r->clear();
 
-        text.Render(r);
+        //if (text != nullptr)
+        text->Render(r);
         // Draw everything on a white background
         
         r->present();
+        if (wantNewState) SwitchState();
 }
 
 void GamePlay::MenuExit()
@@ -97,7 +100,7 @@ void GamePlay::MenuExit()
     {
         r->clear();
 
-        text.Render(r);
+        text->Render(r);
         // Draw everything on a white background
         
         if (f->isFading()){
@@ -110,4 +113,7 @@ void GamePlay::MenuExit()
 
     snd->unloadAllSFX();
     r->unloadAllTextures();
+
+    delete text;
+    text = nullptr;
 }

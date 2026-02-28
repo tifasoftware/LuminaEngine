@@ -20,7 +20,8 @@ class GamePlay
     void MenuExit();
     void BattleExit();
 
-    void SwitchState(GameState newState);
+    void SwitchState();
+    void RequestSwitchState(GameState newState);
 
     bool gameRunning();
     void Exit();
@@ -36,12 +37,14 @@ class GamePlay
     Renderer* r;
     SoundSystem* snd;
     Fade* f;
-    Text text;
+    Text* text;
 
     SDL_Window* window;
     SDL_Event event;
 
     GameState gameState = WORLD;
+    GameState newGameState = WORLD;
+    bool wantNewState = false;
     bool inTransition = true;
 
     int clink = -1;
