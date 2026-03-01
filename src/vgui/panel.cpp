@@ -82,3 +82,18 @@ void Panel::destroy()
         }
     }
 }
+
+UIElement* Panel::focusedElement()
+{
+    for (int i = 0; i < MAX_ELEMENTS; i++)
+    {
+        if (elements[i] != nullptr)
+        {
+            if (elements[i]->IsFocused())
+            {
+                return elements[i];
+            }
+        }
+    }
+    return nullptr;
+}

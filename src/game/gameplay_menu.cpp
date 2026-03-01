@@ -7,14 +7,16 @@ void GamePlay::MenuStart()
     fontAtlas = r->loadTexture("fontatlas.png");
     panel = new Panel(r, 300, 200);
 
-    Button* b1 = new Button("Resume", fontAtlas);
-    Button* b2 = new Button("Quit", fontAtlas);
+    Button* b1 = new Button("Resume", "resume", fontAtlas);
+    Button* b2 = new Button("Quit", "quit", fontAtlas);
 
     b1->addLowerElement(b2);
     b2->addUpperElement(b1);
 
     panel->addElement(b1, 4, 4);
     panel->addElement(b2, 4, 24);
+
+    b1->startFocus();
 
     f->FadeIn(0.5f);
 
@@ -57,31 +59,36 @@ void GamePlay::MenuDraw()
                         RequestSwitchState(WORLD);
                     } 
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
-                        luminaMoveY = -1 * luminaMoveRate;
+                        if (panel->focusedElement() != nullptr)
+                        {
+                            panel->focusedElement()->giveFocusUp();
+                        }
                     }
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
-                        luminaMoveY = luminaMoveRate;
+                        if (panel->focusedElement() != nullptr)
+                        {
+                            panel->focusedElement()->giveFocusDown();
+                        }
                     }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
-                        luminaMoveX = -1 * luminaMoveRate;
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
-                        luminaMoveX = luminaMoveRate;
+                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
+                        Button* selB = dynamic_cast<Button*>(panel->focusedElement());
+                        
+                        if (selB != nullptr)
+                        {
+                            if (selB->GetTag() == "resume")
+                            {
+                                snd->playSFX(chime);
+                                RequestSwitchState(WORLD);
+                            } 
+                            else if (selB->GetTag() == "quit")
+                            {
+                                snd->playSFX(chime);
+                                RequestSwitchState(EXIT);
+                            }
+                        }
                     }
                     break;
                 case SDL_CONTROLLERBUTTONUP:
-                    if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
-                        luminaMoveY = 0;
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
-                        luminaMoveY = 0;
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
-                        luminaMoveX = 0;
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
-                        luminaMoveX = 0;
-                    }
                     break;
             }
         }

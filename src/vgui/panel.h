@@ -16,6 +16,8 @@ class Panel
     int addElement(UIElement* element, int x, int y);
     void destroy();
 
+    UIElement* focusedElement();
+
     int getX() const { return x; }
     int getY() const { return y; }
     int getW() const { return w; }
