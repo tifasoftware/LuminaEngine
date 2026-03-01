@@ -56,29 +56,21 @@ psp-cmake ..
 make
 ```
 
-### Desktop (coming soon)
-```bash
-mkdir build && cd build
-cmake ..
-make
-```
-
 The build will output `EBOOT.PBP` for PSP and copy assets to the build directory automatically.
 
 ---
 
 ## Map Format
 
-LuminaEngine currently uses a custom text based map format (`.lmap`) for development, with a binary format planned for release builds.
+LuminaEngine currently uses a custom binary map format (`.lmap`). The LMAP format is under **heavy development** and is prone to radical changes so it is recommended to recompile your maps every time Lumina Engine gets updated.
 
-```
-LMAP
-floor.png
-wall.png
-LAYOUT
-1,1,1,1,1
-1,0,0,0,1
-1,1,1,1,1
+To create a map, you must export to the CSV format with Tiled utilizing a [https://en.wikipedia.org/wiki/Texture_atlas](texture tile atlas) as your tileset.
+
+```bash
+mkdir tool_build && cd tool_build
+cmake ..
+make
+./lmap_compile CSVFILE.csv TILEATLAS.png MAP.lmap
 ```
 
 ---
