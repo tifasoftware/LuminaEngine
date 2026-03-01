@@ -1,10 +1,31 @@
 #include <formats/lmap.h>
+#include <common/types.h>
 #include <iostream>
 #include <stdio.h>
 
 using namespace std;
 
 int tiles[64][64];
+CollisionType colType[256];
+char tileAtlas[64];
+
+CollisionType convertFromString(char str[])
+{
+    if (strcmp(str, "NORTH")) return NORTH;
+    if (strcmp(str, "SOUTH")) return SOUTH;
+    if (strcmp(str, "EAST")) return EAST;
+    if (strcmp(str, "WEST")) return WEST;
+    if (strcmp(str, "NEO")) return NEO;
+    if (strcmp(str, "SEO")) return SEO;
+    if (strcmp(str, "NWO")) return NWO;
+    if (strcmp(str, "SWO")) return SWO;
+    if (strcmp(str, "NEI")) return NEI;
+    if (strcmp(str, "SEI")) return SEI;
+    if (strcmp(str, "NWI")) return NWI;
+    if (strcmp(str, "SWI")) return SWI;
+
+    return NONE;
+}
 
 void parse_layout(FILE* file)
 {
@@ -29,11 +50,40 @@ void parse_layout(FILE* file)
     }
 }
 
+bool parse_tilemapdef(FILE* file)
+{
+    char line[1024];
+    
+    fgets(line, sizeof(line), file);
+    line[strcspn(line, "r\n")] = '\0';
+
+    if (strcmp(line, "!ATLAS") != 0) return false;
+
+    fgets(line, sizeof(line), file);
+    line[strcspn(line, "r\n")] = '\0';
+    strncpy(tileAtlas, line, 64);
+    tileAtlas[63] = '\0';
+
+    int i = 0;
+    while (fgets(line, sizeof(line), file))
+    {
+        line[strcspn(line, "r\n")] = '\0';
+        if (strlen(line) == 0) continue;
+
+        colType[i] = convertFromString(line);
+
+        i++;
+    }
+
+    return true;
+
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 4)
     {
-        cout << "USAGE: lmap_compile [CSVFILE.csv] [TILEMAP.png] [OUTPUT.lmap]\n";
+        cout << "USAGE: lmap_compile [CSVFILE.csv] [TILEMAP.lad] [OUTPUT.lmap]\n";
         cout << endl;
         return -1;
     }
@@ -47,12 +97,28 @@ int main(int argc, char *argv[])
     lmap.height = 64;
     lmap.width = 64;
     lmap.version = 2;
-    strncpy(lmap.tileset, tilemapfile, 63);
-    lmap.tileset[63] = '\0';
 
+
+    cout << "\nParsing CSV\n";
     FILE* f = fopen(csvfile, "r");
     parse_layout(f);
     fclose(f);
+
+    cout << "Parsing Tilemap Definition\n";
+    f = fopen(tilemapfile, "r");
+    bool isGood = parse_tilemapdef(f);
+    fclose(f);
+
+    //lmap.colTile = colType;
+    memcpy(lmap.colTile, colType, sizeof(colType));
+    strncpy(lmap.tileset, tileAtlas, 63);
+
+    if (!isGood)
+    {
+        cout << "Tilemap Invalid\nCompilation Aborted\n";
+        cout << endl;
+        return -1;
+    }
 
 
     int offset = 0;

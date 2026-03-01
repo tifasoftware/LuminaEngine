@@ -1,15 +1,21 @@
-enum CollisionType
+#pragma once
+#include <stdint.h>
+
+enum CollisionType : uint8_t
 {
+    NONE,
     NORTH,
     SOUTH,
     EAST,
     WEST,
-    NORTHEAST,
-    SOUTHEAST,
-    NORTHWEST,
-    SOUTHWEST,
-    HORIZONTAL,
-    VERTICAL
+    NEO,
+    SEO,
+    NWO,
+    SWO,
+    NEI,
+    SEI,
+    NWI,
+    SWI
 };
 
 enum GameState

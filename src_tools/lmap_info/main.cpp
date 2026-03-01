@@ -1,4 +1,5 @@
 #include <formats/lmap.h>
+#include <common/types.h>
 #include <iostream>
 #include <stdio.h>
 
