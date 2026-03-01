@@ -33,3 +33,9 @@ void UIElement::giveFocusUp()
         upperElement->startFocus();
     }
 }
+
+void UIElement::move(int x, int y)
+{
+    this->x = x;
+    this->y = y;
+}

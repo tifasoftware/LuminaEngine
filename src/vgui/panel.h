@@ -13,7 +13,7 @@ class Panel
     void Render();
     void setBGColor(int r, int g, int b);
     void setFGColor(int r, int g, int b);
-    int addElement(UIElement* element);
+    int addElement(UIElement* element, int x, int y);
     void destroy();
 
     int getX() const { return x; }

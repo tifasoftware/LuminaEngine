@@ -9,13 +9,14 @@ class UIElement
     virtual void destroy() = 0;
     void addUpperElement(UIElement* element);
     void addLowerElement(UIElement* element);
+    virtual void move(int x, int y);
     void giveFocusUp();
     void giveFocusDown();
     void startFocus();
 
     virtual ~UIElement() {}
 
-    private:
+    protected:
     int x = 0;
     int y = 0;
     bool isFocused = false;

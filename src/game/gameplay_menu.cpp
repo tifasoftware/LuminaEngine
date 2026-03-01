@@ -7,6 +7,15 @@ void GamePlay::MenuStart()
     fontAtlas = r->loadTexture("fontatlas.png");
     panel = new Panel(r, 300, 200);
 
+    Button* b1 = new Button("Resume", fontAtlas);
+    Button* b2 = new Button("Quit", fontAtlas);
+
+    b1->addLowerElement(b2);
+    b2->addUpperElement(b1);
+
+    panel->addElement(b1, 4, 4);
+    panel->addElement(b2, 4, 24);
+
     f->FadeIn(0.5f);
 
     while (f->isFading())

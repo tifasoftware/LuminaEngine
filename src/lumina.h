@@ -9,4 +9,6 @@
 #include <sound/soundsystem.h>
 #include <vgui/text.h>
 #include <vgui/panel.h>
+#include <vgui/UIElement.h>
+#include <vgui/button.h>
 #include <game/gameplay.h>

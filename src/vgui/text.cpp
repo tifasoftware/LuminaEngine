@@ -17,6 +17,20 @@ Text::Text(const char* t, int fti, int _x, int _y)
     y = _y;
 }
 
+Text::Text(const char* t, int fti)
+{
+    text = t;
+    fontTexIndex = fti;
+    x = 0;
+    y = 0;
+}
+
+void Text::Move(int x, int y)
+{
+    this->x = x;
+    this->y = y;
+}
+
 void Text::Render(Renderer* r)
 {
     SDL_SetTextureColorMod(r->getTexture(fontTexIndex)->get_SDLTex(), fg_r, fg_g, fg_b);

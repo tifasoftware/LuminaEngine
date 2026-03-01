@@ -62,8 +62,11 @@ void Panel::setFGColor(int r, int g, int b)
     fg_b = b;
 }
 
-int Panel::addElement(UIElement* element)
+int Panel::addElement(UIElement* element, int x, int y)
 {
+    int eX = x + getX();
+    int eY = y + getY();
+    element->move(eX, eY);
     elements[elementCount] = element;
     return elementCount++;
 }
