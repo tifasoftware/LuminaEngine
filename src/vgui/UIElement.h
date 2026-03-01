@@ -10,8 +10,8 @@ class UIElement
     void addUpperElement(UIElement* element);
     void addLowerElement(UIElement* element);
     virtual void move(int x, int y);
-    virtual void giveFocusUp();
-    virtual void giveFocusDown();
+    virtual bool giveFocusUp();
+    virtual bool giveFocusDown();
     virtual void startFocus();
     bool IsFocused() { return isFocused; }
 

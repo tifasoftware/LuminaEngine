@@ -11,8 +11,8 @@ class Button : public UIElement
     void destroy() override { return; };
     void move(int x, int y) override;
 
-    void giveFocusUp() override;
-    void giveFocusDown() override;
+    bool giveFocusUp() override;
+    bool giveFocusDown() override;
     void startFocus() override;
 
     const char* GetTag() { return tag; }

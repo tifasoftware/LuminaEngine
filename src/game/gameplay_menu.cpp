@@ -61,13 +61,13 @@ void GamePlay::MenuDraw()
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
                         if (panel->focusedElement() != nullptr)
                         {
-                            panel->focusedElement()->giveFocusUp();
+                            if (panel->focusedElement()->giveFocusUp()) snd->playSFX(clink);
                         }
                     }
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
                         if (panel->focusedElement() != nullptr)
                         {
-                            panel->focusedElement()->giveFocusDown();
+                            if (panel->focusedElement()->giveFocusDown()) snd->playSFX(clink);
                         }
                     }
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A) {

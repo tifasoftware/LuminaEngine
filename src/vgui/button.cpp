@@ -27,18 +27,22 @@ void Button::startFocus()
     t_obj.SetFGColor(255, 255, 255);
 }
 
-void Button::giveFocusDown()
+bool Button::giveFocusDown()
 {
-    UIElement::giveFocusDown();
+    bool pr = UIElement::giveFocusDown();
 
     if (!isFocused) deSelect();
+
+    return pr;
 }
 
-void Button::giveFocusUp()
+bool Button::giveFocusUp()
 {
-    UIElement::giveFocusUp();
+    bool pr = UIElement::giveFocusUp();
 
     if (!isFocused) deSelect();
+
+    return pr;
 }
 
 void Button::deSelect()

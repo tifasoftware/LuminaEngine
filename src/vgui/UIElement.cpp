@@ -18,20 +18,24 @@ void UIElement::startFocus()
     isFocused = true;
 }
 
-void UIElement::giveFocusDown()
+bool UIElement::giveFocusDown()
 {
     if (hasLowerElement){
         isFocused = false;
         lowerElement->startFocus();
+        return true;
     }
+    return false;
 }
 
-void UIElement::giveFocusUp()
+bool UIElement::giveFocusUp()
 {
     if (hasUpperElement){
         isFocused = false;
         upperElement->startFocus();
+        return true;
     }
+    return false;
 }
 
 void UIElement::move(int x, int y)
