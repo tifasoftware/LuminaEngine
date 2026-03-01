@@ -14,6 +14,7 @@ endif()
 
 if (NOT PSP)
     add_subdirectory(src_tools/lmap_compile)
+    add_subdirectory(src_tools/lmap_info)
 endif()
 
 include(FindPkgConfig)
