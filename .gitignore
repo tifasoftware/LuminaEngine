@@ -1,5 +1,6 @@
 # Build
 build/
+tool_build/
 cmake-build-debug/
 cmake-build-release/
 
