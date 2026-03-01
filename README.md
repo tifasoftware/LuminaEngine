@@ -66,11 +66,34 @@ LuminaEngine currently uses a custom binary map format (`.lmap`). The LMAP forma
 
 To create a map, you must export to the CSV format with Tiled utilizing a [texture tile atlas](https://en.wikipedia.org/wiki/Texture_atlas) as your tileset.
 
+Then you write a Lumina Atlas Definition for that PNG atlas or a LAD, for short.
+
+Example: `tileatlas.lad`
+```
+!ATLAS
+mapatlas.png
+NONE
+NONE
+NORTH
+SOUTH
+EAST
+WEST
+NEO
+NWO
+SEO
+SWO
+SWI
+SEI
+NWI
+NEI
+```
+
+
 ```bash
 mkdir tool_build && cd tool_build
 cmake ..
 make
-./lmap_compile CSVFILE.csv TILEATLAS.png MAP.lmap
+./lmap_compile CSVFILE.csv TILEATLAS.lad MAP.lmap
 ```
 
 ---
