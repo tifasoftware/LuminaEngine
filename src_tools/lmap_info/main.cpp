@@ -7,6 +7,32 @@ using namespace std;
 
 int tiles[64][64];
 
+const char* convertToString(CollisionType ct)
+{
+    switch (ct)
+    {
+        case NONE:
+        return "0";
+        
+        case NORTH:
+        return "U";
+
+        case SOUTH:
+        return "S";
+
+        case EAST:
+        return "E";
+
+        case WEST:
+        return "W";
+
+        default:
+        break;
+    }
+
+    return "NONE";
+}
+
 int main(int argc, char *argv[])
 {
     if (argc != 2)
@@ -29,6 +55,14 @@ int main(int argc, char *argv[])
     for (int i = 0; i < 64; i++)
     {
         cout << lmap.tiles[i];
+        cout << " ";
+    }
+
+    cout << "\nCOLLIDE\n";
+    
+    for (int i = 0; i < 8; i++)
+    {
+        cout << convertToString(lmap.colTile[i]);
         cout << " ";
     }
     cout << endl;

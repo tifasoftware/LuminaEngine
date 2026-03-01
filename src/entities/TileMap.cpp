@@ -57,7 +57,9 @@ bool TileMap::loadFromFile(const char* file)
     {
         for (int y = 0; y < 64; y++)
         {
-            tiles[x][y] = lmap.tiles[offset + y];
+            int t = lmap.tiles[offset + y];
+            tiles[x][y] = t;
+            collision[x][y] = lmap.colTile[t];
         }
         offset += 64;
     }
@@ -68,6 +70,35 @@ bool TileMap::loadFromFile(const char* file)
 //This algorithm is rudimentary, as its set to the bounds of the psp's screen for now.
 bool TileMap::isColliding(int x, int y)
 {
+    int playerTileX = (x / TILE_SIZE);
+    int playerTileY = (y / TILE_SIZE);
+
+    int collideX = playerTileX * TILE_SIZE;
+    int collideY = playerTileY * TILE_SIZE;
+
+    CollisionType ct = collision[playerTileX][playerTileY];
+
+    switch (ct)
+    {
+        case NORTH:
+        case SOUTH:
+        case EAST:
+        case WEST:
+        case NEI:
+        case SEI:
+        case NWI:
+        case SWI:
+        case NEO:
+        case SEO:
+        case NWO:
+        case SWO:
+            return true;
+        case NONE:
+            return false;
+        default:
+            return false;
+        break;
+    }
     if (x < 16 || y < 16 || x > 464 || y > 256)
     {
         return true;

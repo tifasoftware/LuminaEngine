@@ -50,6 +50,8 @@ class GamePlay
     int clink = -1;
     int chime = -1;
     int fontAtlas = -1;
+    //int grass = -1;
+    //int grass2 = -1;
 
     int luminaX;
     int luminaY;

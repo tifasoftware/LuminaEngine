@@ -25,6 +25,7 @@ class TileMap{
     void disposeMap();
     void shiftMap(int x, int y);
     bool isColliding(int x, int y);
+    //bool scroll(int x, int y);
     bool loadMap();
 
     private:
@@ -35,7 +36,7 @@ class TileMap{
     const char* file;
     Renderer* renderer;
     int tiles[64][64];
-    //int collision[TILE_W][TILE_H];
+    CollisionType collision[64][64];
     int offsetX = 0;
     int offsetY = 0;
 

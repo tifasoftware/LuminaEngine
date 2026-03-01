@@ -62,6 +62,8 @@ void GamePlay::WorldDraw()
             }
         }
 
+        
+
         if (!tm->isColliding(luminaX + luminaMoveX, luminaY + luminaMoveY)){
             luminaX += luminaMoveX;
             luminaY += luminaMoveY;
@@ -71,7 +73,6 @@ void GamePlay::WorldDraw()
 
         // Draw the 'grass' sprite
         tm->drawMap();
-
         //text->Render(r);
 
         lumina->drawCharacter(luminaX, luminaY, r);
