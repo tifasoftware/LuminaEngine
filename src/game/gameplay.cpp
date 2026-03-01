@@ -51,7 +51,7 @@ GamePlay::GamePlay()
     r->clear();
     r->present();
 
-    tm = new TileMap("maptest.lmap", r);
+    tm = new TileMap("scrolltest.lmap", r);
 
     lumina = new Character();
 

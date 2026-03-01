@@ -48,17 +48,23 @@ int Renderer::unloadAllTextures(){
     return 0;
 }
 
-int Renderer::drawTile(int texIndex, int x, int y){
+int Renderer::drawTile(int texIndex, int tileIndex, int x, int y){
 
     Texture* tex = &m_textures[texIndex];
 
     SDL_Rect sprite_rect;
-    sprite_rect.w = tex->get_tile_size();
-    sprite_rect.h = sprite_rect.w;
+    sprite_rect.w = 16;
+    sprite_rect.h = 16;
     sprite_rect.x = x;
     sprite_rect.y = y;
 
-    SDL_RenderCopy(sdl_r, tex->get_SDLTex() , NULL, &sprite_rect);
+    SDL_Rect src_rect;
+    src_rect.w = 16;
+    src_rect.h = 16;
+    src_rect.x = (tileIndex % 16) * 16;
+    src_rect.y = (tileIndex / 16) * 16;
+
+    SDL_RenderCopy(sdl_r, tex->get_SDLTex() , &src_rect, &sprite_rect);
 
     return 0;
 }
