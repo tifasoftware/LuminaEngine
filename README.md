@@ -30,9 +30,12 @@ A 2D RPG game engine for the PlayStation Portable, built with C++ and SDL2. Desi
 | Platform | Status |
 |---|---|
 | PSP | ✅ Primary target |
-| 3DS | 🔜 Planned |
-| Windows / Mac / Linux | 🔜 Planned |
-
+| Windows / Mac / Linux | 🔜 Planned (Definitely Feasible) |
+| NDS | 🚫 Unlikely |
+| 3DS | ❔ Feasibility will be researched |
+| Wii | ❔ Feasibility will be researched |
+| PS3 | ❔ Feasibility will be researched |
+| PS Vita | ❔ Feasibility will be researched |
 ---
 
 ## Dependencies
