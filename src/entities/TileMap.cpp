@@ -145,3 +145,9 @@ bool TileMap::scrollY(int y, int cY)
     }
 
 }
+
+void TileMap::preShift(int x, int y)
+{
+    offsetX = x;
+    offsetY = y;
+}

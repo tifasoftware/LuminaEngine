@@ -28,14 +28,22 @@ class TileMap{
     TileMap(const char* f, Renderer* r);
     void drawMap();
     void disposeMap();
-    void shiftMap(int x, int y);
+    //void shiftMap(int x, int y);
     bool isColliding(int x, int y);
+
     bool scrollX(int x, int cX);
     bool scrollY(int y, int cY);
+
     int toWorldX(int x) { return x + offsetX; }
     int toWorldY(int y) { return y + offsetY; }
     int toScreenX(int x) { return x - offsetX; }
     int toScreenY(int y) { return y - offsetY; }
+
+    void preShift(int x, int y);
+
+    int getOffsetX() { return offsetX; }
+    int getOffsetY() { return offsetY; }
+
     bool loadMap();
 
     private:

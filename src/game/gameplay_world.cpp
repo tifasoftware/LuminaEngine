@@ -8,8 +8,7 @@ void GamePlay::WorldStart()
     tm->loadMap();
     lumina->loadCharacterSprite(r);
 
-    luminaX = 480 / 2;
-    luminaY = 272 / 2;
+    tm->preShift(offsetX, offsetY);
 
     f->FadeIn(0.5f);
     inTransition = false;
@@ -90,6 +89,10 @@ void GamePlay::WorldDraw()
 void GamePlay::WorldExit()
 {
     inTransition = true;
+
+    offsetX = tm->getOffsetX();
+    offsetY = tm->getOffsetY();
+
     f->FadeOut(0.5f);
 
     while (f->isFading())
