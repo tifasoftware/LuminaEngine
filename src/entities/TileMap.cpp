@@ -30,9 +30,18 @@ bool TileMap::loadMap()
 
 void TileMap::drawMap()
 {
-    for (int x = 0; x < TILE_W; x++){
-        for (int y = 0; y < TILE_H; y++){
-            renderer->drawTile(textureAddress, tiles[x][y], x * TILE_SIZE, y * TILE_SIZE);
+    int startTileX = (offsetX / TILE_SIZE) - 1;
+    int startTileY = (offsetY / TILE_SIZE) - 1;
+
+    if (startTileX < 0) startTileX = 0;
+    if (startTileY < 0) startTileY = 0;
+
+    int endTileX = TILE_W + startTileX;
+    int endTileY = TILE_H + startTileY;
+
+    for (int x = startTileX; x < endTileX; x++){
+        for (int y = startTileY; y < endTileY; y++){
+            renderer->drawTile(textureAddress, tiles[x][y], (x * TILE_SIZE) - offsetX, (y * TILE_SIZE) - offsetY);
         }
     }
 }
@@ -53,6 +62,7 @@ bool TileMap::loadFromFile(const char* file)
     //textureAddress = renderer->loadTexture("grass.png");
 
     int offset = 0;
+    
     for (int x = 0; x < 64; x++)
     {
         for (int y = 0; y < 64; y++)
@@ -70,8 +80,8 @@ bool TileMap::loadFromFile(const char* file)
 //This algorithm is rudimentary, as its set to the bounds of the psp's screen for now.
 bool TileMap::isColliding(int x, int y)
 {
-    int playerTileX = (x / TILE_SIZE);
-    int playerTileY = (y / TILE_SIZE);
+    int playerTileX = (toWorldX(x) / TILE_SIZE);
+    int playerTileY = (toWorldY(y) / TILE_SIZE);
 
     int collideX = playerTileX * TILE_SIZE;
     int collideY = playerTileY * TILE_SIZE;
@@ -104,4 +114,34 @@ bool TileMap::isColliding(int x, int y)
         return true;
     }
     return false;
+}
+
+bool TileMap::scrollX(int x, int cX)
+{
+    if (cX > SCROLL_L && cX < SCROLL_R)
+    {
+        return false;
+    } 
+    else 
+    {
+        offsetX += x;
+        //if (offsetX + x <= 0) offsetX = 0;
+        return true;
+    }
+
+}
+
+bool TileMap::scrollY(int y, int cY)
+{
+    if (cY > SCROLL_T && cY < SCROLL_D)
+    {
+        return false;
+    } 
+    else 
+    {
+        offsetY += y;
+        //if (offsetY + y <= 0) offsetY = 0;
+        return true;
+    }
+
 }

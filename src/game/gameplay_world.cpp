@@ -65,9 +65,10 @@ void GamePlay::WorldDraw()
         
 
         if (!tm->isColliding(luminaX + luminaMoveX, luminaY + luminaMoveY)){
-            luminaX += luminaMoveX;
-            luminaY += luminaMoveY;
+            if (!tm->scrollX(luminaMoveX, luminaX + luminaMoveX)) luminaX += luminaMoveX;
+            if (!tm->scrollY(luminaMoveY, luminaY + luminaMoveY)) luminaY += luminaMoveY;
         }
+
         // Clear the screen
         r->clear();
 

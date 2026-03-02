@@ -14,6 +14,11 @@ static const int SCREEN_H = 272;
 
 static const int TILE_SIZE = 16;
 
+static const int SCROLL_T = 40;
+static const int SCROLL_D = SCREEN_H - 40;
+static const int SCROLL_L = 40;
+static const int SCROLL_R = SCREEN_W - 40;
+
 static const int TILE_W = (SCREEN_W / TILE_SIZE) + 2;
 static const int TILE_H = (SCREEN_H / TILE_SIZE) + 2;
 
@@ -25,7 +30,12 @@ class TileMap{
     void disposeMap();
     void shiftMap(int x, int y);
     bool isColliding(int x, int y);
-    //bool scroll(int x, int y);
+    bool scrollX(int x, int cX);
+    bool scrollY(int y, int cY);
+    int toWorldX(int x) { return x + offsetX; }
+    int toWorldY(int y) { return y + offsetY; }
+    int toScreenX(int x) { return x - offsetX; }
+    int toScreenY(int y) { return y - offsetY; }
     bool loadMap();
 
     private:
