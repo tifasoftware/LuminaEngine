@@ -7,6 +7,7 @@ class Character
     public:
     Character();
     Character(const char* biofile);
+    void animate(int framerate, int mx, int my);
     void drawCharacter(int x, int y, int mx, int my, Renderer* r);
     void loadCharacterSprite(Renderer* r);
 
@@ -20,4 +21,6 @@ class Character
     int charHeight = 32;
     int charWidth = 32;
     int dirIndex = 0;
+    int animIndex = 0;
+    int frame = 0;
 };

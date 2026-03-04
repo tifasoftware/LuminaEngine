@@ -28,5 +28,19 @@ void Character::drawCharacter(int x, int y, int mx, int my, Renderer* r)
     if (my > 0) dirIndex = 0;
     if (my < 0) dirIndex = 1;
 
-    r->drawSubSprite(texIndex, x - (charWidth / 2), y - (charWidth / 2), (dirIndex * charWidth), 0, charWidth, charHeight);
+    if (mx == 0 && my == 0) animIndex = 1;
+
+    r->drawSubSprite(texIndex, x - (charWidth / 2), y - (charWidth / 2), (dirIndex * charWidth), (animIndex * charHeight) , charWidth, charHeight);
+}
+
+void Character::animate(int framerate, int mx, int my)
+{
+    if (mx == 0 && my == 0) return;
+    float timeline = ((1.0f * frame) / (1.0f * framerate));
+    animIndex = 4 * timeline;
+    frame++;
+    if (frame >= framerate)
+    {
+        frame = 0;
+    }
 }

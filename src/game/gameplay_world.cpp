@@ -75,6 +75,7 @@ void GamePlay::WorldDraw()
         tm->drawMap();
         //text->Render(r);
 
+        lumina->animate(FRAME_RATE, luminaMoveX, luminaMoveY);
         lumina->drawCharacter(luminaX, luminaY, luminaMoveX, luminaMoveY, r);
 
         if (f->isFading()){
