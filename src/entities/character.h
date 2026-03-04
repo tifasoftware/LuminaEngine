@@ -7,7 +7,7 @@ class Character
     public:
     Character();
     Character(const char* biofile);
-    void drawCharacter(int x, int y, Renderer* r);
+    void drawCharacter(int x, int y, int mx, int my, Renderer* r);
     void loadCharacterSprite(Renderer* r);
 
     private:
@@ -19,4 +19,5 @@ class Character
     int texIndex = -1;
     int charHeight = 32;
     int charWidth = 32;
+    int dirIndex = 0;
 };

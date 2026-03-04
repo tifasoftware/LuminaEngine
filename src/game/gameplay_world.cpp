@@ -75,7 +75,7 @@ void GamePlay::WorldDraw()
         tm->drawMap();
         //text->Render(r);
 
-        lumina->drawCharacter(luminaX, luminaY, r);
+        lumina->drawCharacter(luminaX, luminaY, luminaMoveX, luminaMoveY, r);
 
         if (f->isFading()){
             f->Render(1.0f / FRAME_RATE);
@@ -104,7 +104,7 @@ void GamePlay::WorldExit()
 
         //text->Render(r);
 
-        lumina->drawCharacter(luminaX, luminaY, r);
+        lumina->drawCharacter(luminaX, luminaY, 0, 0, r);
 
         if (f->isFading()){
             f->Render(1.0f / FRAME_RATE);
