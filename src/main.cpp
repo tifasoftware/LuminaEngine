@@ -8,7 +8,7 @@
 
 int main(int argc, char *argv[])
 {
-    GamePlay* gp = new GamePlay();
+    auto gp = new GamePlay();
 
     while (gp->gameRunning()) { 
         gp->GameLoop();
