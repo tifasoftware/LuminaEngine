@@ -1,6 +1,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <graphics/Renderer.h>
+#include <graphics/Texture.h>
 #include <algorithm>
 
 Renderer::Renderer(SDL_Window * win) {
@@ -48,6 +49,12 @@ int Renderer::unloadAllTextures(){
     return 0;
 }
 
+int Renderer::unloadTexture(int index) {
+    m_textures[index].release();
+    m_texture_count--;
+    return 0;
+}
+
 int Renderer::drawTile(int texIndex, int tileIndex, int x, int y){
 
     Texture* tex = &m_textures[texIndex];
@@ -66,6 +73,19 @@ int Renderer::drawTile(int texIndex, int tileIndex, int x, int y){
 
     SDL_RenderCopy(sdl_r, tex->get_SDLTex() , &src_rect, &sprite_rect);
 
+    return 0;
+}
+
+int Renderer::drawTile(int texIndex, int x, int y) {
+    Texture* tex = &m_textures[texIndex];
+
+    SDL_Rect sprite_rect;
+    sprite_rect.w = 16;
+    sprite_rect.h = 16;
+    sprite_rect.x = x;
+    sprite_rect.y = y;
+
+    SDL_RenderCopy(sdl_r, tex->get_SDLTex() , NULL, &sprite_rect);
     return 0;
 }
 
