@@ -3,6 +3,7 @@ build/
 tool_build/
 cmake-build-debug/
 cmake-build-release/
+build-psp/
 
 # CMake
 CMakeCache.txt
