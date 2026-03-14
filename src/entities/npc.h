@@ -4,7 +4,7 @@
 
 class NPC : public Interactable {
 public:
-    const char GetName() { return name; }
+    const char* GetName() { return name; }
 
 
 private:
