@@ -1,89 +1,25 @@
 #include <formats/lmap.h>
 #include <common/types.h>
+#include <json.hpp>
 #include <iostream>
+#include <fstream>
 #include <stdio.h>
+#include "collision_convert.h"
+#include "parsing.h"
+#include "global.h"
 
 using namespace std;
+using json = nlohmann::json;
 
 int tiles[64][64];
 CollisionType colType[256];
 char tileAtlas[64];
 
-CollisionType convertFromString(char str[])
-{
-    if (strcmp(str, "NORTH") == 0) return NORTH;
-    if (strcmp(str, "SOUTH") == 0) return SOUTH;
-    if (strcmp(str, "EAST") == 0) return EAST;
-    if (strcmp(str, "WEST") == 0) return WEST;
-    if (strcmp(str, "NEO") == 0) return NEO;
-    if (strcmp(str, "SEO") == 0) return SEO;
-    if (strcmp(str, "NWO") == 0) return NWO;
-    if (strcmp(str, "SWO") == 0) return SWO;
-    if (strcmp(str, "NEI") == 0) return NEI;
-    if (strcmp(str, "SEI") == 0) return SEI;
-    if (strcmp(str, "NWI") == 0) return NWI;
-    if (strcmp(str, "SWI") == 0) return SWI;
-
-    return NONE;
-}
-
-void parse_layout(FILE* file)
-{
-    char line[1024];
-    int y = 0;
-    
-    while (fgets(line, sizeof(line), file))
-    {
-        line[strcspn(line, "\r\n")] = 0;
-        if (strlen(line) == 0) continue;
-
-        int x = 0;
-        char* token = strtok(line, ",");
-        while (token != nullptr && x < 64) {
-            tiles[x][y] = atoi(token);
-            x++;
-            token = strtok(nullptr, ",");
-        }
-
-        y++;
-        if (y >= 64) break;
-    }
-}
-
-bool parse_tilemapdef(FILE* file)
-{
-    char line[1024];
-    
-    fgets(line, sizeof(line), file);
-    line[strcspn(line, "r\n")] = '\0';
-
-    if (strcmp(line, "!ATLAS") != 0) return false;
-
-    fgets(line, sizeof(line), file);
-    line[strcspn(line, "r\n")] = '\0';
-    strncpy(tileAtlas, line, 64);
-    tileAtlas[63] = '\0';
-
-    int i = 0;
-    while (fgets(line, sizeof(line), file))
-    {
-        line[strcspn(line, "r\n")] = '\0';
-        if (strlen(line) == 0) continue;
-
-        colType[i] = convertFromString(line);
-
-        i++;
-    }
-
-    return true;
-
-}
-
 int main(int argc, char *argv[])
 {
     if (argc != 4)
     {
-        cout << "USAGE: lmap_compile [CSVFILE.csv] [TILEMAP.lad] [OUTPUT.lmap]\n";
+        cout << "USAGE: lmap_compile [TMJFILE.tmj] [TILEMAP.lad] [OUTPUT.lmap]\n";
         cout << endl;
         return -1;
     }
@@ -98,14 +34,15 @@ int main(int argc, char *argv[])
     lmap.width = 64;
     lmap.version = 2;
 
+    parse_layout(csvfile);
 
-    cout << "\nParsing CSV\n";
+    /*cout << "\nParsing CSV\n";
     FILE* f = fopen(csvfile, "r");
     parse_layout(f);
-    fclose(f);
+    fclose(f);*/
 
     cout << "Parsing Tilemap Definition\n";
-    f = fopen(tilemapfile, "r");
+    FILE* f = fopen(tilemapfile, "r");
     bool isGood = parse_tilemapdef(f);
     fclose(f);
 
