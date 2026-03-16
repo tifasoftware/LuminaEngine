@@ -64,7 +64,7 @@ The build will output `EBOOT.PBP` for PSP and copy assets to the build directory
 
 LuminaEngine currently uses a custom binary map format (`.lmap`). The LMAP format is under **heavy development** and is prone to radical changes so it is recommended to recompile your maps every time Lumina Engine gets updated.
 
-To create a map, you must export to the CSV format with Tiled utilizing a [texture tile atlas](https://en.wikipedia.org/wiki/Texture_atlas) as your tileset.
+To create a map, you must export to the TMJ/JSON format with Tiled utilizing a [texture tile atlas](https://en.wikipedia.org/wiki/Texture_atlas) as your tileset.
 
 Then you write a Lumina Atlas Definition for that PNG atlas or a LAD, for short.
 
@@ -93,7 +93,7 @@ NEI
 mkdir tool_build && cd tool_build
 cmake ..
 make
-./lmap_compile CSVFILE.csv TILEATLAS.lad MAP.lmap
+./lmap_compile TMJFILE.tmj TILEATLAS.lad MAP.lmap
 ```
 
 ---
