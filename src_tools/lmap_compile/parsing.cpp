@@ -12,14 +12,24 @@ void parse_layout(const char* file)
 
     for (auto& layer : data["layers"]) {
         std::string type = layer["type"];
+        int id = layer["id"];
 
-        if (type == "tilelayer") {
+        if (type == "tilelayer" && id == 1) {
             auto& layerTiles = layer["data"];
 
             for (int x = 0; x < 64; x++) {
                 for (int y = 0; y < 64; y++) {
                     int t = (layerTiles[y * 64 + x]);
                     tiles[x][y] = t - 1;
+                }
+            }
+        } else if (type == "tilemap" && id > 1) {
+            auto& layerTiles = layer["data"];
+
+            for (int x = 0; x < 64; x++) {
+                for (int y = 0; y < 64; y++) {
+                    //int t = (layerTiles[y * 64 + x]);
+                    //tiles[x][y] = t - 1;
                 }
             }
         }
