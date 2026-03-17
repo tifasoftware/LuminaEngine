@@ -38,6 +38,13 @@ void parse_layout(const char* file)
                 std::string objectType = object["type"];
                 std::string objectFile = "unknown";
                 std::string objectOrientation = "all";
+                std::string objectName = object["name"];
+
+                int x = object["x"].get<int>();
+                int y = object["y"].get<int>();
+
+                int w = object.contains("w") ? object["w"].get<int>() : 16;
+                int h = object.contains("h") ? object["h"].get<int>() : 16;
 
                 for (auto& property : object["properties"]) {
                     std::string propertyName = property["name"];
@@ -48,8 +55,17 @@ void parse_layout(const char* file)
                 }
 
                 Entity entity = Entity();
+                entity.name = objectName.c_str();
                 entity.orientation = stringToOrientation(objectOrientation.c_str());
+                entity.type = stringToEntityType(objectType.c_str());
+                entity.file = objectFile.c_str();
+                entity.x = x;
+                entity.y = y;
+                entity.width = w;
+                entity.height = h;
 
+                entities[entityCount] = entity;
+                entityCount++;
             }
         }
     }

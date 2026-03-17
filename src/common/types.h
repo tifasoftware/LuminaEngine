@@ -56,4 +56,5 @@ struct Entity {
     int width;
     int height;
     Orientation orientation;
+    const char* file;
 };

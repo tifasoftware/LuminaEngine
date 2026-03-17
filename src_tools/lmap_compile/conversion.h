@@ -10,3 +10,5 @@
 CollisionType stringToCollisionType(char str[]);
 Orientation stringToOrientation(char str[]);
 Orientation stringToOrientation(const char* str);
+EntityType stringToEntityType(const char* str);
+EntityType stringToEntityType(char str[]);

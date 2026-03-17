@@ -36,3 +36,20 @@ Orientation stringToOrientation(const char *str) {
 
     return stringToOrientation(comp);
 }
+
+EntityType stringToEntityType(const char *str) {
+    char comp[128];
+
+    strncpy(comp, str, 127);
+
+    return stringToEntityType(comp);
+}
+
+EntityType stringToEntityType(char str[]) {
+    if (strcmp(str, "interact_lua") == 0) return INTERACT_LUA;
+    if (strcmp(str, "interact_npc") == 0) return INTERACT_NPC;
+    if (strcmp(str, "trigger_warp") == 0) return TRIGGER_WARP;
+    if (strcmp(str, "trigger_battlefield") == 0) return TRIGGER_BATTLEFIELD;
+    if (strcmp(str, "trigger_lua") == 0) return TRIGGER_LUA;
+    return OBSTACLE;
+}

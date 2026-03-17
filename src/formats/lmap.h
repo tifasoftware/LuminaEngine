@@ -11,6 +11,7 @@ struct LMAPHeader
     char tileset[64];
     uint16_t tiles[64 * 64];
     CollisionType colTile[256];
+    Entity entities[64];
 };
 
 class LMAPLoader

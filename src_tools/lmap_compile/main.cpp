@@ -14,6 +14,7 @@ using json = nlohmann::json;
 int tiles[64][64];
 CollisionType colType[256];
 char tileAtlas[64];
+Entity entities[64];
 
 int main(int argc, char *argv[])
 {
@@ -48,6 +49,7 @@ int main(int argc, char *argv[])
 
     //lmap.colTile = colType;
     memcpy(lmap.colTile, colType, sizeof(colType));
+    memcpy(lmap.entities, entities, sizeof(entities));
     strncpy(lmap.tileset, tileAtlas, 63);
 
     if (!isGood)
@@ -68,6 +70,7 @@ int main(int argc, char *argv[])
         }
         offset += 64;
     }
+
 
     cout << "\nGRID\n";
     
