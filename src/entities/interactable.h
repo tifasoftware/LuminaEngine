@@ -1,7 +1,8 @@
 #pragma once
+#include "entity.h"
 #include "graphics/Renderer.h"
 
-class Interactable {
+class Interactable : public Entity {
     public:
     virtual void render(Renderer* r) = 0;
     virtual void interact() = 0;
@@ -10,9 +11,5 @@ class Interactable {
 
     ~Interactable();
 
-    protected:
-    int x;
-    int y;
-    int w;
-    int h;
+
 };

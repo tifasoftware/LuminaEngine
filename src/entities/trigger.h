@@ -1,13 +1,10 @@
 #pragma once
+#include "entity.h"
 
-class Trigger {
+class Trigger : public Entity{
     public:
     virtual void trigger() = 0;
     bool isInTrigger();
 
-    protected:
-    int x;
-    int y;
-    int w;
-    int h;
+    ~Trigger();
 };
