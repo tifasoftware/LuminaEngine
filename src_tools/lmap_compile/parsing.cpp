@@ -1,12 +1,13 @@
 #include "parsing.h"
 
-#include "collision_convert.h"
+#include "conversion.h"
 
 using namespace std;
 using json = nlohmann::json;
 
 void parse_layout(const char* file)
 {
+    int entityCount = 0;
     std::ifstream f(file);
     json data = json::parse(f);
 
@@ -31,6 +32,24 @@ void parse_layout(const char* file)
                     //int t = (layerTiles[y * 64 + x]);
                     //tiles[x][y] = t - 1;
                 }
+            }
+        } else if (type == "objectgroup") {
+            for (auto& object : layer["objects"]) {
+                std::string objectType = object["type"];
+                std::string objectFile = "unknown";
+                std::string objectOrientation = "all";
+
+                for (auto& property : object["properties"]) {
+                    std::string propertyName = property["name"];
+                    std::string value = property["value"];
+
+                    if (propertyName == "lua" || propertyName == "map") objectFile = value;
+                    if (propertyName == "orientation") objectOrientation = value;
+                }
+
+                Entity entity = Entity();
+                entity.orientation = stringToOrientation(objectOrientation.c_str());
+
             }
         }
     }
@@ -57,7 +76,7 @@ bool parse_tilemapdef(FILE* file)
         line[strcspn(line, "r\n")] = '\0';
         if (strlen(line) == 0) continue;
 
-        colType[i] = convertFromString(line);
+        colType[i] = stringToCollisionType(line);
 
         i++;
     }

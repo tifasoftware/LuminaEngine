@@ -7,4 +7,6 @@
 #include <fstream>
 #include <stdio.h>
 
-CollisionType convertFromString(char str[]);
+CollisionType stringToCollisionType(char str[]);
+Orientation stringToOrientation(char str[]);
+Orientation stringToOrientation(const char* str);

@@ -4,7 +4,7 @@
 #include <iostream>
 #include <fstream>
 #include <stdio.h>
-#include "collision_convert.h"
+#include "conversion.h"
 #include "parsing.h"
 #include "global.h"
 

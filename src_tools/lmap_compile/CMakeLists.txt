@@ -1,4 +1,4 @@
-add_executable(lmap_compile main.cpp collision_convert.cpp parsing.cpp)
+add_executable(lmap_compile main.cpp conversion.cpp parsing.cpp)
 
 set_target_properties(lmap_compile PROPERTIES
     RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
