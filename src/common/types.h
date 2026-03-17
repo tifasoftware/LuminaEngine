@@ -47,14 +47,3 @@ enum Orientation : uint8_t {
     FACE_UD,
     FACE_ALL
 };
-
-struct Entity {
-    const char* name;
-    EntityType type;
-    int x;
-    int y;
-    int width;
-    int height;
-    Orientation orientation;
-    const char* file;
-};

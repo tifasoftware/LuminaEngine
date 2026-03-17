@@ -2,6 +2,18 @@
 
 #include <stdint.h>
 #include <common/types.h>
+
+struct Entity {
+    char name[64];
+    EntityType type;
+    uint16_t x;
+    uint16_t y;
+    uint16_t width;
+    uint16_t height;
+    Orientation orientation;
+    char file[128];
+};
+
 struct LMAPHeader 
 {
     char magic[4];

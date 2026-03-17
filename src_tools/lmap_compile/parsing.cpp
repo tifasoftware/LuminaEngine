@@ -55,10 +55,13 @@ void parse_layout(const char* file)
                 }
 
                 Entity entity = Entity();
-                entity.name = objectName.c_str();
+
+                const char* name_c = objectName.c_str();
+                strncpy(entity.name, name_c, 63);
                 entity.orientation = stringToOrientation(objectOrientation.c_str());
                 entity.type = stringToEntityType(objectType.c_str());
-                entity.file = objectFile.c_str();
+                const char* file_c = objectFile.c_str();
+                strncpy(entity.file, file_c, 127);
                 entity.x = x;
                 entity.y = y;
                 entity.width = w;
