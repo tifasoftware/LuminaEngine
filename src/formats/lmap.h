@@ -3,7 +3,7 @@
 #include <stdint.h>
 #include <common/types.h>
 
-struct Entity {
+struct EntityDef {
     char name[64];
     EntityType type;
     uint16_t x;
@@ -23,7 +23,7 @@ struct LMAPHeader
     char tileset[64];
     uint16_t tiles[64 * 64];
     CollisionType colTile[256];
-    Entity entities[64];
+    EntityDef entities[64];
 };
 
 class LMAPLoader

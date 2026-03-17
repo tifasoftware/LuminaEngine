@@ -14,7 +14,7 @@ using json = nlohmann::json;
 int tiles[64][64];
 CollisionType colType[256];
 char tileAtlas[64];
-Entity entities[64];
+EntityDef entities[64];
 
 int main(int argc, char *argv[])
 {

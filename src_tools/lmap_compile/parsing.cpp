@@ -54,7 +54,7 @@ void parse_layout(const char* file)
                     if (propertyName == "orientation") objectOrientation = value;
                 }
 
-                Entity entity = Entity();
+                EntityDef entity = EntityDef();
 
                 const char* name_c = objectName.c_str();
                 strncpy(entity.name, name_c, 63);
