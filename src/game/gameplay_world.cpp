@@ -116,7 +116,7 @@ void GamePlay::WorldExit()
         SDL_Delay(REDRAW_DELAY);
     }
 
-    //tm->disposeMap();
+    tm->disposeMap();
     
     r->unloadAllTextures();
 

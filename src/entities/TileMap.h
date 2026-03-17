@@ -7,6 +7,8 @@
 #include <graphics/Renderer.h>
 #include <formats/lmap.h>
 
+#include "entity.h"
+
 //PSP Resolution Width - 480
 //PSP Resolution Height - 272
 static const int SCREEN_W = 480;
@@ -55,6 +57,7 @@ class TileMap{
     Renderer* renderer;
     int tiles[64][64];
     CollisionType collision[64][64];
+    Entity* entities[64];
     int offsetX = 0;
     int offsetY = 0;
 

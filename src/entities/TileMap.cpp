@@ -46,6 +46,12 @@ void TileMap::drawMap()
     }
 }
 
+void TileMap::disposeMap() {
+    for (int i = 0; i < sizeof(entities); i++) {
+        delete entities[i];
+    }
+}
+
 bool TileMap::loadFromFile(const char* file)
 {
     LMAPLoader ll = LMAPLoader(file);
@@ -72,6 +78,12 @@ bool TileMap::loadFromFile(const char* file)
             collision[x][y] = lmap.colTile[t];
         }
         offset += 64;
+    }
+
+    for (int i = 0; i < 64; i++) {
+        EntityDef def = lmap.entities[i];
+
+        entities[i] = Entity::spawnEntity(def);
     }
 
     return true;

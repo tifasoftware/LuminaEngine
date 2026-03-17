@@ -1,10 +1,12 @@
-//
-// Created by InfiTechPPC on 3/17/26.
-//
+#pragma once
+#include "formats/lmap.h"
 
 class Entity {
 public:
-    ~Entity();
+    Entity() : x(0), y(0), w(0), h(0) {};
+    ~Entity() {}
+
+    static Entity* spawnEntity(EntityDef def);
 protected:
     int x;
     int y;

@@ -34,7 +34,8 @@ enum EntityType : uint8_t
     TRIGGER_BATTLEFIELD,
     INTERACT_NPC,
     INTERACT_LUA,
-    OBSTACLE
+    OBSTACLE,
+    NO_ENTITY
 };
 
 enum Orientation : uint8_t {

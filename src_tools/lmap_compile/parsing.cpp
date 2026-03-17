@@ -36,6 +36,7 @@ void parse_layout(const char* file)
         } else if (type == "objectgroup") {
             for (auto& object : layer["objects"]) {
                 std::string objectType = object["type"];
+                std::cout << objectType << std::endl;
                 std::string objectFile = "unknown";
                 std::string objectOrientation = "all";
                 std::string objectName = object["name"];
@@ -71,6 +72,14 @@ void parse_layout(const char* file)
                 entityCount++;
             }
         }
+    }
+    while (entityCount < 64) {
+        EntityDef entity = EntityDef();
+        entity.type = NO_ENTITY;
+
+        entities[entityCount] = entity;
+
+        entityCount++;
     }
 
 }

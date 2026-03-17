@@ -3,8 +3,8 @@
 
 class Trigger : public Entity{
     public:
-    virtual void trigger() = 0;
+    //virtual void trigger() = 0;
     bool isInTrigger();
 
-    ~Trigger();
+    ~Trigger() {}
 };
