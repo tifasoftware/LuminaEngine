@@ -37,6 +37,17 @@ enum EntityType : uint8_t
     OBSTACLE
 };
 
+enum Orientation : uint8_t {
+    FACE_UP,
+    FACE_DOWN,
+    FACE_LEFT,
+    FACE_RIGHT,
+    //For Poly-directional entities
+    FACE_LR,
+    FACE_UD,
+    FACE_ALL
+};
+
 struct Entity {
     const char* name;
     EntityType type;
@@ -44,4 +55,5 @@ struct Entity {
     int y;
     int width;
     int height;
+    Orientation orientation;
 };
