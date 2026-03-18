@@ -10,6 +10,7 @@ void GamePlay::WorldStart() {
 
     tm->loadMap();
     tm->findSpawn(lastMapName);
+    ChangeMusic(tm->getBGMFile());
     lumina->loadCharacterSprite(r);
 
     if (newMap) {

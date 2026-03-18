@@ -114,6 +114,8 @@ bool TileMap::loadFromFile(const char* file)
     }
 
     memcpy(spawns, lmap.spawnpoints, sizeof(spawns));
+    strncpy(bgm, lmap.bgm, 63);
+    strncpy(sky, lmap.sky, 63);
 
     return true;
 }

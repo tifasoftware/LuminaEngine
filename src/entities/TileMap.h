@@ -56,6 +56,9 @@ class TileMap{
 
     bool loadMap();
 
+    const char* getBGMFile() { return bgm; }
+    const char* getSkyboxFile() { return sky; }
+
     private:
     bool loadFromFile(const char* file);
     //void parse_textures(FILE* file);
@@ -70,6 +73,8 @@ class TileMap{
     int offsetY = 0;
     SpawnDef spawns[16];
     int selectedSpawn = 0;
+    char* bgm;
+    char* sky;
 
     int textureAddress = -1;
 
