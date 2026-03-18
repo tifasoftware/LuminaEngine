@@ -18,7 +18,7 @@ A 2D RPG game engine for the PlayStation Portable, built with C++ and SDL2. Desi
 
 - [ ] WAD style asset packaging
 - [ ] Lua 5.4 scripting
-- [ ] Entity and NPC system
+- [ ] NPC system
 - [ ] Dialogue system
 - [ ] Battle system
 - [ ] Save/load system
