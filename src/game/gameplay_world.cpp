@@ -160,10 +160,11 @@ void GamePlay::RequestMapChange(const char *newMapName) {
 }
 
 void GamePlay::ChangeMusic(const char *newMusic) {
-    if (strcmp(music, newMusic) == 0) return;
-    music = newMusic;
-    snd->stopMusic();
-    snd->startMusic(music);
+    if (strcmp(music, newMusic) != 0 && strcmp(music, "") != 0) {
+        music = newMusic;
+        snd->stopMusic();
+        snd->startMusic(music);
+    }
 }
 
 

@@ -73,8 +73,8 @@ class TileMap{
     int offsetY = 0;
     SpawnDef spawns[16];
     int selectedSpawn = 0;
-    char* bgm;
-    char* sky;
+    char bgm[64];
+    char sky[64];
 
     int textureAddress = -1;
 
