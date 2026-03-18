@@ -4,7 +4,9 @@
 class Trigger : public Entity{
     public:
     //virtual void trigger() = 0;
-    bool isInTrigger();
+    bool isInTrigger(int charX, int charY);
 
-    ~Trigger() {}
+    EntityType getType() override { return TRIGGER_LUA; }
+
+    virtual ~Trigger() {}
 };

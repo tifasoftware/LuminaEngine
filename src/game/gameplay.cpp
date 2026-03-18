@@ -51,8 +51,6 @@ GamePlay::GamePlay()
     r->clear();
     r->present();
 
-    tm = new TileMap("scrolltest.lmap", r);
-
     lumina = new Character();
 
     SDL_Delay(1000);

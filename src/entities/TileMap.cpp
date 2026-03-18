@@ -4,12 +4,32 @@
 #include <pspdisplay.h>
 #include <entities/TileMap.h>
 #include <formats/lmap.h>
+#include "entity.h"
+#include "trigger.h"
 
 TileMap::TileMap(const char* f, Renderer* r)
 {
     renderer = r;
 
     file = f;
+}
+
+Trigger* TileMap::getCollidingTrigger(int charX, int charY) {
+    int globalX = toWorldX(charX);
+    int globalY = toWorldY(charY);
+
+    for (int i = 0; i < MAX_ENTITIES; i++) {
+        Entity* e = entities[i];
+        if (e == nullptr) continue;
+
+        Trigger* et = dynamic_cast<Trigger*>(e);
+        if (et != nullptr) {
+            if (et->isInTrigger(globalX, globalY)) {
+                return et;
+            }
+        }
+    }
+    return nullptr;
 }
 
 bool TileMap::loadMap()
@@ -44,11 +64,18 @@ void TileMap::drawMap()
             renderer->drawTile(textureAddress, tiles[x][y], (x * TILE_SIZE) - offsetX, (y * TILE_SIZE) - offsetY);
         }
     }
+
+    for (int i = 0; i < 64; i++) {
+        if (entities[i] != nullptr) {
+            Entity* e = entities[i];
+            renderer->drawTile(0,0,toScreenX(e->getX()), toScreenY(e->getY())); //Remove when working
+        }
+    }
 }
 
 void TileMap::disposeMap() {
-    for (int i = 0; i < sizeof(entities); i++) {
-        delete entities[i];
+    for (int i = 0; i < MAX_ENTITIES; i++) {
+        if (entities[i] != nullptr) delete entities[i];
     }
 }
 

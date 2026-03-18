@@ -10,7 +10,7 @@ Entity* Entity::spawnEntity(EntityDef def) {
         case TRIGGER_LUA:
             break;
         case TRIGGER_WARP:
-            returnEntity = new WarpPoint(def.file);
+            returnEntity = WarpPoint::createWarpPoint(def.file);
             break;
         case INTERACT_LUA:
             break;

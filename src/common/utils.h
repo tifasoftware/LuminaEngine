@@ -5,4 +5,5 @@ class LuminaUtils {
     public:
     static Orientation FlipOrientation(Orientation orientation);
     static bool IsFacingEachOther(Orientation player, Orientation other);
+    const char* appendExtension(const char* filename, const char* extension);
 };

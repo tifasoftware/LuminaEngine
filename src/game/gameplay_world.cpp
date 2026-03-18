@@ -1,14 +1,25 @@
 #include <game/gameplay.h>
 
-void GamePlay::WorldStart()
-{
+#include "common/utils.h"
+#include "entities/warppoint.h"
+
+void GamePlay::WorldStart() {
+    tm = new TileMap(mapName, r);
     fontAtlas = r->loadTexture("fontatlas.png");
     //text = new Text("The Quick Brown Fox Jumps Over The Lazy Dog", fontAtlas, 16, 16);
 
     tm->loadMap();
     lumina->loadCharacterSprite(r);
 
-    tm->preShift(offsetX, offsetY);
+    if (newMap) {
+        luminaX = SCREEN_W / 2;
+        luminaY = SCREEN_H / 2;
+        offsetX = 0;
+        offsetY = 0;
+        newMap = false;
+    } else {
+        tm->preShift(offsetX, offsetY);
+    }
 
     f->FadeIn(0.5f);
     inTransition = false;
@@ -68,12 +79,26 @@ void GamePlay::WorldDraw()
             if (!tm->scrollY(luminaMoveY, luminaY + luminaMoveY)) luminaY += luminaMoveY;
         }
 
+        //bool error = false;
+
+        if (luminaMoveX != 0 || luminaMoveY != 0) {
+            Trigger* colTrig = tm->getCollidingTrigger(luminaX, luminaY);
+            if (colTrig != nullptr) {
+                WarpPoint* wp = dynamic_cast<WarpPoint*>(colTrig);
+                if (wp != nullptr) {
+                    RequestMapChange(wp->GetNewMap());
+                }
+            }
+        }
+
         // Clear the screen
         r->clear();
 
         // Draw the 'grass' sprite
         tm->drawMap();
         //text->Render(r);
+
+        //if (error) r->drawTile(0,0,0,0);
 
         lumina->animate(FRAME_RATE, luminaMoveX, luminaMoveY);
         lumina->drawCharacter(luminaX, luminaY, luminaMoveX, luminaMoveY, r);
@@ -89,6 +114,7 @@ void GamePlay::WorldDraw()
 
 void GamePlay::WorldExit()
 {
+    Text text = Text(mapName, fontAtlas, 16,16);
     inTransition = true;
 
     offsetX = tm->getOffsetX();
@@ -103,7 +129,7 @@ void GamePlay::WorldExit()
         // Draw the 'grass' sprite
         tm->drawMap();
 
-        //text->Render(r);
+        text.Render(r);
 
         lumina->drawCharacter(luminaX, luminaY, 0, 0, r);
 
@@ -117,10 +143,17 @@ void GamePlay::WorldExit()
     }
 
     tm->disposeMap();
+    delete tm;
     
     r->unloadAllTextures();
 
     //delete text;
+}
+
+void GamePlay::RequestMapChange(const char *newMapName) {
+    wantNewState = true;
+    newMap = true;
+    mapName = newMapName;
 }
 
 

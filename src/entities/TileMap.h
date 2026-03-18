@@ -8,6 +8,7 @@
 #include <formats/lmap.h>
 
 #include "entity.h"
+#include "trigger.h"
 
 //PSP Resolution Width - 480
 //PSP Resolution Height - 272
@@ -45,6 +46,8 @@ class TileMap{
 
     int getOffsetX() { return offsetX; }
     int getOffsetY() { return offsetY; }
+
+    Trigger* getCollidingTrigger(int charX, int charY);
 
     bool loadMap();
 

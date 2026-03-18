@@ -22,6 +22,7 @@ class GamePlay
 
     void SwitchState();
     void RequestSwitchState(GameState newState);
+    void RequestMapChange(const char* newMapName);
 
     bool gameRunning();
     void Exit();
@@ -46,6 +47,7 @@ class GamePlay
     GameState newGameState = WORLD;
     bool wantNewState = false;
     bool inTransition = true;
+    bool newMap = false;
 
     int clink = -1;
     int chime = -1;
@@ -61,4 +63,6 @@ class GamePlay
     int luminaMoveY = 0;
 
     int luminaMoveRate = 2;
+
+    const char* mapName = "scrolltest.lmap";
 };
