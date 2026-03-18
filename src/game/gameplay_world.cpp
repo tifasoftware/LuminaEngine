@@ -158,5 +158,12 @@ void GamePlay::RequestMapChange(const char *newMapName) {
     mapName = newMapName;
 }
 
+void GamePlay::ChangeMusic(const char *newMusic) {
+    if (strcmp(music, newMusic) == 0) return;
+    music = newMusic;
+    snd->stopMusic();
+    snd->startMusic(music);
+}
+
 
 

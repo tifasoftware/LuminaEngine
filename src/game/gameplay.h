@@ -23,6 +23,7 @@ class GamePlay
     void SwitchState();
     void RequestSwitchState(GameState newState);
     void RequestMapChange(const char* newMapName);
+    void ChangeMusic(const char* newMusic);
 
     bool gameRunning();
     void Exit();
@@ -66,4 +67,5 @@ class GamePlay
 
     const char* mapName = "scrolltest.lmap";
     const char* lastMapName = "start";
+    const char* music = "bgm0.ogg";
 };
