@@ -76,6 +76,11 @@ class TileMap{
     char bgm[64];
     char sky[64];
 
+
+    int skyIndex;
+    int skyOffsetX;
+    int skyOffsetY;
+
     int textureAddress = -1;
 
 };

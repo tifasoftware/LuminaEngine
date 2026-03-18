@@ -50,6 +50,10 @@ bool TileMap::loadMap()
 
 void TileMap::drawMap()
 {
+    if (skyIndex != -1) {
+        renderer->drawSprite(skyIndex, skyOffsetX, skyOffsetY);
+    }
+
     int startTileX = (offsetX / TILE_SIZE) - 1;
     int startTileY = (offsetY / TILE_SIZE) - 1;
 
@@ -61,7 +65,7 @@ void TileMap::drawMap()
 
     for (int x = startTileX; x < endTileX; x++){
         for (int y = startTileY; y < endTileY; y++){
-            renderer->drawTile(textureAddress, tiles[x][y], (x * TILE_SIZE) - offsetX, (y * TILE_SIZE) - offsetY);
+            if (tiles[x][y] > 0) renderer->drawTile(textureAddress, tiles[x][y], (x * TILE_SIZE) - offsetX, (y * TILE_SIZE) - offsetY);
         }
     }
 
@@ -116,6 +120,25 @@ bool TileMap::loadFromFile(const char* file)
     memcpy(spawns, lmap.spawnpoints, sizeof(spawns));
     strncpy(bgm, lmap.music, 63);
     strncpy(sky, lmap.skybox, 63);
+
+    if (strcmp(sky, "") != 0) {
+        skyIndex = renderer->loadTexture(sky);
+
+        auto skyTex = renderer->getTexture(skyIndex);
+        int skyW = skyTex->get_sprite_width();
+        int skyH = skyTex->get_sprite_height();
+
+        int wDifference = skyW - SCREEN_W;
+        int hDifference = skyH - SCREEN_H;
+
+        if (wDifference < 0) wDifference = wDifference * -1;
+        if (hDifference < 0) hDifference = hDifference * -1;
+
+        skyOffsetX = wDifference / 2;
+        skyOffsetY = hDifference / 2;
+    } else {
+        skyIndex = -1;
+    }
 
     return true;
 }
