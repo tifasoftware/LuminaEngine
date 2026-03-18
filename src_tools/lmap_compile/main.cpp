@@ -15,6 +15,7 @@ int tiles[64][64];
 CollisionType colType[256];
 char tileAtlas[64];
 EntityDef entities[64];
+SpawnDef spawns[16];
 
 int main(int argc, char *argv[])
 {
@@ -50,6 +51,7 @@ int main(int argc, char *argv[])
     //lmap.colTile = colType;
     memcpy(lmap.colTile, colType, sizeof(colType));
     memcpy(lmap.entities, entities, sizeof(entities));
+    memcpy(lmap.spawnpoints, spawns, sizeof(spawns));
     strncpy(lmap.tileset, tileAtlas, 63);
 
     if (!isGood)

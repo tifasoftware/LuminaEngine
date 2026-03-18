@@ -2,6 +2,7 @@
 
 #include <stdint.h>
 #include <common/types.h>
+#include <common/vector.h>
 
 struct EntityDef {
     char name[64];
@@ -14,6 +15,11 @@ struct EntityDef {
     char file[128];
 };
 
+struct SpawnDef {
+    char name[64];
+    Vector2 location;
+};
+
 struct LMAPHeader 
 {
     char magic[4];
@@ -24,6 +30,7 @@ struct LMAPHeader
     uint16_t tiles[64 * 64];
     CollisionType colTile[256];
     EntityDef entities[64];
+    SpawnDef spawnpoints[16];
 };
 
 class LMAPLoader

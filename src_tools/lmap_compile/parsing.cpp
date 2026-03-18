@@ -8,11 +8,13 @@ using json = nlohmann::json;
 void parse_layout(const char* file)
 {
     int entityCount = 0;
+    int spawnCount = 0;
     std::ifstream f(file);
     json data = json::parse(f);
 
     for (auto& layer : data["layers"]) {
         std::string type = layer["type"];
+        std::string layerClass = layer.contains("class") ? layer["class"] : "unknown";
         int id = layer["id"];
 
         if (type == "tilelayer" && id == 1) {
@@ -33,7 +35,7 @@ void parse_layout(const char* file)
                     //tiles[x][y] = t - 1;
                 }
             }
-        } else if (type == "objectgroup") {
+        } else if (type == "objectgroup" && layerClass == "entities") {
             for (auto& object : layer["objects"]) {
                 std::string objectType = object["type"];
                 std::cout << objectType << std::endl;
@@ -71,6 +73,20 @@ void parse_layout(const char* file)
                 entities[entityCount] = entity;
                 entityCount++;
             }
+        } else if (type == "objectgroup" && layerClass == "spawn") {
+            for (auto& object : layer["objects"]) {
+                std::string spawnName = object["name"];
+                int x = object["x"].get<int>();
+                int y = object["y"].get<int>();
+
+                SpawnDef spawn = SpawnDef();
+                spawn.location.x = x;
+                spawn.location.y = y;
+                strncpy(spawn.name, spawnName.c_str(), 63);
+
+                spawns[spawnCount] = spawn;
+                spawnCount++;
+            }
         }
     }
     while (entityCount < 64) {
@@ -80,6 +96,16 @@ void parse_layout(const char* file)
         entities[entityCount] = entity;
 
         entityCount++;
+    }
+
+    while (spawnCount < 16) {
+        SpawnDef spawn = SpawnDef();
+        spawn.location.x = 64;
+        spawn.location.y = 64;
+        strncpy(spawn.name, "undefined", 63);
+
+        spawns[spawnCount] = spawn;
+        spawnCount++;
     }
 
 }
