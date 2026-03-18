@@ -12,6 +12,21 @@ void parse_layout(const char* file)
     std::ifstream f(file);
     json data = json::parse(f);
 
+    if (data.contains("properties")) {
+        for (auto& property: data["properties"]) {
+            std::string propertyName = property["name"];
+            std::string value = property["value"];
+
+            if (propertyName == "music") {
+                strncpy(music, value.c_str(), 63);
+            } else if (propertyName == "skybox") {
+                strncpy(skybox, value.c_str(), 63);
+            } else if (propertyName == "atlas") {
+                strncpy(tileAtlas, value.c_str(), 63);
+            }
+        }
+    }
+
     for (auto& layer : data["layers"]) {
         std::string type = layer["type"];
         std::string layerClass = layer.contains("class") ? layer["class"] : "unknown";

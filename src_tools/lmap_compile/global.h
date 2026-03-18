@@ -7,3 +7,5 @@ extern CollisionType colType[256];
 extern EntityDef entities[64];
 extern char tileAtlas[64];
 extern SpawnDef spawns[16];
+extern char music[64];
+extern char skybox[64];

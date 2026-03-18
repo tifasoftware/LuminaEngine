@@ -16,6 +16,8 @@ CollisionType colType[256];
 char tileAtlas[64];
 EntityDef entities[64];
 SpawnDef spawns[16];
+char music[64];
+char skybox[64];
 
 int main(int argc, char *argv[])
 {
@@ -53,6 +55,8 @@ int main(int argc, char *argv[])
     memcpy(lmap.entities, entities, sizeof(entities));
     memcpy(lmap.spawnpoints, spawns, sizeof(spawns));
     strncpy(lmap.tileset, tileAtlas, 63);
+    strncpy(lmap.music, music, 63);
+    strncpy(lmap.skybox, skybox, 63);
 
     if (!isGood)
     {

@@ -31,6 +31,8 @@ struct LMAPHeader
     CollisionType colTile[256];
     EntityDef entities[64];
     SpawnDef spawnpoints[16];
+    char music[64];
+    char skybox[64];
 };
 
 class LMAPLoader
