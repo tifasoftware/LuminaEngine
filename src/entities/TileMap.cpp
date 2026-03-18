@@ -113,6 +113,8 @@ bool TileMap::loadFromFile(const char* file)
         entities[i] = Entity::spawnEntity(def);
     }
 
+    memcpy(spawns, lmap.spawnpoints, sizeof(spawns));
+
     return true;
 }
 
@@ -183,6 +185,13 @@ bool TileMap::scrollY(int y, int cY)
         return true;
     }
 
+}
+
+int TileMap::findSpawn(const char *spawnname) {
+    for (int i = 0; i < MAX_SPAWNS; i++) {
+        if (strcmp(spawns[i].name, spawnname) == 0) selectedSpawn = i;
+    }
+    return selectedSpawn;
 }
 
 void TileMap::preShift(int x, int y)

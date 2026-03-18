@@ -65,4 +65,5 @@ class GamePlay
     int luminaMoveRate = 2;
 
     const char* mapName = "scrolltest.lmap";
+    const char* lastMapName = "start";
 };

@@ -25,6 +25,8 @@ static const int SCROLL_R = SCREEN_W - 40;
 static const int TILE_W = (SCREEN_W / TILE_SIZE) + 2;
 static const int TILE_H = (SCREEN_H / TILE_SIZE) + 2;
 
+static const int MAX_SPAWNS = 16;
+
 
 class TileMap{
     public:
@@ -41,6 +43,9 @@ class TileMap{
     int toWorldY(int y) { return y + offsetY; }
     int toScreenX(int x) { return x - offsetX; }
     int toScreenY(int y) { return y - offsetY; }
+
+    SpawnDef getSpawn() { return spawns[selectedSpawn]; }
+    int findSpawn(const char* spawnname);
 
     void preShift(int x, int y);
 
@@ -63,6 +68,8 @@ class TileMap{
     Entity* entities[64];
     int offsetX = 0;
     int offsetY = 0;
+    SpawnDef spawns[16];
+    int selectedSpawn = 0;
 
     int textureAddress = -1;
 

@@ -1,7 +1,7 @@
 #pragma once
 #include "formats/lmap.h"
 
-const int MAX_ENTITIES = 64;
+static const int MAX_ENTITIES = 64;
 
 class Entity {
 public:

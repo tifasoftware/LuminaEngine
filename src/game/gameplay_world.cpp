@@ -9,18 +9,19 @@ void GamePlay::WorldStart() {
     //text = new Text("The Quick Brown Fox Jumps Over The Lazy Dog", fontAtlas, 16, 16);
 
     tm->loadMap();
+    tm->findSpawn(lastMapName);
     lumina->loadCharacterSprite(r);
 
     if (newMap) {
+        SpawnDef sp = tm->getSpawn();
+
         luminaX = SCREEN_W / 2;
         luminaY = SCREEN_H / 2;
-        offsetX = 0;
-        offsetY = 0;
+        offsetX = sp.location.x - (SCREEN_W / 2);
+        offsetY = sp.location.y - (SCREEN_H / 2);
         newMap = false;
-    } else {
-        tm->preShift(offsetX, offsetY);
     }
-
+    tm->preShift(offsetX, offsetY);
     f->FadeIn(0.5f);
     inTransition = false;
 }
@@ -153,6 +154,7 @@ void GamePlay::WorldExit()
 void GamePlay::RequestMapChange(const char *newMapName) {
     wantNewState = true;
     newMap = true;
+    lastMapName = mapName;
     mapName = newMapName;
 }
 

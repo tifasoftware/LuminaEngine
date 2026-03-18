@@ -55,6 +55,7 @@ GamePlay::GamePlay()
 
     SDL_Delay(1000);
 
+    newMap = true;
     WorldStart();
 }
 
