@@ -84,11 +84,10 @@ void GamePlay::WorldDraw()
         //bool error = false;
 
         if (luminaMoveX != 0 || luminaMoveY != 0) {
-            Trigger* colTrig = tm->getCollidingTrigger(luminaX, luminaY);
+            Entity* colTrig = tm->getCollidingTrigger(luminaX, luminaY);
             if (colTrig != nullptr) {
-                WarpPoint* wp = dynamic_cast<WarpPoint*>(colTrig);
-                if (wp != nullptr) {
-                    RequestMapChange(wp->GetNewMap());
+                if (colTrig->getType() == TRIGGER_WARP) {
+                    if (colTrig->hasProperty("map")) RequestMapChange(colTrig->getProperty("map"));
                 }
             }
         }

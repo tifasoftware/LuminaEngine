@@ -52,7 +52,7 @@ class TileMap{
     int getOffsetX() { return offsetX; }
     int getOffsetY() { return offsetY; }
 
-    Trigger* getCollidingTrigger(int charX, int charY);
+    Entity* getCollidingTrigger(int charX, int charY);
 
     bool loadMap();
 

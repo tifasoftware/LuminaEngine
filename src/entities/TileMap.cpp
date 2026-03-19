@@ -14,20 +14,14 @@ TileMap::TileMap(const char* f, Renderer* r)
     file = f;
 }
 
-Trigger* TileMap::getCollidingTrigger(int charX, int charY) {
+Entity* TileMap::getCollidingTrigger(int charX, int charY) {
     int globalX = toWorldX(charX);
     int globalY = toWorldY(charY);
 
     for (int i = 0; i < MAX_ENTITIES; i++) {
         Entity* e = entities[i];
-        if (e == nullptr) continue;
 
-        Trigger* et = dynamic_cast<Trigger*>(e);
-        if (et != nullptr) {
-            if (et->isInTrigger(globalX, globalY)) {
-                return et;
-            }
-        }
+        if (e != nullptr && e->isInTrigger(globalX, globalY)) return e;
     }
     return nullptr;
 }

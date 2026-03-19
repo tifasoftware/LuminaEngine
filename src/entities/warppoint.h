@@ -1,4 +1,7 @@
+// warppoint.h and warppoint.cpp is deprecated
+
 #pragma	once
+/*
 #include <cstring>
 #include <entities/trigger.h>
 
@@ -16,4 +19,4 @@ class WarpPoint : public Trigger {
 
     private:
     char newmap[128] = "scrolltest.lmap";
-};
+};*/

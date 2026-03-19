@@ -11,10 +11,13 @@ public:
     int getX() { return x; }
     int getY() { return y; }
 
-    virtual EntityType getType() { return NO_ENTITY; }
+    virtual EntityType getType() { return type; }
 
     const char* getProperty(const char* key);
+    int getPropertyIndex(const char* key);
     bool hasProperty(const char* key);
+
+    bool isInTrigger(int charX, int charY);
 
     static Entity* spawnEntity(EntityDef def);
 protected:
