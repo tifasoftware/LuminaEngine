@@ -80,8 +80,8 @@ int Renderer::drawTile(int texIndex, int x, int y) {
     Texture* tex = &m_textures[texIndex];
 
     SDL_Rect sprite_rect;
-    sprite_rect.w = 16;
-    sprite_rect.h = 16;
+    sprite_rect.w = tex->get_tile_size();
+    sprite_rect.h = tex->get_tile_size();
     sprite_rect.x = x;
     sprite_rect.y = y;
 

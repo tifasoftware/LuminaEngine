@@ -78,8 +78,7 @@ class TileMap{
 
 
     int skyIndex;
-    int skyOffsetX;
-    int skyOffsetY;
+    int skyTileSize;
 
     int textureAddress = -1;
 
