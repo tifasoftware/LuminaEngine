@@ -66,15 +66,5 @@ int main(int argc, char *argv[])
         cout << " ";
     }
 
-    cout << "\nReferenced Files\n";
-
-    for (int i = 0; i < 64; i++) {
-        if (lmap.entities[i].type != NO_ENTITY) {
-            cout << "\n";
-            cout << lmap.entities[i].file;
-            cout << "\n";
-        }
-    }
-
     cout << endl;
 }

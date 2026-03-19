@@ -17,7 +17,7 @@ struct EntityDef {
     uint16_t width;
     uint16_t height;
     Orientation orientation;
-    char file[128];
+    //char file[128];
     EntityProperty properties[16];
 };
 

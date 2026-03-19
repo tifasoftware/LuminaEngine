@@ -78,7 +78,7 @@ void parse_layout(const char* file)
                     std::string propertyName = property["name"];
                     std::string value = property["value"];
 
-                    if (propertyName == "lua" || propertyName == "map") objectFile = value;
+                    //if (propertyName == "lua" || propertyName == "map") objectFile = value;
                     if (propertyName == "orientation") {
                         objectOrientation = value;
                     } else {
@@ -91,7 +91,7 @@ void parse_layout(const char* file)
                 entity.orientation = stringToOrientation(objectOrientation.c_str());
                 entity.type = stringToEntityType(objectType.c_str());
                 const char* file_c = objectFile.c_str();
-                strncpy(entity.file, file_c, 127);
+                //strncpy(entity.file, file_c, 127);
 
                 entities[entityCount] = entity;
                 entityCount++;
