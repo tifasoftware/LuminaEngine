@@ -116,7 +116,7 @@ void GamePlay::WorldDraw()
 
 void GamePlay::WorldExit()
 {
-    Text text = Text(mapName, fontAtlas, 16,16);
+    Text text = Text(lastMapName, fontAtlas, 16,16);
     inTransition = true;
 
     offsetX = tm->getOffsetX();
@@ -155,13 +155,13 @@ void GamePlay::WorldExit()
 void GamePlay::RequestMapChange(const char *newMapName) {
     wantNewState = true;
     newMap = true;
-    lastMapName = mapName;
-    mapName = newMapName;
+    strncpy(lastMapName, mapName, sizeof(lastMapName) - 1);  // copy current into last
+    strncpy(mapName, newMapName, sizeof(mapName) - 1);
 }
 
 void GamePlay::ChangeMusic(const char *newMusic) {
     if (strcmp(music, newMusic) != 0 && strcmp(music, "") != 0) {
-        music = newMusic;
+        strncpy(music, newMusic, sizeof(music) - 1);
         snd->stopMusic();
         snd->startMusic(music);
     }

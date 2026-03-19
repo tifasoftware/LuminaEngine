@@ -65,7 +65,7 @@ class GamePlay
 
     int luminaMoveRate = 2;
 
-    const char* mapName = "scrolltest.lmap";
-    const char* lastMapName = "start";
-    const char* music = "bgm0.ogg";
+    char mapName[64] = "scrolltest.lmap";
+    char lastMapName[64] = "start";
+    char music[64] = "bgm0.ogg";
 };

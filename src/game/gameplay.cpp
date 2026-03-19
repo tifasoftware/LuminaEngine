@@ -55,6 +55,7 @@ GamePlay::GamePlay()
 
     SDL_Delay(1000);
 
+    strncpy(lastMapName, "start", sizeof(lastMapName) - 1);
     newMap = true;
     WorldStart();
 }
