@@ -5,6 +5,7 @@
 #include <entities/TileMap.h>
 #include <formats/lmap.h>
 #include "entity.h"
+#include "graphics/TextureOptimization.h"
 
 TileMap::TileMap(const char* f, Renderer* r)
 {
@@ -69,7 +70,8 @@ void TileMap::drawMap()
     for (int i = 0; i < 64; i++) {
         if (entities[i] != nullptr) {
             Entity* e = entities[i];
-            renderer->drawTile(0,0,toScreenX(e->getX()), toScreenY(e->getY())); //Remove when working
+            e->draw(renderer, offsetX, offsetY);
+            //renderer->drawTile(0,0,toScreenX(e->getX()), toScreenY(e->getY())); //Remove when working
         }
     }
 }
@@ -108,10 +110,30 @@ bool TileMap::loadFromFile(const char* file)
         offset += 64;
     }
 
+    TextureOptimization to = TextureOptimization();
+
     for (int i = 0; i < 64; i++) {
         EntityDef def = lmap.entities[i];
 
-        entities[i] = Entity::spawnEntity(def);
+        Entity* e = Entity::spawnEntity(def);
+
+        if (e != nullptr) {
+
+            if (e->hasProperty("texture")) {
+                auto filename = e->getProperty("texture");
+                int index = to.getIndex(filename);
+
+                if (index == -1) {
+                    int newIndex = renderer->loadTexture(filename);
+                    to.registerFileName(filename, newIndex);
+                    index = newIndex;
+                }
+
+                e->assignTexIndex(index);
+            };
+        }
+
+        entities[i] = e;
     }
 
     memcpy(spawns, lmap.spawnpoints, sizeof(spawns));

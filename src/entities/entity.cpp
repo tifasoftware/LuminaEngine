@@ -1,6 +1,8 @@
 #include "entity.h"
 #include <cstring>
 
+#include "TileMap.h"
+
 
 const char * Entity::getProperty(const char *key) {
     return properties[getPropertyIndex(key)].value;
@@ -29,6 +31,7 @@ Entity* Entity::spawnEntity(EntityDef def) {
     returnEntity->h = def.height;
     memcpy(returnEntity->properties, def.properties, sizeof(def.properties));
     returnEntity->type = def.type;
+    returnEntity->assignTexIndex(-1);
 
     return returnEntity;
 }
@@ -36,4 +39,16 @@ Entity* Entity::spawnEntity(EntityDef def) {
 bool Entity::isInTrigger(int charX, int charY) {
     if (charX > x && charX < (x + w) && charY > y && charY < (y + h)) return true;
     return false;
+}
+
+bool Entity::canBeDrawn(int screenOffsetX, int screenOffsetY) {
+    if (texIndex == -1) return false;
+    if (x + w >= screenOffsetX && y + h >= screenOffsetY && x < (screenOffsetX + SCREEN_W) && y < (screenOffsetY + SCREEN_H)) return true;
+    return false;
+}
+
+void Entity::draw(Renderer *r, int screenOffsetX, int screenOffsetY) {
+    if (canBeDrawn(screenOffsetX, screenOffsetY)) {
+        r->drawSprite(texIndex, x - screenOffsetX, y - screenOffsetY);
+    }
 }

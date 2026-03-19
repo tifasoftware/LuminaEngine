@@ -1,5 +1,6 @@
 #pragma once
 #include "formats/lmap.h"
+#include "graphics/Renderer.h"
 
 static const int MAX_ENTITIES = 64;
 static const int MAX_PROPERTIES = 16;
@@ -13,11 +14,16 @@ public:
 
     virtual EntityType getType() { return type; }
 
+    void assignTexIndex(int ti) { this->texIndex = ti; }
+
     const char* getProperty(const char* key);
     int getPropertyIndex(const char* key);
     bool hasProperty(const char* key);
 
     bool isInTrigger(int charX, int charY);
+
+    bool canBeDrawn(int screenOffsetX, int screenOffsetY);
+    void draw(Renderer* r, int screenOffsetX, int screenOffsetY);
 
     static Entity* spawnEntity(EntityDef def);
 protected:
@@ -25,6 +31,7 @@ protected:
     int y;
     int w;
     int h;
+    int texIndex;
 
     EntityType type;
     EntityProperty properties[MAX_PROPERTIES];
