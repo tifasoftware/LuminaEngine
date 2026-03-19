@@ -8,7 +8,6 @@
 #include <formats/lmap.h>
 
 #include "entity.h"
-#include "trigger.h"
 
 //PSP Resolution Width - 480
 //PSP Resolution Height - 272

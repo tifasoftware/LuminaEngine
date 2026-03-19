@@ -1,7 +1,7 @@
 #include <game/gameplay.h>
 
 #include "common/utils.h"
-#include "entities/warppoint.h"
+#include "entities/entity.h"
 
 void GamePlay::WorldStart() {
     tm = new TileMap(mapName, r);

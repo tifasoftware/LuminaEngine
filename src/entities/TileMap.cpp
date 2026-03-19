@@ -5,7 +5,6 @@
 #include <entities/TileMap.h>
 #include <formats/lmap.h>
 #include "entity.h"
-#include "trigger.h"
 
 TileMap::TileMap(const char* f, Renderer* r)
 {
