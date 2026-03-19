@@ -4,6 +4,11 @@
 #include <common/types.h>
 #include <common/vector.h>
 
+struct EntityProperty {
+    char key[64];
+    char value[128];
+};
+
 struct EntityDef {
     char name[64];
     EntityType type;
@@ -13,6 +18,7 @@ struct EntityDef {
     uint16_t height;
     Orientation orientation;
     char file[128];
+    EntityProperty properties[16];
 };
 
 struct SpawnDef {

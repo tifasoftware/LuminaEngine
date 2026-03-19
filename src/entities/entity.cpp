@@ -28,6 +28,8 @@ Entity* Entity::spawnEntity(EntityDef def) {
     returnEntity->y = def.y;
     returnEntity->w = def.width;
     returnEntity->h = def.height;
+    memcpy(returnEntity->properties, def.properties, sizeof(def.properties));
+    returnEntity->type = def.type;
 
     return returnEntity;
 }

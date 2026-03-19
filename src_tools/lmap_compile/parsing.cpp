@@ -52,6 +52,7 @@ void parse_layout(const char* file)
             }
         } else if (type == "objectgroup" && layerClass == "entities") {
             for (auto& object : layer["objects"]) {
+                int propertyCount = 0;
                 std::string objectType = object["type"];
                 std::cout << objectType << std::endl;
                 std::string objectFile = "unknown";
@@ -64,26 +65,33 @@ void parse_layout(const char* file)
                 int w = object.contains("w") ? object["w"].get<int>() : 16;
                 int h = object.contains("h") ? object["h"].get<int>() : 16;
 
+                EntityDef entity = EntityDef();
+
+                const char* name_c = objectName.c_str();
+                strncpy(entity.name, name_c, 63);
+                entity.x = x;
+                entity.y = y;
+                entity.width = w;
+                entity.height = h;
+
                 for (auto& property : object["properties"]) {
                     std::string propertyName = property["name"];
                     std::string value = property["value"];
 
                     if (propertyName == "lua" || propertyName == "map") objectFile = value;
-                    if (propertyName == "orientation") objectOrientation = value;
+                    if (propertyName == "orientation") {
+                        objectOrientation = value;
+                    } else {
+                        strncpy(entity.properties[propertyCount].key, propertyName.c_str(), 63);
+                        strncpy(entity.properties[propertyCount].value, value.c_str(), 127);
+                    }
+                    propertyCount++;
                 }
 
-                EntityDef entity = EntityDef();
-
-                const char* name_c = objectName.c_str();
-                strncpy(entity.name, name_c, 63);
                 entity.orientation = stringToOrientation(objectOrientation.c_str());
                 entity.type = stringToEntityType(objectType.c_str());
                 const char* file_c = objectFile.c_str();
                 strncpy(entity.file, file_c, 127);
-                entity.x = x;
-                entity.y = y;
-                entity.width = w;
-                entity.height = h;
 
                 entities[entityCount] = entity;
                 entityCount++;

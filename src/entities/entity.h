@@ -2,6 +2,7 @@
 #include "formats/lmap.h"
 
 static const int MAX_ENTITIES = 64;
+static const int MAX_PROPERTIES = 16;
 
 class Entity {
 public:
@@ -12,10 +13,16 @@ public:
 
     virtual EntityType getType() { return NO_ENTITY; }
 
+    const char* getProperty(const char* key);
+    bool hasProperty(const char* key);
+
     static Entity* spawnEntity(EntityDef def);
 protected:
     int x;
     int y;
     int w;
     int h;
+
+    EntityType type;
+    EntityProperty properties[MAX_PROPERTIES];
 };
