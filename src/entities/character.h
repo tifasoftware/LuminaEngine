@@ -22,10 +22,4 @@ class Character
     int magic;
     int level;
     CharacterSprite* sprite;
-    int texIndex = -1;
-    int charHeight = 32;
-    int charWidth = 32;
-    int dirIndex = 0;
-    int animIndex = 0;
-    int frame = 0;
 };
