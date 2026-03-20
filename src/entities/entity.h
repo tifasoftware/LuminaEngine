@@ -9,7 +9,7 @@ static const int MAX_PROPERTIES = 16;
 
 class Entity {
 public:
-    Entity() : x(0), y(0), w(0), h(0), sprite(nullptr), type(EntityType::NO_ENTITY) {};
+    Entity() : x(0), y(0), w(0), h(0), sprite(nullptr), type(EntityType::NO_ENTITY), centerSprite(false) {};
     virtual ~Entity() { disposeSprite(); }
     int getX() { return x; }
     int getY() { return y; }
@@ -34,6 +34,7 @@ protected:
     int y;
     int w;
     int h;
+    bool centerSprite;
 
     EntityType type;
     EntityProperty properties[MAX_PROPERTIES];

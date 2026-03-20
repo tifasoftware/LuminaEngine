@@ -50,7 +50,8 @@ bool Entity::canBeDrawn(int screenOffsetX, int screenOffsetY) {
 void Entity::draw(Renderer *r, int screenOffsetX, int screenOffsetY) {
     if (canBeDrawn(screenOffsetX, screenOffsetY)) {
         //r->drawSprite(texIndex, x - screenOffsetX, y - screenOffsetY);
-        sprite->draw(getLeftX() - screenOffsetX, getTopY() - screenOffsetY, r);
+        if (!centerSprite) sprite->draw(x - screenOffsetX, y - screenOffsetY, r);
+        if (centerSprite) sprite->draw(getLeftX() - screenOffsetX, getTopY() - screenOffsetY, r);
     }
 }
 
@@ -58,8 +59,10 @@ void Entity::initializeSprite(int ti) {
     if (sprite != nullptr) delete sprite;
     if (type == INTERACT_NPC) {
         sprite = new CharacterSprite(ti);
+        centerSprite = false;
     } else {
         sprite = new Sprite(ti, w, h);
+        centerSprite = true;
     }
     if (w <= 2) w = sprite->getWidth();
     if (h <= 2) h = sprite->getHeight();
