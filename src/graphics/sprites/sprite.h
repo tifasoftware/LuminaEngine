@@ -11,6 +11,9 @@ class Sprite {
     virtual void draw(int x, int y, Renderer* r);
     virtual void animate(int framerate, int mx, int my);
 
+    virtual int getWidth() { return spriteW; }
+    virtual int getHeight() { return spriteH; }
+
     protected:
     int textureIndex = -1;
     int spriteW, spriteH = 16;

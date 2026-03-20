@@ -38,4 +38,9 @@ protected:
     EntityType type;
     EntityProperty properties[MAX_PROPERTIES];
     Sprite* sprite;
+
+    int getLeftX() { return x - (w / 2); }
+    int getTopY() { return y - (h / 2); }
+    int getRightX() { return x + (w / 2); }
+    int getBottomY() { return y + (h / 2); }
 };

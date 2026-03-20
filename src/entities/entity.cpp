@@ -43,14 +43,14 @@ bool Entity::isInTrigger(int charX, int charY) {
 
 bool Entity::canBeDrawn(int screenOffsetX, int screenOffsetY) {
     if (sprite == nullptr) return false;
-    if (x + w >= screenOffsetX && y + h >= screenOffsetY && x < (screenOffsetX + SCREEN_W) && y < (screenOffsetY + SCREEN_H)) return true;
+    if (getRightX() >= screenOffsetX && getBottomY() >= screenOffsetY && getLeftX() < (screenOffsetX + SCREEN_W) && getTopY() < (screenOffsetY + SCREEN_H)) return true;
     return false;
 }
 
 void Entity::draw(Renderer *r, int screenOffsetX, int screenOffsetY) {
     if (canBeDrawn(screenOffsetX, screenOffsetY)) {
         //r->drawSprite(texIndex, x - screenOffsetX, y - screenOffsetY);
-        sprite->draw(x - screenOffsetX, y - screenOffsetY, r);
+        sprite->draw(getLeftX() - screenOffsetX, getTopY() - screenOffsetY, r);
     }
 }
 
@@ -61,6 +61,8 @@ void Entity::initializeSprite(int ti) {
     } else {
         sprite = new Sprite(ti, w, h);
     }
+    if (w <= 2) w = sprite->getWidth();
+    if (h <= 2) h = sprite->getHeight();
 }
 
 void Entity::disposeSprite() {
