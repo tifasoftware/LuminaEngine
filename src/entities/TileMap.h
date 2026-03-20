@@ -34,6 +34,7 @@ class TileMap{
     void disposeMap();
     //void shiftMap(int x, int y);
     bool isColliding(int x, int y);
+    void updateEntities();
 
     bool scrollX(int x, int cX);
     bool scrollY(int y, int cY);

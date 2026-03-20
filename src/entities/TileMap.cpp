@@ -195,6 +195,12 @@ bool TileMap::isColliding(int x, int y)
     return false;
 }
 
+void TileMap::updateEntities() {
+    for (int i = 0; i < MAX_ENTITIES; i++) {
+        if (entities[i] != nullptr) entities[i]->update();
+    }
+}
+
 bool TileMap::scrollX(int x, int cX)
 {
     if (cX > SCROLL_L && cX < SCROLL_R)

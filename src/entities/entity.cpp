@@ -51,13 +51,43 @@ void Entity::draw(Renderer *r, int screenOffsetX, int screenOffsetY) {
     if (canBeDrawn(screenOffsetX, screenOffsetY)) {
         //r->drawSprite(texIndex, x - screenOffsetX, y - screenOffsetY);
 
-        if (!centerSprite) sprite->draw(x - screenOffsetX, y - screenOffsetY, r);
+        if (!centerSprite) sprite->draw(x - screenOffsetX, y - screenOffsetY, moveX, moveY, r);
         if (centerSprite) sprite->draw(getLeftX() - screenOffsetX, getTopY() - screenOffsetY, r);
     }
 }
 
 void Entity::update() {
     if (sprite != nullptr) sprite->animate(FRAME_RATE, moveX, moveY);
+
+    x += moveX;
+    y += moveY;
+
+    //NPC Movement Test
+    //This would ideally be replaced with a lua script
+    if (type == INTERACT_NPC) {
+        if (seconds == 0) {
+            moveX = -1;
+            moveY = 0;
+        } else if (seconds == 1) {
+            moveX = 0;
+            moveY = -1;
+        } else if (seconds == 2) {
+            moveX = 1;
+            moveY = 0;
+        } else if (seconds == 3) {
+            moveX = 0;
+            moveY = 1;
+        }
+
+        frames++;
+        if (frames >= 60) {
+            seconds++;
+            frames = 0;
+        }
+        if (seconds >= 4) {
+            seconds = 0;
+        }
+    }
 }
 
 void Entity::initializeSprite(int ti) {

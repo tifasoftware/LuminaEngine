@@ -40,6 +40,9 @@ protected:
     int moveX;
     int moveY;
 
+    int frames = 0;
+    int seconds = 0;
+
     bool centerSprite;
 
     EntityType type;

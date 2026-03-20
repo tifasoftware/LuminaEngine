@@ -74,7 +74,7 @@ void GamePlay::WorldDraw()
             }
         }
 
-        
+        tm->updateEntities();
 
         if (!tm->isColliding(luminaX + luminaMoveX, luminaY + luminaMoveY)){
             if (!tm->scrollX(luminaMoveX, luminaX + luminaMoveX)) luminaX += luminaMoveX;
