@@ -78,8 +78,12 @@ void TileMap::drawMap()
 
 void TileMap::disposeMap() {
     for (int i = 0; i < MAX_ENTITIES; i++) {
-        if (entities[i] != nullptr) delete entities[i];
+        if (entities[i] != nullptr) {
+            delete entities[i];
+            entities[i] = nullptr;
+        }
     }
+
 }
 
 bool TileMap::loadFromFile(const char* file)
@@ -129,7 +133,7 @@ bool TileMap::loadFromFile(const char* file)
                     index = newIndex;
                 }
 
-                e->assignTexIndex(index);
+                e->initializeSprite(index);
             };
         }
 

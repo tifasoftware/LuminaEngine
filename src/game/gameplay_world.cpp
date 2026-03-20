@@ -115,7 +115,7 @@ void GamePlay::WorldDraw()
 
 void GamePlay::WorldExit()
 {
-    Text text = Text(lastMapName, fontAtlas, 16,16);
+    Text text = Text(mapName, fontAtlas, 16,16);
     inTransition = true;
 
     offsetX = tm->getOffsetX();

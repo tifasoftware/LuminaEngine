@@ -31,7 +31,7 @@ Entity* Entity::spawnEntity(EntityDef def) {
     returnEntity->h = def.height;
     memcpy(returnEntity->properties, def.properties, sizeof(def.properties));
     returnEntity->type = def.type;
-    returnEntity->assignTexIndex(-1);
+    returnEntity->initializeSprite(-1);
 
     return returnEntity;
 }
@@ -42,13 +42,28 @@ bool Entity::isInTrigger(int charX, int charY) {
 }
 
 bool Entity::canBeDrawn(int screenOffsetX, int screenOffsetY) {
-    if (texIndex == -1) return false;
+    if (sprite == nullptr) return false;
     if (x + w >= screenOffsetX && y + h >= screenOffsetY && x < (screenOffsetX + SCREEN_W) && y < (screenOffsetY + SCREEN_H)) return true;
     return false;
 }
 
 void Entity::draw(Renderer *r, int screenOffsetX, int screenOffsetY) {
     if (canBeDrawn(screenOffsetX, screenOffsetY)) {
-        r->drawSprite(texIndex, x - screenOffsetX, y - screenOffsetY);
+        //r->drawSprite(texIndex, x - screenOffsetX, y - screenOffsetY);
+        sprite->draw(x - screenOffsetX, y - screenOffsetY, r);
     }
+}
+
+void Entity::initializeSprite(int ti) {
+    if (sprite != nullptr) delete sprite;
+    if (type == INTERACT_NPC) {
+        sprite = new CharacterSprite(ti);
+    } else {
+        sprite = new Sprite(ti, w, h);
+    }
+}
+
+void Entity::disposeSprite() {
+    if (sprite != nullptr) delete sprite;
+    sprite = nullptr;
 }

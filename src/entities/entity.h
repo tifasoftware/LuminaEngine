@@ -1,20 +1,23 @@
 #pragma once
 #include "formats/lmap.h"
 #include "graphics/Renderer.h"
+#include "graphics/sprites/sprite.h"
+#include "graphics/sprites/charactersprite.h"
 
 static const int MAX_ENTITIES = 64;
 static const int MAX_PROPERTIES = 16;
 
 class Entity {
 public:
-    Entity() : x(0), y(0), w(0), h(0) {};
-    virtual ~Entity() {}
+    Entity() : x(0), y(0), w(0), h(0), sprite(nullptr), type(EntityType::NO_ENTITY) {};
+    virtual ~Entity() { disposeSprite(); }
     int getX() { return x; }
     int getY() { return y; }
 
     virtual EntityType getType() { return type; }
 
-    void assignTexIndex(int ti) { this->texIndex = ti; }
+    void initializeSprite(int ti);
+    void disposeSprite();
 
     const char* getProperty(const char* key);
     int getPropertyIndex(const char* key);
@@ -31,8 +34,8 @@ protected:
     int y;
     int w;
     int h;
-    int texIndex;
 
     EntityType type;
     EntityProperty properties[MAX_PROPERTIES];
+    Sprite* sprite;
 };
