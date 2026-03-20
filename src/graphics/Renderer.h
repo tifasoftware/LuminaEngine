@@ -5,6 +5,8 @@
 #include <graphics/Texture.h>
 
 static const int MAX_TEXTURES = 64;
+static const int FRAME_RATE = 60;
+static const int REDRAW_DELAY = 1000 / FRAME_RATE;
 
 class Renderer
 {

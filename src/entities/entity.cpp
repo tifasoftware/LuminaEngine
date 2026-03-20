@@ -50,9 +50,14 @@ bool Entity::canBeDrawn(int screenOffsetX, int screenOffsetY) {
 void Entity::draw(Renderer *r, int screenOffsetX, int screenOffsetY) {
     if (canBeDrawn(screenOffsetX, screenOffsetY)) {
         //r->drawSprite(texIndex, x - screenOffsetX, y - screenOffsetY);
+
         if (!centerSprite) sprite->draw(x - screenOffsetX, y - screenOffsetY, r);
         if (centerSprite) sprite->draw(getLeftX() - screenOffsetX, getTopY() - screenOffsetY, r);
     }
+}
+
+void Entity::update() {
+    if (sprite != nullptr) sprite->animate(FRAME_RATE, moveX, moveY);
 }
 
 void Entity::initializeSprite(int ti) {

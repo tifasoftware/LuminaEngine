@@ -28,12 +28,18 @@ public:
     bool canBeDrawn(int screenOffsetX, int screenOffsetY);
     void draw(Renderer* r, int screenOffsetX, int screenOffsetY);
 
+    void update();
+
     static Entity* spawnEntity(EntityDef def);
 protected:
     int x;
     int y;
     int w;
     int h;
+
+    int moveX;
+    int moveY;
+
     bool centerSprite;
 
     EntityType type;

@@ -31,8 +31,6 @@ class GamePlay
     void GameLoop();
 
     private:
-    const int FRAME_RATE = 60;
-    const int REDRAW_DELAY = 1000 / FRAME_RATE;
 
     Character* lumina;
     TileMap* tm;
