@@ -116,7 +116,7 @@ bool TileMap::loadFromFile(const char* file)
 
     TextureOptimization to = TextureOptimization();
 
-    for (int i = 0; i < 64; i++) {
+    for (int i = 0; i < MAX_ENTITIES; i++) {
         EntityDef def = lmap.entities[i];
 
         Entity* e = Entity::spawnEntity(def);

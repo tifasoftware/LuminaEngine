@@ -2,6 +2,8 @@
 
 #include <lumina.h>
 
+#include "vgui/dialogue.h"
+
 class GamePlay
 {
     public:
@@ -38,6 +40,7 @@ class GamePlay
     SoundSystem* snd;
     Fade* f;
     Panel* panel;
+    Dialogue* dialogue;
 
     SDL_Window* window;
     SDL_Event event;
@@ -66,4 +69,6 @@ class GamePlay
     char mapName[64] = "scrolltest.lmap";
     char lastMapName[64] = "start";
     char music[64] = "bgm0.ogg";
+
+    bool introShown = false;
 };

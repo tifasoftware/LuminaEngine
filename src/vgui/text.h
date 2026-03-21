@@ -11,6 +11,7 @@ class Text
     Text();
     void SetFGColor(int r, int g, int b);
     void SetText(const char* t);
+    void SetFont(int fti) { fontTexIndex = fti; }
     void Render(Renderer* r);
     void Move(int x, int y);
 

@@ -6,6 +6,8 @@
 void GamePlay::WorldStart() {
     tm = new TileMap(mapName, r);
     fontAtlas = r->loadTexture("fontatlas.png");
+    //dialogue = new Dialogue(r);
+    //dialogue->SetFont(fontAtlas);
     //text = new Text("The Quick Brown Fox Jumps Over The Lazy Dog", fontAtlas, 16, 16);
 
     tm->loadMap();
@@ -25,6 +27,8 @@ void GamePlay::WorldStart() {
     tm->preShift(offsetX, offsetY);
     f->FadeIn(0.5f);
     inTransition = false;
+    //if (!introShown) dialogue->DisplayDialogue("Welcome to Lumina Engine");
+    //introShown = true;
 }
 
 void GamePlay::WorldDraw()
@@ -55,6 +59,8 @@ void GamePlay::WorldDraw()
                     }
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
                         luminaMoveX = luminaMoveRate;
+                    } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
+                        //if (dialogue->isEngaged()) dialogue->advance();
                     }
                     break;
                 case SDL_CONTROLLERBUTTONUP:
@@ -97,6 +103,7 @@ void GamePlay::WorldDraw()
 
         // Draw the 'grass' sprite
         tm->drawMap();
+
         //text->Render(r);
 
         //if (error) r->drawTile(0,0,0,0);
@@ -108,7 +115,9 @@ void GamePlay::WorldDraw()
             f->Render(1.0f / FRAME_RATE);
         }
         // Draw everything on a white background
-        
+
+        //if (dialogue->isEngaged()) dialogue->draw();
+
         r->present();
         if (wantNewState) SwitchState();
 }
@@ -149,6 +158,7 @@ void GamePlay::WorldExit()
     r->unloadAllTextures();
 
     //delete text;
+    delete dialogue;
 }
 
 void GamePlay::RequestMapChange(const char *newMapName) {
