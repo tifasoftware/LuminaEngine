@@ -10,11 +10,12 @@ class Text
     ~Text();
     Text();
     void SetFGColor(int r, int g, int b);
+    void SetText(const char* t);
     void Render(Renderer* r);
     void Move(int x, int y);
 
     private:
-    const char* text;
+    char text[128];
     int fontTexIndex = -1;
     int fg_r = 200;
     int fg_g = 200;
