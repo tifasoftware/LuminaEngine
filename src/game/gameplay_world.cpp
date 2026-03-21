@@ -8,7 +8,6 @@ void GamePlay::WorldStart() {
     fontAtlas = r->loadTexture("fontatlas.png");
     //dialogue = new Dialogue(r);
     //dialogue->SetFont(fontAtlas);
-    //text = new Text("The Quick Brown Fox Jumps Over The Lazy Dog", fontAtlas, 16, 16);
 
     tm->loadMap();
     tm->findSpawn(lastMapName);
@@ -124,7 +123,10 @@ void GamePlay::WorldDraw()
 
 void GamePlay::WorldExit()
 {
-    Text text = Text(mapName, fontAtlas, 16,16);
+    char countText[32];
+    snprintf(countText, sizeof(countText), "%d", tm->getActiveEntities());
+    Text t = Text(countText, fontAtlas);
+    //Text text = Text(mapName, fontAtlas, 16,16);
     inTransition = true;
 
     offsetX = tm->getOffsetX();
@@ -139,7 +141,7 @@ void GamePlay::WorldExit()
         // Draw the 'grass' sprite
         tm->drawMap();
 
-        text.Render(r);
+        t.Render(r);
 
         lumina->drawCharacter(luminaX, luminaY, 0, 0, r);
 
@@ -154,6 +156,7 @@ void GamePlay::WorldExit()
 
     tm->disposeMap();
     delete tm;
+    tm = nullptr;
     
     r->unloadAllTextures();
 

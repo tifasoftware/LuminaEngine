@@ -9,7 +9,7 @@ LMAPLoader::LMAPLoader(const char* file)
 
 LMAPHeader LMAPLoader::load()
 {
-    LMAPHeader lmap;
+    LMAPHeader lmap = {};
     FILE* in = fopen(file, "rb");
     fread(&lmap, sizeof(LMAPHeader), 1, in);
     fclose(in);

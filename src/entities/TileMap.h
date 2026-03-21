@@ -35,6 +35,7 @@ class TileMap{
     //void shiftMap(int x, int y);
     bool isColliding(int x, int y);
     void updateEntities();
+    int getActiveEntities() { return activeEntites; }
 
     bool scrollX(int x, int cX);
     bool scrollY(int y, int cY);
@@ -76,6 +77,7 @@ class TileMap{
     char bgm[64];
     char sky[64];
 
+    int activeEntites = 0;
 
     int skyIndex;
     int skyTileSize;

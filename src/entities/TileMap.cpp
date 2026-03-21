@@ -12,6 +12,11 @@ TileMap::TileMap(const char* f, Renderer* r)
     renderer = r;
 
     file = f;
+
+    memset(tiles, 0, sizeof(tiles));
+    memset(collision, 0, sizeof(collision));
+    memset(spawns, 0, sizeof(spawns));
+    memset(entities, 0, sizeof(entities));
 }
 
 Entity* TileMap::getCollidingTrigger(int charX, int charY) {
@@ -122,7 +127,7 @@ bool TileMap::loadFromFile(const char* file)
         Entity* e = Entity::spawnEntity(def);
 
         if (e != nullptr) {
-
+            activeEntites++;
             if (e->hasProperty("texture")) {
                 auto filename = e->getProperty("texture");
                 int index = to.getIndex(filename);
