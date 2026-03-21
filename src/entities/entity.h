@@ -29,6 +29,11 @@ public:
     void draw(Renderer* r, int screenOffsetX, int screenOffsetY);
 
     void update();
+    void interact();
+
+    //Test Methods
+    void npcMoveTest();
+    void npcTalkTest();
 
     static Entity* spawnEntity(EntityDef def);
 protected:
