@@ -125,7 +125,7 @@ void GamePlay::WorldExit()
 {
     char countText[32];
     snprintf(countText, sizeof(countText), "%d", tm->getActiveEntities());
-    Text t = Text(countText, fontAtlas);
+    //Text t = Text(countText, fontAtlas);
     //Text text = Text(mapName, fontAtlas, 16,16);
     inTransition = true;
 
@@ -141,7 +141,7 @@ void GamePlay::WorldExit()
         // Draw the 'grass' sprite
         tm->drawMap();
 
-        t.Render(r);
+        //t.Render(r);
 
         lumina->drawCharacter(luminaX, luminaY, 0, 0, r);
 
