@@ -39,6 +39,7 @@ void Dialogue::advance() {
         completed = true;
     } else {
         engaged = false;
+        isActive = false;
     }
 }
 

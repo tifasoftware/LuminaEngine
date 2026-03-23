@@ -57,4 +57,8 @@ class IControllable {
 
     //Window Close or maybe PSP OS Quit
     virtual void OnQuit() {};
+
+    bool getActive() { return isActive; }
+protected:
+    bool isActive = true;
 };

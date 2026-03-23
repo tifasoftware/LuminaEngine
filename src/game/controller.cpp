@@ -6,7 +6,11 @@ Controller::Controller() {
 }
 
 void Controller::Possess(IControllable *p) {
-    if (p != nullptr) pawn = p;
+    pawn = p;
+}
+
+void Controller::QueuePawn(IControllable *p) {
+    queued_pawn = p;
 }
 
 void Controller::Release() {
@@ -14,12 +18,18 @@ void Controller::Release() {
 }
 
 void Controller::SendInput() {
-    if (pawn != nullptr) {
+    if (pawn != nullptr && pawn->getActive()) {
         #ifdef PLATFORM_PSP
         PSP_ProcessInput();
         #endif
         #ifdef PLATFORM_PC
         PC_ProcessInput();
         #endif
+    } else {
+        if (queued_pawn != nullptr) {
+            pawn = queued_pawn;
+            queued_pawn = nullptr;
+            SendInput();
+        }
     }
 }

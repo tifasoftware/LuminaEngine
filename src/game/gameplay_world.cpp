@@ -4,117 +4,50 @@
 #include "entities/entity.h"
 
 void GamePlay::WorldStart() {
-    tm = new TileMap(mapName, &character_state, r);
+    tm = new TileMap(mapName, &gps, lumina, r);
     fontAtlas = r->loadTexture("fontatlas.png");
     dialogue = new Dialogue(r);
     dialogue->SetFont(fontAtlas);
 
     tm->loadMap();
     tm->findSpawn(lastMapName);
+    controller->Possess(tm);
     ChangeMusic(tm->getBGMFile());
     lumina->loadCharacterSprite(r);
 
     if (newMap) {
         SpawnDef sp = tm->getSpawn();
 
-        character_state.characterX = SCREEN_W / 2;
-        character_state.characterY = SCREEN_H / 2;
-        character_state.screenX = sp.location.x - (SCREEN_W / 2);
-        character_state.screenY = sp.location.y - (SCREEN_H / 2);
+        gps.characterX = SCREEN_W / 2;
+        gps.characterY = SCREEN_H / 2;
+        gps.screenX = sp.location.x - (SCREEN_W / 2);
+        gps.screenY = sp.location.y - (SCREEN_H / 2);
         newMap = false;
     }
-    tm->preShift(character_state.screenX, character_state.screenY);
+    tm->preShift(gps.screenX, gps.screenY);
     f->FadeIn(0.5f);
 
     inTransition = false;
     if (!introShown) dialogue->DisplayDialogue("Welcome to Lumina Engine");
+    controller->Possess(dialogue);
+    controller->QueuePawn(tm);
     introShown = true;
 }
 
 void GamePlay::WorldDraw()
 {
-    if (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT:
-                    // End the loop if the programs is being closed
-                    RequestSwitchState(EXIT);
-                    break;
-                case SDL_CONTROLLERDEVICEADDED:
-                    // Connect a controller when it is connected
-                    SDL_GameControllerOpen(event.cdevice.which);
-                    break;
-                case SDL_CONTROLLERBUTTONDOWN:
-                    if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
-                        // Open Main Menu if start is pressed
-                        RequestSwitchState(MENU);
-                    } 
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
-                        luminaMoveY = -1 * luminaMoveRate;
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
-                        luminaMoveY = luminaMoveRate;
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
-                        luminaMoveX = -1 * luminaMoveRate;
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
-                        luminaMoveX = luminaMoveRate;
-                    } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
-                        if (dialogue->isEngaged()) dialogue->advance();
-                    }
-                    break;
-                case SDL_CONTROLLERBUTTONUP:
-                    if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
-                        luminaMoveY = 0;
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
-                        luminaMoveY = 0;
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
-                        luminaMoveX = 0;
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
-                        luminaMoveX = 0;
-                    }
-                    break;
-            }
-        }
+        controller->SendInput();
 
-        tm->updateEntities();
-
-        if (!tm->isColliding(character_state.characterX + luminaMoveX, character_state.characterY + luminaMoveY)){
-            if (!tm->scrollX(luminaMoveX, character_state.characterX + luminaMoveX)) character_state.characterX += luminaMoveX;
-            if (!tm->scrollY(luminaMoveY, character_state.characterY + luminaMoveY)) character_state.characterY += luminaMoveY;
-        }
-
-        //bool error = false;
-
-        if (luminaMoveX != 0 || luminaMoveY != 0) {
-            Entity* colTrig = tm->getCollidingTrigger(character_state.characterX, character_state.characterY);
-            if (colTrig != nullptr) {
-                if (colTrig->getType() == TRIGGER_WARP) {
-                    if (colTrig->hasProperty("map")) RequestMapChange(colTrig->getProperty("map"));
-                }
-            }
-        }
+        tm->updateMap();
 
         // Clear the screen
         r->clear();
 
-        // Draw the 'grass' sprite
         tm->drawMap();
-
-        //text->Render(r);
-
-        //if (error) r->drawTile(0,0,0,0);
-
-        lumina->animate(FRAME_RATE, luminaMoveX, luminaMoveY);
-        lumina->drawCharacter(character_state.characterX, character_state.characterY, luminaMoveX, luminaMoveY, r);
 
         if (f->isFading()){
             f->Render(1.0f / FRAME_RATE);
         }
-        // Draw everything on a white background
 
         if (dialogue->isEngaged()) dialogue->draw();
 
@@ -130,8 +63,8 @@ void GamePlay::WorldExit()
     //Text text = Text(mapName, fontAtlas, 16,16);
     inTransition = true;
 
-    character_state.screenX = tm->getOffsetX();
-    character_state.screenY = tm->getOffsetY();
+    gps.screenX = tm->getOffsetX();
+    gps.screenY = tm->getOffsetY();
 
     f->FadeOut(0.5f);
 
@@ -144,7 +77,7 @@ void GamePlay::WorldExit()
 
         //t.Render(r);
 
-        lumina->drawCharacter(character_state.characterX, character_state.characterY, 0, 0, r);
+        lumina->drawCharacter(gps.characterX, gps.characterY, 0, 0, r);
 
         if (f->isFading()){
             f->Render(1.0f / FRAME_RATE);
@@ -155,6 +88,7 @@ void GamePlay::WorldExit()
         SDL_Delay(REDRAW_DELAY);
     }
 
+    controller->Release();
     tm->disposeMap();
     delete tm;
     tm = nullptr;

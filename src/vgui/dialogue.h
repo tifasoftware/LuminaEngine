@@ -1,8 +1,9 @@
 #pragma once
 #include "text.h"
 #include "panel.h"
+#include "game/IControllable.h"
 
-class Dialogue {
+class Dialogue : public IControllable {
     public:
     Dialogue(Renderer* r);
     ~Dialogue();
@@ -12,6 +13,10 @@ class Dialogue {
     bool isComplete() {return completed;}
     bool isEngaged() {return engaged;}
     void draw();
+
+    //IControllable
+    void OnButtonA() override { advance(); }
+    void OnButtonStart() override { completed=true; advance(); }
 
     private:
     Renderer* renderer;

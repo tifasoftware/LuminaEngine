@@ -2,7 +2,7 @@
 
 #include <lumina.h>
 
-#include "characterstate.h"
+#include "gameplay_state.h"
 #include "controller.h"
 #include "vgui/dialogue.h"
 
@@ -36,7 +36,7 @@ class GamePlay
 
     private:
     Controller* controller;
-    CharacterState character_state;
+    GamePlayState gps;
     Character* lumina;
     TileMap* tm;
     Renderer* r;

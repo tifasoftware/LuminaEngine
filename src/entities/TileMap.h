@@ -9,7 +9,7 @@
 
 #include "character.h"
 #include "entity.h"
-#include "game/characterstate.h"
+#include "game/gameplay_state.h"
 #include "game/IControllable.h"
 
 //PSP Resolution Width - 480
@@ -32,12 +32,12 @@ static const int MAX_SPAWNS = 16;
 
 class TileMap : public IControllable {
     public:
-    TileMap(const char* f, CharacterState* cs, Renderer* r);
+    TileMap(const char* f, GamePlayState* cs, Character* mc, Renderer* r);
     void drawMap();
     void disposeMap();
     //void shiftMap(int x, int y);
     bool isColliding(int x, int y);
-    void updateEntities();
+    void updateMap();
     int getActiveEntities() { return activeEntites; }
 
     bool scrollX(int x, int cX);
@@ -63,8 +63,19 @@ class TileMap : public IControllable {
     const char* getBGMFile() { return bgm; }
     const char* getSkyboxFile() { return sky; }
 
+    //IControllable Overrides
+    void OnMoveUp() override;
+    void OnMoveDown() override;
+    void OnMoveLeft() override;
+    void OnMoveRight() override;
+    void OnStopMoveUp() override;
+    void OnStopMoveDown() override;
+    void OnStopMoveLeft() override;
+    void OnStopMoveRight() override;
+
     private:
     bool loadFromFile(const char* file);
+
     //void parse_textures(FILE* file);
     //void parse_layout(FILE* file);
     //void parse_collision(FILE* file);
@@ -73,13 +84,18 @@ class TileMap : public IControllable {
     int tiles[64][64] = {};
     CollisionType collision[64][64] = {};
     Entity* entities[64] = {};
-    CharacterState* characterState;
+    GamePlayState* gps;
+    Character* character;
     int offsetX = 0;
     int offsetY = 0;
     SpawnDef spawns[16] = {};
     int selectedSpawn = 0;
     char bgm[64] = "";
     char sky[64] = "";
+
+    int luminaMoveX = 0;
+    int luminaMoveY = 0;
+    const int luminaMoveRate = 2;
 
     int activeEntites = 0;
 

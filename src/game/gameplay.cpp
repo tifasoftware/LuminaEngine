@@ -52,7 +52,7 @@ GamePlay::GamePlay()
     r->present();
 
     lumina = new Character();
-    character_state = CharacterState();
+    gps = GamePlayState();
     controller = new Controller();
 
     SDL_Delay(1000);

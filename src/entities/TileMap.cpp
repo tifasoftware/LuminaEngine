@@ -9,13 +9,14 @@
 #include "entity.h"
 #include "graphics/TextureOptimization.h"
 
-TileMap::TileMap(const char* f, CharacterState* cs, Renderer* r)
+TileMap::TileMap(const char* f, GamePlayState* cs, Character* mc, Renderer* r)
 {
     renderer = r;
 
     file = f;
 
-    characterState = cs;
+    gps = cs;
+    character = mc;
 
     memset(tiles, 0, sizeof(tiles));
     memset(collision, 0, sizeof(collision));
@@ -83,6 +84,10 @@ void TileMap::drawMap()
             //renderer->drawTile(0,0,toScreenX(e->getX()), toScreenY(e->getY())); //Remove when working
         }
     }
+
+    character->animate(FRAME_RATE, luminaMoveX, luminaMoveY);
+    character->drawCharacter(gps->characterX, gps->characterY, luminaMoveX, luminaMoveY, renderer);
+
 }
 
 void TileMap::disposeMap() {
@@ -204,9 +209,24 @@ bool TileMap::isColliding(int x, int y)
     return false;
 }
 
-void TileMap::updateEntities() {
+void TileMap::updateMap() {
     for (int i = 0; i < MAX_ENTITIES; i++) {
         if (entities[i] != nullptr) entities[i]->update();
+    }
+
+    if (!isColliding(gps->characterX + luminaMoveX, gps->characterY + luminaMoveY)){
+        //characterState->moveCharacter(luminaMoveX, luminaMoveY);
+        if (!scrollX(luminaMoveX, gps->characterX + luminaMoveX)) gps->characterX += luminaMoveX;
+        if (!scrollY(luminaMoveY, gps->characterY + luminaMoveY)) gps->characterY += luminaMoveY;
+    }
+
+    if (luminaMoveX != 0 || luminaMoveY != 0) {
+        Entity* colTrig = getCollidingTrigger(gps->characterX, gps->characterY);
+        if (colTrig != nullptr) {
+            if (colTrig->getType() == TRIGGER_WARP) {
+                //if (colTrig->hasProperty("map")) RequestMapChange(colTrig->getProperty("map"));
+            }
+        }
     }
 }
 
@@ -251,4 +271,30 @@ void TileMap::preShift(int x, int y)
 {
     offsetX = x;
     offsetY = y;
+}
+
+void TileMap::OnMoveUp() {
+    luminaMoveY = -1 * luminaMoveRate;
+}
+void TileMap::OnMoveDown() {
+    luminaMoveY = luminaMoveRate;
+}
+void TileMap::OnMoveLeft() {
+    luminaMoveX = -1 * luminaMoveRate;
+}
+void TileMap::OnMoveRight() {
+    luminaMoveX = luminaMoveRate;
+}
+
+void TileMap::OnStopMoveUp() {
+    luminaMoveY = 0;
+}
+void TileMap::OnStopMoveDown() {
+    luminaMoveY = 0;
+}
+void TileMap::OnStopMoveLeft() {
+    luminaMoveX = 0;
+}
+void TileMap::OnStopMoveRight() {
+    luminaMoveX = 0;
 }
