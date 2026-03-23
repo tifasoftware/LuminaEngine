@@ -6,7 +6,7 @@
 void GamePlay::WorldStart() {
     tm = new TileMap(gps.mapName, &gps, lumina, r);
     fontAtlas = r->loadTexture("fontatlas.png");
-    dialogue = new Dialogue(r);
+    dialogue = new Dialogue(r, tm);
     dialogue->SetFont(fontAtlas);
 
     tm->loadMap();
@@ -87,7 +87,7 @@ void GamePlay::WorldExit()
         // Draw everything on a white background
         
         r->present();
-        SDL_Delay(REDRAW_DELAY);
+        LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
     controller->Release();

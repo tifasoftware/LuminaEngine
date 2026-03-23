@@ -1,5 +1,7 @@
 #include <game/gameplay.h>
 
+#include <common/utils.h>
+
 GamePlay::GamePlay()
 {
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER);
@@ -31,10 +33,10 @@ GamePlay::GamePlay()
         r->drawSprite(0, 0, 0);
         f->Render(1.0f / FRAME_RATE);
         r->present();
-        SDL_Delay(REDRAW_DELAY);
+        LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
-    SDL_Delay(3000);
+    LuminaUtils::LuminaDelay(3000);
 
     f->FadeOut(1.0f);
 
@@ -43,7 +45,7 @@ GamePlay::GamePlay()
         r->drawSprite(0, 0, 0);
         f->Render(1.0f / FRAME_RATE);
         r->present();
-        SDL_Delay(REDRAW_DELAY);
+        LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
     r->unloadAllTextures();
@@ -55,7 +57,7 @@ GamePlay::GamePlay()
     gps = GamePlayState();
     controller = new Controller();
 
-    SDL_Delay(1000);
+    LuminaUtils::LuminaDelay(1000);
 
     strncpy(gps.lastMapName, "start", sizeof(gps.lastMapName) - 1);
     gps.newMap = true;
@@ -91,7 +93,7 @@ void GamePlay::GameLoop()
                 break;
             }      
     }
-    SDL_Delay(REDRAW_DELAY);
+    LuminaUtils::LuminaDelay(REDRAW_DELAY);
 }
 
 bool GamePlay::gameRunning()
@@ -124,7 +126,7 @@ void GamePlay::SwitchState()
 
     r->clear();
     r->present();
-    SDL_Delay(200);
+    LuminaUtils::LuminaDelay(200);
 
     switch (gps.newGameState)
     {

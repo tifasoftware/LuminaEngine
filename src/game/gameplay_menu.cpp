@@ -1,5 +1,7 @@
 #include <game/gameplay.h>
 
+#include "common/utils.h"
+
 void GamePlay::MenuStart()
 {
     clink = snd->loadSFX("hover.wav");
@@ -122,7 +124,7 @@ void GamePlay::MenuExit()
         }
 
         r->present();
-        SDL_Delay(REDRAW_DELAY);
+        LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
     snd->unloadAllSFX();

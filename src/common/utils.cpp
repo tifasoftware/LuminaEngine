@@ -1,7 +1,11 @@
 #include "utils.h"
 
 #include <string>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_timer.h>
+#include <platform/platform.h>
 
+#include "graphics/Renderer.h"
 
 Orientation LuminaUtils::FlipOrientation(Orientation orientation) {
     if (orientation == FACE_UP) return FACE_DOWN;
@@ -27,4 +31,21 @@ const char* LuminaUtils::appendExtension(const char *filename, const char *exten
     const char* result = buffer;
 
     return result;
+}
+
+void LuminaUtils::LuminaDelay(int ms) {
+#ifdef PLATFORM_PSP
+    SDL_Delay(ms);
+#endif
+#ifdef PLATFORM_PC
+    int delay = 1000 / FRAME_RATE;
+    int cycles = ms / delay;
+    for (int i = 0; i < cycles; i++) {
+        SDL_Event event;
+        if (SDL_PollEvent(&event)) {
+            if (event.type == SDL_QUIT) exit(0);
+        }
+        SDL_Delay(delay);
+    }
+#endif
 }

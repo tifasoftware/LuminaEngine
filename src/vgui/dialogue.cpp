@@ -2,8 +2,9 @@
 
 #include "entities/TileMap.h"
 
-Dialogue::Dialogue(Renderer* r) {
+Dialogue::Dialogue(Renderer* r, IControllable* p) {
     renderer = r;
+    parent = p;
     text = new Text();
     panel = new Panel(renderer, 3, SCREEN_H - 103, SCREEN_W - 6, 100);
     text->Move(panel->getX() + 2, panel->getY() + 2);

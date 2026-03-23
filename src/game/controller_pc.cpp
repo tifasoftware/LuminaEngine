@@ -12,37 +12,37 @@ void Controller::PC_ProcessInput() {
                 // Connect a controller when it is connected
                 SDL_GameControllerOpen(event.cdevice.which);
                 break;
-            case SDL_CONTROLLERBUTTONDOWN:
-                if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
+            case SDL_KEYDOWN:
+                if(event.key.keysym.sym == SDLK_ESCAPE) {
                     pawn->OnButtonStart();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_BACK) {
+                } else if (event.key.keysym.sym == SDLK_SPACE) {
                     pawn->OnButtonSelect();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+                } else if (event.key.keysym.sym == SDLK_w) {
                     pawn->OnMoveUp();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+                } else if (event.key.keysym.sym == SDLK_s) {
                     pawn->OnMoveDown();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+                } else if (event.key.keysym.sym == SDLK_a) {
                     pawn->OnMoveLeft();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+                } else if (event.key.keysym.sym == SDLK_d) {
                     pawn->OnMoveRight();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
+                } else if (event.key.keysym.sym == SDLK_RETURN) {
                     pawn->OnButtonA();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_B) {
+                } else if (event.key.keysym.sym == SDLK_BACKSPACE) {
                     pawn->OnButtonB();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_X) {
+                } else if (event.key.keysym.sym == SDLK_e) {
                     pawn->OnButtonX();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_Y) {
+                } else if (event.key.keysym.sym == SDLK_TAB) {
                     pawn->OnButtonY();
                 }
                 break;
-            case SDL_CONTROLLERBUTTONUP:
-                if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+            case SDL_KEYUP:
+                if (event.key.keysym.sym == SDLK_w) {
                     pawn->OnStopMoveUp();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+                } else if (event.key.keysym.sym == SDLK_s) {
                     pawn->OnStopMoveDown();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+                } else if (event.key.keysym.sym == SDLK_a) {
                     pawn->OnStopMoveLeft();
-                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+                } else if (event.key.keysym.sym == SDLK_d) {
                     pawn->OnStopMoveRight();
                 }
                 break;

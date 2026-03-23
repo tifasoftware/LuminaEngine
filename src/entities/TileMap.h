@@ -73,6 +73,7 @@ class TileMap : public IControllable {
     void OnStopMoveLeft() override;
     void OnStopMoveRight() override;
     void OnButtonStart() override;
+    void OnQuit() override { gps->RequestSwitchState(EXIT); }
 
     private:
     bool loadFromFile(const char* file);
