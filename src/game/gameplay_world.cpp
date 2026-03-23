@@ -4,10 +4,10 @@
 #include "entities/entity.h"
 
 void GamePlay::WorldStart() {
-    tm = new TileMap(mapName, r);
+    tm = new TileMap(mapName, &character_state, r);
     fontAtlas = r->loadTexture("fontatlas.png");
-    //dialogue = new Dialogue(r);
-    //dialogue->SetFont(fontAtlas);
+    dialogue = new Dialogue(r);
+    dialogue->SetFont(fontAtlas);
 
     tm->loadMap();
     tm->findSpawn(lastMapName);
@@ -17,17 +17,18 @@ void GamePlay::WorldStart() {
     if (newMap) {
         SpawnDef sp = tm->getSpawn();
 
-        luminaX = SCREEN_W / 2;
-        luminaY = SCREEN_H / 2;
-        offsetX = sp.location.x - (SCREEN_W / 2);
-        offsetY = sp.location.y - (SCREEN_H / 2);
+        character_state.characterX = SCREEN_W / 2;
+        character_state.characterY = SCREEN_H / 2;
+        character_state.screenX = sp.location.x - (SCREEN_W / 2);
+        character_state.screenY = sp.location.y - (SCREEN_H / 2);
         newMap = false;
     }
-    tm->preShift(offsetX, offsetY);
+    tm->preShift(character_state.screenX, character_state.screenY);
     f->FadeIn(0.5f);
+
     inTransition = false;
-    //if (!introShown) dialogue->DisplayDialogue("Welcome to Lumina Engine");
-    //introShown = true;
+    if (!introShown) dialogue->DisplayDialogue("Welcome to Lumina Engine");
+    introShown = true;
 }
 
 void GamePlay::WorldDraw()
@@ -59,7 +60,7 @@ void GamePlay::WorldDraw()
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
                         luminaMoveX = luminaMoveRate;
                     } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
-                        //if (dialogue->isEngaged()) dialogue->advance();
+                        if (dialogue->isEngaged()) dialogue->advance();
                     }
                     break;
                 case SDL_CONTROLLERBUTTONUP:
@@ -81,15 +82,15 @@ void GamePlay::WorldDraw()
 
         tm->updateEntities();
 
-        if (!tm->isColliding(luminaX + luminaMoveX, luminaY + luminaMoveY)){
-            if (!tm->scrollX(luminaMoveX, luminaX + luminaMoveX)) luminaX += luminaMoveX;
-            if (!tm->scrollY(luminaMoveY, luminaY + luminaMoveY)) luminaY += luminaMoveY;
+        if (!tm->isColliding(character_state.characterX + luminaMoveX, character_state.characterY + luminaMoveY)){
+            if (!tm->scrollX(luminaMoveX, character_state.characterX + luminaMoveX)) character_state.characterX += luminaMoveX;
+            if (!tm->scrollY(luminaMoveY, character_state.characterY + luminaMoveY)) character_state.characterY += luminaMoveY;
         }
 
         //bool error = false;
 
         if (luminaMoveX != 0 || luminaMoveY != 0) {
-            Entity* colTrig = tm->getCollidingTrigger(luminaX, luminaY);
+            Entity* colTrig = tm->getCollidingTrigger(character_state.characterX, character_state.characterY);
             if (colTrig != nullptr) {
                 if (colTrig->getType() == TRIGGER_WARP) {
                     if (colTrig->hasProperty("map")) RequestMapChange(colTrig->getProperty("map"));
@@ -108,14 +109,14 @@ void GamePlay::WorldDraw()
         //if (error) r->drawTile(0,0,0,0);
 
         lumina->animate(FRAME_RATE, luminaMoveX, luminaMoveY);
-        lumina->drawCharacter(luminaX, luminaY, luminaMoveX, luminaMoveY, r);
+        lumina->drawCharacter(character_state.characterX, character_state.characterY, luminaMoveX, luminaMoveY, r);
 
         if (f->isFading()){
             f->Render(1.0f / FRAME_RATE);
         }
         // Draw everything on a white background
 
-        //if (dialogue->isEngaged()) dialogue->draw();
+        if (dialogue->isEngaged()) dialogue->draw();
 
         r->present();
         if (wantNewState) SwitchState();
@@ -129,8 +130,8 @@ void GamePlay::WorldExit()
     //Text text = Text(mapName, fontAtlas, 16,16);
     inTransition = true;
 
-    offsetX = tm->getOffsetX();
-    offsetY = tm->getOffsetY();
+    character_state.screenX = tm->getOffsetX();
+    character_state.screenY = tm->getOffsetY();
 
     f->FadeOut(0.5f);
 
@@ -143,7 +144,7 @@ void GamePlay::WorldExit()
 
         //t.Render(r);
 
-        lumina->drawCharacter(luminaX, luminaY, 0, 0, r);
+        lumina->drawCharacter(character_state.characterX, character_state.characterY, 0, 0, r);
 
         if (f->isFading()){
             f->Render(1.0f / FRAME_RATE);

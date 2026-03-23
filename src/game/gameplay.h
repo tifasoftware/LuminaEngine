@@ -2,6 +2,8 @@
 
 #include <lumina.h>
 
+#include "characterstate.h"
+#include "controller.h"
 #include "vgui/dialogue.h"
 
 class GamePlay
@@ -33,7 +35,8 @@ class GamePlay
     void GameLoop();
 
     private:
-
+    Controller* controller;
+    CharacterState character_state;
     Character* lumina;
     TileMap* tm;
     Renderer* r;
