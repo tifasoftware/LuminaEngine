@@ -1,7 +1,9 @@
 #include <SDL.h>
 #include <SDL_image.h>
+#ifdef PLATFORM_PSP
 #include <pspkernel.h>
 #include <pspdisplay.h>
+#endif
 #include "lumina.h"
 
 
