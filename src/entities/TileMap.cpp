@@ -1,17 +1,21 @@
 #include <SDL.h>
 #include <SDL_image.h>
-#include <pspkernel.h>
-#include <pspdisplay.h>
+#ifdef PLATFORM_PSP
+    #include <pspkernel.h>
+    #include <pspdisplay.h>
+#endif
 #include <entities/TileMap.h>
 #include <formats/lmap.h>
 #include "entity.h"
 #include "graphics/TextureOptimization.h"
 
-TileMap::TileMap(const char* f, Renderer* r)
+TileMap::TileMap(const char* f, CharacterState* cs, Renderer* r)
 {
     renderer = r;
 
     file = f;
+
+    characterState = cs;
 
     memset(tiles, 0, sizeof(tiles));
     memset(collision, 0, sizeof(collision));

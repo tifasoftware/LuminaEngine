@@ -7,7 +7,10 @@
 #include <graphics/Renderer.h>
 #include <formats/lmap.h>
 
+#include "character.h"
 #include "entity.h"
+#include "game/characterstate.h"
+#include "game/IControllable.h"
 
 //PSP Resolution Width - 480
 //PSP Resolution Height - 272
@@ -27,9 +30,9 @@ static const int TILE_H = (SCREEN_H / TILE_SIZE) + 2;
 static const int MAX_SPAWNS = 16;
 
 
-class TileMap{
+class TileMap : public IControllable {
     public:
-    TileMap(const char* f, Renderer* r);
+    TileMap(const char* f, CharacterState* cs, Renderer* r);
     void drawMap();
     void disposeMap();
     //void shiftMap(int x, int y);
@@ -67,20 +70,21 @@ class TileMap{
     //void parse_collision(FILE* file);
     const char* file;
     Renderer* renderer;
-    int tiles[64][64];
-    CollisionType collision[64][64];
-    Entity* entities[64];
+    int tiles[64][64] = {};
+    CollisionType collision[64][64] = {};
+    Entity* entities[64] = {};
+    CharacterState* characterState;
     int offsetX = 0;
     int offsetY = 0;
-    SpawnDef spawns[16];
+    SpawnDef spawns[16] = {};
     int selectedSpawn = 0;
-    char bgm[64];
-    char sky[64];
+    char bgm[64] = "";
+    char sky[64] = "";
 
     int activeEntites = 0;
 
-    int skyIndex;
-    int skyTileSize;
+    int skyIndex = -1;
+    int skyTileSize = -1;
 
     int textureAddress = -1;
 
