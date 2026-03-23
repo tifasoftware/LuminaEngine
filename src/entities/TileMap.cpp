@@ -224,7 +224,7 @@ void TileMap::updateMap() {
         Entity* colTrig = getCollidingTrigger(gps->characterX, gps->characterY);
         if (colTrig != nullptr) {
             if (colTrig->getType() == TRIGGER_WARP) {
-                //if (colTrig->hasProperty("map")) RequestMapChange(colTrig->getProperty("map"));
+                if (colTrig->hasProperty("map")) gps->RequestMapChange(colTrig->getProperty("map"));
             }
         }
     }
@@ -297,4 +297,7 @@ void TileMap::OnStopMoveLeft() {
 }
 void TileMap::OnStopMoveRight() {
     luminaMoveX = 0;
+}
+void TileMap::OnButtonStart() {
+    gps->RequestSwitchState(MENU);
 }

@@ -57,8 +57,8 @@ GamePlay::GamePlay()
 
     SDL_Delay(1000);
 
-    strncpy(lastMapName, "start", sizeof(lastMapName) - 1);
-    newMap = true;
+    strncpy(gps.lastMapName, "start", sizeof(gps.lastMapName) - 1);
+    gps.newMap = true;
     WorldStart();
 }
 
@@ -72,9 +72,9 @@ void GamePlay::Exit()
 
 void GamePlay::GameLoop()
 {
-    if (!inTransition)
+    if (!gps.inTransition)
     {
-        switch (gameState)
+        switch (gps.gameState)
             {
                 case WORLD:
                 WorldDraw();
@@ -96,19 +96,14 @@ void GamePlay::GameLoop()
 
 bool GamePlay::gameRunning()
 {
-    if (gameState == EXIT) return false;
+    if (gps.gameState == EXIT) return false;
     return true;
-}
-void GamePlay::RequestSwitchState(GameState newState)
-{
-    newGameState = newState;
-    wantNewState = true;
 }
 
 void GamePlay::SwitchState()
 {
-    GameState oldState = gameState;
-    gameState = TRANSITION;
+    GameState oldState = gps.gameState;
+    gps.gameState = TRANSITION;
     switch (oldState)
     {
         case WORLD:
@@ -131,7 +126,7 @@ void GamePlay::SwitchState()
     r->present();
     SDL_Delay(200);
 
-    switch (newGameState)
+    switch (gps.newGameState)
     {
         case WORLD:
         WorldStart();
@@ -149,6 +144,6 @@ void GamePlay::SwitchState()
         break;
     }
 
-    gameState = newGameState;
-    wantNewState = false;
+    gps.gameState = gps.newGameState;
+    gps.wantNewState = false;
 }

@@ -36,17 +36,17 @@ void GamePlay::MenuStart()
         SDL_Delay(REDRAW_DELAY);
     }
 
-    inTransition = false;
+    gps.inTransition = false;
 }
 
 void GamePlay::MenuDraw()
 {
-    if (inTransition) return;
+    if (gps.inTransition) return;
     if (SDL_PollEvent(&event)) {
             switch (event.type) {
                 case SDL_QUIT:
                     // End the loop if the programs is being closed
-                    RequestSwitchState(EXIT);
+                    gps.RequestSwitchState(EXIT);
                     break;
                 case SDL_CONTROLLERDEVICEADDED:
                     // Connect a controller when it is connected
@@ -56,7 +56,7 @@ void GamePlay::MenuDraw()
                     if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
                         // Close the program if start is pressed
                         snd->playSFX(chime);
-                        RequestSwitchState(WORLD);
+                        gps.RequestSwitchState(WORLD);
                     } 
                     else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
                         if (panel->focusedElement() != nullptr)
@@ -78,12 +78,12 @@ void GamePlay::MenuDraw()
                             if (selB->GetTag() == "resume")
                             {
                                 snd->playSFX(chime);
-                                RequestSwitchState(WORLD);
+                                gps.RequestSwitchState(WORLD);
                             } 
                             else if (selB->GetTag() == "quit")
                             {
                                 snd->playSFX(chime);
-                                RequestSwitchState(EXIT);
+                                gps.RequestSwitchState(EXIT);
                             }
                         }
                     }
@@ -101,12 +101,12 @@ void GamePlay::MenuDraw()
         // Draw everything on a white background
         
         r->present();
-        if (wantNewState) SwitchState();
+        if (gps.wantNewState) SwitchState();
 }
 
 void GamePlay::MenuExit()
 {
-    inTransition = true;
+    gps.inTransition = true;
 
     f->FadeOut(0.5f);
 

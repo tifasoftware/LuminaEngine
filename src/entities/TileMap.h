@@ -72,6 +72,7 @@ class TileMap : public IControllable {
     void OnStopMoveDown() override;
     void OnStopMoveLeft() override;
     void OnStopMoveRight() override;
+    void OnButtonStart() override;
 
     private:
     bool loadFromFile(const char* file);
