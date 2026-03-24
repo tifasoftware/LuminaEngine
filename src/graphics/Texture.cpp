@@ -1,9 +1,10 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <graphics/Texture.h>
+#include <platform/os_path.h>
 
 Texture::Texture(const char* file, SDL_Renderer* render){
-    SDL_Surface * pixels = IMG_Load(file);
+    SDL_Surface * pixels = IMG_Load(osPath(file));
     tex = SDL_CreateTextureFromSurface(render, pixels);
     SDL_FreeSurface(pixels);
 

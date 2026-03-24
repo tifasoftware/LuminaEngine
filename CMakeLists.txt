@@ -1,5 +1,10 @@
 cmake_minimum_required(VERSION 3.11)
 
+if(APPLE)
+    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
+    set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0" CACHE STRING "")
+endif()
+
 project(LuminaEngine)
 
 if(APPLE)
@@ -21,23 +26,20 @@ file (GLOB LMAP_ASSETS "assets/*.lmap")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-if (APPLE)
-    include_directories(/opt/homebrew/include)
-    link_directories(/opt/homebrew/lib)
-endif()
-
 if (NOT PSP)
     add_subdirectory(src_tools/lmap_compile)
     add_subdirectory(src_tools/lmap_info)
 endif()
 
-include(FindPkgConfig)
+if (NOT APPLE)
+    include(FindPkgConfig)
 
-pkg_search_module(SDL2 REQUIRED sdl2)
-pkg_search_module(SDL2_IMAGE REQUIRED SDL2_image)
-pkg_search_module(SDL2_MIXER REQUIRED SDL2_mixer)
-#pkg_search_module(SDL2_TTF REQUIRED SDL2_ttf)
-#pkg_search_module(LUA REQUIRED lua5.4)
+    pkg_search_module(SDL2 REQUIRED sdl2)
+    pkg_search_module(SDL2_IMAGE REQUIRED SDL2_image)
+    pkg_search_module(SDL2_MIXER REQUIRED SDL2_mixer)
+    #pkg_search_module(SDL2_TTF REQUIRED SDL2_ttf)
+    #pkg_search_module(LUA REQUIRED lua5.4)
+endif()
 
 if (PSP)
     target_include_directories(${PROJECT_NAME} PRIVATE
@@ -80,12 +82,50 @@ endif()
 
 if(APPLE)
     set_target_properties(${PROJECT_NAME} PROPERTIES
+            # Bundle identity (your existing ones)
             MACOSX_BUNDLE TRUE
             MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME}
             MACOSX_BUNDLE_BUNDLE_VERSION "1.0"
             MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
             MACOSX_BUNDLE_GUI_IDENTIFIER "org.infitechppc.${PROJECT_NAME}"
+
+            # ADD: Xcode universal binary settings
+            XCODE_ATTRIBUTE_ARCHS "arm64 x86_64"
+            XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH "NO"
+            XCODE_ATTRIBUTE_VALID_ARCHS "arm64 x86_64"
+            XCODE_ATTRIBUTE_MACOSX_DEPLOYMENT_TARGET "11.0"
+            XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++17"
+            XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++"
+
+            # ADD: Code signing ("-" = ad-hoc for local dev)
+            XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "-"
+            XCODE_ATTRIBUTE_CODE_SIGN_STYLE "Automatic"
+
+            # ADD: rpath so the binary finds embedded frameworks
+            INSTALL_RPATH "@executable_path/../Frameworks"
+            BUILD_WITH_INSTALL_RPATH TRUE
+
+            # ADD: Xcode scheme working directory (so assets resolve at runtime)
+            XCODE_GENERATE_SCHEME TRUE
+            XCODE_SCHEME_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
     )
+
+    # ADD: SDL2 frameworks embedded + signed in the bundle
+    set_source_files_properties(
+            "/Library/Frameworks/SDL2.framework"
+            "/Library/Frameworks/SDL2_image.framework"
+            "/Library/Frameworks/SDL2_mixer.framework"
+            PROPERTIES
+            MACOSX_PACKAGE_LOCATION "Frameworks"
+            XCODE_FILE_ATTRIBUTES "CodeSignOnCopy"
+    )
+    target_sources(${PROJECT_NAME} PRIVATE
+            "/Library/Frameworks/SDL2.framework"
+            "/Library/Frameworks/SDL2_image.framework"
+            "/Library/Frameworks/SDL2_mixer.framework"
+    )
+
+    # KEEP: your existing dylibbundler install step
     install(CODE "
         execute_process(COMMAND dylibbundler
             -od -b
@@ -94,31 +134,35 @@ if(APPLE)
             -p @executable_path/../Frameworks/
         )
     ")
+
+    # KEEP: your existing asset bundling
     set_source_files_properties(${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS}
             PROPERTIES MACOSX_PACKAGE_LOCATION Resources
     )
 endif()
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-    ${PNG_ASSETS}
-    ${CMAKE_BINARY_DIR}
-)
+if (NOT APPLE)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${PNG_ASSETS}
+        ${CMAKE_BINARY_DIR}
+    )
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-    ${OGG_ASSETS}
-    ${CMAKE_BINARY_DIR}
-)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${OGG_ASSETS}
+        ${CMAKE_BINARY_DIR}
+    )
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-    ${WAV_ASSETS}
-    ${CMAKE_BINARY_DIR}
-)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${WAV_ASSETS}
+        ${CMAKE_BINARY_DIR}
+    )
 
-add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-    COMMAND ${CMAKE_COMMAND} -E copy
-    ${LMAP_ASSETS}
-    ${CMAKE_BINARY_DIR}
-)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${LMAP_ASSETS}
+        ${CMAKE_BINARY_DIR}
+    )
+endif()

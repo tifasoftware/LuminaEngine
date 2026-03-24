@@ -2,6 +2,8 @@
 #include <iostream>
 #include <stdio.h>
 
+#include "platform/os_path.h"
+
 LMAPLoader::LMAPLoader(const char* file)
 {
     this->file = file;
@@ -10,7 +12,7 @@ LMAPLoader::LMAPLoader(const char* file)
 LMAPHeader LMAPLoader::load()
 {
     LMAPHeader lmap = {};
-    FILE* in = fopen(file, "rb");
+    FILE* in = fopen(osPath(file), "rb");
     fread(&lmap, sizeof(LMAPHeader), 1, in);
     fclose(in);
 

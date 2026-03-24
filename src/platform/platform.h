@@ -11,3 +11,6 @@
     #define SCREEN_H 272
     #define SCREEN_SCALE 2
 #endif
+#ifdef __APPLE__
+    #define PLATFORM_OSX
+#endif
