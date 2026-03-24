@@ -2,6 +2,16 @@ cmake_minimum_required(VERSION 3.11)
 
 project(LuminaEngine)
 
+if(APPLE)
+    set(SDL2_LIBRARIES "-framework SDL2")
+    set(SDL2_IMAGE_LIBRARIES "-framework SDL2_image")
+    set(SDL2_MIXER_LIBRARIES "-framework SDL2_mixer")
+    set(SDL2_INCLUDE_DIRS "/Library/Frameworks/SDL2.framework/Headers")
+    set(SDL2_IMAGE_INCLUDE_DIRS "/Library/Frameworks/SDL2_image.framework/Headers")
+    set(SDL2_MIXER_INCLUDE_DIRS "/Library/Frameworks/SDL2_mixer.framework/Headers")
+    set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -F/Library/Frameworks")
+endif()
+
 file (GLOB_RECURSE SOURCES "src/*.cpp")
 file (GLOB PNG_ASSETS "assets/*.png")
 file (GLOB OGG_ASSETS "assets/*.ogg")
@@ -10,6 +20,11 @@ file (GLOB LMAP_ASSETS "assets/*.lmap")
 
 
 add_executable(${PROJECT_NAME} ${SOURCES})
+
+if (APPLE)
+    include_directories(/opt/homebrew/include)
+    link_directories(/opt/homebrew/lib)
+endif()
 
 if (NOT PSP)
     add_subdirectory(src_tools/lmap_compile)
@@ -43,11 +58,11 @@ else()
 endif ()
 
 target_link_libraries(${PROJECT_NAME} PRIVATE
-    ${SDL2_LIBRARIES}
-    ${SDL2_IMAGE_LIBRARIES}
-    ${SDL2_MIXER_LIBRARIES}
-# ${SDL2_TTF_LIBRARIES}
-    lua
+        ${SDL2_LIBRARIES}
+        ${SDL2_IMAGE_LIBRARIES}
+        ${SDL2_MIXER_LIBRARIES}
+        # ${SDL2_TTF_LIBRARIES}
+        lua
 )
 
 if (PSP)
@@ -62,6 +77,28 @@ if (PSP)
     )
 
 endif()
+
+if(APPLE)
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            MACOSX_BUNDLE TRUE
+            MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME}
+            MACOSX_BUNDLE_BUNDLE_VERSION "1.0"
+            MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
+            MACOSX_BUNDLE_GUI_IDENTIFIER "org.infitechppc.${PROJECT_NAME}"
+    )
+    install(CODE "
+        execute_process(COMMAND dylibbundler
+            -od -b
+            -x ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}
+            -d ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/Frameworks/
+            -p @executable_path/../Frameworks/
+        )
+    ")
+    set_source_files_properties(${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS}
+            PROPERTIES MACOSX_PACKAGE_LOCATION Resources
+    )
+endif()
+
 add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
     COMMAND ${CMAKE_COMMAND} -E copy
     ${PNG_ASSETS}
