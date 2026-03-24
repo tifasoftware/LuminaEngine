@@ -17,14 +17,6 @@ void Controller::PC_ProcessInput() {
                     pawn->OnButtonStart();
                 } else if (event.key.keysym.sym == SDLK_SPACE) {
                     pawn->OnButtonSelect();
-                } else if (event.key.keysym.sym == SDLK_w) {
-                    pawn->OnMoveUp();
-                } else if (event.key.keysym.sym == SDLK_s) {
-                    pawn->OnMoveDown();
-                } else if (event.key.keysym.sym == SDLK_a) {
-                    pawn->OnMoveLeft();
-                } else if (event.key.keysym.sym == SDLK_d) {
-                    pawn->OnMoveRight();
                 } else if (event.key.keysym.sym == SDLK_RETURN) {
                     pawn->OnButtonA();
                 } else if (event.key.keysym.sym == SDLK_BACKSPACE) {
@@ -35,19 +27,24 @@ void Controller::PC_ProcessInput() {
                     pawn->OnButtonY();
                 }
                 break;
-            case SDL_KEYUP:
-                if (event.key.keysym.sym == SDLK_w) {
-                    pawn->OnStopMoveUp();
-                } else if (event.key.keysym.sym == SDLK_s) {
-                    pawn->OnStopMoveDown();
-                } else if (event.key.keysym.sym == SDLK_a) {
-                    pawn->OnStopMoveLeft();
-                } else if (event.key.keysym.sym == SDLK_d) {
-                    pawn->OnStopMoveRight();
-                }
-                break;
             default:
                 break;
         }
     }
+    const Uint8* keys = SDL_GetKeyboardState(NULL);
+    if (keys[SDL_SCANCODE_UP] || keys[SDL_SCANCODE_W]) {
+        pawn->OnMoveUp();
+    } else if (keys[SDL_SCANCODE_DOWN] || keys[SDL_SCANCODE_S]) {
+        pawn->OnMoveDown();
+    } else {
+        pawn->OnStopMoveDown();
+    }
+    if (keys[SDL_SCANCODE_LEFT] || keys[SDL_SCANCODE_A]) {
+        pawn->OnMoveLeft();
+    } else if (keys[SDL_SCANCODE_RIGHT] || keys[SDL_SCANCODE_D]) {
+        pawn->OnMoveRight();
+    } else {
+        pawn->OnStopMoveRight();
+    }
+
 }
