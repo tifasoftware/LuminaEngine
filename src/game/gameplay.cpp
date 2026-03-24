@@ -1,5 +1,5 @@
 #include <game/gameplay.h>
-
+#include <platform/platform.h>
 #include <common/utils.h>
 
 GamePlay::GamePlay()
@@ -9,6 +9,7 @@ GamePlay::GamePlay()
     // Enable png support for SDL2_image
     IMG_Init(IMG_INIT_PNG);
 
+#ifdef PLATFORM_PSP
     window = SDL_CreateWindow(
         "window",
         SDL_WINDOWPOS_UNDEFINED,
@@ -17,6 +18,20 @@ GamePlay::GamePlay()
         272,
         0
     );
+#endif
+#ifdef PLATFORM_PC
+    window = SDL_CreateWindow(
+        "Lumina Engine",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        SCREEN_W * SCREEN_SCALE,
+        SCREEN_H * SCREEN_SCALE,
+        0
+        );
+    SDL_SetWindowFullscreen(window, 0);
+    SDL_RaiseWindow(window);
+    SDL_SetWindowInputFocus(window);
+#endif
 
     snd = new SoundSystem();
     r = new Renderer(window);

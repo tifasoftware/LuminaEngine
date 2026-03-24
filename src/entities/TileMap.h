@@ -14,8 +14,8 @@
 
 //PSP Resolution Width - 480
 //PSP Resolution Height - 272
-static const int SCREEN_W = 480;
-static const int SCREEN_H = 272;
+//static const int SCREEN_W = 480;
+//static const int SCREEN_H = 272;
 
 static const int TILE_SIZE = 16;
 

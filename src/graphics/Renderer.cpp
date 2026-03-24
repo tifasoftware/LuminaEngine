@@ -6,6 +6,10 @@
 
 Renderer::Renderer(SDL_Window * win) {
     sdl_r = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+#ifdef PLATFORM_PC
+    SDL_RenderSetLogicalSize(sdl_r, 480, 272);
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+#endif
 }
 
 int Renderer::firstOpenSlot()
