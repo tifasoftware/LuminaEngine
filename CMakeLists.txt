@@ -15,6 +15,7 @@ if(APPLE)
     set(SDL2_IMAGE_INCLUDE_DIRS "/Library/Frameworks/SDL2_image.framework/Headers")
     set(SDL2_MIXER_INCLUDE_DIRS "/Library/Frameworks/SDL2_mixer.framework/Headers")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -F/Library/Frameworks")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -F/Library/Frameworks")
 endif()
 
 file (GLOB_RECURSE SOURCES "src/*.cpp")
@@ -29,6 +30,9 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 if (NOT PSP)
     add_subdirectory(src_tools/lmap_compile)
     add_subdirectory(src_tools/lmap_info)
+else()
+    target_compile_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
+    target_link_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
 endif()
 
 if (NOT APPLE)
@@ -39,6 +43,21 @@ if (NOT APPLE)
     pkg_search_module(SDL2_MIXER REQUIRED SDL2_mixer)
     #pkg_search_module(SDL2_TTF REQUIRED SDL2_ttf)
     #pkg_search_module(LUA REQUIRED lua5.4)
+else()
+    target_sources(${PROJECT_NAME} PRIVATE
+        ${PNG_ASSETS}
+        ${OGG_ASSETS}
+        ${WAV_ASSETS}
+        ${LMAP_ASSETS})
+    set_source_files_properties(
+            ${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS}
+            PROPERTIES MACOSX_PACKAGE_LOCATION "Resources"
+    )
+    target_compile_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
+    target_link_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            "${CMAKE_SOURCE_DIR}/libs/liblua5.4.dylib"
+    )
 endif()
 
 if (PSP)
@@ -64,7 +83,7 @@ target_link_libraries(${PROJECT_NAME} PRIVATE
         ${SDL2_IMAGE_LIBRARIES}
         ${SDL2_MIXER_LIBRARIES}
         # ${SDL2_TTF_LIBRARIES}
-        lua
+        #lua
 )
 
 if (PSP)
@@ -164,5 +183,20 @@ if (NOT APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy
         ${LMAP_ASSETS}
         ${CMAKE_BINARY_DIR}
+    )
+endif()
+
+if(APPLE)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND xattr -cr "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
+            COMMAND codesign --deep --force --sign -
+            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2.framework"
+            COMMAND codesign --deep --force --sign -
+            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2_image.framework"
+            COMMAND codesign --deep --force --sign -
+            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2_mixer.framework"
+            COMMAND codesign --force --sign -
+            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
+            COMMENT "Signing frameworks and bundle..."
     )
 endif()

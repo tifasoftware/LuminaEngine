@@ -1,10 +1,11 @@
 #include <SDL.h>
 #include <SDL_image.h>
 #include <graphics/Texture.h>
-#include <platform/os_path.h>
+
+#include "common/utils.h"
 
 Texture::Texture(const char* file, SDL_Renderer* render){
-    SDL_Surface * pixels = IMG_Load(osPath(file));
+    SDL_Surface * pixels = IMG_Load(LuminaUtils::osPath(file).c_str());
     tex = SDL_CreateTextureFromSurface(render, pixels);
     SDL_FreeSurface(pixels);
 

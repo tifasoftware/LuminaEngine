@@ -1,9 +1,15 @@
 #include "utils.h"
 
 #include <string>
+#include <unistd.h>
 #include <SDL2/SDL_events.h>
 #include <SDL2/SDL_timer.h>
+
 #include <platform/platform.h>
+
+#ifdef PLATFORM_OSX
+#include <mach-o/dyld.h>
+#endif
 
 #include "graphics/Renderer.h"
 
@@ -47,5 +53,48 @@ void LuminaUtils::LuminaDelay(int ms) {
         }
         SDL_Delay(delay);
     }
+#endif
+}
+
+std::string LuminaUtils::osPath(const char *relpath) {
+    std::string file = std::string(relpath);
+    std::string base = "";
+    std::string path;
+
+#ifdef PLATFORM_OSX
+    char execPath[PATH_MAX];
+    uint32_t size = sizeof(execPath);
+
+    if (_NSGetExecutablePath(execPath, &size) == 0) {
+        std::string macpath(execPath);
+        size_t pos = macpath.rfind("Contents/MacOS");
+        if (pos != std::string::npos) {
+            path = macpath.substr(0, pos) + "Contents/Resources/" + file;
+            FILE* logFile = fopen("/tmp/lumina.log", "a");
+            fprintf(logFile, "execPath: %s\n", execPath);
+            fprintf(logFile, "final path: %s\n", path.c_str());
+            fclose(logFile);
+        }
+    }
+    return path;
+#else
+
+
+    if (base.empty()) {
+        char* sdlBase = SDL_GetBasePath();
+        //SDL_Log("BasePath: %s", sdlBase);
+        if (sdlBase) {
+            base = std::string(sdlBase);
+            SDL_free(sdlBase);
+        } else {
+            base = "./";
+        }
+    }
+
+
+    path = (base + file);
+    SDL_Log("File: %s", path.c_str());
+
+    return path;
 #endif
 }

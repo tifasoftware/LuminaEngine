@@ -1,5 +1,7 @@
 #include <SDL.h>
 #include <SDL_image.h>
+
+#include "common/utils.h"
 #ifdef PLATFORM_PSP
     #include <pspkernel.h>
     #include <pspdisplay.h>

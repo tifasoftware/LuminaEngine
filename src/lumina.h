@@ -12,3 +12,8 @@
 #include <vgui/UIElement.h>
 #include <vgui/button.h>
 #include <game/gameplay.h>
+#include <platform/platform.h>
+
+#ifdef PLATFORM_OSX
+#include <mach-o/dyld.h>
+#endif

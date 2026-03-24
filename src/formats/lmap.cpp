@@ -1,8 +1,9 @@
 #include <formats/lmap.h>
 #include <iostream>
 #include <stdio.h>
+#include <SDL2/SDL_log.h>
 
-#include "platform/os_path.h"
+#include "common/utils.h"
 
 LMAPLoader::LMAPLoader(const char* file)
 {
@@ -12,7 +13,11 @@ LMAPLoader::LMAPLoader(const char* file)
 LMAPHeader LMAPLoader::load()
 {
     LMAPHeader lmap = {};
-    FILE* in = fopen(osPath(file), "rb");
+    FILE* in = fopen(LuminaUtils::osPath(file).c_str(), "rb");
+    if (!in) {
+        SDL_Log("Error opening file %s", LuminaUtils::osPath(file).c_str());
+        return lmap;
+    }
     fread(&lmap, sizeof(LMAPHeader), 1, in);
     fclose(in);
 

@@ -1,6 +1,8 @@
 #include <SDL_mixer.h>
 #include <sound/soundsystem.h>
 
+#include "common/utils.h"
+
 SoundSystem::SoundSystem()
 {
     Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048);
@@ -17,7 +19,7 @@ void SoundSystem::startMusic(const char* file)
     {
         stopMusic();
     }
-    bgm = Mix_LoadMUS(file);
+    bgm = Mix_LoadMUS(LuminaUtils::osPath(file).c_str());
     Mix_PlayMusic(bgm, -1);
     Mix_VolumeMusic(64);
     musicLoaded = true;
