@@ -69,9 +69,6 @@ if (APPLE)
     )
     target_compile_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
     target_link_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
-    target_link_libraries(${PROJECT_NAME} PRIVATE
-            "${CMAKE_SOURCE_DIR}/libs/liblua5.4.dylib"
-    )
 endif()
 
 if (PSP)
@@ -79,7 +76,7 @@ if (PSP)
         ${SDL2_INCLUDE_DIRS}
         ${SDL2_IMAGE_INCLUDE_DIRS}
         ${SDL2_MIXER_INCLUDE_DIRS}
-    # ${SDL2_TTF_INCLUDE_DIRS}
+        libs/lua-5.5.0/src/
         /usr/local/pspdev/psp/include
         src/
     )
@@ -88,6 +85,7 @@ else()
             ${SDL2_INCLUDE_DIRS}
             ${SDL2_IMAGE_INCLUDE_DIRS}
             ${SDL2_MIXER_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
             src/
     )
 endif ()
@@ -99,16 +97,12 @@ if (WIN32)
             ${SDL2_LIBRARIES}
             ${SDL2_IMAGE_LIBRARIES}
             ${SDL2_MIXER_LIBRARIES}
-            # ${SDL2_TTF_LIBRARIES}
-            #lua
     )
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE
             ${SDL2_LIBRARIES}
             ${SDL2_IMAGE_LIBRARIES}
             ${SDL2_MIXER_LIBRARIES}
-            # ${SDL2_TTF_LIBRARIES}
-            #lua
     )
 endif()
 
@@ -171,14 +165,18 @@ if(APPLE)
     )
 
     # KEEP: your existing dylibbundler install step
-    install(CODE "
-        execute_process(COMMAND dylibbundler
-            -od -b
-            -x ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/MacOS/${PROJECT_NAME}
-            -d ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/Frameworks/
-            -p @executable_path/../Frameworks/
-        )
-    ")
+    execute_process(COMMAND ditto
+        /Library/Frameworks/SDL2.framework
+        ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/Frameworks/SDL2.framework
+    )
+    execute_process(COMMAND ditto
+            /Library/Frameworks/SDL2_image.framework
+            ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/Frameworks/SDL2_image.framework
+    )
+    execute_process(COMMAND ditto
+            /Library/Frameworks/SDL2_mixer.framework
+            ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/Frameworks/SDL2_mixer.framework
+    )
 
     # KEEP: your existing asset bundling
     set_source_files_properties(${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS}
