@@ -1,11 +1,15 @@
 #include <SDL.h>
 #include <SDL_image.h>
+#include <platform/platform.h>
 
 #include "common/utils.h"
+
 #ifdef PLATFORM_PSP
     #include <pspkernel.h>
     #include <pspdisplay.h>
+    #include <vgui/text.h>
 #endif
+
 #include <entities/TileMap.h>
 #include <formats/lmap.h>
 #include "entity.h"
@@ -24,6 +28,9 @@ TileMap::TileMap(const char* f, GamePlayState* cs, Character* mc, Renderer* r)
     memset(collision, 0, sizeof(collision));
     memset(spawns, 0, sizeof(spawns));
     memset(entities, 0, sizeof(entities));
+
+    //debugText = Text();
+    //debugText.Move(10,10);
 }
 
 Entity* TileMap::getCollidingTrigger(int charX, int charY) {
@@ -90,6 +97,18 @@ void TileMap::drawMap()
     character->animate(FRAME_RATE, luminaMoveX, luminaMoveY);
     character->drawCharacter(gps->characterX, gps->characterY, luminaMoveX, luminaMoveY, renderer);
 
+/*#ifdef PLATFORM_PSP
+    void* test = malloc(4 * 1024 * 1024); // try 4MB
+
+    if (test) {
+        debugText.SetText("Good");
+        free(test);
+    } else {
+        debugText.SetText("Bad");
+    }
+
+    debugText.Render(renderer);
+#endif*/
 }
 
 void TileMap::disposeMap() {

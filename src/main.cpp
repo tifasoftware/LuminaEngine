@@ -16,11 +16,6 @@
 
 int main(int argc, char *argv[])
 {
-    FILE* f = fopen("/tmp/lumina.log", "w");
-    fprintf(f, "main started\n");
-    fprintf(f, "argv[0]: %s\n", argv[0]);
-    fclose(f);
-
     auto gp = new GamePlay();
 
     while (gp->gameRunning()) { 

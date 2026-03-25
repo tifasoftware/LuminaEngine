@@ -5,6 +5,7 @@
 #include <cstdio>
 #include <cstring>
 #include <graphics/Renderer.h>
+#include <vgui/text.h>
 #include <formats/lmap.h>
 
 #include "character.h"
@@ -75,6 +76,8 @@ class TileMap : public IControllable {
     void OnButtonStart() override;
     void OnQuit() override { gps->RequestSwitchState(EXIT); }
 
+    void SetDebugFont(int font) { debugText.SetFont(font); }
+
     private:
     bool loadFromFile(const char* file);
 
@@ -94,6 +97,8 @@ class TileMap : public IControllable {
     int selectedSpawn = 0;
     char bgm[64] = "";
     char sky[64] = "";
+
+    Text debugText;
 
     int luminaMoveX = 0;
     int luminaMoveY = 0;

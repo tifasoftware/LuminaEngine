@@ -11,6 +11,7 @@ void GamePlay::WorldStart() {
 
     tm->loadMap();
     tm->findSpawn(gps.lastMapName);
+    tm->SetDebugFont(fontAtlas);
     controller->Possess(tm);
     ChangeMusic(tm->getBGMFile());
     lumina->loadCharacterSprite(r);

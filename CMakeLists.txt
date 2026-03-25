@@ -185,18 +185,3 @@ if (NOT APPLE)
         ${CMAKE_BINARY_DIR}
     )
 endif()
-
-if(APPLE)
-    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND xattr -cr "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
-            COMMAND codesign --deep --force --sign -
-            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2.framework"
-            COMMAND codesign --deep --force --sign -
-            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2_image.framework"
-            COMMAND codesign --deep --force --sign -
-            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2_mixer.framework"
-            COMMAND codesign --force --sign -
-            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
-            COMMENT "Signing frameworks and bundle..."
-    )
-endif()
