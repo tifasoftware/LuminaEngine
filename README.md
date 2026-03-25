@@ -55,8 +55,34 @@ mkdir build && cd build
 psp-cmake ..
 make
 ```
-
 The build will output `EBOOT.PBP` for PSP and copy assets to the build directory automatically.
+
+## Mac
+```bash
+mkdir build && cd build
+cmake ..
+make
+```
+The build will output a `LuminaEngine.app` with the libraries and assets included inside.
+
+## Windows
+via WSL (Ubuntu)
+```bash
+sudo apt update
+sudo apt install mingw-w64 cmake make
+mkdir build && cd build
+cmake .. -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-mingw64.cmake
+make
+```
+The build will output a `LuminaEngine.exe` with the dlls and assets alongside.
+
+## Linux
+```bash
+mkdir build && cd build
+cmake ..
+make
+```
+The build will output an `LuminaEngine` executable with the assets alongside.
 
 ---
 
