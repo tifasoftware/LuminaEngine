@@ -49,6 +49,7 @@ target_include_directories(lua PUBLIC
 if (NOT PSP)
     add_subdirectory(src_tools/lmap_compile)
     add_subdirectory(src_tools/lmap_info)
+    add_subdirectory(src_tools/lua_test)
 else()
     target_compile_definitions(lua PRIVATE LUA_32BITS)
 endif()

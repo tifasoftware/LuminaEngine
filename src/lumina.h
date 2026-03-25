@@ -20,7 +20,12 @@
 #include <game/gameplay_state.h>
 #include <game/IControllable.h>
 #include <platform/platform.h>
-#include <lua.h>
+
+extern "C"{
+    #include <lua.h>
+    #include <lualib.h>
+    #include <lauxlib.h>
+}
 
 #ifdef PLATFORM_OSX
 #include <mach-o/dyld.h>
