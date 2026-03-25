@@ -18,6 +18,18 @@ if(APPLE)
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -F/Library/Frameworks")
 endif()
 
+if (WIN32)
+    set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/x86_64-w64-mingw32")
+
+    set(SDL2_INCLUDE_DIRS "${SDL2_DIR}/include")
+    set(SDL2_IMAGE_INCLUDE_DIRS "${SDL2_DIR}/include")
+    set(SDL2_MIXER_INCLUDE_DIRS "${SDL2_DIR}/include")
+
+    set(SDL2_LIBRARIES "${SDL2_DIR}/lib/libSDL2.dll.a")
+    set(SDL2_IMAGE_LIBRARIES "${SDL2_DIR}/lib/libSDL2_image.dll.a")
+    set(SDL2_MIXER_LIBRARIES "${SDL2_DIR}/lib/libSDL2_mixer.dll.a")
+endif()
+
 file (GLOB_RECURSE SOURCES "src/*.cpp")
 file (GLOB PNG_ASSETS "assets/*.png")
 file (GLOB OGG_ASSETS "assets/*.ogg")
@@ -35,7 +47,7 @@ else()
     target_link_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
 endif()
 
-if (NOT APPLE)
+if (NOT (APPLE OR WIN32))
     include(FindPkgConfig)
 
     pkg_search_module(SDL2 REQUIRED sdl2)
@@ -43,7 +55,9 @@ if (NOT APPLE)
     pkg_search_module(SDL2_MIXER REQUIRED SDL2_mixer)
     #pkg_search_module(SDL2_TTF REQUIRED SDL2_ttf)
     #pkg_search_module(LUA REQUIRED lua5.4)
-else()
+endif()
+
+if (APPLE)
     target_sources(${PROJECT_NAME} PRIVATE
         ${PNG_ASSETS}
         ${OGG_ASSETS}
@@ -78,13 +92,25 @@ else()
     )
 endif ()
 
-target_link_libraries(${PROJECT_NAME} PRIVATE
-        ${SDL2_LIBRARIES}
-        ${SDL2_IMAGE_LIBRARIES}
-        ${SDL2_MIXER_LIBRARIES}
-        # ${SDL2_TTF_LIBRARIES}
-        #lua
-)
+if (WIN32)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+	    mingw32
+	    "${SDL2_DIR}/lib/libSDL2main.a"
+            ${SDL2_LIBRARIES}
+            ${SDL2_IMAGE_LIBRARIES}
+            ${SDL2_MIXER_LIBRARIES}
+            # ${SDL2_TTF_LIBRARIES}
+            #lua
+    )
+else()
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            ${SDL2_LIBRARIES}
+            ${SDL2_IMAGE_LIBRARIES}
+            ${SDL2_MIXER_LIBRARIES}
+            # ${SDL2_TTF_LIBRARIES}
+            #lua
+    )
+endif()
 
 if (PSP)
     # Create an EBOOT.PBP file
@@ -184,4 +210,47 @@ if (NOT APPLE)
         ${LMAP_ASSETS}
         ${CMAKE_BINARY_DIR}
     )
+endif()
+
+if(APPLE)
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND xattr -cr "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
+            COMMAND codesign --deep --force --sign -
+            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2.framework"
+            COMMAND codesign --deep --force --sign -
+            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2_image.framework"
+            COMMAND codesign --deep --force --sign -
+            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2_mixer.framework"
+            COMMAND codesign --force --sign -
+            "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
+            COMMENT "Signing frameworks and bundle..."
+    )
+endif()
+
+if (WIN32)
+    set(SDL2_DLL_DIR "${SDL2_DIR}/bin")
+
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        # SDL2 DLLs
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${SDL2_DLL_DIR}/SDL2.dll"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${SDL2_DLL_DIR}/SDL2_image.dll"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${SDL2_DLL_DIR}/SDL2_mixer.dll"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+
+        # MinGW runtime DLLs — needed on machines without MinGW installed
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "/usr/lib/gcc/x86_64-w64-mingw32/13-win32/libgcc_s_seh-1.dll"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "/usr/lib/gcc/x86_64-w64-mingw32/13-win32/libstdc++-6.dll"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "/usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll"
+            "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+	)
 endif()
