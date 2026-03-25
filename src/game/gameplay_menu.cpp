@@ -1,5 +1,3 @@
-#include <pspkerneltypes.h>
-#include <pspsysmem.h>
 #include <SDL_events.h>
 #include <SDL_gamecontroller.h>
 #include <SDL_timer.h>
@@ -9,6 +7,7 @@
 #include "graphics/Renderer.h"
 #include "vgui/button.h"
 #include "vgui/panel.h"
+
 #ifdef PLATFORM_PSP
 #include <pspkerneltypes.h>
 #include <pspsysmem.h>
