@@ -31,6 +31,7 @@ if (WIN32)
 endif()
 
 file (GLOB_RECURSE SOURCES "src/*.cpp")
+file (GLOB LUA_SOURCES "libs/lua-5.5.0/src/*.c")
 file (GLOB PNG_ASSETS "assets/*.png")
 file (GLOB OGG_ASSETS "assets/*.ogg")
 file (GLOB WAV_ASSETS "assets/*.wav")
@@ -39,12 +40,17 @@ file (GLOB LMAP_ASSETS "assets/*.lmap")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
+add_library(lua STATIC ${LUA_SOURCES})
+
+target_include_directories(lua PUBLIC
+    external/lua/src
+)
+
 if (NOT PSP)
     add_subdirectory(src_tools/lmap_compile)
     add_subdirectory(src_tools/lmap_info)
 else()
-    target_compile_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
-    target_link_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
+    target_compile_definitions(lua PRIVATE LUA_32BITS)
 endif()
 
 if (NOT (APPLE OR WIN32))
@@ -97,12 +103,14 @@ if (WIN32)
             ${SDL2_LIBRARIES}
             ${SDL2_IMAGE_LIBRARIES}
             ${SDL2_MIXER_LIBRARIES}
+            lua
     )
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE
             ${SDL2_LIBRARIES}
             ${SDL2_IMAGE_LIBRARIES}
             ${SDL2_MIXER_LIBRARIES}
+            lua
     )
 endif()
 
