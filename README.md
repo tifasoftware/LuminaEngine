@@ -27,15 +27,19 @@ A 2D RPG game engine for the PlayStation Portable, built with C++ and SDL2. Desi
 
 ## Platform Support
 
-| Platform | Status                                                                                                             |
-|---|--------------------------------------------------------------------------------------------------------------------|
-| PSP | ✅ Primary target                                                                                                   |
-| Windows / Mac / Linux | ✅ Working                                                                                                          |
-| NDS | ❔ Feasibility will be researched                                                                                   |
-| 3DS | ❔ Likely Feasible (More powerful than PSP, and has [SDL2](https://wiki.libsdl.org/SDL2/README-n3ds) and maybe Lua) |
-| Wii | ❔ Feasibility will be researched                                                                                   |
-| PS3 | ❔ Feasibility will be researched                                                                                   |
-| PS Vita | ⚠️ Not officially supported, but should run with the Adrenaline Emulator.                                          |
+| Platform     | Status                                                                                                                                                                   |
+|--------------|--------------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| PSP          | ✅ Primary target                                                                                                                                                         |
+| Windows      | ✅ Primary target                                                                                                                                                         |
+| macOS        | ✅ Primary target                                                                                                                                                         |
+| Linux        | ⚠️ Officially supported only if compiled. Not packaging for major distros yet. [State of Linux Support](docs/linux_support.md)                                           |
+| iOS / iPadOS | ❌ Probably too restrictive. Players are encouraged to run the PSP version thru [PPSSPP](https://apps.apple.com/us/app/ppsspp-psp-emulator/id6496972903) instead.         |
+| Android      | ❔ Feasibillity will be researched. Players are encouraged to run the PSP version thru [PPSSPP](https://play.google.com/store/apps/details?id=org.ppsspp.ppsspp) for now. |
+| NDS          | ❌ Not enough system RAM                                                                                                                                                  |
+| 3DS          | 🔜 Planned (More powerful than PSP, and has [SDL2](https://wiki.libsdl.org/SDL2/README-n3ds))                                                                            |
+| Wii          | ❔ Feasibility will be researched                                                                                                                                         |
+| PS3          | ❔ Feasibility will be researched                                                                                                                                         |
+| PS Vita      | ⚠️ Not officially supported, but should run with the Adrenaline Emulator.                                                                                                |
 ---
 
 ## Dependencies
