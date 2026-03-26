@@ -36,9 +36,8 @@ void GamePlay::WorldStart() {
     if (!gps.introShown) {
         scriptEngine->runScript("gamestart.lua");
         //dialogue->DisplayDialogue("Welcome to Lumina Engine");
-        if (dialogue->isEngaged()) controller->Possess(dialogue);
+
     }
-    controller->QueuePawn(tm);
     gps.introShown = true;
 }
 
@@ -57,7 +56,13 @@ void GamePlay::WorldDraw()
             f->Render(1.0f / FRAME_RATE);
         }
 
-        if (dialogue->isEngaged()) dialogue->draw();
+        if (dialogue->isEngaged()) {
+            dialogue->draw();
+            if (!dialogue->getActive()) {
+                controller->Possess(dialogue);
+                controller->QueuePawn(tm);
+            }
+        }
 
         r->present();
         if (gps.wantNewState) SwitchState();

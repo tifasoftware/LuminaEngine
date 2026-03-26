@@ -7,6 +7,7 @@ Controller::Controller() {
 
 void Controller::Possess(IControllable *p) {
     pawn = p;
+    pawn->activate();
 }
 
 void Controller::QueuePawn(IControllable *p) {

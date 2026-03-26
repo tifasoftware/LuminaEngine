@@ -59,6 +59,7 @@ class IControllable {
     virtual void OnQuit() {};
 
     bool getActive() { return isActive; }
+    void activate() { isActive = true; }
 protected:
-    bool isActive = true;
+    bool isActive = false;
 };
