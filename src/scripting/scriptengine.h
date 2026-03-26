@@ -1,6 +1,9 @@
 #pragma once
 
-#include <lumina.h>
+#include "luminalibrary.h"
+#include "entities/TileMap.h"
+#include "game/gameplay_state.h"
+#include "common/utils.h"
 
 extern "C" {
     #include "lua.h"

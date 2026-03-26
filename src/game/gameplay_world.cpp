@@ -5,9 +5,11 @@
 
 void GamePlay::WorldStart() {
     tm = new TileMap(gps.mapName, &gps, lumina, r);
+
     fontAtlas = r->loadTexture("fontatlas.png");
     dialogue = new Dialogue(r, tm);
     dialogue->SetFont(fontAtlas);
+
 
     tm->loadMap();
     tm->findSpawn(gps.lastMapName);
@@ -15,6 +17,8 @@ void GamePlay::WorldStart() {
     controller->Possess(tm);
     ChangeMusic(tm->getBGMFile());
     lumina->loadCharacterSprite(r);
+
+    scriptEngine = new ScriptEngine(dialogue, &gps, tm);
 
     if (gps.newMap) {
         SpawnDef sp = tm->getSpawn();
@@ -30,8 +34,9 @@ void GamePlay::WorldStart() {
 
     gps.inTransition = false;
     if (!gps.introShown) {
-        dialogue->DisplayDialogue("Welcome to Lumina Engine");
-        controller->Possess(dialogue);
+        scriptEngine->runScript("gamestart.lua");
+        //dialogue->DisplayDialogue("Welcome to Lumina Engine");
+        if (dialogue->isEngaged()) controller->Possess(dialogue);
     }
     controller->QueuePawn(tm);
     gps.introShown = true;
@@ -93,6 +98,7 @@ void GamePlay::WorldExit()
 
     controller->Release();
     tm->disposeMap();
+    delete scriptEngine;
     delete tm;
     tm = nullptr;
     

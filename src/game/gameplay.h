@@ -5,6 +5,8 @@
 #include "gameplay_state.h"
 #include "controller.h"
 #include "vgui/dialogue.h"
+#include "scripting/scriptengine.h"
+
 
 class GamePlay
 {
@@ -39,6 +41,7 @@ class GamePlay
     TileMap* tm;
     Renderer* r;
     SoundSystem* snd;
+    ScriptEngine* scriptEngine;
     Fade* f;
     Panel* panel;
     Dialogue* dialogue;

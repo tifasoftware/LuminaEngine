@@ -32,6 +32,7 @@ endif()
 
 file (GLOB_RECURSE SOURCES "src/*.cpp")
 file (GLOB LUA_SOURCES "libs/lua-5.5.0/src/*.c")
+file (GLOB LUA_ASSETS "assets/*.lua")
 file (GLOB PNG_ASSETS "assets/*.png")
 file (GLOB OGG_ASSETS "assets/*.ogg")
 file (GLOB WAV_ASSETS "assets/*.wav")
@@ -69,9 +70,11 @@ if (APPLE)
         ${PNG_ASSETS}
         ${OGG_ASSETS}
         ${WAV_ASSETS}
-        ${LMAP_ASSETS})
+        ${LMAP_ASSETS}
+        ${LUA_ASSETS}
+    )
     set_source_files_properties(
-            ${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS}
+            ${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS} ${LUA_ASSETS}
             PROPERTIES MACOSX_PACKAGE_LOCATION "Resources"
     )
     target_compile_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
@@ -188,7 +191,7 @@ if(APPLE)
     )
 
     # KEEP: your existing asset bundling
-    set_source_files_properties(${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS}
+    set_source_files_properties(${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS} ${LUA_ASSETS}
             PROPERTIES MACOSX_PACKAGE_LOCATION Resources
     )
 endif()
@@ -216,6 +219,12 @@ if (NOT APPLE)
         COMMAND ${CMAKE_COMMAND} -E copy
         ${LMAP_ASSETS}
         ${CMAKE_BINARY_DIR}
+    )
+
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy
+            ${LUA_ASSETS}
+            ${CMAKE_BINARY_DIR}
     )
 endif()
 
