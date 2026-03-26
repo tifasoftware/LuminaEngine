@@ -1,4 +1,4 @@
-add_executable(lua_test main.cpp)
+add_executable(lua_test main.cpp luminalibrary.cpp)
 
 file (GLOB LUA_FILES "${CMAKE_SOURCE_DIR}/src_tools/lua_test/*.lua")
 
