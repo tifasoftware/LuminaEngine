@@ -34,7 +34,7 @@ void GamePlay::WorldStart() {
 
     gps.inTransition = false;
     if (!gps.introShown) {
-        scriptEngine->runScript("gamestart.lua");
+        scriptEngine->runScript("gamestart.lua", "onCall");
         //dialogue->DisplayDialogue("Welcome to Lumina Engine");
 
     }
@@ -45,6 +45,7 @@ void GamePlay::WorldDraw()
 {
         controller->SendInput();
 
+        scriptEngine->updateScripts();
         tm->updateMap();
 
         // Clear the screen

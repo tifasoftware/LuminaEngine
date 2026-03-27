@@ -14,12 +14,20 @@ extern "C" {
 #include <string>
 #include <functional>
 
+struct ScriptSubroutine {
+    lua_State* m_cr;
+    std::string name;
+    float waittimer = 0.0f;
+    bool isAlive = true;
+};
+
 class ScriptEngine {
     public:
     ScriptEngine(Dialogue* d, GamePlayState* gps, TileMap* tm);
     ~ScriptEngine();
 
-    bool runScript(const char* script);
+    bool runScript(const char* script, const char* function);
+    void updateScripts();
 
     private:
     lua_State* m_lua;
@@ -28,4 +36,7 @@ class ScriptEngine {
     Dialogue* dialogue = nullptr;
     GamePlayState* gps = nullptr;
     TileMap* tm = nullptr;
+
+    LuminaLibrary library = LuminaLibrary();
+    std::vector<ScriptSubroutine> subroutines;
 };

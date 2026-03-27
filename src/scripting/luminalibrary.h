@@ -25,6 +25,8 @@ class LuminaLibrary {
 
     //Lua Bindings
     static int l_MessageBox(lua_State *L);
+    static int l_wait(lua_State *L);
+    static int l_drawFrame(lua_State *L);
 
 private:
     Dialogue* dialogue;

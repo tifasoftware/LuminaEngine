@@ -1,6 +1,6 @@
 # Lumina Engine
 
-> ⚠️ Early prototype — expect breaking changes and missing features.
+> ⚠️ Project is in Pre-Alpha — expect breaking changes and missing features.
 
 A 2D RPG game engine for the PC, Mac, Linux, and the Sony PSP, built with C++ and SDL2. Designed with portability in mind for future platforms.
 
