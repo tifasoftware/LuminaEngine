@@ -9,17 +9,17 @@ A 2D RPG game engine for the PlayStation Portable, built with C++ and SDL2. Desi
 ## Features
 
 - SDL2 based rendering
+- Lua 5.5 scripting (WIP)
 - Tile map system with custom LMAP format
-- Texture management
-- PSP controller input
-- Platform abstraction layer for future ports
+- Memory-efficient Texture management
+- Multiplatform controller and keyboard input
+- Runs on most major OSes and Homebrew
 
 ## Planned Features
 
 - [ ] WAD style asset packaging
-- [ ] Lua 5.4 scripting
 - [ ] NPC system
-- [ ] Dialogue system
+- [X] Dialogue system (Work in Progress)
 - [ ] Battle system
 - [ ] Save/load system
 
