@@ -19,21 +19,8 @@
 
 void GamePlay::MenuStart()
 {
-    clink = snd->loadSFX("hover.wav");
-    chime = snd->loadSFX("select.wav");
-    fontAtlas = r->loadTexture("fontatlas.png");
-    panel = new Panel(r, 300, 200);
-
-    Button* b1 = new Button("Resume", "resume", fontAtlas);
-    Button* b2 = new Button("Quit", "quit", fontAtlas);
-
-    b1->addLowerElement(b2);
-    b2->addUpperElement(b1);
-
-    panel->addElement(b1, 4, 4);
-    panel->addElement(b2, 4, 24);
-
-    b1->startFocus();
+    menu = new Menu(PAUSE_MENU, r, snd, &gps);
+    controller->Possess(menu);
 
     f->FadeIn(0.5f);
 
@@ -41,7 +28,7 @@ void GamePlay::MenuStart()
     {
         r->clear();
 
-        panel->Render();
+        menu->Render();
         // Draw everything on a white background
         
         if (f->isFading()){
@@ -59,62 +46,13 @@ void GamePlay::MenuStart()
 void GamePlay::MenuDraw()
 {
     if (gps.inTransition) return;
-    if (SDL_PollEvent(&event)) {
-            switch (event.type) {
-                case SDL_QUIT:
-                    // End the loop if the programs is being closed
-                    gps.RequestSwitchState(EXIT);
-                    break;
-                case SDL_CONTROLLERDEVICEADDED:
-                    // Connect a controller when it is connected
-                    SDL_GameControllerOpen(event.cdevice.which);
-                    break;
-                case SDL_CONTROLLERBUTTONDOWN:
-                    if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
-                        // Close the program if start is pressed
-                        snd->playSFX(chime);
-                        gps.RequestSwitchState(WORLD);
-                    } 
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
-                        if (panel->focusedElement() != nullptr)
-                        {
-                            if (panel->focusedElement()->giveFocusUp()) snd->playSFX(clink);
-                        }
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
-                        if (panel->focusedElement() != nullptr)
-                        {
-                            if (panel->focusedElement()->giveFocusDown()) snd->playSFX(clink);
-                        }
-                    }
-                    else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
-                        Button* selB = dynamic_cast<Button*>(panel->focusedElement());
-                        
-                        if (selB != nullptr)
-                        {
-                            if (selB->GetTag() == "resume")
-                            {
-                                snd->playSFX(chime);
-                                gps.RequestSwitchState(WORLD);
-                            } 
-                            else if (selB->GetTag() == "quit")
-                            {
-                                snd->playSFX(chime);
-                                gps.RequestSwitchState(EXIT);
-                            }
-                        }
-                    }
-                    break;
-                case SDL_CONTROLLERBUTTONUP:
-                    break;
-            }
-        }
+        controller->SendInput();
 
         // Clear the screen
         r->clear();
 
         //if (text != nullptr)
-        panel->Render();
+        menu->Render();
         // Draw everything on a white background
         
         r->present();
@@ -131,7 +69,7 @@ void GamePlay::MenuExit()
     {
         r->clear();
 
-        panel->Render();
+        menu->Render();
         // Draw everything on a white background
         
         if (f->isFading()){
@@ -145,7 +83,6 @@ void GamePlay::MenuExit()
     snd->unloadAllSFX();
     r->unloadAllTextures();
 
-    panel->destroy();
-    delete panel;
-    panel = nullptr;
+    delete menu;
+    menu = nullptr;
 }

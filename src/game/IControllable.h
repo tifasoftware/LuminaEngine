@@ -25,6 +25,22 @@ class IControllable {
     virtual void OnMoveRight() {};
     virtual void OnStopMoveRight() {};
 
+    //PSP - DPAD UP
+    //PC - Keyboard Up
+    virtual void OnButtonUp() {};
+
+    //PSP - DPAD Down
+    //PC - Keyboard Down
+    virtual void OnButtonDown() {};
+
+    //PSP - DPAD Left
+    //PC - Keyboard Left
+    virtual void OnButtonLeft() {};
+
+    //PSP - DPAD Right
+    //PC - Keyboard Right
+    virtual void OnButtonRight() {};
+
     //PSP - Cross
     //3DS - A
     //Computer - Enter/Return

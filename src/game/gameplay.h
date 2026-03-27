@@ -6,6 +6,7 @@
 #include "controller.h"
 #include "vgui/dialogue.h"
 #include "scripting/scriptengine.h"
+#include "vgui/menu.h"
 
 
 class GamePlay
@@ -43,13 +44,12 @@ class GamePlay
     SoundSystem* snd;
     ScriptEngine* scriptEngine;
     Fade* f;
-    Panel* panel;
     Dialogue* dialogue;
 
     SDL_Window* window;
     SDL_Event event;
 
-    int clink = -1;
-    int chime = -1;
+    Menu* menu;
+
     int fontAtlas = -1;
 };

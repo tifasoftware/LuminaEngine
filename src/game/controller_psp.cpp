@@ -21,12 +21,16 @@ void Controller::PSP_ProcessInput() {
                     pawn->OnButtonSelect();
                 } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
                     pawn->OnMoveUp();
+                    pawn->OnButtonUp();
                 } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
                     pawn->OnMoveDown();
+                    pawn->OnButtonDown();
                 } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
                     pawn->OnMoveLeft();
+                    pawn->OnButtonLeft();
                 } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
                     pawn->OnMoveRight();
+                    pawn->OnButtonRight();
                 } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
                     pawn->OnButtonA();
                 } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_B) {

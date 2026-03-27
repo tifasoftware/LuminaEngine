@@ -27,6 +27,14 @@ enum GameState : uint8_t
     TRANSITION
 };
 
+enum MenuClass : uint8_t {
+    MAIN_MENU,
+    PAUSE_MENU,
+    LUA_MENU,
+    NO_MENU,
+    NO_MENU_RETURNTOWORLD
+};
+
 enum EntityType : uint8_t
 {
     TRIGGER_LUA,

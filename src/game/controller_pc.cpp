@@ -25,6 +25,14 @@ void Controller::PC_ProcessInput() {
                     pawn->OnButtonX();
                 } else if (event.key.keysym.sym == SDLK_TAB) {
                     pawn->OnButtonY();
+                } else if (event.key.keysym.sym == SDLK_UP) {
+                    pawn->OnButtonUp();
+                } else if (event.key.keysym.sym == SDLK_DOWN) {
+                    pawn->OnButtonDown();
+                } else if (event.key.keysym.sym == SDLK_LEFT) {
+                    pawn->OnButtonLeft();
+                } else if (event.key.keysym.sym == SDLK_RIGHT) {
+                    pawn->OnButtonRight();
                 }
                 break;
             default:
