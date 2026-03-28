@@ -16,6 +16,8 @@ if(APPLE)
     set(SDL2_MIXER_INCLUDE_DIRS "/Library/Frameworks/SDL2_mixer.framework/Headers")
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -F/Library/Frameworks")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -F/Library/Frameworks")
+
+    set(APP_ICON "${CMAKE_SOURCE_DIR}/pbp_assets/AppIcon.icns")
 endif()
 
 if (WIN32)
@@ -72,9 +74,10 @@ if (APPLE)
         ${WAV_ASSETS}
         ${LMAP_ASSETS}
         ${LUA_ASSETS}
+        ${APP_ICON}
     )
     set_source_files_properties(
-            ${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS} ${LUA_ASSETS}
+            ${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS} ${LUA_ASSETS} ${APP_ICON}
             PROPERTIES MACOSX_PACKAGE_LOCATION "Resources"
     )
     target_compile_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
@@ -139,6 +142,9 @@ if(APPLE)
             MACOSX_BUNDLE_BUNDLE_VERSION "1.0"
             MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
             MACOSX_BUNDLE_GUI_IDENTIFIER "org.infitechppc.${PROJECT_NAME}"
+
+            # Icons
+            MACOSX_BUNDLE_ICON_FILE "AppIcon.icns"
 
             # ADD: Xcode universal binary settings
             XCODE_ATTRIBUTE_ARCHS "arm64 x86_64"
