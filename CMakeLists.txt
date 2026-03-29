@@ -30,6 +30,8 @@ if (WIN32)
     set(SDL2_LIBRARIES "${SDL2_DIR}/lib/libSDL2.dll.a")
     set(SDL2_IMAGE_LIBRARIES "${SDL2_DIR}/lib/libSDL2_image.dll.a")
     set(SDL2_MIXER_LIBRARIES "${SDL2_DIR}/lib/libSDL2_mixer.dll.a")
+
+    set(APP_ICON_RC "${CMAKE_SOURCE_DIR}/pbp_assets/app.rc")
 endif()
 
 file (GLOB_RECURSE SOURCES "src/*.cpp")
@@ -111,6 +113,13 @@ if (WIN32)
             ${SDL2_IMAGE_LIBRARIES}
             ${SDL2_MIXER_LIBRARIES}
             lua
+    )
+
+
+    target_sources(${PROJECT_NAME} PRIVATE ${APP_ICON_RC})
+
+    set_target_properties(${PROJECT_NAME} PROPERTIES
+            WIN32_EXECUTABLE TRUE  # Prevents console window
     )
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE
