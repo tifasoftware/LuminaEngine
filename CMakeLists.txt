@@ -27,7 +27,10 @@ if (WIN32)
     set(SDL2_IMAGE_INCLUDE_DIRS "${SDL2_DIR}/include")
     set(SDL2_MIXER_INCLUDE_DIRS "${SDL2_DIR}/include")
 
-    set(SDL2_LIBRARIES "${SDL2_DIR}/lib/libSDL2.dll.a")
+    set(SDL2_LIBRARIES
+            "${SDL2_DIR}/lib/libSDL2main.a"
+            "${SDL2_DIR}/lib/libSDL2.dll.a"
+    )
     set(SDL2_IMAGE_LIBRARIES "${SDL2_DIR}/lib/libSDL2_image.dll.a")
     set(SDL2_MIXER_LIBRARIES "${SDL2_DIR}/lib/libSDL2_mixer.dll.a")
 
@@ -108,13 +111,17 @@ endif ()
 if (WIN32)
     target_link_libraries(${PROJECT_NAME} PRIVATE
 	    mingw32
-	    "${SDL2_DIR}/lib/libSDL2main.a"
-            ${SDL2_LIBRARIES}
-            ${SDL2_IMAGE_LIBRARIES}
-            ${SDL2_MIXER_LIBRARIES}
-            lua
+        ${SDL2_LIBRARIES}
+        ${SDL2_IMAGE_LIBRARIES}
+        ${SDL2_MIXER_LIBRARIES}
+        lua
     )
 
+    target_link_options(${PROJECT_NAME} PRIVATE
+            -static-libgcc
+            -static-libstdc++
+            -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive
+    )
 
     target_sources(${PROJECT_NAME} PRIVATE ${APP_ICON_RC})
 
@@ -272,16 +279,5 @@ if (WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${SDL2_DLL_DIR}/SDL2_mixer.dll"
             "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
-
-        # MinGW runtime DLLs — needed on machines without MinGW installed
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "/usr/lib/gcc/x86_64-w64-mingw32/13-win32/libgcc_s_seh-1.dll"
-            "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "/usr/lib/gcc/x86_64-w64-mingw32/13-win32/libstdc++-6.dll"
-            "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
-        COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "/usr/x86_64-w64-mingw32/lib/libwinpthread-1.dll"
-            "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
-	)
+    )
 endif()

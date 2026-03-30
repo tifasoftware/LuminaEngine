@@ -1,5 +1,6 @@
 #include "scriptengine.h"
 #include <platform/platform.h>
+#include <algorithm>
 
 ScriptEngine::ScriptEngine(Dialogue *d, GamePlayState *gps, TileMap *tm) {
     this->dialogue = d;

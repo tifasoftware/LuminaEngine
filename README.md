@@ -77,7 +77,7 @@ via WSL (Ubuntu)
 sudo apt update
 sudo apt install mingw-w64 cmake make
 mkdir build && cd build
-cmake .. -DCMAKE_TOOLCHAIN_FILE=cmake/Toolchain-mingw64.cmake
+cmake .. -DCMAKE_TOOLCHAIN_FILE=../Toolchain-mingw64.cmake
 make
 ```
 The build will output a `LuminaEngine.exe` with the dlls and assets alongside.

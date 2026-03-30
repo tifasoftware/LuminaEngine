@@ -2,6 +2,7 @@
 build/
 tool_build/
 xcode_build/
+win_build/
 cmake-build-debug/
 cmake-build-release/
 build-psp/
@@ -24,6 +25,9 @@ EBOOT.PBP
 *.obj
 *.a
 *.lib
+
+!libs/mingw/x86_64-w64-mingw32/lib/*.a
+!libs/mingw/i686-w64-mingw32/lib/*.a
 
 # macOS
 .DS_Store

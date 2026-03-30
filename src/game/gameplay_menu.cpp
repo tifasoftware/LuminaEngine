@@ -1,6 +1,6 @@
-#include <SDL_events.h>
-#include <SDL_gamecontroller.h>
-#include <SDL_timer.h>
+#include <SDL2/SDL_events.h>
+#include <SDL2/SDL_gamecontroller.h>
+#include <SDL2/SDL_timer.h>
 
 #include "gameplay.h"
 #include "common/types.h"
