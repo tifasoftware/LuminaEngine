@@ -14,3 +14,6 @@
 #ifdef __APPLE__
     #define PLATFORM_OSX
 #endif
+#ifdef __WIN32__
+    #define PLATFORM_WINDOWS
+#endif

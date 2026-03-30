@@ -5,6 +5,7 @@
 #include "gameplay.h"
 #include "common/types.h"
 #include "graphics/Renderer.h"
+#include "platform/platform.h"
 #include "vgui/button.h"
 #include "vgui/panel.h"
 
@@ -61,6 +62,8 @@ void GamePlay::MenuDraw()
 
 void GamePlay::MenuExit()
 {
+
+    controller->Release();
     gps.inTransition = true;
 
     f->FadeOut(0.5f);
@@ -85,4 +88,5 @@ void GamePlay::MenuExit()
 
     delete menu;
     menu = nullptr;
+
 }
