@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 
+set(3DS OFF CACHE BOOL "Build for 3DS")
+
 if(APPLE)
     set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
     set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "")
@@ -54,7 +56,7 @@ target_include_directories(lua PUBLIC
     external/lua/src
 )
 
-if (NOT PSP)
+if (NOT (PSP OR 3DS))
     add_subdirectory(src_tools/lmap_compile)
     add_subdirectory(src_tools/lmap_info)
     add_subdirectory(src_tools/lua_test)
@@ -62,7 +64,18 @@ else()
     target_compile_definitions(lua PRIVATE LUA_32BITS)
 endif()
 
-if (NOT (APPLE OR WIN32))
+if(3DS)
+    set(SDL2_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/armv6/include")
+    set(SDL2_IMAGE_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/armv6/include")
+    set(SDL2_MIXER_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/armv6/include")
+
+    set(SDL2_LIBRARIES SDL2)
+    set(SDL2_IMAGE_LIBRARIES SDL2_image)
+    set(SDL2_MIXER_LIBRARIES SDL2_mixer)
+
+    set(CTRU_LIBRARIES citro3d citro2d ctru m)
+    set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
+elseif (NOT (APPLE OR WIN32))
     include(FindPkgConfig)
 
     pkg_search_module(SDL2 REQUIRED sdl2)
@@ -98,6 +111,15 @@ if (PSP)
         /usr/local/pspdev/psp/include
         src/
     )
+elseif(3DS)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${SDL2_INCLUDE_DIRS}
+            ${SDL2_IMAGE_INCLUDE_DIRS}
+            ${SDL2_MIXER_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
+            src/
+            "$ENV{DEVKITPRO}/libctru/include"
+    )
 else()
     target_include_directories(${PROJECT_NAME} PRIVATE
             ${SDL2_INCLUDE_DIRS}
@@ -127,6 +149,18 @@ if (WIN32)
 
     set_target_properties(${PROJECT_NAME} PROPERTIES
             WIN32_EXECUTABLE TRUE  # Prevents console window
+    )
+elseif(3DS)
+    target_link_directories(${PROJECT_NAME} PRIVATE
+            "$ENV{DEVKITPRO}/libctru/lib"
+            "$ENV{DEVKITPRO}/portlibs/armv6/lib"
+    )
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            ${SDL2_LIBRARIES}
+            ${SDL2_IMAGE_LIBRARIES}
+            ${SDL2_MIXER_LIBRARIES}
+            lua
+            ${CTRU_LIBRARIES}
     )
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE
