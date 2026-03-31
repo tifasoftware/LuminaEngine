@@ -41,7 +41,7 @@ A 2D RPG game engine for the PC, Mac, Linux, and the Sony PSP, built with C++ an
 | Wii                                                        | ❔ Feasibility will be researched                                                                                                                                         |
 | PS3                                                        | ❔ Feasibility will be researched                                                                                                                                         |
 | PS Vita                                                    | ⚠️ Not officially supported, but should run with the Adrenaline Emulator.                                                                                                |
-| Legacy versions of Windows and macOS                       | ❔ Feasibility will be researched                                                                                                                                                                         |
+| Legacy versions of Windows and macOS                       | ⚠️ Experimental. See [Legacy Build Journal](docs/legacy_builds.md)                                                                                                                                                                         |
 ---
 
 ## Dependencies
