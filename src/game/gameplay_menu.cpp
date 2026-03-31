@@ -1,11 +1,9 @@
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_gamecontroller.h>
-#include <SDL2/SDL_timer.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 
 #include "gameplay.h"
 #include "common/types.h"
 #include "graphics/Renderer.h"
-#include "platform/platform.h"
 #include "vgui/button.h"
 #include "vgui/panel.h"
 

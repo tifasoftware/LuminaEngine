@@ -5,6 +5,7 @@
     #define SCREEN_W 480
     #define SCREEN_H 272
     #define SCREEN_SCALE 1
+    #define LIB_SDL2
 #else
     #define PLATFORM_PC
     #define SCREEN_W 480
@@ -16,4 +17,10 @@
 #endif
 #ifdef __WIN32__
     #define PLATFORM_WINDOWS
+#endif
+#ifdef __3DS__
+#define PLATFORM_3DS
+#define LIB_SDL1
+#else
+#define LIB_SDL2
 #endif

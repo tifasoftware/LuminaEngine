@@ -1,4 +1,5 @@
-#include <SDL2/SDL_mixer.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 #include <sound/soundsystem.h>
 
 #include "common/utils.h"

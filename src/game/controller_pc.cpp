@@ -1,4 +1,5 @@
-#include <SDL2/SDL_events.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 
 #include "controller.h"
 

@@ -2,10 +2,9 @@
 
 #include <string>
 #include <unistd.h>
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_timer.h>
-
 #include <platform/platform.h>
+#include <platform/universalsdl.h>
+
 
 #ifdef PLATFORM_OSX
 #include <mach-o/dyld.h>

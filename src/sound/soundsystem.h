@@ -1,5 +1,6 @@
 #pragma once
-#include <SDL2/SDL_mixer.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 
 static const int MAX_SFX = 32;
 

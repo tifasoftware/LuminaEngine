@@ -1,7 +1,8 @@
 #include <formats/lmap.h>
 #include <iostream>
 #include <stdio.h>
-#include <SDL2/SDL_log.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 
 #include "common/utils.h"
 
