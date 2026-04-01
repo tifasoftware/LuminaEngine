@@ -4,7 +4,11 @@
 
 GamePlay::GamePlay()
 {
+#ifdef LIB_SDL1
+    SDL_Init(SDL_INIT_EVERYTHING);
+#else
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER);
+#endif
 
     // Enable png support for SDL2_image
     IMG_Init(IMG_INIT_PNG);
@@ -31,6 +35,17 @@ GamePlay::GamePlay()
     SDL_SetWindowFullscreen(window, 0);
     SDL_RaiseWindow(window);
     SDL_SetWindowInputFocus(window);
+#endif
+#ifdef PLATFORM_3DS
+    window = SDL_CreateWindow(
+        "window",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        SCREEN_W,
+        SCREEN_H,
+        0
+    );
+    SDL_ShowCursor(SDL_DISABLE);
 #endif
 
     snd = new SoundSystem();

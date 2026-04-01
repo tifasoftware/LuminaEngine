@@ -1,6 +1,17 @@
 cmake_minimum_required(VERSION 3.11)
 
 set(3DS OFF CACHE BOOL "Build for 3DS")
+set(SDL1_OVERRIDE OFF CACHE BOOL "Debug for SDL1")
+
+if(3DS)
+    add_definitions(-D__3DS__)
+    add_definitions(-DLIB_SDL1)
+    set(ROMFS_DIR "${CMAKE_SOURCE_DIR}/assets")
+endif()
+
+if(SDL1_OVERRIDE)
+    add_definitions(-DLIB_SDL1)
+endif()
 
 if(APPLE)
     set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
@@ -10,12 +21,17 @@ endif()
 project(LuminaEngine)
 
 if(APPLE)
-    set(SDL2_LIBRARIES "-framework SDL2")
-    set(SDL2_IMAGE_LIBRARIES "-framework SDL2_image")
-    set(SDL2_MIXER_LIBRARIES "-framework SDL2_mixer")
-    set(SDL2_INCLUDE_DIRS "/Library/Frameworks/SDL2.framework/Headers")
-    set(SDL2_IMAGE_INCLUDE_DIRS "/Library/Frameworks/SDL2_image.framework/Headers")
-    set(SDL2_MIXER_INCLUDE_DIRS "/Library/Frameworks/SDL2_mixer.framework/Headers")
+    if (SDL1_OVERRIDE)
+        set(SDL_LIBRARIES "/usr/local/lib")
+        set(SDL_INCLUDE_DIRS "/usr/local/include/SDL")
+    else()
+        set(SDL2_LIBRARIES "-framework SDL2")
+        set(SDL2_IMAGE_LIBRARIES "-framework SDL2_image")
+        set(SDL2_MIXER_LIBRARIES "-framework SDL2_mixer")
+        set(SDL2_INCLUDE_DIRS "/Library/Frameworks/SDL2.framework/Headers")
+        set(SDL2_IMAGE_INCLUDE_DIRS "/Library/Frameworks/SDL2_image.framework/Headers")
+        set(SDL2_MIXER_INCLUDE_DIRS "/Library/Frameworks/SDL2_mixer.framework/Headers")
+    endif()
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -F/Library/Frameworks")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -F/Library/Frameworks")
 
@@ -65,17 +81,18 @@ else()
 endif()
 
 if(3DS)
-    set(SDL2_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/armv6/include")
-    set(SDL2_IMAGE_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/armv6/include")
-    set(SDL2_MIXER_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/armv6/include")
+    set(SDL2_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
+    set(SDL2_IMAGE_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
+    set(SDL2_MIXER_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
 
-    set(SDL2_LIBRARIES SDL2)
-    set(SDL2_IMAGE_LIBRARIES SDL2_image)
-    set(SDL2_MIXER_LIBRARIES SDL2_mixer)
+    set(PORT_LIBRARIES jpeg png z mad mikmod vorbisidec ogg)
+    set(SDL2_LIBRARIES SDL)
+    set(SDL2_IMAGE_LIBRARIES SDL_image)
+    set(SDL2_MIXER_LIBRARIES SDL_mixer)
 
     set(CTRU_LIBRARIES citro3d citro2d ctru m)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
-elseif (NOT (APPLE OR WIN32))
+elseif (NOT (APPLE OR WIN32 OR SDL1_OVERRIDE))
     include(FindPkgConfig)
 
     pkg_search_module(SDL2 REQUIRED sdl2)
@@ -120,6 +137,12 @@ elseif(3DS)
             src/
             "$ENV{DEVKITPRO}/libctru/include"
     )
+elseif(SDL1_OVERRIDE)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${SDL_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
+            src/
+    )
 else()
     target_include_directories(${PROJECT_NAME} PRIVATE
             ${SDL2_INCLUDE_DIRS}
@@ -153,14 +176,31 @@ if (WIN32)
 elseif(3DS)
     target_link_directories(${PROJECT_NAME} PRIVATE
             "$ENV{DEVKITPRO}/libctru/lib"
-            "$ENV{DEVKITPRO}/portlibs/armv6/lib"
+            "$ENV{DEVKITPRO}/portlibs/3ds/lib"
     )
     target_link_libraries(${PROJECT_NAME} PRIVATE
-            ${SDL2_LIBRARIES}
-            ${SDL2_IMAGE_LIBRARIES}
-            ${SDL2_MIXER_LIBRARIES}
+            SDL SDL_image SDL_mixer
             lua
-            ${CTRU_LIBRARIES}
+            jpeg png z mad mikmod ogg vorbisidec
+            SDL
+            citro3d citro2d ctru m
+    )
+
+    dkp_add_asset_target(${PROJECT_NAME}_romfs "${CMAKE_SOURCE_DIR}/assets")
+
+    #dkp_install_assets (${PROJECT_NAME}_romfs TARGETS
+    #        "${CMAKE_SOURCE_DIR}/assets"
+    #)
+
+    ctr_generate_smdh(${PROJECT_NAME}.smdh
+            NAME "${PROJECT_NAME}"
+            DESCRIPTION "v${PROJECT_VERSION}"
+            AUTHOR "Me!"
+    )
+
+    ctr_create_3dsx(${PROJECT_NAME}
+            SMDH ${PROJECT_NAME}.smdh
+            ROMFS ${PROJECT_NAME}_romfs
     )
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -252,7 +292,9 @@ if(APPLE)
     )
 endif()
 
-if (NOT APPLE)
+
+
+if (NOT (APPLE OR 3DS))
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${PNG_ASSETS}

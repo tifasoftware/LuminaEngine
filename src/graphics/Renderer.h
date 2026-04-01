@@ -12,7 +12,7 @@ static const int REDRAW_DELAY = 1000 / FRAME_RATE;
 class Renderer
 {
 public:
-    Renderer(SDL_Window * win);
+    Renderer(SDL_Window* win);
     int drawTile(int texIndex, int tileIndex, int x, int y);
     int drawTile(int texIndex, int tileIndex, int x, int y, int tileSize);
     int drawTile(int texIndex, int x, int y);

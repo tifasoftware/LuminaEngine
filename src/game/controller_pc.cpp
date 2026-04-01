@@ -3,6 +3,7 @@
 
 #include "controller.h"
 
+#ifdef LIB_SDL2
 void Controller::PC_ProcessInput() {
     if (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -57,3 +58,9 @@ void Controller::PC_ProcessInput() {
     }
 
 }
+#endif
+#ifdef LIB_SDL1
+void Controller::PC_ProcessInput() {
+
+}
+#endif

@@ -19,8 +19,9 @@
     #define PLATFORM_WINDOWS
 #endif
 #ifdef __3DS__
-#define PLATFORM_3DS
-#define LIB_SDL1
-#else
-#define LIB_SDL2
+    #define PLATFORM_3DS
+    #define SCREEN_W 400
+    #define SCREEN_H 240
+    #define SCREEN_SCALE 1
+    #define LIB_SDL1
 #endif

@@ -12,5 +12,12 @@
 #endif
 
 #ifdef LIB_SDL1
+#include <SDL/SDL.h>
+#include <SDL/SDL_image.h>
+#include <SDL/SDL_mixer.h>
 
+#include <platform/sdl2_compat/SDL_Renderer.h>
+#include <platform/sdl2_compat/SDL_Texture.h>
+#include <platform/sdl2_compat/SDL_Window.h>
+#include <platform/sdl2_compat/SDL_misc.h>
 #endif
