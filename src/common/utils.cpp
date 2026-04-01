@@ -87,7 +87,7 @@ std::string LuminaUtils::osPath(const char *relpath) {
         //SDL_Log("BasePath: %s", sdlBase);
         if (sdlBase) {
             base = std::string(sdlBase);
-            SDL_free(sdlBase);
+            delete sdlBase;
         } else {
             base = "./";
         }

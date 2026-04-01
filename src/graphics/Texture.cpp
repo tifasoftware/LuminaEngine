@@ -6,8 +6,8 @@
 
 Texture::Texture(const char* file, SDL_Renderer* render){
     printf("New Texture");
-    //SDL_Surface * pixels = IMG_Load(LuminaUtils::osPath(file).c_str());
-    SDL_Surface* pixels = nullptr;
+    SDL_Surface * pixels = IMG_Load(LuminaUtils::osPath(file).c_str());
+    //SDL_Surface* pixels = nullptr;
     if (!pixels) {
         pixels = SDL_CreateRGBSurface(
         SDL_SWSURFACE, 16, 16, render->screen->format->BitsPerPixel,
