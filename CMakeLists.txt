@@ -1,7 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 
 set(3DS OFF CACHE BOOL "Build for 3DS")
-set(SDL1_OVERRIDE OFF CACHE BOOL "Debug for SDL1")
+set(SDL1_OVERRIDE ON CACHE BOOL "Debug for SDL1")
 
 if(3DS)
     add_definitions(-D__3DS__)
@@ -95,9 +95,9 @@ if(3DS)
 elseif (NOT (APPLE OR WIN32 OR SDL1_OVERRIDE))
     include(FindPkgConfig)
 
-    pkg_search_module(SDL2 REQUIRED sdl2)
-    pkg_search_module(SDL2_IMAGE REQUIRED SDL2_image)
-    pkg_search_module(SDL2_MIXER REQUIRED SDL2_mixer)
+    pkg_search_module(SDL REQUIRED sdl)
+    pkg_search_module(SDL_IMAGE REQUIRED SDL_image)
+    pkg_search_module(SDL_MIXER REQUIRED SDL_mixer)
     #pkg_search_module(SDL2_TTF REQUIRED SDL2_ttf)
     #pkg_search_module(LUA REQUIRED lua5.4)
 endif()
@@ -204,9 +204,10 @@ elseif(3DS)
     )
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE
-            ${SDL2_LIBRARIES}
-            ${SDL2_IMAGE_LIBRARIES}
-            ${SDL2_MIXER_LIBRARIES}
+            SDL SDL_image SDL_mixer
+            lua
+            #jpeg png z mad mikmod ogg vorbisidec
+            SDL
             lua
     )
 endif()
