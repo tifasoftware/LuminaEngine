@@ -39,6 +39,8 @@ void GamePlay::WorldStart() {
 
     }
     gps.introShown = true;
+    SDL_BP_SetClearColor(r->getRenderer(),255,0,255);
+
 }
 
 void GamePlay::WorldDraw()
