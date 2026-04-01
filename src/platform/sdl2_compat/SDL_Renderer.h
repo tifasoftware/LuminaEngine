@@ -111,7 +111,7 @@ static SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer * renderer, SDL_Su
 static SDL_Renderer* SDL_CreateRenderer(SDL_Window * window, int index, int flags) {
     auto* r = new SDL_Renderer();
     r->screen = window;
-    r->clear_color = SDL_MapRGB(window->format, 255, 0, 0);
+    r->clear_color = SDL_MapRGB(window->format, 0, 0, 0);
     r->RenderClear();
     return r;
 }

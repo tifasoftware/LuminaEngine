@@ -16,6 +16,7 @@ LMAPHeader LMAPLoader::load()
     LMAPHeader lmap = {};
     FILE* in = fopen(LuminaUtils::osPath(file).c_str(), "rb");
     if (!in) {
+        strncpy(lmap.magic, "FAIL", 4);
         SDL_Log("Error opening file %s", LuminaUtils::osPath(file).c_str());
         return lmap;
     }
