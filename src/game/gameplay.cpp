@@ -51,6 +51,8 @@ GamePlay::GamePlay()
     snd = new SoundSystem();
     r = new Renderer(window);
 
+    SDL_BP_SetClearColor(r->getRenderer(),255,255,0);
+
     snd->startMusic("bgm0.ogg");
 
     r->loadTexture("splash.png");
@@ -88,6 +90,9 @@ GamePlay::GamePlay()
     controller = new Controller();
 
     LuminaUtils::LuminaDelay(1000);
+
+    SDL_BP_SetClearColor(r->getRenderer(),255,0,0);
+
 
     strncpy(gps.lastMapName, "start", sizeof(gps.lastMapName) - 1);
     gps.newMap = true;

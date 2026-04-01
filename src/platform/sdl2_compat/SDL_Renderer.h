@@ -96,6 +96,10 @@ static void SDL_RenderDrawRect(SDL_Renderer * renderer, SDL_Rect* rect) {
     renderer->DrawRect(rect);
 }
 
+static void SDL_BP_SetClearColor(SDL_Renderer * renderer, int r, int g, int b) {
+    renderer->clear_color = SDL_MapRGB(renderer->screen->format, r, g, b);
+}
+
 static SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer * renderer, SDL_Surface* surface) {
     SDL_Texture* texture = new SDL_Texture();
     texture->surface = SDL_DisplayFormat(surface);
