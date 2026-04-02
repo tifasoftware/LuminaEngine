@@ -3,33 +3,24 @@
 
 #include "controller.h"
 
-//#ifdef LIB_SDL2
-void Controller::PC_ProcessInput() {
+void Controller::N3DS_ProcessInput() {
     if (SDL_PollEvent(&event)) {
         switch (event.type) {
             case SDL_QUIT:
                 pawn->OnQuit();
                 break;
-            case SDL_CONTROLLERDEVICEADDED:
-                // Connect a controller when it is connected
-#ifdef LIB_SDL1
-                //no ops
-#else
-                SDL_GameControllerOpen(event.cdevice.which);
-#endif
-                break;
             case SDL_KEYDOWN:
-                if(event.key.keysym.sym == SDLK_ESCAPE) {
+                if(event.key.keysym.sym == SDLK_RETURN) {
                     pawn->OnButtonStart();
-                } else if (event.key.keysym.sym == SDLK_SPACE) {
+                } else if (event.key.keysym.sym == SDLK_ESCAPE) {
                     pawn->OnButtonSelect();
-                } else if (event.key.keysym.sym == SDLK_RETURN) {
+                } else if (event.key.keysym.sym == SDLK_a) {
                     pawn->OnButtonA();
-                } else if (event.key.keysym.sym == SDLK_BACKSPACE) {
+                } else if (event.key.keysym.sym == SDLK_b) {
                     pawn->OnButtonB();
-                } else if (event.key.keysym.sym == SDLK_e) {
+                } else if (event.key.keysym.sym == SDLK_x) {
                     pawn->OnButtonX();
-                } else if (event.key.keysym.sym == SDLK_TAB) {
+                } else if (event.key.keysym.sym == SDLK_y) {
                     pawn->OnButtonY();
                 } else if (event.key.keysym.sym == SDLK_UP) {
                     pawn->OnButtonUp();
@@ -46,25 +37,19 @@ void Controller::PC_ProcessInput() {
         }
     }
     const Uint8* keys = SDL_GetKeyboardState(NULL);
-    if (keys[SDL_SCANCODE_UP] || keys[SDL_SCANCODE_W]) {
+    if (keys[SDL_SCANCODE_UP]) {
         pawn->OnMoveUp();
-    } else if (keys[SDL_SCANCODE_DOWN] || keys[SDL_SCANCODE_S]) {
+    } else if (keys[SDL_SCANCODE_DOWN]) {
         pawn->OnMoveDown();
     } else {
         pawn->OnStopMoveDown();
     }
-    if (keys[SDL_SCANCODE_LEFT] || keys[SDL_SCANCODE_A]) {
+    if (keys[SDL_SCANCODE_LEFT]) {
         pawn->OnMoveLeft();
-    } else if (keys[SDL_SCANCODE_RIGHT] || keys[SDL_SCANCODE_D]) {
+    } else if (keys[SDL_SCANCODE_RIGHT]) {
         pawn->OnMoveRight();
     } else {
         pawn->OnStopMoveRight();
     }
 
 }
-//#endif
-//#ifdef LIB_SDL1
-//void Controller::PC_ProcessInput() {
-//
-//}
-//#endif

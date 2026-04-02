@@ -17,4 +17,5 @@ class Controller {
     SDL_Event event;
     void PSP_ProcessInput();
     void PC_ProcessInput();
+    void N3DS_ProcessInput();
 };

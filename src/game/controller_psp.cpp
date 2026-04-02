@@ -61,6 +61,6 @@ void Controller::PSP_ProcessInput() {
 
 #ifdef LIB_SDL1
 void Controller::PSP_ProcessInput() {
-
+    //no ops
 }
 #endif

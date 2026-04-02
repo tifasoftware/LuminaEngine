@@ -64,7 +64,8 @@ file (GLOB WAV_ASSETS "assets/*.wav")
 file (GLOB LMAP_ASSETS "assets/*.lmap")
 
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES}
+        src/platform/sdl2_compat/SDL_events.h)
 
 add_library(lua STATIC ${LUA_SOURCES})
 

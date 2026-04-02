@@ -20,4 +20,5 @@
 #include <platform/sdl2_compat/SDL_Texture.h>
 #include <platform/sdl2_compat/SDL_Window.h>
 #include <platform/sdl2_compat/SDL_misc.h>
+#include <platform/sdl2_compat/SDL_events.h>
 #endif
