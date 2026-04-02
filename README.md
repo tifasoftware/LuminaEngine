@@ -37,11 +37,15 @@ A 2D RPG game engine for the PC, Mac, Linux, and the Sony PSP, built with C++ an
 | iOS / iPadOS                                               | ❌ Probably too restrictive. Players are encouraged to run the PSP version thru [PPSSPP](https://apps.apple.com/us/app/ppsspp-psp-emulator/id6496972903) instead.         |
 | Android                                                    | ❔ Feasibillity will be researched. Players are encouraged to run the PSP version thru [PPSSPP](https://play.google.com/store/apps/details?id=org.ppsspp.ppsspp) for now. |
 | NDS                                                        | ❌ Not enough system RAM                                                                                                                                                  |
-| 3DS                                                        | 🔜 Planned (More powerful than PSP, and has [SDL2](https://wiki.libsdl.org/SDL2/README-n3ds))                                                                            |
-| Wii                                                        | ❔ Feasibility will be researched                                                                                                                                         |
-| PS3                                                        | ❔ Feasibility will be researched                                                                                                                                         |
+| 3DS                                                        | ⚠️ Work in progress.                                                                                                                                                     |
+| GameCube                                                   | ❔ Has slightly less RAM than 1000-series PSPs, but has SDL2 support                                                                                                      |
+| Wii                                                        | 🔜 Definitely Feasible (Has SDL2 Libraries at DevKitPro)                                                                                                                 |
+| Wii U                                                      | 🔜 Definitely Feasible (Has SDL2 Libraries at DevKitPro)                                                                                                                 |
+| Nintendo Switch                                            | 🔜 Definitely Feasible (Has SDL2 Libraries at DevKitPro) (I only have the OLED model though)                                                                             |
+| PS2                                                        | ❔ Probably Feasible (Has at least 32MB RAM, and might have good SDL2 support)                                                                                            |
+| PS3                                                        | ❔ Most likely feasible if the 3DS port succeeds                                                                                                                          |
 | PS Vita                                                    | ⚠️ Not officially supported, but should run with the Adrenaline Emulator.                                                                                                |
-| Legacy versions of Windows and macOS                       | ⚠️ Experimental. See [Legacy Build Journal](docs/legacy_builds.md)                                                                                                                                                                         |
+| Legacy versions of Windows and macOS                       | ⚠️ Experimental. See [Legacy Build Journal](docs/legacy_builds.md)                                                                                                       |
 ---
 
 ## Dependencies
