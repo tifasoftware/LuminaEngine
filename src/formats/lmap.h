@@ -46,7 +46,7 @@ class LMAPLoader
     public:
     LMAPLoader() : file("") {}
     LMAPLoader(const char* file);
-    LMAPHeader load();
+    LMAPHeader* load();
 
     private:
     const char* file;
