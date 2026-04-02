@@ -3,6 +3,7 @@
 
 Controller::Controller() {
     pawn = nullptr;
+    queued_pawn = nullptr;
 }
 
 void Controller::Possess(IControllable *p) {
