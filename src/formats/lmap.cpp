@@ -22,6 +22,7 @@ LMAPHeader* LMAPLoader::load()
 
     FILE* in = fopen(LuminaUtils::osPath(file).c_str(), "rb");
     if (!in) {
+        free(lmap);
 #ifdef PLATFORM_3DS
         svcBreak(USERBREAK_PANIC);
 #endif
