@@ -18,4 +18,7 @@ class Controller {
     void PSP_ProcessInput();
     void PC_ProcessInput();
     void N3DS_ProcessInput();
+
+    FILE* debugLog;
+    void DebugLog(const char* fmt, ...);
 };

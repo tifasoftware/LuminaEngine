@@ -19,6 +19,7 @@
 void GamePlay::MenuStart()
 {
     menu = new Menu(PAUSE_MENU, r, snd, &gps);
+    menu->activate();
     controller->Possess(menu);
 
     f->FadeIn(0.5f);
@@ -60,7 +61,7 @@ void GamePlay::MenuDraw()
 
 void GamePlay::MenuExit()
 {
-
+    menu->deactivate();
     controller->Release();
     gps.inTransition = true;
 

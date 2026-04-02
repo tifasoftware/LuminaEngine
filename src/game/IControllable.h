@@ -76,6 +76,7 @@ class IControllable {
 
     bool getActive() { return isActive; }
     void activate() { isActive = true; }
+    void deactivate() { isActive = false; }
 protected:
     bool isActive = false;
 };

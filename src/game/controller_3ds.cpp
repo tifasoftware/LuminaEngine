@@ -8,43 +8,60 @@
 
 void Controller::N3DS_ProcessInput() {
     hidScanInput();
+    u32 kDown = hidKeysDown();
+    u32 kHeld = hidKeysHeld();
+    u32 kUp = hidKeysUp();
 
-    uint32_t kDown = hidKeysDown();
-    uint32_t kHeld = hidKeysHeld();
-    uint32_t kUp = hidKeysUp();
+    if (kDown) DebugLog("kDown: %08lX\n", kDown);
+    if (kHeld) DebugLog("kHeld: %08lX\n", kHeld);
+    if (kUp) DebugLog("kUp: %08lX\n", kUp);
 
+    // Button PRESS events (one-time actions)
     if (kDown & KEY_START) {
         pawn->OnButtonStart();
-    } else if (kDown & KEY_SELECT) {
+    }
+    if (kDown & KEY_SELECT) {
         pawn->OnButtonSelect();
-    } else if (kDown & KEY_UP) {
+    }
+    if (kDown & KEY_DUP) {
         pawn->OnButtonUp();
-        pawn->OnMoveUp();
-    } else if (kDown & KEY_DOWN) {
+    }
+    if (kDown & KEY_DDOWN) {
         pawn->OnButtonDown();
-        pawn->OnMoveDown();
-    } else if (kDown & KEY_LEFT) {
+    }
+    if (kDown & KEY_DLEFT) {
         pawn->OnButtonLeft();
-        pawn->OnMoveLeft();
-    } else if (kDown & KEY_RIGHT) {
+    }
+    if (kDown & KEY_DRIGHT) {
         pawn->OnButtonRight();
-        pawn->OnMoveRight();
-    } else if (kUp & KEY_UP) {
-        pawn->OnStopMoveUp();
-    } else if (kUp & KEY_DOWN) {
-        pawn->OnStopMoveDown();
-    } else if (kUp & KEY_LEFT) {
-        pawn->OnStopMoveLeft();
-    } else if (kUp & KEY_RIGHT) {
-        pawn->OnStopMoveRight();
-    } else if (kDown & KEY_A) {
+    }
+    if (kDown & KEY_A) {
         pawn->OnButtonA();
-    } else if (kDown & KEY_B) {
+    }
+    if (kDown & KEY_B) {
         pawn->OnButtonB();
-    } else if (kDown & KEY_X) {
+    }
+    if (kDown & KEY_X) {
+        pawn->OnMoveUp();
         pawn->OnButtonX();
-    } else if (kDown & KEY_Y) {
+    }
+    if (kDown & KEY_Y) {
         pawn->OnButtonY();
+        pawn->OnMoveDown();
+    }
+
+    // HELD state (continuous movement - called every frame)
+    if (kDown & KEY_DUP) {
+        pawn->OnMoveUp();
+    }
+    if (kDown & KEY_DDOWN) {
+        pawn->OnMoveDown();
+    }
+    if (kDown & KEY_DLEFT) {
+        pawn->OnMoveLeft();
+    }
+    if (kDown & KEY_DRIGHT) {
+        pawn->OnMoveRight();
     }
 }
 #else

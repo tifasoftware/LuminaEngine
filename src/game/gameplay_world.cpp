@@ -13,6 +13,7 @@ void GamePlay::WorldStart() {
     tm->loadMap();
     tm->findSpawn(gps.lastMapName);
     tm->SetDebugFont(fontAtlas);
+    tm->activate();
     controller->Possess(tm);
     ChangeMusic(tm->getBGMFile());
     lumina->loadCharacterSprite(r);
@@ -103,6 +104,7 @@ void GamePlay::WorldExit()
         LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
+    tm->deactivate();
     controller->Release();
     tm->disposeMap();
     delete scriptEngine;
