@@ -13,37 +13,37 @@ void Controller::N3DS_ProcessInput() {
     uint32_t kHeld = hidKeysHeld();
     uint32_t kUp = hidKeysUp();
 
-    if (kDown && KEY_START) {
+    if (kDown & KEY_START) {
         pawn->OnButtonStart();
-    } else if (kDown && KEY_SELECT) {
+    } else if (kDown & KEY_SELECT) {
         pawn->OnButtonSelect();
-    } else if (kDown && KEY_UP) {
+    } else if (kDown & KEY_UP) {
         pawn->OnButtonUp();
         pawn->OnMoveUp();
-    } else if (kDown && KEY_DOWN) {
+    } else if (kDown & KEY_DOWN) {
         pawn->OnButtonDown();
         pawn->OnMoveDown();
-    } else if (kDown && KEY_LEFT) {
+    } else if (kDown & KEY_LEFT) {
         pawn->OnButtonLeft();
         pawn->OnMoveLeft();
-    } else if (kDown && KEY_RIGHT) {
+    } else if (kDown & KEY_RIGHT) {
         pawn->OnButtonRight();
         pawn->OnMoveRight();
-    } else if (kUp && KEY_UP) {
+    } else if (kUp & KEY_UP) {
         pawn->OnStopMoveUp();
-    } else if (kUp && KEY_DOWN) {
+    } else if (kUp & KEY_DOWN) {
         pawn->OnStopMoveDown();
-    } else if (kUp && KEY_LEFT) {
+    } else if (kUp & KEY_LEFT) {
         pawn->OnStopMoveLeft();
-    } else if (kUp && KEY_RIGHT) {
+    } else if (kUp & KEY_RIGHT) {
         pawn->OnStopMoveRight();
-    } else if (kDown && KEY_A) {
+    } else if (kDown & KEY_A) {
         pawn->OnButtonA();
-    } else if (kDown && KEY_B) {
+    } else if (kDown & KEY_B) {
         pawn->OnButtonB();
-    } else if (kDown && KEY_X) {
+    } else if (kDown & KEY_X) {
         pawn->OnButtonX();
-    } else if (kDown && KEY_Y) {
+    } else if (kDown & KEY_Y) {
         pawn->OnButtonY();
     }
 }
