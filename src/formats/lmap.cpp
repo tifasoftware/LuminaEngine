@@ -29,7 +29,7 @@ LMAPHeader* LMAPLoader::load()
         SDL_Log("Error opening file %s", LuminaUtils::osPath(file).c_str());
         return nullptr;
     }
-    fread(&lmap, sizeof(LMAPHeader), 1, in);
+    fread(lmap, sizeof(LMAPHeader), 1, in);
     fclose(in);
 
     return lmap;
