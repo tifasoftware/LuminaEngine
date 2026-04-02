@@ -10,7 +10,11 @@
     #define PLATFORM_PC
     #define SCREEN_W 480
     #define SCREEN_H 272
-    #define SCREEN_SCALE 2
+    #ifdef LIB_SDL1
+        #define SCREEN_SCALE 1
+    #else
+        #define SCREEN_SCALE 2
+    #endif
 #endif
 #ifdef __APPLE__
     #define PLATFORM_OSX

@@ -102,7 +102,8 @@ static void SDL_BP_SetClearColor(SDL_Renderer * renderer, int r, int g, int b) {
 
 static SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer * renderer, SDL_Surface* surface) {
     SDL_Texture* texture = new SDL_Texture();
-    texture->surface = SDL_DisplayFormat(surface);
+    texture->surface = SDL_DisplayFormatAlpha(surface);
+    SDL_SetAlpha(texture->surface, SDL_SRCALPHA, SDL_ALPHA_OPAQUE);
     texture->height = texture->surface->h;
     texture->width = texture->surface->w;
     return texture;

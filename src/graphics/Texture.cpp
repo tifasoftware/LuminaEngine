@@ -5,7 +5,6 @@
 #include "common/utils.h"
 
 Texture::Texture(const char* file, SDL_Renderer* render){
-    printf("New Texture");
     SDL_Surface * pixels = IMG_Load(LuminaUtils::osPath(file).c_str());
     //SDL_Surface* pixels = nullptr;
     if (!pixels) {
