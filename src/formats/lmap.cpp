@@ -18,7 +18,7 @@ LMAPLoader::LMAPLoader(const char* file)
 LMAPHeader* LMAPLoader::load()
 {
     LMAPHeader* lmap = (LMAPHeader*)malloc(sizeof(LMAPHeader));
-    if (!lmap) { /* handle alloc failure */ }
+    if (!lmap) { return nullptr; }
 
     FILE* in = fopen(LuminaUtils::osPath(file).c_str(), "rb");
     if (!in) {
