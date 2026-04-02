@@ -2,8 +2,15 @@
 #include <platform/platform.h>
 #include <common/utils.h>
 
+#ifdef PLATFORM_3DS
+#include "3ds.h"
+#endif
+
 GamePlay::GamePlay()
 {
+#ifdef PLATFORM_3DS
+    romfsInit();
+#endif
 #ifdef LIB_SDL1
     SDL_Init(SDL_INIT_EVERYTHING);
 #else
@@ -51,8 +58,6 @@ GamePlay::GamePlay()
     snd = new SoundSystem();
     r = new Renderer(window);
 
-    SDL_BP_SetClearColor(r->getRenderer(),255,255,0);
-
     snd->startMusic("bgm0.ogg");
 
     r->loadTexture("splash.png");
@@ -68,7 +73,14 @@ GamePlay::GamePlay()
         LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
-    LuminaUtils::LuminaDelay(3000);
+    for (int i = 0; i < 180; i++) {
+        r->clear();
+        r->drawSprite(0, 0, 0);
+        //f->Render(1.0f / FRAME_RATE);
+        r->present();
+        LuminaUtils::LuminaDelay(REDRAW_DELAY);
+    }
+    //LuminaUtils::LuminaDelay(3000);
 
     f->FadeOut(1.0f);
 
@@ -80,6 +92,8 @@ GamePlay::GamePlay()
         LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
+
+
     r->unloadAllTextures();
 
     r->clear();
@@ -89,10 +103,14 @@ GamePlay::GamePlay()
     gps = GamePlayState();
     controller = new Controller();
 
-    LuminaUtils::LuminaDelay(1000);
+    SDL_BP_SetClearColor(r->getRenderer(),0,150,255);
 
-    SDL_BP_SetClearColor(r->getRenderer(),255,0,0);
-
+    for (int i = 0; i < 60; i++) {
+        r->clear();
+        //f->Render(1.0f / FRAME_RATE);
+        r->present();
+        LuminaUtils::LuminaDelay(REDRAW_DELAY);
+    }
 
     strncpy(gps.lastMapName, "start", sizeof(gps.lastMapName) - 1);
     gps.newMap = true;
@@ -105,6 +123,10 @@ void GamePlay::Exit()
     r->shutdown();
     SDL_DestroyWindow(window);
     SDL_Quit();
+
+#ifdef PLATFORM_3DS
+    romfsExit();
+#endif
 }
 
 void GamePlay::GameLoop()

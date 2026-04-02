@@ -186,7 +186,7 @@ elseif(3DS)
             citro3d citro2d ctru m
     )
 
-    dkp_add_asset_target(${PROJECT_NAME}_romfs "${CMAKE_SOURCE_DIR}/assets")
+    #dkp_add_asset_target(${PROJECT_NAME}_romfs "${CMAKE_SOURCE_DIR}/assets")
 
     #dkp_install_assets (${PROJECT_NAME}_romfs TARGETS
     #        "${CMAKE_SOURCE_DIR}/assets"
@@ -200,7 +200,7 @@ elseif(3DS)
 
     ctr_create_3dsx(${PROJECT_NAME}
             SMDH ${PROJECT_NAME}.smdh
-            ROMFS ${PROJECT_NAME}_romfs
+            ROMFS "${CMAKE_SOURCE_DIR}/assets"
     )
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE

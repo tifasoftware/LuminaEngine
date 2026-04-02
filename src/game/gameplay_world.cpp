@@ -10,7 +10,6 @@ void GamePlay::WorldStart() {
     dialogue = new Dialogue(r, tm);
     dialogue->SetFont(fontAtlas);
 
-
     tm->loadMap();
     tm->findSpawn(gps.lastMapName);
     tm->SetDebugFont(fontAtlas);

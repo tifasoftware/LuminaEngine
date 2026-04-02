@@ -50,12 +50,36 @@ bool TileMap::loadMap()
         return true;
     } else {
         renderer->loadTexture("grass.png");
+        renderer->loadTexture("grass.png");
 
-        for (int x = 0; x < TILE_W; x++){
-            for (int y = 0; y < TILE_H; y++){
-                tiles[x][y] = 0;
+        for (int x = 0; x < 64; x++){
+            for (int y = 0; y < 64; y++){
+                tiles[x][y] = 1;
             }
         }
+        for (int x = 0; x < 64; x++)
+        {
+            for (int y = 0; y < 64; y++)
+            {
+                collision[x][y] = NONE;
+            }
+        }
+        for (int i = 0; i < MAX_ENTITIES; i++) {
+            entities[i] = nullptr;
+        }
+
+        strncpy(spawns[0].name, "spawn", 5);
+        spawns[0].location.x = 50;
+        spawns[0].location.y = 50;
+
+        for (int i = 1; i < MAX_SPAWNS; i++) {
+            strncpy(spawns[i].name, "nil", 3);
+            spawns[i].location.x = 0;
+            spawns[i].location.y = 0;
+        }
+
+        strncpy(bgm, "bgm0.ogg", 63);
+        skyIndex = -1;
     }
     return false;
 }
@@ -124,7 +148,11 @@ bool TileMap::loadFromFile(const char* file)
 {
     LMAPLoader ll = LMAPLoader(file);
 
+    SDL_BP_SetClearColor(renderer->getRenderer(), 255, 0, 0);
+
     LMAPHeader lmap = ll.load();
+
+    SDL_BP_SetClearColor(renderer->getRenderer(), 0, 255, 0);
 
     if (strncmp(lmap.magic, "LMAP", 4) != 0)
     {
