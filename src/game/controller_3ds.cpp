@@ -3,65 +3,62 @@
 
 #include "controller.h"
 
-#if defined(PLATFORM_3DS) && defined(LIB_SDL1)
+#if defined(PLATFORM_3DS) || defined(LIB_SDL1)
 #include <3ds.h>
 
+static const int BTN_A = 1;
+static const int BTN_B = 2;
+static const int BTN_X = 3;
+static const int BTN_Y = 4;
+static const int BTN_START = 0;
+static const int BTN_SELECT = 7;
+
 void Controller::N3DS_ProcessInput() {
-    hidScanInput();
-    u32 kDown = hidKeysDown();
-    u32 kHeld = hidKeysHeld();
-    u32 kUp = hidKeysUp();
+    SDL_JoystickUpdate();
 
-    if (kDown) DebugLog("kDown: %08lX\n", kDown);
-    if (kHeld) DebugLog("kHeld: %08lX\n", kHeld);
-    if (kUp) DebugLog("kUp: %08lX\n", kUp);
+    for (int i = 0; i < 10; i++) {
+        Uint8 cur = SDL_JoystickGetButton(joystick, i);
+        Uint8 prev = prevButtons[i];
 
-    // Button PRESS events (one-time actions)
-    if (kDown & KEY_START) {
-        pawn->OnButtonStart();
+        pawn->OnButtonPress(cur);
+
+        if (cur && !prev) {
+            // Just pressed this frame
+            if (i == BTN_START)  pawn->OnButtonStart();
+            if (i == BTN_SELECT) pawn->OnButtonSelect();
+            if (i == BTN_A)      pawn->OnButtonA();
+            if (i == BTN_B)      pawn->OnButtonB();
+            if (i == BTN_X)      pawn->OnButtonX();
+            if (i == BTN_Y)      pawn->OnButtonY();
+        }
+
+        prevButtons[i] = cur;
+
     }
-    if (kDown & KEY_SELECT) {
-        pawn->OnButtonSelect();
-    }
-    if (kDown & KEY_DUP) {
-        pawn->OnButtonUp();
-    }
-    if (kDown & KEY_DDOWN) {
-        pawn->OnButtonDown();
-    }
-    if (kDown & KEY_DLEFT) {
-        pawn->OnButtonLeft();
-    }
-    if (kDown & KEY_DRIGHT) {
-        pawn->OnButtonRight();
-    }
-    if (kDown & KEY_A) {
-        pawn->OnButtonA();
-    }
-    if (kDown & KEY_B) {
-        pawn->OnButtonB();
-    }
-    if (kDown & KEY_X) {
+
+    Uint8 hat = SDL_JoystickGetHat(joystick, 0);
+
+
+    if (hat & 1) {
         pawn->OnMoveUp();
-        pawn->OnButtonX();
-    }
-    if (kDown & KEY_Y) {
-        pawn->OnButtonY();
+    } else if (hat & 4) {
         pawn->OnMoveDown();
+    } else {
+        //pawn->OnStopMoveDown();
     }
-
-    // HELD state (continuous movement - called every frame)
-    if (kDown & KEY_DUP) {
-        pawn->OnMoveUp();
-    }
-    if (kDown & KEY_DDOWN) {
-        pawn->OnMoveDown();
-    }
-    if (kDown & KEY_DLEFT) {
+    if (hat & 8) {
         pawn->OnMoveLeft();
-    }
-    if (kDown & KEY_DRIGHT) {
+    } else if (hat & 2) {
         pawn->OnMoveRight();
+    } else {
+        //pawn->OnStopMoveRight();
+    }
+
+    prevHat = hat;
+
+    // Still keep the event loop to prevent the queue from filling up
+    while (SDL_PollEvent(&event)) {
+        if (event.type == SDL_QUIT) pawn->OnQuit();
     }
 }
 #else

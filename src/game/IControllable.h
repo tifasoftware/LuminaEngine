@@ -71,6 +71,8 @@ class IControllable {
     //Computer - Escape
     virtual void OnButtonStart() {};
 
+    virtual void OnButtonPress(int id) {};
+
     //Window Close or maybe PSP OS Quit
     virtual void OnQuit() {};
 

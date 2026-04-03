@@ -13,6 +13,8 @@ GamePlay::GamePlay()
 #endif
 #ifdef LIB_SDL1
     SDL_Init(SDL_INIT_EVERYTHING);
+    SDL_InitSubSystem(SDL_INIT_JOYSTICK);
+    SDL_JoystickEventState(SDL_ENABLE);
 #else
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER);
 #endif

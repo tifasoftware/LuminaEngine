@@ -18,4 +18,10 @@ class Controller {
     void PSP_ProcessInput();
     void PC_ProcessInput();
     void N3DS_ProcessInput();
+
+#ifdef LIB_SDL1
+    SDL_Joystick* joystick;
+    Uint8 prevButtons[10] = {0};
+    Uint8 prevHat = SDL_HAT_CENTERED;
+#endif
 };

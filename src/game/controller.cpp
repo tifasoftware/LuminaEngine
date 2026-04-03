@@ -4,6 +4,9 @@
 Controller::Controller() {
     pawn = nullptr;
     queued_pawn = nullptr;
+#ifdef LIB_SDL1
+    joystick = SDL_JoystickOpen(0);
+#endif
 }
 
 void Controller::Possess(IControllable *p) {

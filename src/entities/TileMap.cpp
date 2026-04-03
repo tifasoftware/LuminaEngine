@@ -28,8 +28,9 @@ TileMap::TileMap(const char* f, GamePlayState* cs, Character* mc, Renderer* r)
     memset(spawns, 0, sizeof(spawns));
     memset(entities, 0, sizeof(entities));
 
-    //debugText = Text();
-    //debugText.Move(10,10);
+    debugText = Text();
+    debugText.Move(10,10);
+    debugText.SetFont(renderer->loadTexture("fontatlas.png"));
 }
 
 Entity* TileMap::getCollidingTrigger(int charX, int charY) {
@@ -114,6 +115,7 @@ void TileMap::drawMap()
             Entity* e = entities[i];
             e->draw(renderer, offsetX, offsetY);
             //renderer->drawTile(0,0,toScreenX(e->getX()), toScreenY(e->getY())); //Remove when working
+            debugText.Render(renderer);
         }
     }
 
@@ -350,4 +352,8 @@ void TileMap::OnStopMoveRight() {
 }
 void TileMap::OnButtonStart() {
     gps->RequestSwitchState(MENU);
+}
+
+void TileMap::OnButtonPress(int id) {
+    debugText.SetText(std::to_string(id).c_str());
 }

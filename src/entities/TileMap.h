@@ -76,6 +76,8 @@ class TileMap : public IControllable {
     void OnButtonStart() override;
     void OnQuit() override { gps->RequestSwitchState(EXIT); }
 
+    void OnButtonPress(int id) override;
+
     void SetDebugFont(int font) { debugText.SetFont(font); }
 
     private:
@@ -100,8 +102,8 @@ class TileMap : public IControllable {
 
     Text debugText;
 
-    int luminaMoveX = 0;
-    int luminaMoveY = 0;
+    int luminaMoveX = 2;
+    int luminaMoveY = 2;
     const int luminaMoveRate = 2;
 
     int activeEntites = 0;
