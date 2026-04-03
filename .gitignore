@@ -4,6 +4,7 @@ tool_build/
 xcode_build/
 win_build/
 3ds_build/
+sdl1_build/
 psp_build/
 cmake-build-debug/
 cmake-build-release/
