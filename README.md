@@ -9,6 +9,7 @@ A 2D RPG game engine for the PC, Mac, Linux, and the Sony PSP, built with C++ an
 ## Features
 
 - SDL2 based rendering
+- SDL2 -> SDL1.2 translation for SDL1 only platforms
 - Lua 5.5 scripting (WIP)
 - Tile map system with custom LMAP format
 - Memory-efficient Texture management
