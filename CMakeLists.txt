@@ -103,23 +103,80 @@ if(3DS)
     set(CTRU_LIBRARIES citro3d citro2d ctru m)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
 elseif (NOT (APPLE OR WIN32))
-    include(FindPkgConfig)
+    find_package(PkgConfig QUIET)
 
-    if (LIB_SDL1)
-        set(SDL2_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
-        set(SDL2_IMAGE_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
-        set(SDL2_MIXER_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
+    if (SDL1_OVERRIDE)
+        message(STATUS "SDL1_OVERRIDE enabled, using SDL1")
 
-        set(SDL2_LIBRARIES SDL)
-        set(SDL2_IMAGE_LIBRARIES SDL_image)
-        set(SDL2_MIXER_LIBRARIES SDL_mixer)
+        if (PKG_CONFIG_FOUND)
+            pkg_check_modules(SDL1 QUIET IMPORTED_TARGET sdl)
+        endif()
+
+        if (SDL1_FOUND)
+            message(STATUS "Found SDL1 via pkg-config: ${SDL1_VERSION}")
+            target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::SDL1)
+        else()
+            find_path(SDL1_INCLUDE_DIR SDL.h
+                    PATHS
+                    /usr/include/SDL
+                    /usr/local/include/SDL
+                    /opt/local/include/SDL
+                    /opt/homebrew/include/SDL
+            )
+            find_library(SDL1_LIBRARY
+                    NAMES SDL
+                    PATHS
+                    /usr/lib
+                    /usr/local/lib
+                    /opt/local/lib
+                    /opt/homebrew/lib
+            )
+
+            if (SDL1_INCLUDE_DIR AND SDL1_LIBRARY)
+                message(STATUS "Found SDL1 manually: ${SDL1_LIBRARY}")
+                target_include_directories(${PROJECT_NAME} PRIVATE ${SDL1_INCLUDE_DIR})
+                target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL1_LIBRARY})
+            else()
+                message(FATAL_ERROR "SDL1 not found. Install libsdl1.2-dev or equivalent.")
+            endif()
+        endif()
+
     else()
-        pkg_search_module(SDL2 REQUIRED sdl2)
-        pkg_search_module(SDL2_IMAGE REQUIRED SDL2_image)
-        pkg_search_module(SDL2_MIXER REQUIRED SDL2_mixer)
+        message(STATUS "Using SDL2")
+
+        if (PKG_CONFIG_FOUND)
+            pkg_check_modules(SDL2 QUIET IMPORTED_TARGET sdl2)
+        endif()
+
+        if (SDL2_FOUND)
+            message(STATUS "Found SDL2 via pkg-config: ${SDL2_VERSION}")
+            target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::SDL2)
+        else()
+            find_path(SDL2_INCLUDE_DIR SDL.h
+                    PATHS
+                    /usr/include/SDL2
+                    /usr/local/include/SDL2
+                    /opt/local/include/SDL2
+                    /opt/homebrew/include/SDL2
+            )
+            find_library(SDL2_LIBRARY
+                    NAMES SDL2
+                    PATHS
+                    /usr/lib
+                    /usr/local/lib
+                    /opt/local/lib
+                    /opt/homebrew/lib
+            )
+
+            if (SDL2_INCLUDE_DIR AND SDL2_LIBRARY)
+                message(STATUS "Found SDL2 manually: ${SDL2_LIBRARY}")
+                target_include_directories(${PROJECT_NAME} PRIVATE ${SDL2_INCLUDE_DIR})
+                target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL2_LIBRARY})
+            else()
+                message(FATAL_ERROR "SDL2 not found. Install libsdl2-dev or equivalent.")
+            endif()
+        endif()
     endif()
-    #pkg_search_module(SDL2_TTF REQUIRED SDL2_ttf)
-    #pkg_search_module(LUA REQUIRED lua5.4)
 endif()
 
 if (APPLE)
