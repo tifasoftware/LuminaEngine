@@ -1,9 +1,9 @@
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_gamecontroller.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 
 #include "controller.h"
 
-
+#ifdef LIB_SDL2
 void Controller::PSP_ProcessInput() {
     if (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -57,3 +57,10 @@ void Controller::PSP_ProcessInput() {
         }
     }
 }
+#endif
+
+#ifdef LIB_SDL1
+void Controller::PSP_ProcessInput() {
+    //no ops
+}
+#endif

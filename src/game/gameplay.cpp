@@ -2,9 +2,20 @@
 #include <platform/platform.h>
 #include <common/utils.h>
 
+#ifdef PLATFORM_3DS
+#include "3ds.h"
+#endif
+
 GamePlay::GamePlay()
 {
+#ifdef PLATFORM_3DS
+    romfsInit();
+#endif
+#ifdef LIB_SDL1
+    SDL_Init(SDL_INIT_EVERYTHING);
+#else
     SDL_Init(SDL_INIT_VIDEO | SDL_INIT_GAMECONTROLLER);
+#endif
 
     // Enable png support for SDL2_image
     IMG_Init(IMG_INIT_PNG);
@@ -32,6 +43,17 @@ GamePlay::GamePlay()
     SDL_RaiseWindow(window);
     SDL_SetWindowInputFocus(window);
 #endif
+#ifdef PLATFORM_3DS
+    window = SDL_CreateWindow(
+        "window",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        SCREEN_W,
+        SCREEN_H,
+        0
+    );
+    SDL_ShowCursor(SDL_DISABLE);
+#endif
 
     snd = new SoundSystem();
     r = new Renderer(window);
@@ -51,7 +73,14 @@ GamePlay::GamePlay()
         LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
-    LuminaUtils::LuminaDelay(3000);
+    for (int i = 0; i < 180; i++) {
+        r->clear();
+        r->drawSprite(0, 0, 0);
+        //f->Render(1.0f / FRAME_RATE);
+        r->present();
+        LuminaUtils::LuminaDelay(REDRAW_DELAY);
+    }
+    //LuminaUtils::LuminaDelay(3000);
 
     f->FadeOut(1.0f);
 
@@ -63,6 +92,8 @@ GamePlay::GamePlay()
         LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
+
+
     r->unloadAllTextures();
 
     r->clear();
@@ -72,7 +103,14 @@ GamePlay::GamePlay()
     gps = GamePlayState();
     controller = new Controller();
 
-    LuminaUtils::LuminaDelay(1000);
+    SDL_BP_SetClearColor(r->getRenderer(),0,150,255);
+
+    for (int i = 0; i < 60; i++) {
+        r->clear();
+        //f->Render(1.0f / FRAME_RATE);
+        r->present();
+        LuminaUtils::LuminaDelay(REDRAW_DELAY);
+    }
 
     strncpy(gps.lastMapName, "start", sizeof(gps.lastMapName) - 1);
     gps.newMap = true;
@@ -85,6 +123,10 @@ void GamePlay::Exit()
     r->shutdown();
     SDL_DestroyWindow(window);
     SDL_Quit();
+
+#ifdef PLATFORM_3DS
+    romfsExit();
+#endif
 }
 
 void GamePlay::GameLoop()

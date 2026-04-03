@@ -1,21 +1,43 @@
 cmake_minimum_required(VERSION 3.11)
 
 set(3DS OFF CACHE BOOL "Build for 3DS")
+set(SDL1_OVERRIDE OFF CACHE BOOL "Debug for SDL1")
+set(LE32BIT OFF CACHE BOOL "Build for 32-bit")
+
+if(3DS)
+    add_definitions(-D__3DS__)
+    add_definitions(-DLIB_SDL1)
+    set(ROMFS_DIR "${CMAKE_SOURCE_DIR}/assets")
+endif()
+
+if(SDL1_OVERRIDE)
+    add_definitions(-DLIB_SDL1)
+endif()
 
 if(APPLE)
-    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "")
+    if(LE32BIT)
+        set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "")
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6" CACHE STRING "")
+    else()
+        set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "")
+    endif()
 endif()
 
 project(LuminaEngine)
 
 if(APPLE)
-    set(SDL2_LIBRARIES "-framework SDL2")
-    set(SDL2_IMAGE_LIBRARIES "-framework SDL2_image")
-    set(SDL2_MIXER_LIBRARIES "-framework SDL2_mixer")
-    set(SDL2_INCLUDE_DIRS "/Library/Frameworks/SDL2.framework/Headers")
-    set(SDL2_IMAGE_INCLUDE_DIRS "/Library/Frameworks/SDL2_image.framework/Headers")
-    set(SDL2_MIXER_INCLUDE_DIRS "/Library/Frameworks/SDL2_mixer.framework/Headers")
+    if (SDL1_OVERRIDE)
+        set(SDL_LIBRARIES "/usr/local/lib")
+        set(SDL_INCLUDE_DIRS "/usr/local/include/SDL")
+    else()
+        set(SDL2_LIBRARIES "-framework SDL2")
+        set(SDL2_IMAGE_LIBRARIES "-framework SDL2_image")
+        set(SDL2_MIXER_LIBRARIES "-framework SDL2_mixer")
+        set(SDL2_INCLUDE_DIRS "/Library/Frameworks/SDL2.framework/Headers")
+        set(SDL2_IMAGE_INCLUDE_DIRS "/Library/Frameworks/SDL2_image.framework/Headers")
+        set(SDL2_MIXER_INCLUDE_DIRS "/Library/Frameworks/SDL2_mixer.framework/Headers")
+    endif()
     set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -F/Library/Frameworks")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -F/Library/Frameworks")
 
@@ -23,7 +45,11 @@ if(APPLE)
 endif()
 
 if (WIN32)
-    set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/x86_64-w64-mingw32")
+    if (LE32BIT)
+        set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/i686-w64-mingw32")
+    else()
+        set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/x86_64-w64-mingw32")
+    endif()
 
     set(SDL2_INCLUDE_DIRS "${SDL2_DIR}/include")
     set(SDL2_IMAGE_INCLUDE_DIRS "${SDL2_DIR}/include")
@@ -48,7 +74,8 @@ file (GLOB WAV_ASSETS "assets/*.wav")
 file (GLOB LMAP_ASSETS "assets/*.lmap")
 
 
-add_executable(${PROJECT_NAME} ${SOURCES})
+add_executable(${PROJECT_NAME} ${SOURCES}
+        src/platform/sdl2_compat/SDL_events.h)
 
 add_library(lua STATIC ${LUA_SOURCES})
 
@@ -65,22 +92,23 @@ else()
 endif()
 
 if(3DS)
-    set(SDL2_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/armv6/include")
-    set(SDL2_IMAGE_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/armv6/include")
-    set(SDL2_MIXER_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/armv6/include")
+    set(SDL2_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
+    set(SDL2_IMAGE_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
+    set(SDL2_MIXER_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
 
-    set(SDL2_LIBRARIES SDL2)
-    set(SDL2_IMAGE_LIBRARIES SDL2_image)
-    set(SDL2_MIXER_LIBRARIES SDL2_mixer)
+    set(PORT_LIBRARIES jpeg png z mad mikmod vorbisidec ogg)
+    set(SDL2_LIBRARIES SDL)
+    set(SDL2_IMAGE_LIBRARIES SDL_image)
+    set(SDL2_MIXER_LIBRARIES SDL_mixer)
 
     set(CTRU_LIBRARIES citro3d citro2d ctru m)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
-elseif (NOT (APPLE OR WIN32))
+elseif (NOT (APPLE OR WIN32 OR SDL1_OVERRIDE))
     include(FindPkgConfig)
 
-    pkg_search_module(SDL2 REQUIRED sdl2)
-    pkg_search_module(SDL2_IMAGE REQUIRED SDL2_image)
-    pkg_search_module(SDL2_MIXER REQUIRED SDL2_mixer)
+    pkg_search_module(SDL REQUIRED sdl)
+    pkg_search_module(SDL_IMAGE REQUIRED SDL_image)
+    pkg_search_module(SDL_MIXER REQUIRED SDL_mixer)
     #pkg_search_module(SDL2_TTF REQUIRED SDL2_ttf)
     #pkg_search_module(LUA REQUIRED lua5.4)
 endif()
@@ -120,6 +148,12 @@ elseif(3DS)
             src/
             "$ENV{DEVKITPRO}/libctru/include"
     )
+elseif(SDL1_OVERRIDE)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${SDL_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
+            src/
+    )
 else()
     target_include_directories(${PROJECT_NAME} PRIVATE
             ${SDL2_INCLUDE_DIRS}
@@ -142,7 +176,7 @@ if (WIN32)
     target_link_options(${PROJECT_NAME} PRIVATE
             -static-libgcc
             -static-libstdc++
-            -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive
+            -Wl,-Bstatic -lwinpthread -Wl,-Bdynamic
     )
 
     target_sources(${PROJECT_NAME} PRIVATE ${APP_ICON_RC})
@@ -153,14 +187,39 @@ if (WIN32)
 elseif(3DS)
     target_link_directories(${PROJECT_NAME} PRIVATE
             "$ENV{DEVKITPRO}/libctru/lib"
-            "$ENV{DEVKITPRO}/portlibs/armv6/lib"
+            "$ENV{DEVKITPRO}/portlibs/3ds/lib"
     )
     target_link_libraries(${PROJECT_NAME} PRIVATE
-            ${SDL2_LIBRARIES}
-            ${SDL2_IMAGE_LIBRARIES}
-            ${SDL2_MIXER_LIBRARIES}
+            SDL SDL_image SDL_mixer
             lua
-            ${CTRU_LIBRARIES}
+            jpeg png z mad mikmod ogg vorbisidec
+            SDL
+            citro3d citro2d ctru m
+    )
+
+    #dkp_add_asset_target(${PROJECT_NAME}_romfs "${CMAKE_SOURCE_DIR}/assets")
+
+    #dkp_install_assets (${PROJECT_NAME}_romfs TARGETS
+    #        "${CMAKE_SOURCE_DIR}/assets"
+    #)
+
+    ctr_generate_smdh(${PROJECT_NAME}.smdh
+            NAME "${PROJECT_NAME}"
+            DESCRIPTION "v${PROJECT_VERSION}"
+            AUTHOR "Me!"
+    )
+
+    ctr_create_3dsx(${PROJECT_NAME}
+            SMDH ${PROJECT_NAME}.smdh
+            ROMFS "${CMAKE_SOURCE_DIR}/assets"
+    )
+elseif(LIB_SDL1)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            SDL SDL_image SDL_mixer
+            lua
+            #jpeg png z mad mikmod ogg vorbisidec
+            SDL
+            lua
     )
 else()
     target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -252,7 +311,9 @@ if(APPLE)
     )
 endif()
 
-if (NOT APPLE)
+
+
+if (NOT (APPLE OR 3DS))
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${PNG_ASSETS}
@@ -313,5 +374,19 @@ if (WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${SDL2_DLL_DIR}/SDL2_mixer.dll"
             "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+    )
+
+    get_filename_component(MINGW_COMPILER_REAL ${CMAKE_C_COMPILER} REALPATH)
+    get_filename_component(MINGW_TOOLCHAIN_DIR ${MINGW_COMPILER_REAL} DIRECTORY)
+    if (LE32BIT)
+        set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../i686-w64-mingw32/bin")
+    else()
+        set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../x86_64-w64-mingw32/bin")
+    endif()
+
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${MINGW_DLL_DIR}/libwinpthread-1.dll"
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>
     )
 endif()

@@ -1,11 +1,9 @@
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_gamecontroller.h>
-#include <SDL2/SDL_timer.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 
 #include "gameplay.h"
 #include "common/types.h"
 #include "graphics/Renderer.h"
-#include "platform/platform.h"
 #include "vgui/button.h"
 #include "vgui/panel.h"
 
@@ -21,6 +19,7 @@
 void GamePlay::MenuStart()
 {
     menu = new Menu(PAUSE_MENU, r, snd, &gps);
+    menu->activate();
     controller->Possess(menu);
 
     f->FadeIn(0.5f);
@@ -62,7 +61,7 @@ void GamePlay::MenuDraw()
 
 void GamePlay::MenuExit()
 {
-
+    menu->deactivate();
     controller->Release();
     gps.inTransition = true;
 

@@ -3,6 +3,7 @@
 
 Controller::Controller() {
     pawn = nullptr;
+    queued_pawn = nullptr;
 }
 
 void Controller::Possess(IControllable *p) {
@@ -23,6 +24,9 @@ void Controller::SendInput() {
         #ifdef PLATFORM_PSP
         PSP_ProcessInput();
         #endif
+    #ifdef PLATFORM_3DS
+        N3DS_ProcessInput();
+    #endif
         #ifdef PLATFORM_PC
         PC_ProcessInput();
         #endif

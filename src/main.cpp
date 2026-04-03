@@ -1,5 +1,5 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 #include <string>
 #ifdef PLATFORM_PSP
 #include <pspkernel.h>
@@ -12,15 +12,25 @@
 #include <limits.h>
 #endif
 
+#ifdef PLATFORM_3DS
+#include <3ds.h>
+#endif
+
 
 
 int main(int argc, char *argv[])
 {
     auto gp = new GamePlay();
 
-    while (gp->gameRunning()) { 
+#ifdef PLATFORM_3DS
+    while (gp->gameRunning() && aptMainLoop()) {
         gp->GameLoop();
     }
+#else
+    while (gp->gameRunning()) {
+        gp->GameLoop();
+    }
+#endif
     gp->Exit();
 
     return 0;

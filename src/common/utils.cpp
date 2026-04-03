@@ -2,10 +2,9 @@
 
 #include <string>
 #include <unistd.h>
-#include <SDL2/SDL_events.h>
-#include <SDL2/SDL_timer.h>
-
 #include <platform/platform.h>
+#include <platform/universalsdl.h>
+
 
 #ifdef PLATFORM_OSX
 #include <mach-o/dyld.h>
@@ -79,21 +78,14 @@ std::string LuminaUtils::osPath(const char *relpath) {
     return path;
 #else
 
-
+#ifdef PLATFORM_3DS
+    base = "romfs:/";
+#else
     if (base.empty()) {
-        char* sdlBase = SDL_GetBasePath();
-        //SDL_Log("BasePath: %s", sdlBase);
-        if (sdlBase) {
-            base = std::string(sdlBase);
-            SDL_free(sdlBase);
-        } else {
-            base = "./";
-        }
+        base = std::string(SDL_GetBasePath());
     }
-
-
+#endif
     path = (base + file);
-    SDL_Log("File: %s", path.c_str());
 
     return path;
 #endif

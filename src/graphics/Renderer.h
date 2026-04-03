@@ -1,7 +1,7 @@
 #pragma once
 
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 #include <graphics/Texture.h>
 #include <platform/platform.h>
 
@@ -12,7 +12,7 @@ static const int REDRAW_DELAY = 1000 / FRAME_RATE;
 class Renderer
 {
 public:
-    Renderer(SDL_Window * win);
+    Renderer(SDL_Window* win);
     int drawTile(int texIndex, int tileIndex, int x, int y);
     int drawTile(int texIndex, int tileIndex, int x, int y, int tileSize);
     int drawTile(int texIndex, int x, int y);

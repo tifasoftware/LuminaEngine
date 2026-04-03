@@ -1,7 +1,9 @@
-#include <SDL2/SDL_events.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 
 #include "controller.h"
 
+//#ifdef LIB_SDL2
 void Controller::PC_ProcessInput() {
     if (SDL_PollEvent(&event)) {
         switch (event.type) {
@@ -10,7 +12,11 @@ void Controller::PC_ProcessInput() {
                 break;
             case SDL_CONTROLLERDEVICEADDED:
                 // Connect a controller when it is connected
+#ifdef LIB_SDL1
+                //no ops
+#else
                 SDL_GameControllerOpen(event.cdevice.which);
+#endif
                 break;
             case SDL_KEYDOWN:
                 if(event.key.keysym.sym == SDLK_ESCAPE) {
@@ -56,3 +62,9 @@ void Controller::PC_ProcessInput() {
     }
 
 }
+//#endif
+//#ifdef LIB_SDL1
+//void Controller::PC_ProcessInput() {
+//
+//}
+//#endif

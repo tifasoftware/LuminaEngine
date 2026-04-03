@@ -1,5 +1,5 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 
 #include "common/utils.h"
 
@@ -50,12 +50,36 @@ bool TileMap::loadMap()
         return true;
     } else {
         renderer->loadTexture("grass.png");
+        renderer->loadTexture("grass.png");
 
-        for (int x = 0; x < TILE_W; x++){
-            for (int y = 0; y < TILE_H; y++){
-                tiles[x][y] = 0;
+        for (int x = 0; x < 64; x++){
+            for (int y = 0; y < 64; y++){
+                tiles[x][y] = 1;
             }
         }
+        for (int x = 0; x < 64; x++)
+        {
+            for (int y = 0; y < 64; y++)
+            {
+                collision[x][y] = NONE;
+            }
+        }
+        for (int i = 0; i < MAX_ENTITIES; i++) {
+            entities[i] = nullptr;
+        }
+
+        strncpy(spawns[0].name, "spawn", 5);
+        spawns[0].location.x = 50;
+        spawns[0].location.y = 50;
+
+        for (int i = 1; i < MAX_SPAWNS; i++) {
+            strncpy(spawns[i].name, "nil", 3);
+            spawns[i].location.x = 0;
+            spawns[i].location.y = 0;
+        }
+
+        strncpy(bgm, "bgm0.ogg", 63);
+        skyIndex = -1;
     }
     return false;
 }
@@ -124,15 +148,19 @@ bool TileMap::loadFromFile(const char* file)
 {
     LMAPLoader ll = LMAPLoader(file);
 
-    LMAPHeader lmap = ll.load();
+    SDL_BP_SetClearColor(renderer->getRenderer(), 255, 0, 0);
 
-    if (strncmp(lmap.magic, "LMAP", 4) != 0)
+    LMAPHeader* lmap = ll.load();
+
+    SDL_BP_SetClearColor(renderer->getRenderer(), 0, 255, 0);
+
+    if (strncmp(lmap->magic, "LMAP", 4) != 0)
     {
         SDL_Log("TileMap: failed to open %s", file);
         return false;
     }
 
-    textureAddress = renderer->loadTexture(lmap.tileset);
+    textureAddress = renderer->loadTexture(lmap->tileset);
     //textureAddress = renderer->loadTexture("grass.png");
 
     int offset = 0;
@@ -141,9 +169,9 @@ bool TileMap::loadFromFile(const char* file)
     {
         for (int y = 0; y < 64; y++)
         {
-            int t = lmap.tiles[offset + y];
+            int t = lmap->tiles[offset + y];
             tiles[x][y] = t;
-            collision[x][y] = lmap.colTile[t];
+            collision[x][y] = lmap->colTile[t];
         }
         offset += 64;
     }
@@ -151,7 +179,7 @@ bool TileMap::loadFromFile(const char* file)
     TextureOptimization to = TextureOptimization();
 
     for (int i = 0; i < MAX_ENTITIES; i++) {
-        EntityDef def = lmap.entities[i];
+        EntityDef def = lmap->entities[i];
 
         Entity* e = Entity::spawnEntity(def);
 
@@ -174,9 +202,9 @@ bool TileMap::loadFromFile(const char* file)
         entities[i] = e;
     }
 
-    memcpy(spawns, lmap.spawnpoints, sizeof(spawns));
-    strncpy(bgm, lmap.music, 63);
-    strncpy(sky, lmap.skybox, 63);
+    memcpy(spawns, lmap->spawnpoints, sizeof(spawns));
+    strncpy(bgm, lmap->music, 63);
+    strncpy(sky, lmap->skybox, 63);
 
     if (strcmp(sky, "") != 0) {
         skyIndex = renderer->loadTexture(sky);
@@ -186,6 +214,8 @@ bool TileMap::loadFromFile(const char* file)
     } else {
         skyIndex = -1;
     }
+
+    free(lmap);
 
     return true;
 }

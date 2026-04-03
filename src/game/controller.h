@@ -1,7 +1,7 @@
 #pragma once
 #include "IControllable.h"
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 
 class Controller {
     public:
@@ -17,4 +17,5 @@ class Controller {
     SDL_Event event;
     void PSP_ProcessInput();
     void PC_ProcessInput();
+    void N3DS_ProcessInput();
 };

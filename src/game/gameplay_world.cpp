@@ -10,10 +10,10 @@ void GamePlay::WorldStart() {
     dialogue = new Dialogue(r, tm);
     dialogue->SetFont(fontAtlas);
 
-
     tm->loadMap();
     tm->findSpawn(gps.lastMapName);
     tm->SetDebugFont(fontAtlas);
+    tm->activate();
     controller->Possess(tm);
     ChangeMusic(tm->getBGMFile());
     lumina->loadCharacterSprite(r);
@@ -39,6 +39,8 @@ void GamePlay::WorldStart() {
 
     }
     gps.introShown = true;
+    SDL_BP_SetClearColor(r->getRenderer(),255,0,255);
+
 }
 
 void GamePlay::WorldDraw()
@@ -102,6 +104,7 @@ void GamePlay::WorldExit()
         LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
+    tm->deactivate();
     controller->Release();
     tm->disposeMap();
     delete scriptEngine;

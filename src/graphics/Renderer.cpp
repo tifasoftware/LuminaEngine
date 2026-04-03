@@ -1,5 +1,5 @@
-#include <SDL2/SDL.h>
-#include <SDL2/SDL_image.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
 #include <graphics/Renderer.h>
 #include <graphics/Texture.h>
 #include <algorithm>
