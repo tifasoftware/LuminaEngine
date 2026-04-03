@@ -144,7 +144,7 @@ elseif (NOT (APPLE OR WIN32))
     else()
         find_package(PkgConfig REQUIRED)
 
-        # SDL2
+        # SDL2 #
         pkg_check_modules(SDL2 sdl2)
         # SDL2_image
         pkg_check_modules(SDL2_IMAGE SDL2_image)
