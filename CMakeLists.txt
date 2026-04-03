@@ -74,8 +74,7 @@ file (GLOB WAV_ASSETS "assets/*.wav")
 file (GLOB LMAP_ASSETS "assets/*.lmap")
 
 
-add_executable(${PROJECT_NAME} ${SOURCES}
-        src/platform/sdl2_compat/SDL_events.h)
+add_executable(${PROJECT_NAME} ${SOURCES})
 
 add_library(lua STATIC ${LUA_SOURCES})
 
@@ -103,12 +102,22 @@ if(3DS)
 
     set(CTRU_LIBRARIES citro3d citro2d ctru m)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
-elseif (NOT (APPLE OR WIN32 OR SDL1_OVERRIDE))
+elseif (NOT (APPLE OR WIN32))
     include(FindPkgConfig)
 
-    pkg_search_module(SDL REQUIRED sdl)
-    pkg_search_module(SDL_IMAGE REQUIRED SDL_image)
-    pkg_search_module(SDL_MIXER REQUIRED SDL_mixer)
+    if (LIB_SDL1)
+        set(SDL2_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
+        set(SDL2_IMAGE_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
+        set(SDL2_MIXER_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/3ds/include")
+
+        set(SDL2_LIBRARIES SDL)
+        set(SDL2_IMAGE_LIBRARIES SDL_image)
+        set(SDL2_MIXER_LIBRARIES SDL_mixer)
+    else()
+        pkg_search_module(SDL2 REQUIRED sdl2)
+        pkg_search_module(SDL2_IMAGE REQUIRED SDL2_image)
+        pkg_search_module(SDL2_MIXER REQUIRED SDL2_mixer)
+    endif()
     #pkg_search_module(SDL2_TTF REQUIRED SDL2_ttf)
     #pkg_search_module(LUA REQUIRED lua5.4)
 endif()
@@ -222,6 +231,7 @@ elseif(LIB_SDL1)
             lua
     )
 else()
+    message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
     target_link_libraries(${PROJECT_NAME} PRIVATE
             ${SDL2_LIBRARIES}
             ${SDL2_IMAGE_LIBRARIES}
