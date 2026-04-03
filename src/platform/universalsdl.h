@@ -9,6 +9,7 @@
 #include <SDL2/SDL_gamecontroller.h>
 #include <SDL2/SDL_timer.h>
 #include <SDL2/SDL_log.h>
+#include "sdl2_noops.h"
 #endif
 
 #ifdef LIB_SDL1

@@ -8,6 +8,7 @@ Texture::Texture(const char* file, SDL_Renderer* render){
     SDL_Surface * pixels = IMG_Load(LuminaUtils::osPath(file).c_str());
     //SDL_Surface* pixels = nullptr;
     if (!pixels) {
+#ifdef LIB_SDL1
         pixels = SDL_CreateRGBSurface(
         SDL_SWSURFACE, 16, 16, render->screen->format->BitsPerPixel,
             render->screen->format->Rmask,
@@ -33,6 +34,7 @@ Texture::Texture(const char* file, SDL_Renderer* render){
         }
 
         SDL_UnlockSurface(pixels);
+#endif
     }
     tex = SDL_CreateTextureFromSurface(render, pixels);
     SDL_FreeSurface(pixels);

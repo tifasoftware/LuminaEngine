@@ -1,7 +1,8 @@
 cmake_minimum_required(VERSION 3.11)
 
 set(3DS OFF CACHE BOOL "Build for 3DS")
-set(SDL1_OVERRIDE ON CACHE BOOL "Debug for SDL1")
+set(SDL1_OVERRIDE OFF CACHE BOOL "Debug for SDL1")
+set(LE32BIT OFF CACHE BOOL "Build for 32-bit")
 
 if(3DS)
     add_definitions(-D__3DS__)
@@ -14,8 +15,13 @@ if(SDL1_OVERRIDE)
 endif()
 
 if(APPLE)
-    set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
-    set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "")
+    if(LE32BIT)
+        set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "")
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6" CACHE STRING "")
+    else()
+        set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "")
+    endif()
 endif()
 
 project(LuminaEngine)
@@ -39,7 +45,11 @@ if(APPLE)
 endif()
 
 if (WIN32)
-    set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/x86_64-w64-mingw32")
+    if (LE32BIT)
+        set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/i686-w64-mingw32")
+    else()
+        set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/x86_64-w64-mingw32")
+    endif()
 
     set(SDL2_INCLUDE_DIRS "${SDL2_DIR}/include")
     set(SDL2_IMAGE_INCLUDE_DIRS "${SDL2_DIR}/include")

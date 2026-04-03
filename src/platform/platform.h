@@ -18,9 +18,11 @@
 #endif
 #ifdef __APPLE__
     #define PLATFORM_OSX
+    #define LIB_SDL2
 #endif
 #ifdef __WIN32__
     #define PLATFORM_WINDOWS
+    #define LIB_SDL2
 #endif
 #ifdef __3DS__
     #define PLATFORM_3DS
