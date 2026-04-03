@@ -176,7 +176,7 @@ if (WIN32)
     target_link_options(${PROJECT_NAME} PRIVATE
             -static-libgcc
             -static-libstdc++
-            -Wl,-Bstatic,--whole-archive -lwinpthread -Wl,--no-whole-archive
+            -Wl,-Bstatic -lwinpthread -Wl,-Bdynamic
     )
 
     target_sources(${PROJECT_NAME} PRIVATE ${APP_ICON_RC})
@@ -367,5 +367,19 @@ if (WIN32)
         COMMAND ${CMAKE_COMMAND} -E copy_if_different
             "${SDL2_DLL_DIR}/SDL2_mixer.dll"
             "$<TARGET_FILE_DIR:${PROJECT_NAME}>"
+    )
+
+    get_filename_component(MINGW_COMPILER_REAL ${CMAKE_C_COMPILER} REALPATH)
+    get_filename_component(MINGW_TOOLCHAIN_DIR ${MINGW_COMPILER_REAL} DIRECTORY)
+    if (LE32BIT)
+        set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../i686-w64-mingw32/bin")
+    else()
+        set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../x86_64-w64-mingw32/bin")
+    endif()
+
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND ${CMAKE_COMMAND} -E copy_if_different
+            "${MINGW_DLL_DIR}/libwinpthread-1.dll"
+            $<TARGET_FILE_DIR:${PROJECT_NAME}>
     )
 endif()
