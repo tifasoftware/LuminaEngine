@@ -3,6 +3,7 @@ build/
 tool_build/
 xcode_build/
 win_build/
+win32_build/
 3ds_build/
 sdl1_build/
 psp_build/
