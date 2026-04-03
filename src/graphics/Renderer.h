@@ -3,7 +3,6 @@
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
 #include <graphics/Texture.h>
-#include <platform/platform.h>
 
 static const int MAX_TEXTURES = 64;
 static const int FRAME_RATE = 60;

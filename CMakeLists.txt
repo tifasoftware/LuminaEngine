@@ -103,144 +103,15 @@ if(3DS)
     set(CTRU_LIBRARIES citro3d citro2d ctru m)
     set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
 elseif (NOT (APPLE OR WIN32))
-    find_package(PkgConfig QUIET)
-
-    if (SDL1_OVERRIDE)
-        message(STATUS "SDL1_OVERRIDE enabled, using SDL1")
-
-        if (PKG_CONFIG_FOUND)
-            pkg_check_modules(SDL1 QUIET IMPORTED_TARGET sdl)
-        endif()
-
-        if (SDL1_FOUND)
-            message(STATUS "Found SDL1 via pkg-config: ${SDL1_VERSION}")
-            target_link_libraries(${PROJECT_NAME} PRIVATE PkgConfig::SDL1)
-        else()
-            find_path(SDL1_INCLUDE_DIR SDL.h
-                    PATHS
-                    /usr/include/SDL
-                    /usr/local/include/SDL
-                    /opt/local/include/SDL
-                    /opt/homebrew/include/SDL
-            )
-            find_library(SDL1_LIBRARY
-                    NAMES SDL
-                    PATHS
-                    /usr/lib
-                    /usr/local/lib
-                    /opt/local/lib
-                    /opt/homebrew/lib
-            )
-
-            if (SDL1_INCLUDE_DIR AND SDL1_LIBRARY)
-                message(STATUS "Found SDL1 manually: ${SDL1_LIBRARY}")
-                target_include_directories(${PROJECT_NAME} PRIVATE ${SDL1_INCLUDE_DIR})
-                target_link_libraries(${PROJECT_NAME} PRIVATE ${SDL1_LIBRARY})
-            else()
-                message(FATAL_ERROR "SDL1 not found. Install libsdl1.2-dev or equivalent.")
-            endif()
-        endif()
-
+    find_package(PkgConfig REQUIRED)
+    if (LIB_SDL1)
+        pkg_check_modules(SDL REQUIRED IMPORTED_TARGET sdl)
+        pkg_check_modules(SDL_IMAGE REQUIRED IMPORTED_TARGET SDL_image)
+        pkg_check_modules(SDL_MIXER REQUIRED IMPORTED_TARGET SDL_mixer)
     else()
-        find_package(PkgConfig REQUIRED)
-
-        # SDL2 #
-        pkg_check_modules(SDL2 sdl2)
-        # SDL2_image
-        pkg_check_modules(SDL2_IMAGE SDL2_image)
-        # SDL2_mixer
-        pkg_check_modules(SDL2_MIXER SDL2_mixer)
-
-        # SDL2 fallback
-        if (NOT SDL2_FOUND)
-            find_path(SDL2_INCLUDE_DIRS
-                    NAMES SDL.h
-                    PATH_SUFFIXES SDL2
-            )
-            find_library(SDL2_LIBRARIES
-                    NAMES SDL2
-            )
-
-            if (NOT SDL2_INCLUDE_DIRS OR NOT SDL2_LIBRARIES)
-                message(FATAL_ERROR
-                        "SDL2 not found. Install with:\n"
-                        "  Fedora:  sudo dnf install SDL2-devel\n"
-                        "  Ubuntu:  sudo apt install libsdl2-dev\n"
-                        "  Arch:    sudo pacman -S sdl2\n"
-                        "  FreeBSD: sudo pkg install sdl2\n"
-                )
-            endif()
-        endif()
-
-        # SDL2_image fallback
-        if (NOT SDL2_IMAGE_FOUND)
-            find_path(SDL2_IMAGE_INCLUDE_DIRS
-                    NAMES SDL_image.h
-                    PATH_SUFFIXES SDL2
-            )
-            find_library(SDL2_IMAGE_LIBRARIES
-                    NAMES SDL2_image
-            )
-
-            if (NOT SDL2_IMAGE_INCLUDE_DIRS OR NOT SDL2_IMAGE_LIBRARIES)
-                message(FATAL_ERROR
-                        "SDL2_image not found. Install with:\n"
-                        "  Fedora:  sudo dnf install SDL2_image-devel\n"
-                        "  Ubuntu:  sudo apt install libsdl2-image-dev\n"
-                        "  Arch:    sudo pacman -S sdl2_image\n"
-                        "  FreeBSD: sudo pkg install sdl2_image\n"
-                )
-            endif()
-        endif()
-
-        # SDL2_mixer fallback
-        if (NOT SDL2_MIXER_FOUND)
-            find_path(SDL2_MIXER_INCLUDE_DIRS
-                    NAMES SDL_mixer.h
-                    PATH_SUFFIXES SDL2
-            )
-            find_library(SDL2_MIXER_LIBRARIES
-                    NAMES SDL2_mixer
-            )
-
-            if (NOT SDL2_MIXER_INCLUDE_DIRS OR NOT SDL2_MIXER_LIBRARIES)
-                message(FATAL_ERROR
-                        "SDL2_mixer not found. Install with:\n"
-                        "  Fedora:  sudo dnf install SDL2_mixer-devel\n"
-                        "  Ubuntu:  sudo apt install libsdl2-mixer-dev\n"
-                        "  Arch:    sudo pacman -S sdl2_mixer\n"
-                        "  FreeBSD: sudo pkg install sdl2_mixer\n"
-                )
-            endif()
-        endif()
-
-        message(STATUS "SDL2 Include Dirs:       ${SDL2_INCLUDE_DIRS}")
-        message(STATUS "SDL2 Libraries:          ${SDL2_LIBRARIES}")
-        message(STATUS "SDL2_image Include Dirs: ${SDL2_IMAGE_INCLUDE_DIRS}")
-        message(STATUS "SDL2_image Libraries:    ${SDL2_IMAGE_LIBRARIES}")
-        message(STATUS "SDL2_mixer Include Dirs: ${SDL2_MIXER_INCLUDE_DIRS}")
-        message(STATUS "SDL2_mixer Libraries:    ${SDL2_MIXER_LIBRARIES}")
-
-        target_include_directories(${PROJECT_NAME} PRIVATE
-                ${SDL2_INCLUDE_DIRS}
-                ${SDL2_IMAGE_INCLUDE_DIRS}
-                ${SDL2_MIXER_INCLUDE_DIRS}
-        )
-        target_link_directories(${PROJECT_NAME} PRIVATE
-                ${SDL2_LIBRARY_DIRS}
-                ${SDL2_IMAGE_LIBRARY_DIRS}
-                ${SDL2_MIXER_LIBRARY_DIRS}
-        )
-        target_link_libraries(${PROJECT_NAME} PRIVATE
-                ${SDL2_LIBRARIES}
-                ${SDL2_IMAGE_LIBRARIES}
-                ${SDL2_MIXER_LIBRARIES}
-        )
-        target_compile_options(${PROJECT_NAME} PRIVATE
-                ${SDL2_CFLAGS_OTHER}
-                ${SDL2_IMAGE_CFLAGS_OTHER}
-                ${SDL2_MIXER_CFLAGS_OTHER}
-        )
+        pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
+        pkg_check_modules(SDL2_IMAGE REQUIRED IMPORTED_TARGET SDL2_image)
+        pkg_check_modules(SDL2_MIXER REQUIRED IMPORTED_TARGET SDL2_mixer)
     endif()
 endif()
 
@@ -287,9 +158,9 @@ elseif(SDL1_OVERRIDE)
     )
 else()
     target_include_directories(${PROJECT_NAME} PRIVATE
-            ${SDL2_INCLUDE_DIRS}
-            ${SDL2_IMAGE_INCLUDE_DIRS}
-            ${SDL2_MIXER_INCLUDE_DIRS}
+            PkgConfig::SDL2
+            PkgConfig::SDL2_IMAGE
+            PkgConfig::SDL2_MIXER
             libs/lua-5.5.0/src/
             src/
     )

@@ -14,6 +14,7 @@
         #define SCREEN_SCALE 1
     #else
         #define SCREEN_SCALE 2
+        #define LIB_SDL2
     #endif
 #endif
 #ifdef __APPLE__
