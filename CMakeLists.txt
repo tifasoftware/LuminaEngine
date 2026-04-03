@@ -213,12 +213,19 @@ elseif(3DS)
             SMDH ${PROJECT_NAME}.smdh
             ROMFS "${CMAKE_SOURCE_DIR}/assets"
     )
-else()
+elseif(LIB_SDL1)
     target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL SDL_image SDL_mixer
             lua
             #jpeg png z mad mikmod ogg vorbisidec
             SDL
+            lua
+    )
+else()
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            ${SDL2_LIBRARIES}
+            ${SDL2_IMAGE_LIBRARIES}
+            ${SDL2_MIXER_LIBRARIES}
             lua
     )
 endif()
