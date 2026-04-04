@@ -27,9 +27,9 @@ void Controller::SendInput() {
         #ifdef PLATFORM_PSP
         PSP_ProcessInput();
         #endif
-    #ifdef PLATFORM_3DS
+        #ifdef PLATFORM_3DS
         N3DS_ProcessInput();
-    #endif
+        #endif
         #ifdef PLATFORM_PC
         PC_ProcessInput();
         #endif

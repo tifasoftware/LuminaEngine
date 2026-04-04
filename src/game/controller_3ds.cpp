@@ -20,8 +20,6 @@ void Controller::N3DS_ProcessInput() {
         Uint8 cur = SDL_JoystickGetButton(joystick, i);
         Uint8 prev = prevButtons[i];
 
-        pawn->OnButtonPress(cur);
-
         if (cur && !prev) {
             // Just pressed this frame
             if (i == BTN_START)  pawn->OnButtonStart();
@@ -33,28 +31,46 @@ void Controller::N3DS_ProcessInput() {
         }
 
         prevButtons[i] = cur;
-
     }
 
-    Uint8 hat = SDL_JoystickGetHat(joystick, 0);
+    u32 held = hidKeysHeld();
 
+    Uint8 curDpad[4] = {
+        (held & 64) ? 1 : 0,
+        (held & 128) ? 1 : 0,
+        (held & 32) ? 1 : 0,
+        (held & 16) ? 1 : 0,
+    };
 
-    if (hat & 1) {
+    if (curDpad[N3DS_UP] && !prevDpad[N3DS_UP]) {
+        pawn->OnButtonUp();
         pawn->OnMoveUp();
-    } else if (hat & 4) {
-        pawn->OnMoveDown();
-    } else {
-        //pawn->OnStopMoveDown();
-    }
-    if (hat & 8) {
-        pawn->OnMoveLeft();
-    } else if (hat & 2) {
-        pawn->OnMoveRight();
-    } else {
-        //pawn->OnStopMoveRight();
     }
 
-    prevHat = hat;
+    if (curDpad[N3DS_DOWN] && !prevDpad[N3DS_DOWN]) {
+        pawn->OnButtonDown();
+        pawn->OnMoveDown();
+    }
+
+    if (curDpad[N3DS_LEFT] && !prevDpad[N3DS_LEFT]) {
+        pawn->OnButtonLeft();
+        pawn->OnMoveLeft();
+    }
+
+    if (curDpad[N3DS_RIGHT] && !prevDpad[N3DS_RIGHT]) {
+        pawn->OnButtonRight();
+        pawn->OnMoveRight();
+    }
+
+    if (!curDpad[N3DS_UP] && prevDpad[N3DS_UP]) pawn->OnStopMoveUp();
+    if (!curDpad[N3DS_DOWN] && prevDpad[N3DS_DOWN]) pawn->OnStopMoveDown();
+    if (!curDpad[N3DS_LEFT] && prevDpad[N3DS_LEFT]) pawn->OnStopMoveLeft();
+    if (!curDpad[N3DS_RIGHT] && prevDpad[N3DS_RIGHT]) pawn->OnStopMoveRight();
+
+    prevDpad[N3DS_UP] = curDpad[N3DS_UP];
+    prevDpad[N3DS_DOWN] = curDpad[N3DS_DOWN];
+    prevDpad[N3DS_LEFT] = curDpad[N3DS_LEFT];
+    prevDpad[N3DS_RIGHT] = curDpad[N3DS_RIGHT];
 
     // Still keep the event loop to prevent the queue from filling up
     while (SDL_PollEvent(&event)) {

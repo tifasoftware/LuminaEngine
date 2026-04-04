@@ -22,6 +22,11 @@ class Controller {
 #ifdef LIB_SDL1
     SDL_Joystick* joystick;
     Uint8 prevButtons[10] = {0};
-    Uint8 prevHat = SDL_HAT_CENTERED;
+    Uint8 prevDpad[4] = {0};
+
+    static const int N3DS_UP = 0;
+    static const int N3DS_DOWN = 1;
+    static const int N3DS_LEFT = 2;
+    static const int N3DS_RIGHT = 3;
 #endif
 };

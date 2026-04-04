@@ -102,8 +102,8 @@ class TileMap : public IControllable {
 
     Text debugText;
 
-    int luminaMoveX = 2;
-    int luminaMoveY = 2;
+    int luminaMoveX = 0;
+    int luminaMoveY = 0;
     const int luminaMoveRate = 2;
 
     int activeEntites = 0;
