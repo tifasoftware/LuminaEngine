@@ -33,6 +33,11 @@ public:
 
 private:
     SDL_Renderer* sdl_r;
+
+    #ifdef LIB_SDL1
+    SDL_Surface* fade_surface;
+    #endif
+
     Texture m_textures[MAX_TEXTURES];
     int m_texture_count = 0;
     int firstOpenSlot();

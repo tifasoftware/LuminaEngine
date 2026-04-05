@@ -4,11 +4,18 @@
 #include <graphics/Texture.h>
 #include <algorithm>
 
+#include "platform/sdl2_compat/SDL_Renderer.h"
+
 Renderer::Renderer(SDL_Window * win) {
     sdl_r = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 #ifdef PLATFORM_PC
     SDL_RenderSetLogicalSize(sdl_r, 480, 272);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+#endif
+
+#ifdef LIB_SDL1
+    fade_surface = SDL_DisplayFormatAlpha(win);
+    SDL_SetAlpha(fade_surface, SDL_SRCALPHA, SDL_ALPHA_OPAQUE);
 #endif
 }
 
@@ -136,13 +143,21 @@ int Renderer::drawSubSprite(int texIndex, int x, int y, int cX, int cY, int cW, 
 void Renderer::floodOverlay(int r, int g, int b, int alpha)
 {
     alpha = std::max(0, std::min(255, alpha));
+    SDL_Rect screen = { 0, 0, SCREEN_W, SCREEN_H };
+
+#ifdef LIB_SDL1
+    SDL_FillRect(fade_surface, &screen, SDL_MapRGBA(fade_surface->format, r, g, b, alpha));
+
+    SDL_BlitSurface(fade_surface, &screen, sdl_r->screen, &screen);
+#else
     SDL_SetRenderDrawBlendMode(sdl_r, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(sdl_r, r, g, b, alpha);
 
-    SDL_Rect screen = { 0, 0, 480, 272 };
+
     SDL_RenderFillRect(sdl_r, &screen);
 
     SDL_SetRenderDrawBlendMode(sdl_r, SDL_BLENDMODE_NONE);
+#endif
 }
 
 void Renderer::clear()
@@ -159,6 +174,9 @@ void Renderer::present()
 
 void Renderer::shutdown()
 {
+#ifdef LIB_SDL1
+    SDL_FreeSurface(fade_surface);
+#endif
     SDL_DestroyRenderer(sdl_r);
 }
 

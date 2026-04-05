@@ -24,7 +24,10 @@ struct SDL_Renderer {
             src->h = texture->height;
             needToDelete = true;
         }
-        SDL_BlitSurface(texture->surface, src, screen, dst);
+        if (texture->tinted)
+            SDL_BlitSurface(texture->tinted_surface, src, screen, dst);
+        else
+            SDL_BlitSurface(texture->surface, src, screen, dst);
         if (needToDelete) delete src;
     }
 
@@ -97,7 +100,8 @@ static void SDL_RenderDrawRect(SDL_Renderer * renderer, SDL_Rect* rect) {
 }
 
 static void SDL_BP_SetClearColor(SDL_Renderer * renderer, int r, int g, int b) {
-    renderer->clear_color = SDL_MapRGB(renderer->screen->format, r, g, b);
+    //Disable Ops
+    //renderer->clear_color = SDL_MapRGB(renderer->screen->format, r, g, b);
 }
 
 static SDL_Texture* SDL_CreateTextureFromSurface(SDL_Renderer * renderer, SDL_Surface* surface) {
