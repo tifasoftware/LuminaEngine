@@ -4,8 +4,6 @@
 #include <graphics/Texture.h>
 #include <algorithm>
 
-#include "platform/sdl2_compat/SDL_Renderer.h"
-
 Renderer::Renderer(SDL_Window * win) {
     sdl_r = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 #ifdef PLATFORM_PC
