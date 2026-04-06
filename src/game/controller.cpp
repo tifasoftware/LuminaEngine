@@ -9,6 +9,12 @@ Controller::Controller() {
 #endif
 }
 
+Controller::~Controller() {
+    #ifdef LIB_SDL1
+    SDL_JoystickClose(joystick);
+    #endif
+}
+
 void Controller::Possess(IControllable *p) {
     pawn = p;
     pawn->activate();

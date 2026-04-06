@@ -6,6 +6,7 @@
 class Controller {
     public:
     Controller();
+    ~Controller();
     void Possess(IControllable* p);
     void QueuePawn(IControllable* p);
     void SendInput();

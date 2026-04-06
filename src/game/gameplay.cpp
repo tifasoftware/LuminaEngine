@@ -123,12 +123,24 @@ void GamePlay::Exit()
 {
     snd->shutdown();
     r->shutdown();
-    SDL_DestroyWindow(window);
-    SDL_Quit();
-
+    delete controller;
+    delete lumina;
+    delete snd;
+    delete r;
+    delete f;
 #ifdef PLATFORM_3DS
     romfsExit();
 #endif
+#ifdef LIB_SDL1
+
+    Mix_CloseAudio();
+    Mix_Quit();
+    IMG_Quit();
+#endif
+    SDL_DestroyWindow(window);
+    SDL_Quit();
+
+
 }
 
 void GamePlay::GameLoop()
