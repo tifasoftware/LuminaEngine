@@ -82,7 +82,8 @@ std::string LuminaUtils::osPath(const char *relpath) {
     base = "romfs:/";
 #else
     if (base.empty()) {
-        base = std::string(SDL_GetBasePath());
+        char* sdl_base = SDL_GetBasePath();
+        base = std::string(sdl_base);
     }
 #endif
     path = (base + file);

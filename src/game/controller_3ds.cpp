@@ -3,7 +3,7 @@
 
 #include "controller.h"
 
-#if defined(PLATFORM_3DS) || defined(LIB_SDL1)
+#if defined(PLATFORM_3DS) && defined(LIB_SDL1)
 #include <3ds.h>
 
 static const int BTN_A = 1;

@@ -19,6 +19,8 @@ Dialogue::Dialogue(Renderer* r, IControllable* p) {
 Dialogue::~Dialogue() {
     delete text;
     text = nullptr;
+    delete underScore;
+    underScore = nullptr;
     panel->destroy();
     delete panel;
     panel = nullptr;
