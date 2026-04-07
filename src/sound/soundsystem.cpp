@@ -15,6 +15,7 @@ SoundSystem::SoundSystem()
 
 void SoundSystem::shutdown()
 {
+    stopMusic();
     Mix_CloseAudio();
 }
 
@@ -56,7 +57,14 @@ int SoundSystem::loadSFX(const char* file)
 {
     int slot = firstOpenSlot();
 
-    sfxBank[slot] = Mix_LoadWAV(file);
+    Mix_Chunk* newSnd = Mix_LoadWAV(file);
+
+    if (newSnd == nullptr) {
+        sfxBank[slot] = nullptr;
+        return -1;
+    }
+
+    sfxBank[slot] = newSnd;
 
     return slot;
 }
@@ -83,6 +91,7 @@ bool SoundSystem::unloadAllSFX()
 
 void SoundSystem::playSFX(int index)
 {
+    if (index == -1) return;
     if (sfxBank[index] != nullptr)
     {
         Mix_PlayChannel(-1, sfxBank[index], 0);
