@@ -23,7 +23,18 @@ int main(int argc, char *argv[])
     auto gp = new GamePlay();
 
 #ifdef PLATFORM_3DS
+    aptSetSleepAllowed(true);
+
     while (gp->gameRunning() && aptMainLoop()) {
+        if (aptShouldClose())
+            break;
+
+        if (!aptIsActive()) {
+            // suspended by HOME menu, just wait
+            gspWaitForVBlank();
+            continue;
+        }
+
         gp->GameLoop();
     }
 #else

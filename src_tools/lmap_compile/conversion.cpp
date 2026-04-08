@@ -25,8 +25,9 @@ Orientation stringToOrientation(char str[]) {
     if (strcmp(str, "right") == 0) return FACE_RIGHT;
     if (strcmp(str, "updown") == 0) return FACE_UD;
     if (strcmp(str, "leftright") == 0) return FACE_LR;
+    if (strcmp(str, "all") == 0) return FACE_ALL;
 
-    return FACE_ALL;
+    return FACE_NONE;
 }
 
 Orientation stringToOrientation(const char *str) {

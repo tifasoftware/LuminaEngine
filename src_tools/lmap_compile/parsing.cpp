@@ -62,8 +62,11 @@ void parse_layout(const char* file)
                 int x = object["x"].get<int>();
                 int y = object["y"].get<int>();
 
-                int w = object.contains("w") ? object["w"].get<int>() : 2;
-                int h = object.contains("h") ? object["h"].get<int>() : 2;
+                int w = 2;
+                int h = 2;
+
+                if (object.contains("width")) w = object["width"].get<int>();
+                if (object.contains("height")) h = object["height"].get<int>();
 
                 EntityDef entity = EntityDef();
 

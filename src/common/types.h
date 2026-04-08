@@ -54,5 +54,6 @@ enum Orientation : uint8_t {
     //For Poly-directional entities
     FACE_LR,
     FACE_UD,
-    FACE_ALL
+    FACE_ALL,
+    FACE_NONE
 };

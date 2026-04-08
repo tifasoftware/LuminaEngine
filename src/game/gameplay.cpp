@@ -141,6 +141,10 @@ void GamePlay::Exit()
     SDL_Quit();
 
 
+#ifdef PLATFORM_3DS
+    aptExit();
+#endif
+
 }
 
 void GamePlay::GameLoop()
