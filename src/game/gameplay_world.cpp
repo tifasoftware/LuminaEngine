@@ -68,6 +68,10 @@ void GamePlay::WorldDraw()
         }
 
         r->present();
+        if (gps.wantCallScript) {
+            scriptEngine->runScript(gps.nextScript, "onCall");
+            gps.wantCallScript = false;
+        }
         if (gps.wantNewState) SwitchState();
 }
 

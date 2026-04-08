@@ -14,14 +14,17 @@ class GamePlayState {
 
     void RequestSwitchState(GameState newState);
     void RequestMapChange(const char* newMapName);
+    void RequestRunScript(const char* scriptName);
 
     GameState gameState = WORLD;
     GameState newGameState = WORLD;
     bool wantNewState = false;
     bool inTransition = true;
+    bool wantCallScript = false;
     bool newMap = false;
 
     char mapName[64] = "scrolltest.lmap";
+    char nextScript[64] = "";
     char lastMapName[64] = "start";
     char music[64] = "bgm0.ogg";
 

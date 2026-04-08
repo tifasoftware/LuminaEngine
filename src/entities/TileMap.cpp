@@ -273,13 +273,41 @@ void TileMap::updateMap() {
         if (!scrollY(luminaMoveY, gps->characterY + luminaMoveY)) gps->characterY += luminaMoveY;
     }
 
-    if (luminaMoveX != 0 || luminaMoveY != 0) {
+    if (luminaMoveX != 0 || luminaMoveY != 0 || requestInteract) {
         Entity* colTrig = getCollidingTrigger(gps->characterX, gps->characterY);
         if (colTrig != nullptr) {
-            if (colTrig->getType() == TRIGGER_WARP) {
-                if (colTrig->hasProperty("map")) gps->RequestMapChange(colTrig->getProperty("map"));
+
+            if (requestInteract) {
+                // Interacts go in here
+                switch (colTrig->getType()) {
+                    case INTERACT_LUA:
+                        if (colTrig->hasProperty("lua")) gps->RequestRunScript(colTrig->getProperty("lua"));
+                        break;
+                    case INTERACT_NPC:
+                        //TODO
+                        break;
+                    default:
+                        break;
+                }
+
+            } else {
+                // Triggers go in here
+                switch (colTrig->getType()) {
+                    case TRIGGER_WARP:
+                        if (colTrig->hasProperty("map")) gps->RequestMapChange(colTrig->getProperty("map"));
+                        break;
+                    case TRIGGER_BATTLEFIELD:
+                        //TODO
+                        break;
+                    case TRIGGER_LUA:
+                        //TODO
+                        break;
+                    default:
+                        break;
+                }
             }
         }
+        requestInteract = false;
     }
 }
 
@@ -353,6 +381,10 @@ void TileMap::OnStopMoveRight() {
 }
 void TileMap::OnButtonStart() {
     gps->RequestSwitchState(MENU);
+}
+
+void TileMap::OnButtonA() {
+    requestInteract = true;
 }
 
 void TileMap::OnButtonPress(int id) {

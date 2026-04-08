@@ -41,8 +41,8 @@ Entity* Entity::spawnEntity(EntityDef def) {
 void Entity::calculateTriggerBounds() {
     switch (orientation) {
         case FACE_ALL:
-            trigger_h = h * 3;
-            trigger_w = w * 3;
+            trigger_h = h * 2;
+            trigger_w = w * 2;
             trigger_x = getLeftX() - w;
             trigger_y = getTopY() - h;
             break;
@@ -149,6 +149,8 @@ void Entity::initializeSprite(int ti) {
     switch (type) {
         case INTERACT_NPC:
             sprite = new CharacterSprite(ti);
+            w = sprite->getWidth();
+            h = sprite->getHeight();
             centerSprite = false;
             break;
         case TRIGGER_BATTLEFIELD:
@@ -157,14 +159,17 @@ void Entity::initializeSprite(int ti) {
             sprite = nullptr;
             centerSprite = false;
             orientation = FACE_NONE;
+            if (w <= 2) w = 16;
+            if (h <= 2) h = 16;
             break;
         default:
             sprite = new Sprite(ti, w, h);
             centerSprite = true;
+            if (w <= 2) w = 16;
+            if (h <= 2) h = 16;
             break;
     }
-    if (w <= 2) w = 16;
-    if (h <= 2) h = 16;
+
 }
 
 void Entity::disposeSprite() {

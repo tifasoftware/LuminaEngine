@@ -74,6 +74,7 @@ class TileMap : public IControllable {
     void OnStopMoveLeft() override;
     void OnStopMoveRight() override;
     void OnButtonStart() override;
+    void OnButtonA() override;
     void OnQuit() override { gps->RequestSwitchState(EXIT); }
 
     void OnButtonPress(int id) override;
@@ -112,5 +113,7 @@ class TileMap : public IControllable {
     int skyTileSize = -1;
 
     int textureAddress = -1;
+
+    bool requestInteract = false;
 
 };
