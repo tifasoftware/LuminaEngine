@@ -1,5 +1,9 @@
 #pragma once
 
+#ifdef __LEDEBUG__
+    #define USER_LIGHTNING
+#endif
+
 #ifdef __PSP__
     #define PLATFORM_PSP
     #define SCREEN_W 480

@@ -109,7 +109,7 @@ void Entity::draw(Renderer *r, int screenOffsetX, int screenOffsetY) {
         sprite->draw(getLeftX() - screenOffsetX + spriteOffsetX, getTopY() - screenOffsetY + spriteOffsetY, moveX, moveY, r);
     }
 
-#ifdef PLATFORM_OSX
+#ifdef USER_LIGHTNING
     SDL_Rect rec = {trigger_x - screenOffsetX, trigger_y - screenOffsetY, trigger_w, trigger_h};
 
     SDL_SetRenderDrawBlendMode(r->getRenderer(), SDL_BLENDMODE_BLEND);

@@ -14,6 +14,9 @@ class Character
     void drawCharacter(int x, int y, int mx, int my, Renderer* r);
     void loadCharacterSprite(Renderer* r);
 
+    int getLeftX(int x) { return x - (charWidth / 2); }
+    int getTopY(int y) { return y - (charHeight / 2); }
+
     private:
     void deleteCharacterSprite();
     const char* characterName;
@@ -21,5 +24,9 @@ class Character
     int health;
     int magic;
     int level;
+
+    int charWidth;
+    int charHeight;
+
     CharacterSprite* sprite;
 };

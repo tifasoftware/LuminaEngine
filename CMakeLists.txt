@@ -4,6 +4,11 @@ set(3DS OFF CACHE BOOL "Build for 3DS")
 set(SDL1_OVERRIDE OFF CACHE BOOL "Debug for SDL1")
 set(LE32BIT OFF CACHE BOOL "Build for 32-bit")
 set(LE_OLD_OSX OFF CACHE BOOL "Build for Snow Leopard")
+set(LE_DEBUG OFF CACHE BOOL "Build with In-Engine Debugging")
+
+if (LE_DEBUG)
+    add_definitions(-D__LEDEBUG__)
+endif()
 
 if(3DS)
     add_definitions(-D__3DS__)
