@@ -106,8 +106,7 @@ void Entity::draw(Renderer *r, int screenOffsetX, int screenOffsetY) {
     if (canBeDrawn(screenOffsetX, screenOffsetY)) {
         //r->drawSprite(texIndex, x - screenOffsetX, y - screenOffsetY);
 
-        if (!centerSprite) sprite->draw(x - screenOffsetX, y - screenOffsetY, moveX, moveY, r);
-        if (centerSprite) sprite->draw(getLeftX() - screenOffsetX, getTopY() - screenOffsetY, r);
+        sprite->draw(getLeftX() - screenOffsetX + spriteOffsetX, getTopY() - screenOffsetY + spriteOffsetY, moveX, moveY, r);
     }
 
 #ifdef PLATFORM_OSX
@@ -151,7 +150,9 @@ void Entity::initializeSprite(int ti) {
             sprite = new CharacterSprite(ti);
             w = sprite->getWidth();
             h = sprite->getHeight();
-            centerSprite = false;
+            spriteOffsetX = w / 2;
+            spriteOffsetY = h / 2;
+            centerSprite = true;
             break;
         case TRIGGER_BATTLEFIELD:
         case TRIGGER_LUA:

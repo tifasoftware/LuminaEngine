@@ -61,6 +61,8 @@ protected:
     Orientation orientation;
     EntityProperty properties[MAX_PROPERTIES];
     Sprite* sprite;
+    int spriteOffsetX = 0;
+    int spriteOffsetY = 0;
 
     int getLeftX() {
         if (centerSprite) return x - (w / 2);
