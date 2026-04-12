@@ -223,7 +223,6 @@ bool TileMap::loadFromFile(const char* file)
     return true;
 }
 
-//This algorithm is rudimentary, as its set to the bounds of the psp's screen for now.
 bool TileMap::isColliding(int x, int y)
 {
     int playerTileX = (toWorldX(x) / TILE_SIZE);
@@ -255,11 +254,38 @@ bool TileMap::isColliding(int x, int y)
             return false;
         break;
     }
-    if (x < 16 || y < 16 || x > 464 || y > 256)
+}
+
+bool TileMap::isColliding(int x, int y, int mX, int mY) {
+    int playerTileX = (toWorldX(x) / TILE_SIZE);
+    int playerTileY = (toWorldY(y) / TILE_SIZE);
+
+    int nextTileX = (toWorldX(x + mX) / TILE_SIZE);
+    int nextTileY = (toWorldY(y + mY) / TILE_SIZE);
+
+    CollisionType ct = collision[nextTileX][nextTileY];
+
+    switch (ct)
     {
-        return true;
+        case NORTH:
+        case SOUTH:
+        case EAST:
+        case WEST:
+        case NEI:
+        case SEI:
+        case NWI:
+        case SWI:
+        case NEO:
+        case SEO:
+        case NWO:
+        case SWO:
+            return true;
+        case NONE:
+            return false;
+        default:
+            return false;
+            break;
     }
-    return false;
 }
 
 void TileMap::updateMap() {

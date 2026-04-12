@@ -38,6 +38,7 @@ class TileMap : public IControllable {
     void disposeMap();
     //void shiftMap(int x, int y);
     bool isColliding(int x, int y);
+    bool isColliding(int x, int y, int mX, int mY);
     void updateMap();
     int getActiveEntities() { return activeEntites; }
 
