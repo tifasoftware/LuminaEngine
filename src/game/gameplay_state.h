@@ -10,11 +10,13 @@ class GamePlayState {
 
     void moveCharacter(int x, int y) { characterX += x; characterY += y; }
     void moveScreen(int x, int y) { screenX += x; screenY += y; }
-    void RequestMapChange();
 
     void RequestSwitchState(GameState newState);
     void RequestMapChange(const char* newMapName);
     void RequestRunScript(const char* scriptName);
+
+    int LoadFromFile(const char* file);
+    int SaveToFile(const char* file);
 
     GameState gameState = WORLD;
     GameState newGameState = WORLD;

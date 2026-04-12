@@ -1,5 +1,7 @@
 #pragma once
 
+static const char* LUMINA_ENGINE_DEMO_ID = "infitechppc.luminademo";
+
 struct LSAVHeader
 {
     char magic[4];
