@@ -65,8 +65,10 @@ endif()
 
 if (WIN32)
     if (LE32BIT)
+        message("Windows 32-Bit")
         set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/i686-w64-mingw32")
     else()
+        message("Windows 64-bit")
         set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/x86_64-w64-mingw32")
     endif()
 
@@ -173,6 +175,14 @@ elseif(3DS)
 elseif(SDL1_OVERRIDE)
     target_include_directories(${PROJECT_NAME} PRIVATE
             ${SDL_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
+            src/
+    )
+elseif(WIN32)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${SDL2_INCLUDE_DIRS}
+            ${SDL2_IMAGE_INCLUDE_DIRS}
+            ${SDL2_MIXER_INCLUDE_DIRS}
             libs/lua-5.5.0/src/
             src/
     )
