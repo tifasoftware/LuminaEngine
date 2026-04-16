@@ -7,7 +7,7 @@ Dialogue::Dialogue(Renderer* r, IControllable* p) {
     parent = p;
     text = new Text();
     panel = new Panel(renderer, 3, SCREEN_H - 103, SCREEN_W - 6, 100);
-    text->Move(panel->getX() + 2, panel->getY() + 2);
+    text->move(panel->getX() + 2, panel->getY() + 2);
     underScore = new Text("-", -1, SCREEN_W - 20, SCREEN_H - 20);
     strcpy(dialogueText, "");
     strcpy(displayText, "");
@@ -60,8 +60,8 @@ void Dialogue::draw() {
 
     }
     panel->Render();
-    text->Render(renderer);
+    text->render(renderer);
 
-    if (completed) underScore->Render(renderer);
+    if (completed) underScore->render(renderer);
 }
 

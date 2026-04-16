@@ -25,9 +25,28 @@ int main(int argc, char *argv[])
 #ifdef PLATFORM_3DS
     aptSetSleepAllowed(true);
 
+    aptHookCookie hookCookie;
+    aptHook(&hookCookie, [](APT_HookType hook, void*) {
+        switch (hook) {
+            case APTHOOK_ONSLEEP:
+                Mix_PauseMusic();
+                Mix_Pause(-1);
+                break;
+            case APTHOOK_ONWAKEUP:
+                Mix_ResumeMusic();
+                Mix_Resume(-1);
+                break;
+            default:
+                break;
+        }
+    }, nullptr);
+
     while (gp->gameRunning() && aptMainLoop()) {
-        if (aptShouldClose())
+        if (aptShouldClose()) {
+            gp->Exit();
+            return 0;
             break;
+        }
 
         if (!aptIsActive()) {
             // suspended by HOME menu, just wait

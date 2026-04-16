@@ -2,18 +2,21 @@
 
 #include <graphics/Renderer.h>
 
-class Text
+#include "UIElement.h"
+
+class Text : public UIElement
 {
     public:
     Text(const char* t, int fti, int _x, int _y);
     Text(const char* t, int fti);
-    ~Text();
+    ~Text() override {}
     Text();
     void SetFGColor(int r, int g, int b);
     void SetText(const char* t);
     void SetFont(int fti) { fontTexIndex = fti; }
-    void Render(Renderer* r);
-    void Move(int x, int y);
+    void render(Renderer* r) override;
+    void move(int x, int y) override;
+    void destroy() override {}
 
     private:
     char text[128];

@@ -11,13 +11,13 @@ Button::Button(const char* text, const char* tag, int fti)
 
 void Button::render(Renderer* r)
 {
-    t_obj.Render(r);
+    t_obj.render(r);
 }
 
 void Button::move(int x, int y)
 {
     UIElement::move(x,y);
-    t_obj.Move(x, y);
+    t_obj.move(x, y);
 }
 
 void Button::startFocus()

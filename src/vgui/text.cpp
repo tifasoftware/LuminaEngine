@@ -26,7 +26,7 @@ Text::Text(const char* t, int fti)
     y = 0;
 }
 
-void Text::Move(int x, int y)
+void Text::move(int x, int y)
 {
     this->x = x;
     this->y = y;
@@ -36,7 +36,7 @@ void Text::SetText(const char *t) {
     strncpy(text, t, 127);
 }
 
-void Text::Render(Renderer* r)
+void Text::render(Renderer* r)
 {
     if (fontTexIndex == -1) return;
     SDL_SetTextureColorMod(r->getTexture(fontTexIndex)->get_SDLTex(), fg_r, fg_g, fg_b);
@@ -76,9 +76,4 @@ void Text::SetFGColor(int r, int g, int b)
     fg_r = r;
     fg_g = g;
     fg_b = b;
-}
-
-Text::~Text()
-{
-
 }
