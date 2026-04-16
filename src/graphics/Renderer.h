@@ -25,6 +25,11 @@ public:
     int unloadAllTextures();
     int unloadTexture(int index);
     void floodOverlay(int r, int g, int b, int alpha);
+#ifdef LIB_SDL1
+    void floodOldOverlay();
+#else
+    void floodOldOverlay() {}
+#endif
     void clear();
     void present();
     void shutdown();

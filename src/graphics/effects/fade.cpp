@@ -13,6 +13,9 @@ void Fade::FadeIn(float time)
     alpha = 255;
     isFadingIn = true;
     isActive = true;
+#ifdef PLATFORM_3DS
+    fadeAB = false;
+#endif
 }
 
 void Fade::FadeOut(float time)
@@ -22,6 +25,9 @@ void Fade::FadeOut(float time)
     alpha = 0;
     isFadingIn = false;
     isActive = true;
+#ifdef PLATFORM_3DS
+    fadeAB = false;
+#endif
 }
 
 bool Fade::isFading()
@@ -34,7 +40,15 @@ void Fade::Render(float deltaTime)
 
     currentTime += deltaTime;
 
+#ifdef PLATFORM_3DS
+    if (fadeAB)
+        render->floodOldOverlay();
+    else
+        render->floodOverlay(0,0,0, alpha);
+#else
     render->floodOverlay(0,0,0, alpha);
+#endif
+
 
     int deltaAlpha = 255 * (deltaTime / totalTime);
     if (isFadingIn)
@@ -48,4 +62,8 @@ void Fade::Render(float deltaTime)
     {
         isActive = false;
     }
+
+#ifdef PLATFORM_3DS
+    fadeAB = (!fadeAB);
+#endif
 }

@@ -10,6 +10,10 @@
 #include <mach-o/dyld.h>
 #endif
 
+#ifdef PLATFORM_3DS
+#include <3ds.h>
+#endif
+
 #include "graphics/Renderer.h"
 
 Orientation LuminaUtils::FlipOrientation(Orientation orientation) {
@@ -42,6 +46,7 @@ void LuminaUtils::LuminaDelay(int ms) {
 #ifdef PLATFORM_PSP
     SDL_Delay(ms);
 #endif
+
 #ifdef PLATFORM_PC
     int delay = 1000 / FRAME_RATE;
     int cycles = ms / delay;
@@ -51,6 +56,14 @@ void LuminaUtils::LuminaDelay(int ms) {
             if (event.type == SDL_QUIT) exit(0);
         }
         SDL_Delay(delay);
+    }
+#endif
+#ifdef PLATFORM_3DS
+    int delay = ms / 16.6667f;
+    for (int i = 0; i < delay; i++) {
+        if (aptShouldClose())
+            break;
+        gspWaitForVBlank();
     }
 #endif
 }

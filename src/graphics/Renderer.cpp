@@ -158,6 +158,14 @@ void Renderer::floodOverlay(int r, int g, int b, int alpha)
 #endif
 }
 
+#ifdef LIB_SDL1
+void Renderer::floodOldOverlay()
+{
+    SDL_Rect screen = { 0, 0, SCREEN_W, SCREEN_H };
+    SDL_BlitSurface(fade_surface, &screen, sdl_r->screen, &screen);
+}
+#endif
+
 void Renderer::clear()
 {
     SDL_RenderClear(sdl_r);

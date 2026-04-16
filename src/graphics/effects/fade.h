@@ -18,4 +18,8 @@ class Fade
     bool isFadingIn;
     bool isActive = false;
     Renderer* render;
+
+#ifdef PLATFORM_3DS
+    bool fadeAB = false;
+#endif
 };

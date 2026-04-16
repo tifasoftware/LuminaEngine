@@ -24,10 +24,20 @@ struct SDL_Renderer {
             src->h = texture->height;
             needToDelete = true;
         }
-        if (texture->tinted)
-            SDL_BlitSurface(texture->tinted_surface, src, screen, dst);
-        else
-            SDL_BlitSurface(texture->surface, src, screen, dst);
+
+        bool skip = false;
+
+        if (dst->x < (-1 * src->w)) skip = true;
+        if (dst->y < (-1 * src->h)) skip = true;
+        if (dst->x + dst->w > (screen->w + src->w)) skip = true;
+        if (dst->y + dst->h > (screen->h + src->h)) skip = true;
+
+        if (!skip){
+            if (texture->tinted)
+                SDL_BlitSurface(texture->tinted_surface, src, screen, dst);
+            else
+                SDL_BlitSurface(texture->surface, src, screen, dst);
+        }
         if (needToDelete) delete src;
     }
 
