@@ -7,8 +7,8 @@ void GamePlay::WorldStart() {
     tm = new TileMap(gps.mapName, &gps, lumina, r);
 
     fontAtlas = r->loadTexture("fontatlas.png");
-    dialogue = new Dialogue(r, tm);
-    dialogue->SetFont(fontAtlas);
+    gps.overlay = new Dialogue(r, tm);
+    gps.overlay->SetFont(fontAtlas);
 
     tm->loadMap();
     tm->findSpawn(gps.lastMapName);
@@ -18,7 +18,7 @@ void GamePlay::WorldStart() {
     ChangeMusic(tm->getBGMFile());
     lumina->loadCharacterSprite(r);
 
-    scriptEngine = new ScriptEngine(dialogue, &gps, tm);
+    scriptEngine = new ScriptEngine(&gps, tm);
 
     if (gps.newMap) {
         SpawnDef sp = tm->getSpawn();
@@ -59,11 +59,16 @@ void GamePlay::WorldDraw()
             f->Render(1.0f / FRAME_RATE);
         }
 
-        if (dialogue->isEngaged()) {
-            dialogue->draw();
-            if (!dialogue->getActive()) {
-                controller->Possess(dialogue);
-                controller->QueuePawn(tm);
+
+        Overlay* overlay = gps.GetOverlay();
+        if (overlay != nullptr) {
+            if (!overlay->IsFontSet()) overlay->SetFont(fontAtlas);
+            if (overlay->isEngaged()) {
+                overlay->draw();
+                if (!overlay->getActive()) {
+                    controller->Possess(overlay);
+                    controller->QueuePawn(tm);
+                }
             }
         }
 
@@ -97,7 +102,7 @@ void GamePlay::WorldExit()
 
         //t.Render(r);
 
-        lumina->drawCharacter(gps.characterX, gps.characterY, 0, 0, r);
+        //lumina->drawCharacter(gps.characterX, gps.characterY, 0, 0, r);
 
         if (f->isFading()){
             f->Render(1.0f / FRAME_RATE);
@@ -118,7 +123,7 @@ void GamePlay::WorldExit()
     r->unloadAllTextures();
 
     //delete text;
-    delete dialogue;
+    //delete dialogue;
 }
 
 void GamePlay::ChangeMusic(const char *newMusic) {

@@ -1,18 +1,20 @@
 #pragma once
+#include "overlay.h"
 #include "text.h"
 #include "panel.h"
 #include "game/IControllable.h"
 
-class Dialogue : public IControllable {
+class Dialogue : public Overlay {
     public:
     Dialogue(Renderer* r, IControllable* p);
-    ~Dialogue();
-    void SetFont(int font) { text->SetFont(font); underScore->SetFont(font); }
+    ~Dialogue() override;
+
+    void SetFont(int font) override { text->SetFont(font); underScore->SetFont(font); }
+    bool IsFontSet() override { return text->isFontSet(); }
+
     void DisplayDialogue(const char* text);
     void advance();
-    bool isComplete() {return completed;}
-    bool isEngaged() {return engaged;}
-    void draw();
+    void draw() override;
 
     //IControllable
     void OnButtonA() override { advance(); }
@@ -20,15 +22,12 @@ class Dialogue : public IControllable {
     void OnQuit() override { parent-> OnQuit(); }
 
     private:
-    Renderer* renderer;
     Panel* panel;
     Text* text;
     Text* underScore;
-    IControllable* parent;
     char dialogueText[128];
     char displayText[128];
     int displayTextLength;
-    bool completed;
-    bool engaged;
+
     int frame;
 };

@@ -6,6 +6,14 @@
 #include "common/types.h"
 #include "formats/lsav.h"
 
+GamePlayState::GamePlayState() {
+    overlay = nullptr;
+}
+
+GamePlayState::~GamePlayState() {
+    if (overlay != nullptr) delete overlay;
+}
+
 void GamePlayState::RequestMapChange(const char *newMapName) {
     wantNewState = true;
     newMap = true;
@@ -22,6 +30,11 @@ void GamePlayState::RequestSwitchState(GameState newState)
 void GamePlayState::RequestRunScript(const char *scriptName) {
     strncpy(nextScript, scriptName, 63);
     wantCallScript = true;
+}
+
+void GamePlayState::DispatchOverlay(Overlay *ov) {
+    if (overlay != nullptr) delete overlay;
+    overlay = ov;
 }
 
 int GamePlayState::LoadFromFile(const char *file) {

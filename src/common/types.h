@@ -35,6 +35,13 @@ enum MenuClass : uint8_t {
     NO_MENU_RETURNTOWORLD
 };
 
+enum OverlayClass : uint8_t {
+    DIALOGUE_OVERLAY, // Character says something
+    MSGBOX_OVERLAY, // Message from the game
+    QUESTION_OVERLAY, // Character asks something
+    MENU_OVERLAY  // Game asks something
+};
+
 enum EntityType : uint8_t
 {
     TRIGGER_LUA,

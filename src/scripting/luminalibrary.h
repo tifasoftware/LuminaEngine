@@ -2,6 +2,8 @@
 #include <string>
 
 #include "vgui/dialogue.h"
+#include "entities/TileMap.h"
+#include "game/gameplay_state.h"
 
 extern "C" {
 #include <lua.h>
@@ -17,7 +19,8 @@ class LuminaLibrary {
     void MessageBox(std::string message);
 
     //Lumina Engine Connections
-    void setDialogue(Dialogue* d) { this->dialogue = d; }
+    void setGamePlayState(GamePlayState* g) { this->gps = g; }
+    void setTileMap(TileMap* t) { this->tm = t; }
 
     //Lua Connections
     static LuminaLibrary* getLuaInstance(lua_State* L);
@@ -29,5 +32,6 @@ class LuminaLibrary {
     static int l_drawFrame(lua_State *L);
 
 private:
-    Dialogue* dialogue;
+    GamePlayState* gps;
+    TileMap* tm;
 };

@@ -2,8 +2,7 @@
 #include <platform/platform.h>
 #include <algorithm>
 
-ScriptEngine::ScriptEngine(Dialogue *d, GamePlayState *gps, TileMap *tm) {
-    this->dialogue = d;
+ScriptEngine::ScriptEngine(GamePlayState *gps, TileMap *tm) {
     this->gps = gps;
     this->tm = tm;
     m_lua = luaL_newstate();
@@ -16,7 +15,8 @@ ScriptEngine::~ScriptEngine() {
 }
 
 bool ScriptEngine::runScript(const char* script, const char* function) {
-    library.setDialogue(dialogue);
+    library.setGamePlayState(gps);
+    library.setTileMap(tm);
 
     lua_pushcfunction(m_lua, &errorHandler);
     int msgh = lua_gettop(m_lua);

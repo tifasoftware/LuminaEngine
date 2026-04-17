@@ -2,7 +2,7 @@
 #include "luminalibrary.h"
 
 LuminaLibrary::LuminaLibrary() {
-    dialogue = nullptr;
+    gps = nullptr;
 }
 
 LuminaLibrary::~LuminaLibrary() {
@@ -28,9 +28,9 @@ void LuminaLibrary::registerLuminaLibrary(lua_State *L) {
 }
 
 void LuminaLibrary::MessageBox(std::string message) {
-    if (dialogue != nullptr) {
-        dialogue->DisplayDialogue(message.c_str());
-    }
+    Dialogue* dialogue = new Dialogue(tm->getRenderer(), tm);
+    gps->DispatchOverlay(dialogue);
+    dialogue->DisplayDialogue(message.c_str());
 }
 
 int LuminaLibrary::l_MessageBox(lua_State *L) {

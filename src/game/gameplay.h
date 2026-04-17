@@ -44,7 +44,6 @@ class GamePlay
     SoundSystem* snd;
     ScriptEngine* scriptEngine;
     Fade* f;
-    Dialogue* dialogue;
 
     SDL_Window* window;
     SDL_Event event;

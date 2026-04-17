@@ -23,7 +23,7 @@ struct ScriptSubroutine {
 
 class ScriptEngine {
     public:
-    ScriptEngine(Dialogue* d, GamePlayState* gps, TileMap* tm);
+    ScriptEngine(GamePlayState* gps, TileMap* tm);
     ~ScriptEngine();
 
     bool runScript(const char* script, const char* function);
@@ -33,7 +33,6 @@ class ScriptEngine {
     lua_State* m_lua;
     static int errorHandler(lua_State* m_lua);
 
-    Dialogue* dialogue = nullptr;
     GamePlayState* gps = nullptr;
     TileMap* tm = nullptr;
 

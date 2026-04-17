@@ -2,28 +2,30 @@
 
 #include "entities/TileMap.h"
 
-Dialogue::Dialogue(Renderer* r, IControllable* p) {
-    renderer = r;
-    parent = p;
+Dialogue::Dialogue(Renderer* r, IControllable* p) : Overlay(r, p) {
     text = new Text();
     panel = new Panel(renderer, 3, SCREEN_H - 103, SCREEN_W - 6, 100);
-    text->move(panel->getX() + 2, panel->getY() + 2);
-    underScore = new Text("-", -1, SCREEN_W - 20, SCREEN_H - 20);
+    underScore = new Text();
+
+    panel->addElement(text, 2, 2);
+    panel->addElement(underScore, panel->getW() - 20, panel->getH() - 20);
+
     strcpy(dialogueText, "");
     strcpy(displayText, "");
     displayTextLength = 0;
-    completed = false;
-    engaged = false;
+
+    frame = 0;
 }
 
 Dialogue::~Dialogue() {
-    delete text;
-    text = nullptr;
-    delete underScore;
-    underScore = nullptr;
+    //delete text;
+    //delete underScore;
+
     panel->destroy();
     delete panel;
     panel = nullptr;
+    text = nullptr;
+    underScore = nullptr;
 }
 
 void Dialogue::DisplayDialogue(const char *text) {
@@ -39,6 +41,7 @@ void Dialogue::advance() {
     if (!completed) {
         strncpy(displayText, dialogueText, 127);
         text->SetText(displayText);
+        underScore->SetText("-");
         completed = true;
     } else {
         engaged = false;

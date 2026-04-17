@@ -18,6 +18,8 @@ class Text : public UIElement
     void move(int x, int y) override;
     void destroy() override {}
 
+    bool isFontSet() { return fontTexIndex != -1; }
+
     private:
     char text[128];
     int fontTexIndex = -1;

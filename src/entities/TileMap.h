@@ -62,6 +62,8 @@ class TileMap : public IControllable {
 
     bool loadMap();
 
+    Renderer* getRenderer() { return renderer; }
+
     const char* getBGMFile() { return bgm; }
     const char* getSkyboxFile() { return sky; }
 

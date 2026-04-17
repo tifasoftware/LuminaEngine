@@ -1,8 +1,12 @@
 #pragma once
 #include "common/types.h"
+#include "vgui/overlay.h"
 
 class GamePlayState {
     public:
+    GamePlayState();
+    ~GamePlayState();
+
     int characterX = 0;
     int characterY = 0;
     int screenX = 0;
@@ -14,6 +18,9 @@ class GamePlayState {
     void RequestSwitchState(GameState newState);
     void RequestMapChange(const char* newMapName);
     void RequestRunScript(const char* scriptName);
+
+    void DispatchOverlay(Overlay* ov);
+    Overlay* GetOverlay() { return overlay; }
 
     int LoadFromFile(const char* file);
     int SaveToFile(const char* file);
@@ -29,6 +36,8 @@ class GamePlayState {
     char nextScript[64] = "";
     char lastMapName[64] = "start";
     char music[64] = "bgm0.ogg";
+
+    Overlay* overlay;
 
     bool introShown = false;
 };
