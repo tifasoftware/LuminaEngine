@@ -16,7 +16,8 @@ class LuminaLibrary {
     LuminaLibrary();
     ~LuminaLibrary();
 
-    void MessageBox(std::string message);
+    void DisplayMessageBox(std::string message);
+    void DisplayDialogue(std::string dialogueText, std::string characterName, int characterProfile);
 
     //Lumina Engine Connections
     void setGamePlayState(GamePlayState* g) { this->gps = g; }
@@ -27,7 +28,8 @@ class LuminaLibrary {
     static void registerLuminaLibrary(lua_State* L);
 
     //Lua Bindings
-    static int l_MessageBox(lua_State *L);
+    static int l_DisplayMessageBox(lua_State *L);
+    static int l_DisplayDialogue(lua_State *L);
     static int l_wait(lua_State *L);
     static int l_drawFrame(lua_State *L);
 

@@ -1,6 +1,8 @@
 #include "lumina.h"
 #include "luminalibrary.h"
 
+#include "vgui/messagebox.h"
+
 LuminaLibrary::LuminaLibrary() {
     gps = nullptr;
 }
@@ -18,7 +20,8 @@ LuminaLibrary *LuminaLibrary::getLuaInstance(lua_State *L) {
 
 void LuminaLibrary::registerLuminaLibrary(lua_State *L) {
     static const luaL_Reg funcs[] = {
-        {"MessageBox", l_MessageBox},
+        {"MessageBox", l_DisplayMessageBox},
+        {"ShowDialogue", l_DisplayDialogue},
         {"wait", l_wait},
         {"drawFrame", l_drawFrame},
         {nullptr, nullptr}
@@ -27,15 +30,31 @@ void LuminaLibrary::registerLuminaLibrary(lua_State *L) {
     lua_setglobal(L, "lumina");
 }
 
-void LuminaLibrary::MessageBox(std::string message) {
-    Dialogue* dialogue = new Dialogue(tm->getRenderer(), tm);
-    gps->DispatchOverlay(dialogue);
-    dialogue->DisplayDialogue(message.c_str());
+void LuminaLibrary::DisplayMessageBox(std::string message) {
+    MessageBox* mb = new MessageBox(tm->getRenderer(), tm);
+    gps->DispatchOverlay(mb);
+    mb->DisplayDialogue(message.c_str());
 }
 
-int LuminaLibrary::l_MessageBox(lua_State *L) {
+void LuminaLibrary::DisplayDialogue(std::string dialogueText, std::string characterName, int characterProfile) {
+    Dialogue* dialogue = new Dialogue(tm->getRenderer(), tm);
+    gps->DispatchOverlay(dialogue);
+    dialogue->DisplayDialogue(characterName.c_str(), characterName.c_str(), characterProfile);
+}
+
+int LuminaLibrary::l_DisplayMessageBox(lua_State *L) {
     std::string message = lua_tostring(L, 1);
-    getLuaInstance(L)->MessageBox(message);
+    getLuaInstance(L)->DisplayMessageBox(message);
+    return 0;
+}
+
+int LuminaLibrary::l_DisplayDialogue(lua_State *L) {
+    std::string message = lua_tostring(L, 1);
+    std::string charName = lua_tostring(L, 2);
+    int charIndex = lua_tonumber(L, 3);
+
+    getLuaInstance(L)->DisplayDialogue(message, charName, charIndex);
+
     return 0;
 }
 

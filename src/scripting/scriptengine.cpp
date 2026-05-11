@@ -21,7 +21,7 @@ bool ScriptEngine::runScript(const char* script, const char* function) {
     lua_pushcfunction(m_lua, &errorHandler);
     int msgh = lua_gettop(m_lua);
     if (luaL_loadfile(m_lua, LuminaUtils::osPath(script).c_str()) != LUA_OK) {
-        library.MessageBox("Lua Load Error");
+        library.DisplayMessageBox("Lua Load Error");
         lua_pop(m_lua, 2);
         return false;
     }
@@ -30,7 +30,7 @@ bool ScriptEngine::runScript(const char* script, const char* function) {
     lua_setfield(m_lua, LUA_REGISTRYINDEX, "LuminaLibrary");
 
     if (lua_pcall(m_lua, 0, 0, msgh) != LUA_OK) {
-        library.MessageBox("Lua Run Error");
+        library.DisplayMessageBox("Lua Run Error");
 #ifdef PLATFORM_PC
         printf("Lua initial pcall error. Stack Size: %d\n", lua_gettop(m_lua));
 #endif
@@ -106,7 +106,7 @@ void ScriptEngine::updateScripts() {
         } else {
             const char* error = lua_tostring(cr.m_cr, 1);
             //printf("Lua error: %s\n", error);
-            library.MessageBox("Lua Runtime Error");
+            library.DisplayMessageBox("Lua Runtime Error");
             cr.isAlive = false;
         }
     }

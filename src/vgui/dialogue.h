@@ -1,4 +1,5 @@
 #pragma once
+#include "imagebox.h"
 #include "overlay.h"
 #include "text.h"
 #include "panel.h"
@@ -9,10 +10,10 @@ class Dialogue : public Overlay {
     Dialogue(Renderer* r, IControllable* p);
     ~Dialogue() override;
 
-    void SetFont(int font) override { text->SetFont(font); underScore->SetFont(font); }
+    void SetFont(int font) override { text->SetFont(font); characterName->SetFont(font); underScore->SetFont(font); }
     bool IsFontSet() override { return text->isFontSet(); }
 
-    void DisplayDialogue(const char* text);
+    void DisplayDialogue(const char* text, const char* charName, int textureIndex);
     void advance();
     void draw() override;
 
@@ -24,7 +25,11 @@ class Dialogue : public Overlay {
     private:
     Panel* panel;
     Text* text;
+    Text* characterName;
     Text* underScore;
+
+    ImageBox* imageBox;
+
     char dialogueText[128];
     char displayText[128];
     int displayTextLength;
