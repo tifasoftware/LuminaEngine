@@ -19,6 +19,8 @@ struct ScriptSubroutine {
     std::string name;
     float waittimer = 0.0f;
     bool isAlive = true;
+    bool pause = false;
+    bool firstFrame = true;
 };
 
 class ScriptEngine {
@@ -27,7 +29,7 @@ class ScriptEngine {
     ~ScriptEngine();
 
     bool runScript(const char* script, const char* function);
-    void updateScripts();
+    void updateScripts(bool unpause);
 
     private:
     lua_State* m_lua;

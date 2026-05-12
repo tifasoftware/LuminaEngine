@@ -19,6 +19,7 @@ void GamePlay::WorldStart() {
     lumina->loadCharacterSprite(r);
 
     scriptEngine = new ScriptEngine(&gps, tm);
+    gps.unpauseScript = false;
 
     if (gps.newMap) {
         SpawnDef sp = tm->getSpawn();
@@ -47,7 +48,9 @@ void GamePlay::WorldDraw()
 {
         controller->SendInput();
 
-        scriptEngine->updateScripts();
+        scriptEngine->updateScripts(gps.unpauseScript);
+        gps.unpauseScript = false;
+
         tm->updateMap();
 
         // Clear the screen
@@ -69,7 +72,7 @@ void GamePlay::WorldDraw()
                     controller->Possess(overlay);
                     controller->QueuePawn(tm);
                 }
-            }
+            } else gps.unpauseScript = true;
         }
 
         r->present();

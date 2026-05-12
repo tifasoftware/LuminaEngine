@@ -67,6 +67,9 @@ bool ScriptEngine::runScript(const char* script, const char* function) {
         if (strcmp(tag, "wait") == 0) {
             s.waittimer = (float)lua_tonumber(sur, -1);
             //printf("Lua wait timer: %f\n", s.waittimer);
+        } else if (strcmp(tag, "pause") == 0) {
+            printf("Dialogue Paused\n");
+            s.pause = true;
         }
         lua_pop(sur, nresults);
         subroutines.push_back(s);
@@ -80,13 +83,25 @@ bool ScriptEngine::runScript(const char* script, const char* function) {
     return true;
 }
 
-void ScriptEngine::updateScripts() {
+void ScriptEngine::updateScripts(bool unpause) {
     for (auto& cr : subroutines) {
         if (!cr.isAlive) continue;
+
+        if (cr.firstFrame) {
+            cr.firstFrame = false;
+            continue;
+        }
 
         if (cr.waittimer > 0.0f) {
             cr.waittimer -= (1.0f / static_cast<float>(FRAME_RATE));
             if (cr.waittimer > 0.0f) continue;
+        }
+
+        if (cr.pause) {
+            if (unpause) {
+                cr.pause = false;
+            }
+            continue;
         }
 
         int nresults = 0;
@@ -98,6 +113,9 @@ void ScriptEngine::updateScripts() {
             if (strcmp(tag, "wait") == 0) {
                 cr.waittimer = (float)lua_tonumber(cr.m_cr, -1);
                 //printf("Lua wait timer: %f\n", cr.waittimer);
+            } else if (strcmp(tag, "pause") == 0) {
+                printf("Dialogue Paused\n");
+                cr.pause = true;
             }
 
             lua_pop(cr.m_cr, nresults);

@@ -40,4 +40,6 @@ class GamePlayState {
     Overlay* overlay;
 
     bool introShown = false;
+
+    bool unpauseScript = false;
 };

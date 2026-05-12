@@ -69,7 +69,10 @@ void Dialogue::draw() {
 
         }
         frame++;
-        if (dialogueText[displayTextLength] == '\0') completed = true;
+        if (dialogueText[displayTextLength] == '\0') {
+            completed = true;
+            underScore->SetText("-");
+        }
     } else {
 
     }
