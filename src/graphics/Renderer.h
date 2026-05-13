@@ -22,6 +22,7 @@ public:
     int drawSprite(int texIndex, int x, int y);
     int drawSubSprite(int texIndex, int x, int y, int cX, int cY, int cW, int cH);
     int loadTexture(const char* file);
+    void loadTexture(const char* file, int index);
     int unloadAllTextures();
     int unloadTexture(int index);
     void floodOverlay(int r, int g, int b, int alpha);

@@ -44,10 +44,14 @@ int Renderer::loadTexture(const char* file)
 
     if (slot != -1)
     {
-        m_textures[slot] = Texture(file, sdl_r);
+        loadTexture(file, slot);
     }
     
     return slot;
+}
+
+void Renderer::loadTexture(const char* file, int index) {
+    m_textures[index] = Texture(file, sdl_r);
 }
 
 int Renderer::unloadAllTextures(){

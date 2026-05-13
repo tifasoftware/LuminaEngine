@@ -5,6 +5,7 @@
 
 LuminaLibrary::LuminaLibrary() {
     gps = nullptr;
+    tm = nullptr;
 }
 
 LuminaLibrary::~LuminaLibrary() {
@@ -24,6 +25,9 @@ void LuminaLibrary::registerLuminaLibrary(lua_State *L) {
         {"say", l_DisplayDialogue},
         {"wait", l_wait},
         {"drawFrame", l_drawFrame},
+        {"loadTexture", l_loadTexture},
+        {"replaceTexture", l_replaceTexture},
+        {"unloadTexture", l_unloadTexture},
         {nullptr, nullptr}
     };
     luaL_newlib(L, funcs);
@@ -40,6 +44,25 @@ void LuminaLibrary::DisplayDialogue(std::string dialogueText, std::string charac
     Dialogue* dialogue = new Dialogue(tm->getRenderer(), tm);
     gps->DispatchOverlay(dialogue);
     dialogue->DisplayDialogue(dialogueText.c_str(), characterName.c_str(), characterProfile);
+}
+
+int LuminaLibrary::LoadTexture(std::string textureFile) {
+    if (tm != nullptr) {
+        return tm->getRenderer()->loadTexture(textureFile.c_str());
+    }
+    return -1;
+}
+
+void LuminaLibrary::ReplaceTexture(std::string textureFile, int index) {
+    if (tm != nullptr) {
+        auto r = tm->getRenderer();
+        r->unloadTexture(index);
+        r->loadTexture(textureFile.c_str(), index);
+    }
+}
+
+void LuminaLibrary::UnloadTexture(int index) {
+    if (tm != nullptr) tm->getRenderer()->unloadTexture(index);
 }
 
 int LuminaLibrary::l_DisplayMessageBox(lua_State *L) {
@@ -77,4 +100,24 @@ int LuminaLibrary::l_drawFrame(lua_State *L) {
     lua_pushstring(L, "wait");
     lua_pushnumber(L, seconds);
     return lua_yield(L, 2);
+}
+
+int LuminaLibrary::l_loadTexture(lua_State *L) {
+    std::string textureFile = lua_tostring(L, 1);
+    int index = getLuaInstance(L)->LoadTexture(textureFile);
+    lua_pushinteger(L, index);
+    return 1;
+}
+
+int LuminaLibrary::l_replaceTexture(lua_State *L) {
+    std::string textureFile = lua_tostring(L, 1);
+    int index = lua_tonumber(L, 2);
+    getLuaInstance(L)->ReplaceTexture(textureFile, index);
+    return 0;
+}
+
+int LuminaLibrary::l_unloadTexture(lua_State *L) {
+    int index = lua_tonumber(L, 1);
+    getLuaInstance(L)->UnloadTexture(index);
+    return 0;
 }
