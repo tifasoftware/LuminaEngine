@@ -1,6 +1,7 @@
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
 #include <string>
+#include <cstdio>
 #ifdef PLATFORM_PSP
 #include <pspkernel.h>
 #include <pspdisplay.h>
@@ -20,6 +21,11 @@
 
 int main(int argc, char *argv[])
 {
+#ifdef PLATFORM_PSP
+    //freopen("ms0:/log.txt", "w", stdout);
+    //setvbuf(stdout, NULL, _IONBF, 0); // unbuffered
+    //freopen("ms0:/err.txt", "w", stderr);
+#endif
     auto gp = new GamePlay();
 
 #ifdef PLATFORM_3DS

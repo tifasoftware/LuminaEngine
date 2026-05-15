@@ -19,7 +19,7 @@ class LuminaLibrary {
 
     void DisplayMessageBox(std::string message);
     void DisplayDialogue(std::string dialogueText, std::string characterName, int characterProfile);
-    int DisplayQuestion(Question* q);
+    void DisplayQuestion(Question* q);
 
     int LoadTexture(std::string textureFile);
     void ReplaceTexture(std::string textureFile, int index);

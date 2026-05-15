@@ -15,7 +15,7 @@ void LuminaLibrary::DisplayDialogue(std::string dialogueText, std::string charac
     dialogue->DisplayDialogue(dialogueText.c_str(), characterName.c_str(), characterProfile);
 }
 
-int LuminaLibrary::DisplayQuestion(Question* q)
+void LuminaLibrary::DisplayQuestion(Question* q)
 {
     QuestionBox* qb = new QuestionBox(tm->getRenderer(), tm);
     gps->DispatchOverlay(qb);
@@ -52,39 +52,30 @@ int LuminaLibrary::l_DisplayQuestionFinished(lua_State *L, int status, lua_KCont
 }
 
 int LuminaLibrary::l_DisplayQuestion(lua_State *L) {
-    std::string dialogueText = lua_tostring(L, 1);
-    std::string characterName = lua_tostring(L, 2);
-    int charIndex = lua_tonumber(L, 3);
-    std::string a1 = lua_tostring(L, 4);
-    std::string a2 = "";
-    std::string a3 = "";
-    std::string a4 = "";
-    int answers = 1;
+    Question* q = new Question();
+    q->questionText = lua_tostring(L, 1);
+    q->charName = lua_tostring(L, 2);
+    q->textureIndex = lua_tonumber(L, 3);
+    q->answer1 = lua_tostring(L, 4);
+    q->answer2 = "";
+    q->answer3 = "";
+    q->answer4 = "";
+    q->totalAnswers = 1;
 
     int argc = lua_gettop(L);
 
     if (argc >= 5) {
-        a2 = lua_tostring(L, 5);
-        answers++;
+        q->answer2 = lua_tostring(L, 5);
+        q->totalAnswers++;
     }
     if (argc >= 6) {
-        a3 = lua_tostring(L, 6);
-        answers++;
+        q->answer3 = lua_tostring(L, 6);
+        q->totalAnswers++;
     }
     if (argc >= 7) {
-        a4 = lua_tostring(L, 7);
-        answers++;
+        q->answer4 = lua_tostring(L, 7);
+        q->totalAnswers++;
     }
-
-    Question* q = new Question();
-    q->questionText = dialogueText;
-    q->charName = characterName;
-    q->textureIndex = charIndex;
-    q->answer1 = a1;
-    q->answer2 = a2;
-    q->answer3 = a3;
-    q->answer4 = a4;
-    q->totalAnswers = answers;
 
     getLuaInstance(L)->DisplayQuestion(q);
 

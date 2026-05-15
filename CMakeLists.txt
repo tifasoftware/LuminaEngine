@@ -123,7 +123,7 @@ if(3DS)
 
     set(CTRU_LIBRARIES citro3d citro2d ctru m)
     #set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
-    target_compile_options(${PROJECT_NAME} PRIVATE -g)
+    target_compile_options(${PROJECT_NAME} PRIVATE -g -Wall -Wextra -Wreturn-type -Werror=return-type)
 elseif (NOT (APPLE OR WIN32))
     find_package(PkgConfig REQUIRED)
     if (LIB_SDL1)
@@ -135,6 +135,12 @@ elseif (NOT (APPLE OR WIN32))
         pkg_check_modules(SDL2_IMAGE REQUIRED IMPORTED_TARGET SDL2_image)
         pkg_check_modules(SDL2_MIXER REQUIRED IMPORTED_TARGET SDL2_mixer)
     endif()
+endif()
+
+if (PSP)
+    # Still making dumb mistakes in my C++ code :(
+    # Force myself to fix these before I ask an AI chatbot, saves valuable water :)
+    target_compile_options(${PROJECT_NAME} PRIVATE -Wall -Wextra -Wreturn-type -Werror=return-type)
 endif()
 
 if (APPLE)
