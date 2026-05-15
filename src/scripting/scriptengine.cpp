@@ -68,7 +68,6 @@ bool ScriptEngine::runScript(const char* script, const char* function) {
             s.waittimer = (float)lua_tonumber(sur, -1);
             //printf("Lua wait timer: %f\n", s.waittimer);
         } else if (strcmp(tag, "pause") == 0) {
-            printf("Dialogue Paused\n");
             s.pause = true;
         }
         lua_pop(sur, nresults);
@@ -132,7 +131,7 @@ void ScriptEngine::updateScripts(bool unpause) {
     subroutines.erase(
         std::remove_if(subroutines.begin(), subroutines.end(),
         [](const ScriptSubroutine& sub) {
-            if (!sub.isAlive) printf("[Script] erasing %s\n", sub.name.c_str());
+            //if (!sub.isAlive) printf("[Script] erasing %s\n", sub.name.c_str());
             return !sub.isAlive;
         }),
         subroutines.end()

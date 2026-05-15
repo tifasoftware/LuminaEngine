@@ -26,8 +26,6 @@ int LuminaLibrary::l_DisplayMessageBox(lua_State *L) {
     std::string message = lua_tostring(L, 1);
     getLuaInstance(L)->DisplayMessageBox(message);
 
-    printf(message.c_str());
-
     lua_pushstring(L, "pause");
     lua_pushnumber(L, 0.0f);
     return lua_yield(L, 2);
