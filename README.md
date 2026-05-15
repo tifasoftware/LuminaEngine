@@ -20,7 +20,6 @@ A 2D RPG game engine for the PC, Mac, Linux, and the Sony PSP, built with C++ an
 
 - [ ] WAD style asset packaging
 - [ ] NPC system
-- [X] Dialogue system (Work in Progress)
 - [ ] Battle system
 - [ ] Save/load system
 
