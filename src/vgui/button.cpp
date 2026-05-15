@@ -9,6 +9,12 @@ Button::Button(const char* text, const char* tag, int fti)
     deSelect();
 }
 
+Button::Button(const char *tag) {
+    t_obj = Text();
+    this->tag = tag;
+    deSelect();
+}
+
 void Button::render(Renderer* r)
 {
     t_obj.render(r);

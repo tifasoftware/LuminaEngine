@@ -4,6 +4,7 @@
 #include "vgui/dialogue.h"
 #include "entities/TileMap.h"
 #include "game/gameplay_state.h"
+#include "vgui/question.h"
 
 extern "C" {
 #include <lua.h>
@@ -18,6 +19,7 @@ class LuminaLibrary {
 
     void DisplayMessageBox(std::string message);
     void DisplayDialogue(std::string dialogueText, std::string characterName, int characterProfile);
+    int DisplayQuestion(Question* q);
 
     int LoadTexture(std::string textureFile);
     void ReplaceTexture(std::string textureFile, int index);
@@ -34,6 +36,8 @@ class LuminaLibrary {
     //Lua Bindings
     static int l_DisplayMessageBox(lua_State *L);
     static int l_DisplayDialogue(lua_State *L);
+    static int l_DisplayQuestion(lua_State *L);
+    static int l_DisplayQuestionFinished(lua_State *L, int status, lua_KContext ctx);
 
     static int l_wait(lua_State *L);
     static int l_drawFrame(lua_State *L);

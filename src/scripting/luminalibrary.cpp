@@ -23,6 +23,7 @@ void LuminaLibrary::registerLuminaLibrary(lua_State *L) {
     static const luaL_Reg funcs[] = {
         {"MessageBox", l_DisplayMessageBox},
         {"say", l_DisplayDialogue},
+        {"ask", l_DisplayQuestion},
         {"wait", l_wait},
         {"drawFrame", l_drawFrame},
         {"loadTexture", l_loadTexture},
