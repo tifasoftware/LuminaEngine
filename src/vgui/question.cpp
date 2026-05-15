@@ -16,7 +16,7 @@ QuestionBox::QuestionBox(Renderer* r, IControllable* p) : Overlay(r,p) {
     panel->addElement(answer3, 68, 60);
     panel->addElement(answer4, 68, 80);
 
-    questionPanel = new Panel(renderer, 3, SCREEN_H - 144, SCREEN_W - 6, 40);
+    questionPanel = new Panel(renderer, 3, SCREEN_H - 124, SCREEN_W - 6, 20);
     questionText = new Text();
 
     questionPanel->addElement(questionText, 2, 2);
