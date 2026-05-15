@@ -22,9 +22,6 @@ Dialogue::Dialogue(Renderer* r, IControllable* p) : Overlay(r, p) {
 }
 
 Dialogue::~Dialogue() {
-    //delete text;
-    //delete underScore;
-
     panel->destroy();
     delete panel;
     panel = nullptr;
@@ -77,7 +74,7 @@ void Dialogue::draw() {
 
     }
     panel->Render();
-    text->render(renderer);
+    //text->render(renderer);
 
     if (completed) underScore->render(renderer);
 }
