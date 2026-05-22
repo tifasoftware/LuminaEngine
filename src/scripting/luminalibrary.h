@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
 
-#include "vgui/dialogue.h"
+#include "../vgui/overlays/dialogue.h"
 #include "entities/TileMap.h"
 #include "game/gameplay_state.h"
-#include "vgui/question.h"
+#include "../vgui/overlays/question.h"
 
 extern "C" {
 #include <lua.h>

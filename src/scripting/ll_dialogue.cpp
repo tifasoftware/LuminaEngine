@@ -1,7 +1,7 @@
 #include "lumina.h"
 #include "luminalibrary.h"
 
-#include "vgui/messagebox.h"
+#include "../vgui/overlays/messagebox.h"
 
 void LuminaLibrary::DisplayMessageBox(std::string message) {
     MessageBox* mb = new MessageBox(tm->getRenderer(), tm);

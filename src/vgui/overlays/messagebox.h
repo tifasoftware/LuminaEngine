@@ -1,19 +1,18 @@
 #pragma once
-#include "imagebox.h"
 #include "overlay.h"
-#include "text.h"
-#include "panel.h"
+#include "../text.h"
+#include "../panel.h"
 #include "game/IControllable.h"
 
-class Dialogue : public Overlay {
+class MessageBox : public Overlay {
     public:
-    Dialogue(Renderer* r, IControllable* p);
-    ~Dialogue() override;
+    MessageBox(Renderer* r, IControllable* p);
+    ~MessageBox() override;
 
-    void SetFont(int font) override { text->SetFont(font); characterName->SetFont(font); underScore->SetFont(font); }
+    void SetFont(int font) override { text->SetFont(font); underScore->SetFont(font); }
     bool IsFontSet() override { return text->isFontSet(); }
 
-    void DisplayDialogue(const char* text, const char* charName, int textureIndex);
+    void DisplayDialogue(const char* text);
     void advance();
     void draw() override;
 
@@ -25,11 +24,7 @@ class Dialogue : public Overlay {
     private:
     Panel* panel;
     Text* text;
-    Text* characterName;
     Text* underScore;
-
-    ImageBox* imageBox;
-
     char dialogueText[128];
     char displayText[128];
     int displayTextLength;

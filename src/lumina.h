@@ -14,7 +14,7 @@
 #include <vgui/panel.h>
 #include <vgui/UIElement.h>
 #include <vgui/button.h>
-#include <vgui/dialogue.h>
+#include <vgui/overlays/dialogue.h>
 #include <game/gameplay.h>
 #include <game/controller.h>
 #include <game/gameplay_state.h>

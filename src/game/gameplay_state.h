@@ -1,6 +1,6 @@
 #pragma once
 #include "common/types.h"
-#include "vgui/overlay.h"
+#include "../vgui/overlays/overlay.h"
 
 class GamePlayState {
     public:

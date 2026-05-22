@@ -4,7 +4,7 @@
 
 #include "gameplay_state.h"
 #include "controller.h"
-#include "vgui/dialogue.h"
+#include "../vgui/overlays/dialogue.h"
 #include "scripting/scriptengine.h"
 #include "vgui/menu.h"
 

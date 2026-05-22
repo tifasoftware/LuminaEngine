@@ -1,7 +1,7 @@
 #include "lumina.h"
 #include "luminalibrary.h"
 
-#include "vgui/messagebox.h"
+#include "../vgui/overlays/messagebox.h"
 
 LuminaLibrary::LuminaLibrary() {
     gps = nullptr;

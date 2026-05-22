@@ -1,10 +1,10 @@
 #pragma once
 #include <string>
-#include "button.h"
-#include "imagebox.h"
+#include "../button.h"
+#include "../imagebox.h"
 #include "overlay.h"
-#include "text.h"
-#include "panel.h"
+#include "../text.h"
+#include "../panel.h"
 #include "game/IControllable.h"
 
 struct Question {
