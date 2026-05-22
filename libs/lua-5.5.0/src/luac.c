@@ -309,7 +309,7 @@ static void PrintConstant(const Proto* f, int i)
   case LUA_VNUMFLT:
 	{
 	char buff[100];
-	sprintf(buff,LUA_NUMBER_FMT,fltvalue(o));
+	snprintf(buff,sizeof(buff),LUA_NUMBER_FMT,fltvalue(o));
 	printf("%s",buff);
 	if (buff[strspn(buff,"-0123456789")]=='\0') printf(".0");
 	break;
