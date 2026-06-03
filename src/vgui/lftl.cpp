@@ -1,5 +1,7 @@
 #include "lftl.h"
 
+#include <iostream>
+
 LFTLParser::LFTLParser() {
     strncpy(workingString, "",255);
     parsing = false;
@@ -22,12 +24,17 @@ void LFTLParser::parseString(const char *ws) {
 }
 
 bool LFTLParser::advance() {
+    if (workingString[index] == 0) return false;
+    return true;
+}
+
+char LFTLParser::nextChar() {
     //Parse Escaped < '%<'
     if (workingString[index] == '%' && workingString[index + 1] == '<') {
         index++;
     }
 
-    if (workingString[index] == '<') {
+    while (workingString[index] == '<') {
         index++;
         if (workingString[index] == '/') {
             if (flag_backlog->empty()) {
@@ -78,14 +85,15 @@ bool LFTLParser::advance() {
             if (bold) style_flag += 2;
             if (italic) style_flag += 4;
         }
-        while (workingString[index] != '>') {
+
+        while (workingString[index - 1] != '>') {
+            //std::cout << workingString[index];
             index++;
         }
     }
 
     index++;
-    if (workingString[index] == 0) return false;
-    return true;
+    return workingString[index - 1];
 }
 
 bool LFTLParser::canPrint() {
