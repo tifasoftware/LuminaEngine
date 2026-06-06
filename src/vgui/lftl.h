@@ -1,4 +1,6 @@
 #include <cstdint>
+#include <cstring>
+#include <string>
 #include <list>
 
 struct Color {
@@ -41,6 +43,7 @@ public:
     int nextFont() { return (style_flag - (style_flag % 2)) / 2; }
     bool nextApplyColor() { return style_flag % 2 != 0; }
     Color nextColor() { return color; }
+    int length() { return print_length; }
 
 private:
     char workingString[256];
@@ -50,4 +53,5 @@ private:
     Color color;
     int index;
     int size;
+    int print_length;
 };
