@@ -1,6 +1,6 @@
 add_executable(lftl_test
         main.cpp
-        ${CMAKE_SOURCE_DIR}/src/vgui/lftl.cpp
+        ${CMAKE_SOURCE_DIR}/src/formats/ltl/parser.cpp
 )
 
 set_target_properties(lftl_test PROPERTIES

@@ -1,8 +1,8 @@
-#include "lftl.h"
+#include "ltl.h"
 
 #include <iostream>
 
-LFTLParser::LFTLParser() {
+LTLParser::LTLParser() {
     strncpy(workingString, "",255);
     parsing = false;
     index = 0;
@@ -11,11 +11,11 @@ LFTLParser::LFTLParser() {
     flag_backlog = nullptr;
 }
 
-LFTLParser::~LFTLParser() {
+LTLParser::~LTLParser() {
     if (flag_backlog != nullptr) delete flag_backlog;
 }
 
-void LFTLParser::parseString(const char *ws) {
+void LTLParser::parseString(const char *ws) {
     strncpy(workingString, ws,255);
     parsing = true;
     index = 0;
@@ -23,12 +23,12 @@ void LFTLParser::parseString(const char *ws) {
     flag_backlog = new std::list<uint8_t>();
 }
 
-bool LFTLParser::advance() {
+bool LTLParser::advance() {
     if (workingString[index] == 0) return false;
     return true;
 }
 
-char LFTLParser::nextChar() {
+char LTLParser::nextChar() {
     //Parse Escaped < '%<'
     if (workingString[index] == '%' && workingString[index + 1] == '<') {
         index++;
@@ -96,7 +96,7 @@ char LFTLParser::nextChar() {
     return workingString[index - 1];
 }
 
-bool LFTLParser::canPrint() {
+bool LTLParser::canPrint() {
     if (workingString[index] == '%' && workingString[index + 1] == '<') {
         return true;
     }

@@ -1,12 +1,12 @@
 #include <iostream>
-#include <vgui/lftl.h>
+#include <formats/ltl/ltl.h>
 
 int main(int argc, char *argv[]) {
     for (std::string line; std::getline(std::cin, line);) {
         int font = 0;
         Color color = Color();
         bool applyColor = false;
-        LFTLParser parser;
+        LTLParser parser;
 
         const char* cstr = line.c_str();
 

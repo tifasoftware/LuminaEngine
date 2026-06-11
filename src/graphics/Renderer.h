@@ -5,6 +5,7 @@
 #include <graphics/Texture.h>
 
 static const int MAX_TEXTURES = 64;
+static const int MAX_FONTS = 4;
 #ifdef PLATFORM_3DS
 static const int FRAME_RATE = 60;
 #else
@@ -45,6 +46,7 @@ private:
     #endif
 
     Texture m_textures[MAX_TEXTURES];
+    Texture m_fonts[MAX_FONTS];
     int m_texture_count = 0;
     int firstOpenSlot();
 };

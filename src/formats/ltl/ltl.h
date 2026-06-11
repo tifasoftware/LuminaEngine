@@ -31,10 +31,10 @@ struct Color {
     }
 };
 
-class LFTLParser {
+class LTLParser {
 public:
-    LFTLParser();
-    ~LFTLParser();
+    LTLParser();
+    ~LTLParser();
     void parseString(std::string ws);
     void parseString(const char* ws);
     bool advance();
@@ -43,7 +43,6 @@ public:
     int nextFont() { return (style_flag - (style_flag % 2)) / 2; }
     bool nextApplyColor() { return style_flag % 2 != 0; }
     Color nextColor() { return color; }
-    int length() { return print_length; }
 
 private:
     char workingString[256];
@@ -53,5 +52,32 @@ private:
     Color color;
     int index;
     int size;
-    int print_length;
+};
+
+class LTLCompiler {
+    public:
+    LTLCompiler();
+
+    private:
+
+};
+
+class CompiledLTL {
+    public:
+    CompiledLTL(int length, int styles, int colors);
+    ~CompiledLTL();
+
+    bool isChar(int index);
+    char getChar(int index);
+    int getFont(int index);
+    Color getColor(int index);
+
+    void set(int index, int value) { lucii_string[index] = value; }
+    void setFont(int index, int value) { font_table[index] = value; }
+    void setColor(int index, Color value) { color_table[index] = value; }
+
+    private:
+    u_int8_t* lucii_string;
+    u_int8_t* font_table;
+    Color* color_table;
 };
