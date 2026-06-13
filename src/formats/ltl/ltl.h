@@ -77,7 +77,7 @@ class CompiledLTL {
     void setColor(int index, Color value) { color_table[index] = value; }
 
     private:
-    u_int8_t* lucii_string;
-    u_int8_t* font_table;
+    uint8_t* lucii_string;
+    uint8_t* font_table;
     Color* color_table;
 };
