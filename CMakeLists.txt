@@ -6,6 +6,12 @@ set(LE32BIT OFF CACHE BOOL "Build for 32-bit")
 set(LE_OLD_OSX OFF CACHE BOOL "Build for Snow Leopard")
 set(LE_DEBUG OFF CACHE BOOL "Build with In-Engine Debugging")
 
+set(DREAMCAST OFF CACHE BOOL "Build for Sega Dreamcast")
+set(GAMECUBE OFF CACHE BOOL "Build for Nintendo GameCube")
+set(XBOXOG OFF CACHE BOOL "Build for OG Xbox")
+set(PS2 OFF CACHE BOOL "Build for PlayStation 2")
+
+
 if (LE_DEBUG)
     add_definitions(-D__LEDEBUG__)
 endif()
@@ -501,9 +507,9 @@ if (WIN32)
     get_filename_component(MINGW_COMPILER_REAL ${CMAKE_C_COMPILER} REALPATH)
     get_filename_component(MINGW_TOOLCHAIN_DIR ${MINGW_COMPILER_REAL} DIRECTORY)
     if (LE32BIT)
-        set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../i686-w64-mingw32/bin")
+        set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../i686-w64-mingw32/lib")
     else()
-        set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../x86_64-w64-mingw32/bin")
+        set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../x86_64-w64-mingw32/lib")
     endif()
 
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
