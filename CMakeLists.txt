@@ -11,6 +11,8 @@ set(GAMECUBE OFF CACHE BOOL "Build for Nintendo GameCube")
 set(XBOXOG OFF CACHE BOOL "Build for OG Xbox")
 set(PS2 OFF CACHE BOOL "Build for PlayStation 2")
 
+set(GAMECONSOLE OFF CACHE BOOL "Game Console Settings")
+
 
 if (LE_DEBUG)
     add_definitions(-D__LEDEBUG__)
@@ -20,16 +22,19 @@ if(3DS)
     add_definitions(-D__3DS__)
     add_definitions(-DLIB_SDL1)
     add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
     set(ROMFS_DIR "${CMAKE_SOURCE_DIR}/assets")
 endif()
 
 if(GAMECUBE)
     add_definitions(-D__GC__)
     add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
 endif()
 
 if(PSP)
     add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
 endif()
 
 if(SDL1_OVERRIDE)
