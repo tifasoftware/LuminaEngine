@@ -19,7 +19,17 @@ endif()
 if(3DS)
     add_definitions(-D__3DS__)
     add_definitions(-DLIB_SDL1)
+    add_definitions(-DGAMECONSOLE)
     set(ROMFS_DIR "${CMAKE_SOURCE_DIR}/assets")
+endif()
+
+if(GAMECUBE)
+    add_definitions(-D__GC__)
+    add_definitions(-DGAMECONSOLE)
+endif()
+
+if(PSP)
+    add_definitions(-DGAMECONSOLE)
 endif()
 
 if(SDL1_OVERRIDE)
@@ -109,7 +119,7 @@ target_include_directories(lua PUBLIC
     external/lua/src
 )
 
-if (NOT (PSP OR 3DS))
+if (NOT (GAMECONSOLE))
     add_subdirectory(src_tools/lmap_compile)
     add_subdirectory(src_tools/lmap_info)
     add_subdirectory(src_tools/lua_test)
