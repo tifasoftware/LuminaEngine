@@ -8,8 +8,6 @@ set(LE_DEBUG OFF CACHE BOOL "Build with In-Engine Debugging")
 
 set(DREAMCAST OFF CACHE BOOL "Build for Sega Dreamcast")
 set(GAMECUBE OFF CACHE BOOL "Build for Nintendo GameCube")
-set(XBOXOG OFF CACHE BOOL "Build for OG Xbox")
-set(PS2 OFF CACHE BOOL "Build for PlayStation 2")
 
 set(GAMECONSOLE OFF CACHE BOOL "Game Console Settings")
 
@@ -33,6 +31,21 @@ if(GAMECUBE)
 endif()
 
 if(PSP)
+    add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
+endif()
+
+if(PS2)
+    add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
+endif()
+
+if(NXDK)
+    add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
+endif()
+
+if(DREAMCAST)
     add_definitions(-DGAMECONSOLE)
     set(GAMECONSOLE ON)
 endif()
@@ -84,7 +97,7 @@ if(APPLE)
     set(APP_ICON "${CMAKE_SOURCE_DIR}/pbp_assets/AppIcon.icns")
 endif()
 
-if (WIN32)
+if (WIN32 AND (NOT NXDK))
     if (LE32BIT)
         message("Windows 32-Bit")
         set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/i686-w64-mingw32")
