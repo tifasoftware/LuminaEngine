@@ -8,18 +8,20 @@ option(BUILD_SHARED_LIBS "Build as shared library" ON)
 
 set(srcDir src)
 
-set(srcFiles lapi.c lauxlib.c lbaselib.c lcode.c lcorolib.c lctype.c ldblib.c ldebug.c ldo.c
-        ldump.c lfunc.c lgc.c linit.c liolib.c llex.c lmathlib.c lmem.c loadlib.c lobject.c lopcodes.c
-        loslib.c lparser.c lstate.c lstring.c lstrlib.c ltable.c ltablib.c ltests.c ltm.c lundump.c
-        lutf8lib.c lvm.c lzio.c)
+# set(srcFiles lapi.c lauxlib.c lbaselib.c lcode.c lcorolib.c lctype.c ldblib.c ldebug.c ldo.c
+#        ldump.c lfunc.c lgc.c linit.c liolib.c llex.c lmathlib.c lmem.c loadlib.c lobject.c lopcodes.c
+#        loslib.c lparser.c lstate.c lstring.c lstrlib.c ltable.c ltablib.c ltests.c ltm.c lundump.c
+#        lutf8lib.c lvm.c lzio.c)
 
-set(publicHeaderFiles lauxlib.h lua.h luaconf.h lualib.h)
+# set(publicHeaderFiles lauxlib.h lua.h luaconf.h lualib.h)
 
-list(TRANSFORM srcFiles PREPEND ${srcDir}/)
-list(TRANSFORM publicHeaderFiles PREPEND ${srcDir}/)
+# list(TRANSFORM srcFiles PREPEND ${srcDir}/)
+# list(TRANSFORM publicHeaderFiles PREPEND ${srcDir}/)
 
-add_library(lua
-        ${srcFiles})
+file (GLOB LUA_SOURCES "src/*.c")
+file (GLOB LUA_HEADERS "src/*.h")
+
+add_library(lua ${LUA_SOURCES})
 
 target_compile_definitions(lua
         PRIVATE
@@ -33,7 +35,7 @@ target_compile_options(lua
         -Wmissing-prototypes -Wnested-externs -Wstrict-prototypes -Wc++-compat -Wold-style-definition>)
 
 set(includeDir ${CMAKE_CURRENT_BINARY_DIR}/include)
-file(COPY ${publicHeaderFiles} DESTINATION ${includeDir})
+file(COPY ${LUA_HEADERS} DESTINATION ${includeDir})
 
 add_library(lua-header
         INTERFACE)

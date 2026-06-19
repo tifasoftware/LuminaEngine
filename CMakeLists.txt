@@ -121,7 +121,7 @@ if (WIN32 AND (NOT NXDK))
 endif()
 
 file (GLOB_RECURSE SOURCES "src/*.cpp")
-file (GLOB LUA_SOURCES "libs/lua-5.5.0/src/*.c")
+# file (GLOB LUA_SOURCES "libs/lua-5.5.0/src/*.c")
 file (GLOB LUA_ASSETS "assets/*.lua")
 file (GLOB PNG_ASSETS "assets/*.png")
 file (GLOB OGG_ASSETS "assets/*.ogg")
