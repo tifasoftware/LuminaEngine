@@ -131,11 +131,15 @@ file (GLOB LMAP_ASSETS "assets/*.lmap")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-add_library(lua STATIC ${LUA_SOURCES})
+# add_library(lua STATIC ${LUA_SOURCES})
 
-target_include_directories(lua PUBLIC
-    external/lua/src
-)
+# target_include_directories(lua PUBLIC
+#     external/lua/src
+# )
+
+add_subdirectory(libs/lua-5.5.0)
+
+target_link_libraries(${PROJECT_NAME} PRIVATE lua::lib)
 
 if (NOT (GAMECONSOLE))
     add_subdirectory(src_tools/lmap_compile)
