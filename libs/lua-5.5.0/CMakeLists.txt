@@ -30,6 +30,7 @@ target_compile_definitions(lua
 target_compile_options(lua
         PRIVATE
         $<$<OR:$<C_COMPILER_ID:AppleClang>,$<C_COMPILER_ID:Clang>,$<C_COMPILER_ID:GNU>>:
+        -Wimplicit-function-declaration -Wint-conversion
         -Wextra -Wshadow -Wsign-compare -Wundef -Wwrite-strings -Wredundant-decls
         -Wdisabled-optimization -Waggregate-return -Wdouble-promotion -Wdeclaration-after-statement
         -Wmissing-prototypes -Wnested-externs -Wstrict-prototypes -Wc++-compat -Wold-style-definition>)
