@@ -336,7 +336,6 @@ elseif(DREAMCAST)
 
     kos_add_romdisk(${PROJECT_NAME}
             "${CMAKE_SOURCE_DIR}/assets"
-            ${PROJECT_NAME}
     )
 else()
     message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
