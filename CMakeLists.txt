@@ -6,7 +6,7 @@ set(LE32BIT OFF CACHE BOOL "Build for 32-bit")
 set(LE_OLD_OSX OFF CACHE BOOL "Build for Snow Leopard")
 set(LE_DEBUG OFF CACHE BOOL "Build with In-Engine Debugging")
 
-set(DREAMCAST OFF CACHE BOOL "Build for Sega Dreamcast")
+# set(DREAMCAST OFF CACHE BOOL "Build for Sega Dreamcast")
 set(GAMECUBE OFF CACHE BOOL "Build for Nintendo GameCube")
 
 set(GAMECONSOLE OFF CACHE BOOL "Game Console Settings")
