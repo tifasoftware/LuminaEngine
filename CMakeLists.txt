@@ -328,7 +328,7 @@ elseif(DREAMCAST)
     target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL2 SDL2_image SDL2_mixer
             lua
-            GL
+            GL pthread
     )
 else()
     message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
