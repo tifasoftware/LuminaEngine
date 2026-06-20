@@ -46,6 +46,7 @@ if(NXDK)
 endif()
 
 if(DREAMCAST)
+    message("Building on Dreamcast")
     include(kallistios)
     add_definitions(-DGAMECONSOLE)
     set(GAMECONSOLE ON)
