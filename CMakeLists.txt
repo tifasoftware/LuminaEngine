@@ -326,10 +326,9 @@ elseif(DREAMCAST)
             /opt/toolchains/dc/kos-ports/lib/
     )
     target_link_libraries(${PROJECT_NAME} PRIVATE
-            ${SDL2_LIBRARIES}
-            ${SDL2_IMAGE_LIBRARIES}
-            ${SDL2_MIXER_LIBRARIES}
+            SDL2 SDL2_image SDL2_mixer
             lua
+            GL
     )
 else()
     message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
