@@ -103,9 +103,9 @@ if (DREAMCAST)
     set(SDL2_MIXER_LIBRARIES SDL2_mixer)
 
     # Include paths
-    set(SDL2_INCLUDE_DIRS "/opt/toolchains/dc/kos-ports/include/SDL2")
-    set(SDL2_IMAGE_INCLUDE_DIRS "/opt/toolchains/dc/kos-ports/include/SDL2")
-    set(SDL2_MIXER_INCLUDE_DIRS "/opt/toolchains/dc/kos-ports/include/SDL2")
+    set(SDL2_INCLUDE_DIRS "/opt/toolchains/dc/kos/addons/include/SDL2")
+    set(SDL2_IMAGE_INCLUDE_DIRS "/opt/toolchains/dc/kos/addons/include/SDL2")
+    set(SDL2_MIXER_INCLUDE_DIRS "/opt/toolchains/dc/kos/addons/include/SDL2")
 endif()
 
 if (WIN32 AND (NOT NXDK))
@@ -225,6 +225,7 @@ elseif(DREAMCAST)
             ${SDL2_IMAGE_INCLUDE_DIRS}
             ${SDL2_MIXER_INCLUDE_DIRS}
             libs/lua-5.5.0/src/
+            /opt/toolchains/dc/kos-ports/include/
             /opt/toolchains/dc/kos/include/
             src/
     )
@@ -320,6 +321,10 @@ elseif(LIB_SDL1)
     )
 elseif(DREAMCAST)
     message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
+    target_link_directories(${PROJECT_NAME} PRIVATE
+            /opt/toolchains/dc/kos/addons/lib/dreamcast/
+            /opt/toolchains/dc/kos-ports/lib/
+    )
     target_link_libraries(${PROJECT_NAME} PRIVATE
             ${SDL2_LIBRARIES}
             ${SDL2_IMAGE_LIBRARIES}
