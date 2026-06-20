@@ -46,6 +46,7 @@ if(NXDK)
 endif()
 
 if(DREAMCAST)
+    include(kallistios)
     add_definitions(-DGAMECONSOLE)
     set(GAMECONSOLE ON)
     set(ROMFS_DIR "${CMAKE_SOURCE_DIR}/assets")
