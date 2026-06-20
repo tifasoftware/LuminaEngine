@@ -97,6 +97,17 @@ if(APPLE)
     set(APP_ICON "${CMAKE_SOURCE_DIR}/pbp_assets/AppIcon.icns")
 endif()
 
+if (DREAMCAST)
+    set(SDL2_LIBRARIES SDL2)
+    set(SDL2_IMAGE_LIBRARIES SDL2_image)
+    set(SDL2_MIXER_LIBRARIES SDL2_mixer)
+
+    # Include paths
+    set(SDL2_INCLUDE_DIRS "/opt/toolchains/dc/kos-ports/include/SDL2")
+    set(SDL2_IMAGE_INCLUDE_DIRS "/opt/toolchains/dc/kos-ports/include/SDL2")
+    set(SDL2_MIXER_INCLUDE_DIRS "/opt/toolchains/dc/kos-ports/include/SDL2")
+endif()
+
 if (WIN32 AND (NOT NXDK))
     if (LE32BIT)
         message("Windows 32-Bit")
@@ -208,6 +219,15 @@ if (PSP)
         /usr/local/pspdev/psp/include
         src/
     )
+elseif(DREAMCAST)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${SDL2_INCLUDE_DIRS}
+            ${SDL2_IMAGE_INCLUDE_DIRS}
+            ${SDL2_MIXER_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
+            /opt/toolchains/dc/kos/include/
+            src/
+    )
 elseif(3DS)
     target_include_directories(${PROJECT_NAME} PRIVATE
             ${SDL2_INCLUDE_DIRS}
@@ -296,6 +316,14 @@ elseif(LIB_SDL1)
             lua
             #jpeg png z mad mikmod ogg vorbisidec
             SDL
+            lua
+    )
+elseif(DREAMCAST)
+    message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            ${SDL2_LIBRARIES}
+            ${SDL2_IMAGE_LIBRARIES}
+            ${SDL2_MIXER_LIBRARIES}
             lua
     )
 else()
