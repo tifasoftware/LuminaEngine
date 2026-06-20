@@ -331,6 +331,11 @@ elseif(DREAMCAST)
             lua
             GL pthread
     )
+
+    kos_add_romdisk(${PROJECT_NAME}
+            "${CMAKE_SOURCE_DIR}/assets"
+            ${PROJECT_NAME}
+    )
 else()
     message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
     target_link_libraries(${PROJECT_NAME} PRIVATE
@@ -475,7 +480,7 @@ endif()
 
 
 
-if (NOT (APPLE OR 3DS))
+if (NOT (APPLE OR 3DS OR DREAMCAST))
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${PNG_ASSETS}
