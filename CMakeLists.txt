@@ -48,6 +48,7 @@ endif()
 if(DREAMCAST)
     add_definitions(-DGAMECONSOLE)
     set(GAMECONSOLE ON)
+    set(ROMFS_DIR "${CMAKE_SOURCE_DIR}/assets")
 endif()
 
 if(SDL1_OVERRIDE)
@@ -132,7 +133,7 @@ if (WIN32 AND (NOT NXDK))
 endif()
 
 file (GLOB_RECURSE SOURCES "src/*.cpp")
-# file (GLOB LUA_SOURCES "libs/lua-5.5.0/src/*.c")
+file (GLOB LUA_SOURCES "libs/lua-5.5.0/src/*.c")
 file (GLOB LUA_ASSETS "assets/*.lua")
 file (GLOB PNG_ASSETS "assets/*.png")
 file (GLOB OGG_ASSETS "assets/*.ogg")
@@ -142,15 +143,15 @@ file (GLOB LMAP_ASSETS "assets/*.lmap")
 
 add_executable(${PROJECT_NAME} ${SOURCES})
 
-# add_library(lua STATIC ${LUA_SOURCES})
+add_library(lua STATIC ${LUA_SOURCES})
 
-# target_include_directories(lua PUBLIC
-#     external/lua/src
-# )
+target_include_directories(lua PUBLIC
+     external/lua/src
+)
 
-add_subdirectory(libs/lua-5.5.0)
+#add_subdirectory(libs/lua-5.5.0)
 
-target_link_libraries(${PROJECT_NAME} PRIVATE lua::lib)
+#target_link_libraries(${PROJECT_NAME} PRIVATE lua::lib)
 
 if (NOT (GAMECONSOLE))
     add_subdirectory(src_tools/lmap_compile)
