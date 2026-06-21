@@ -16,6 +16,12 @@
     #define SCREEN_H 240
     #define SCREEN_SCALE 1
     #define LIB_SDL1
+#elif defined(__DREAMCAST__)
+    #define PLATFORM_DREAMCAST
+    #define SCREEN_W 640
+    #define SCREEN_H 480
+    #define SCREEN_SCALE 1
+    #define LIB_SDL2
 #else
     #define PLATFORM_PC
     #define SCREEN_W 480

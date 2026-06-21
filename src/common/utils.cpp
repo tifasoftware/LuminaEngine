@@ -94,10 +94,15 @@ std::string LuminaUtils::osPath(const char *relpath) {
 #ifdef PLATFORM_3DS
     base = "romfs:/";
 #else
+#ifdef PLATFORM_DREAMCAST
+    base = "/cd/";
+    #base = "/rd/";
+#else
     if (base.empty()) {
         char* sdl_base = SDL_GetBasePath();
         base = std::string(sdl_base);
     }
+#endif
 #endif
     path = (base + file);
 
