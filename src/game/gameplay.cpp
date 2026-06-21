@@ -56,6 +56,17 @@ GamePlay::GamePlay()
     );
     SDL_ShowCursor(SDL_DISABLE);
 #endif
+#ifdef PLATFORM_DREAMCAST
+    window = SDL_CreateWindow(
+        "window",
+        SDL_WINDOWPOS_UNDEFINED,
+        SDL_WINDOWPOS_UNDEFINED,
+        SCREEN_W,
+        SCREEN_H,
+        S
+    );
+    SDL_ShowCursor(SDL_DISABLE);
+#endif
 
     snd = new SoundSystem();
     r = new Renderer(window);

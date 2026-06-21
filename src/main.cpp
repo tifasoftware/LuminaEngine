@@ -2,6 +2,7 @@
 #include <platform/universalsdl.h>
 #include <string>
 #include <cstdio>
+
 #ifdef PLATFORM_PSP
 #include <pspkernel.h>
 #include <pspdisplay.h>
@@ -17,10 +18,19 @@
 #include <3ds.h>
 #endif
 
+#ifdef PLATFORM_DREAMCAST
+#include <kos.h>
+KOS_INIT_FLAGS(INIT_DEFAULT);
+#endif
+
 
 
 int main(int argc, char *argv[])
 {
+#ifdef PLATFORM_DREAMCAST
+    printf("");
+#endif
+
 #ifdef PLATFORM_PSP
     //freopen("ms0:/log.txt", "w", stdout);
     //setvbuf(stdout, NULL, _IONBF, 0); // unbuffered
