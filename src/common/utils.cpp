@@ -96,7 +96,7 @@ std::string LuminaUtils::osPath(const char *relpath) {
 #else
 #ifdef PLATFORM_DREAMCAST
     base = "/cd/";
-    #base = "/rd/";
+    // base = "/rd/";
 #else
     if (base.empty()) {
         char* sdl_base = SDL_GetBasePath();
