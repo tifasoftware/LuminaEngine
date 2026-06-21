@@ -47,7 +47,7 @@ endif()
 
 if(DREAMCAST)
     message("Building on Dreamcast")
-    include(kallistios)
+    include(/opt/toolchains/dc/kos/utils/cmake/kallistios.cmake)
     add_definitions(-DGAMECONSOLE)
     set(GAMECONSOLE ON)
     set(ROMFS_DIR "${CMAKE_SOURCE_DIR}/assets")
