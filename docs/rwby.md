@@ -16,9 +16,9 @@ In addition, the project will also be documented in a formal research paper, fol
 ## Project Status
 
 
-| Console            | Nickname        | Status          |
-|--------------------|-----------------|-----------------|
-| Sega Dreamcast     | Ruby     | Under Research  |
-| Nintendo Gamecube  | Weiss    | Under Research  |
-| Microsoft Xbox     | Blake | Under Research  |
-| Sony PlayStation 2 | Yang | Under Research  |
+| Console            | Nickname        | Status                 |
+|--------------------|-----------------|------------------------|
+| Sega Dreamcast     | Ruby     | In Development         |
+| Nintendo Gamecube  | Weiss    | Setting Up CMake       |
+| Microsoft Xbox     | Blake | Solving Library Issues |
+| Sony PlayStation 2 | Yang | Setting Up CMake         |
