@@ -29,6 +29,7 @@ int main(int argc, char *argv[])
 {
 #ifdef PLATFORM_DREAMCAST
     printf("Hello Lumina\n");
+    SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_OPENGL_VIDEO");
 #endif
 
 #ifdef PLATFORM_PSP
