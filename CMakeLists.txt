@@ -339,7 +339,7 @@ elseif(GAMECUBE)
     )
 
     ogc_create_dol(
-            ${PROJECT_NAME}.elf
+            ${PROJECT_NAME}
     )
 elseif(LIB_SDL1)
     target_link_libraries(${PROJECT_NAME} PRIVATE
