@@ -177,6 +177,19 @@ if(3DS)
     set(CTRU_LIBRARIES citro3d citro2d ctru m)
     #set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
     target_compile_options(${PROJECT_NAME} PRIVATE -g -Wall -Wextra -Wreturn-type -Werror=return-type)
+elseif(GAMECUBE)
+    set(SDL2_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/gamecube/include")
+    set(SDL2_IMAGE_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/gamecube/include")
+    set(SDL2_MIXER_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/gamecube/include")
+
+    #set(PORT_LIBRARIES jpeg png z mad mikmod vorbisidec ogg)
+    set(SDL2_LIBRARIES SDL2)
+    set(SDL2_IMAGE_LIBRARIES SDL_image)
+    set(SDL2_MIXER_LIBRARIES SDL_mixer)
+
+    #set(CTRU_LIBRARIES citro3d citro2d ctru m)
+    #set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
+    target_compile_options(${PROJECT_NAME} PRIVATE -g -Wall -Wextra -Wreturn-type -Werror=return-type)
 elseif (NOT (APPLE OR WIN32 OR DREAMCAST))
     find_package(PkgConfig REQUIRED)
     if (LIB_SDL1)
@@ -240,6 +253,15 @@ elseif(3DS)
             libs/lua-5.5.0/src/
             src/
             "$ENV{DEVKITPRO}/libctru/include"
+    )
+elseif(GAMECUBE)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${SDL2_INCLUDE_DIRS}
+            ${SDL2_IMAGE_INCLUDE_DIRS}
+            ${SDL2_MIXER_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
+            src/
+            "$ENV{DEVKITPRO}/libogc/include"
     )
 elseif(SDL1_OVERRIDE)
     target_include_directories(${PROJECT_NAME} PRIVATE
@@ -313,6 +335,16 @@ elseif(3DS)
     ctr_create_3dsx(${PROJECT_NAME}
             SMDH ${PROJECT_NAME}.smdh
             ROMFS "${CMAKE_SOURCE_DIR}/assets"
+    )
+elseif(GAMECUBE)
+    target_link_directories(${PROJECT_NAME} PRIVATE
+            "$ENV{DEVKITPRO}/libogc/lib"
+            "$ENV{DEVKITPRO}/portlibs/gamecube/lib"
+    )
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            SDL2 SDL2_image SDL2_mixer
+            lua
+            SDL2
     )
 elseif(LIB_SDL1)
     target_link_libraries(${PROJECT_NAME} PRIVATE
