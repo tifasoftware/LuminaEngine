@@ -5,7 +5,11 @@
 #include <algorithm>
 
 Renderer::Renderer(SDL_Window * win) {
+#ifdef PLATFORM_DREAMCAST
+    sdl_r = SDL_CreateRenderer(win, -1, 0);
+#else
     sdl_r = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
+#endif
 #ifdef PLATFORM_PC
     SDL_RenderSetLogicalSize(sdl_r, 480, 272);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");

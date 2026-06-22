@@ -28,7 +28,7 @@ KOS_INIT_FLAGS(INIT_DEFAULT);
 int main(int argc, char *argv[])
 {
 #ifdef PLATFORM_DREAMCAST
-    printf("");
+    printf("Hello Lumina\n");
 #endif
 
 #ifdef PLATFORM_PSP

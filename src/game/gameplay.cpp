@@ -59,11 +59,11 @@ GamePlay::GamePlay()
 #ifdef PLATFORM_DREAMCAST
     window = SDL_CreateWindow(
         "window",
-        SDL_WINDOWPOS_UNDEFINED,
-        SDL_WINDOWPOS_UNDEFINED,
+        0,
+        0,
         SCREEN_W,
         SCREEN_H,
-        S
+        SDL_WINDOW_FULLSCREEN
     );
     SDL_ShowCursor(SDL_DISABLE);
 #endif

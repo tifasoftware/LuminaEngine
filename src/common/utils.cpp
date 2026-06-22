@@ -47,6 +47,10 @@ void LuminaUtils::LuminaDelay(int ms) {
     SDL_Delay(ms);
 #endif
 
+#ifdef PLATFORM_DREAMCAST
+    SDL_Delay(ms);
+#endif
+
 #ifdef PLATFORM_PC
     int delay = 1000 / FRAME_RATE;
     int cycles = ms / delay;
