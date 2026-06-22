@@ -337,6 +337,11 @@ elseif(GAMECUBE)
             lua
             SDL2
     )
+
+    elf2dol(
+            ${PROJECT_NAME}.elf
+            ${PROJECT_NAME}.dol
+    )
 elseif(LIB_SDL1)
     target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL SDL_image SDL_mixer
