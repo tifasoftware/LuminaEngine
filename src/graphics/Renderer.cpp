@@ -6,7 +6,8 @@
 
 Renderer::Renderer(SDL_Window * win) {
 #ifdef PLATFORM_DREAMCAST
-    sdl_r = SDL_CreateRenderer(win, -1, 0);
+    //sdl_r = SDL_CreateRenderer(win, -1, 0);
+    sdl_r = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 #else
     sdl_r = SDL_CreateRenderer(win, -1, SDL_RENDERER_ACCELERATED);
 #endif
