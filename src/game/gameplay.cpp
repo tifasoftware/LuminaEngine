@@ -56,7 +56,7 @@ GamePlay::GamePlay()
     );
     SDL_ShowCursor(SDL_DISABLE);
 #endif
-#ifdef PLATFORM_DREAMCAST
+#if defined(PLATFORM_DREAMCAST) || defined(PLATFORM_GAMECUBE)
     window = SDL_CreateWindow(
         "window",
         0,
