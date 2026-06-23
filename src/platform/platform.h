@@ -23,19 +23,19 @@
     #define SCREEN_SCALE 1
     #define LIB_SDL2
 #elif defined(__GAMECUBE__)
-    #define PLATFORM_DREAMCAST
+    #define PLATFORM_GAMECUBE
     #define SCREEN_W 640
     #define SCREEN_H 480
     #define SCREEN_SCALE 1
     #define LIB_SDL2
 #elif defined(__NXDK__)
-    #define PLATFORM_DREAMCAST
+    #define PLATFORM_XBOX
     #define SCREEN_W 640
     #define SCREEN_H 480
     #define SCREEN_SCALE 1
     #define LIB_SDL2
 #elif defined(__PS2__)
-    #define PLATFORM_DREAMCAST
+    #define PLATFORM_PS2
     #define SCREEN_W 640
     #define SCREEN_H 480
     #define SCREEN_SCALE 1
