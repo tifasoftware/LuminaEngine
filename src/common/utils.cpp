@@ -43,11 +43,7 @@ const char* LuminaUtils::appendExtension(const char *filename, const char *exten
 }
 
 void LuminaUtils::LuminaDelay(int ms) {
-#ifdef PLATFORM_PSP
-    SDL_Delay(ms);
-#endif
-
-#ifdef PLATFORM_DREAMCAST
+#if defined(PLATFORM_PSP) || defined(PLATFORM_DREAMCAST) || defined(PLATFORM_GAMECUBE) || defined(PLATFORM_PS2) || defined(PLATFORM_XBOX)
     SDL_Delay(ms);
 #endif
 
