@@ -30,7 +30,7 @@ void Controller::Release() {
 
 void Controller::SendInput() {
     if (pawn != nullptr && pawn->getActive()) {
-        #ifdef PLATFORM_PSP
+        #if defined(PLATFORM_PSP) || defined(PLATFORM_DREAMCAST) || defined (PLATFORM_PS2)
         PSP_ProcessInput();
         #endif
         #ifdef PLATFORM_3DS
