@@ -372,10 +372,12 @@ elseif(PS2)
             $ENV{PS2SDK}/ee/lib/
             $ENV{PS2SDK}/common/lib/
             $ENV{PS2SDK}/iop/lib/
+	    $ENV{PS2SDK}/../gsKit/lib/
     )
     target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL2 SDL2_image SDL2_mixer
             lua
+	    ps2_drivers xmp modplug gs gskit dmakit patches
             kernel
     )
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
