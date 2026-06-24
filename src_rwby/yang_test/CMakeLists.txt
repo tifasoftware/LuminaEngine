@@ -12,8 +12,10 @@ target_link_directories(yang.elf PRIVATE
 )
 
 target_link_libraries(yang.elf PRIVATE
-        SDL2 SDL2_image SDL2_mixer
-        lua
-        ps2_drivers xmp modplug gs gskit dmakit patches
-        kernel
+	SDL2 SDL2_image SDL2_mixer
+	lua
+	ps2_drivers xmp modplug
+	gskit dmakit
+	kernel patches
+	elf-loader
 )

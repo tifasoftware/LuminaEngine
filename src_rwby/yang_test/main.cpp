@@ -1,5 +1,10 @@
 #include <cstdio>
 
 int main(int argc, char *argv[]) {
-    printf("Hello World!");
+
+    while (1) {
+        printf("Hello World!");
+    }
+
+    return 0;
 }
