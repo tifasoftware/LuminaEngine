@@ -6,10 +6,8 @@ set_target_properties(yang.elf PROPERTIES
 
 target_link_directories(yang.elf PRIVATE
         $ENV{PS2SDK}/ports/lib/
-        $ENV{PS2SDK}/ports_iop/lib/
         $ENV{PS2SDK}/ee/lib/
         $ENV{PS2SDK}/common/lib/
-        $ENV{PS2SDK}/iop/lib/
         $ENV{PS2SDK}/../gsKit/lib/
 )
 
