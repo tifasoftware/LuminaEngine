@@ -364,6 +364,15 @@ elseif(DREAMCAST)
     kos_add_romdisk(${PROJECT_NAME}
             "${CMAKE_SOURCE_DIR}/assets"
     )
+elseif(PS2)
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            SDL2 SDL2_image SDL2_mixer
+            lua
+            kernel
+    )
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND cp ${PROJECT_NAME} ${PROJECT_NAME}.elf
+    )
 else()
     message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
     target_link_libraries(${PROJECT_NAME} PRIVATE

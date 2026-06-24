@@ -73,7 +73,7 @@ std::string LuminaUtils::osPath(const char *relpath) {
     std::string base = "";
     std::string path;
 
-#ifdef PLATFORM_OSX
+#if defined(PLATFORM_OSX)
     char execPath[PATH_MAX];
     uint32_t size = sizeof(execPath);
 
@@ -90,11 +90,12 @@ std::string LuminaUtils::osPath(const char *relpath) {
     }
     return path;
 #else
-
-#ifdef PLATFORM_3DS
+#if defined(PLATFORM_3DS)
     base = "romfs:/";
-#else
-#ifdef PLATFORM_DREAMCAST
+#elif defined(PLATFORM_PS2)
+    base = "cdrom0:";
+    // base = "host:";
+#elif defined(PLATFORM_DREAMCAST)
     //base = "/cd/";
      base = "/rd/";
 #else
@@ -102,7 +103,6 @@ std::string LuminaUtils::osPath(const char *relpath) {
         char* sdl_base = SDL_GetBasePath();
         base = std::string(sdl_base);
     }
-#endif
 #endif
     path = (base + file);
 

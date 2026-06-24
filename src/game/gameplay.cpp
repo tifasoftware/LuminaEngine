@@ -6,10 +6,21 @@
 #include "3ds.h"
 #endif
 
+#ifdef PLATFORM_PS2
+#include <platform/ps2.h>
+#endif
+
 GamePlay::GamePlay()
 {
 #ifdef PLATFORM_3DS
     romfsInit();
+#endif
+#ifdef PLATFORM_PS2
+    _reset_IOP();
+    init_ps2_filesystem_driver();
+    siop_reset();
+    load_module("CDVDMAN.IRX");
+    load_module("CDVD.IRX");
 #endif
 #ifdef LIB_SDL1
     SDL_Init(SDL_INIT_EVERYTHING);

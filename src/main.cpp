@@ -23,8 +23,6 @@
 KOS_INIT_FLAGS(INIT_DEFAULT);
 #endif
 
-
-
 int main(int argc, char *argv[])
 {
 #ifdef PLATFORM_DREAMCAST
