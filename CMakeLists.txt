@@ -377,7 +377,7 @@ elseif(PS2)
     target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL2 SDL2_image SDL2_mixer
             lua
-	    ps2_drivers xmp modplug gs gskit dmakit patches
+	        ps2_drivers xmp modplug gs gskit dmakit patches
             kernel
     )
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
