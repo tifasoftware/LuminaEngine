@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 3.11)
 
+project(LuminaEngine)
+
 set(3DS OFF CACHE BOOL "Build for 3DS")
 set(SDL1_OVERRIDE OFF CACHE BOOL "Debug for SDL1")
 set(LE32BIT OFF CACHE BOOL "Build for 32-bit")
@@ -67,11 +69,7 @@ if(APPLE)
         set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
         set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "")
     endif()
-endif()
 
-project(LuminaEngine)
-
-if(APPLE)
     if (SDL1_OVERRIDE)
         set(SDL_LIBRARIES "/usr/local/lib")
         set(SDL_INCLUDE_DIRS "/usr/local/include/SDL")
