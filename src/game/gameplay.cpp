@@ -6,10 +6,18 @@
 #include "3ds.h"
 #endif
 
+#ifdef PLATFORM_PS2
+#include <platform/ps2.h>
+#endif
+
 GamePlay::GamePlay()
 {
 #ifdef PLATFORM_3DS
     romfsInit();
+#endif
+#ifdef PLATFORM_PS2
+    _reset_IOP();
+    init_ps2_filesystem_driver();
 #endif
 #ifdef LIB_SDL1
     SDL_Init(SDL_INIT_EVERYTHING);
@@ -53,6 +61,17 @@ GamePlay::GamePlay()
         SCREEN_W,
         SCREEN_H,
         0
+    );
+    SDL_ShowCursor(SDL_DISABLE);
+#endif
+#if defined(PLATFORM_DREAMCAST) || defined(PLATFORM_GAMECUBE) || defined(PLATFORM_PS2) || defined(PLATFORM_XBOX)
+    window = SDL_CreateWindow(
+        "window",
+        0,
+        0,
+        SCREEN_W,
+        SCREEN_H,
+        SDL_WINDOW_FULLSCREEN
     );
     SDL_ShowCursor(SDL_DISABLE);
 #endif

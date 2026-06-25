@@ -1,10 +1,18 @@
 cmake_minimum_required(VERSION 3.11)
 
+project(LuminaEngine)
+
 set(3DS OFF CACHE BOOL "Build for 3DS")
 set(SDL1_OVERRIDE OFF CACHE BOOL "Debug for SDL1")
 set(LE32BIT OFF CACHE BOOL "Build for 32-bit")
 set(LE_OLD_OSX OFF CACHE BOOL "Build for Snow Leopard")
 set(LE_DEBUG OFF CACHE BOOL "Build with In-Engine Debugging")
+
+# set(DREAMCAST OFF CACHE BOOL "Build for Sega Dreamcast")
+set(GAMECUBE OFF CACHE BOOL "Build for Nintendo GameCube")
+
+set(GAMECONSOLE OFF CACHE BOOL "Game Console Settings")
+
 
 if (LE_DEBUG)
     add_definitions(-D__LEDEBUG__)
@@ -13,6 +21,39 @@ endif()
 if(3DS)
     add_definitions(-D__3DS__)
     add_definitions(-DLIB_SDL1)
+    add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
+    set(ROMFS_DIR "${CMAKE_SOURCE_DIR}/assets")
+endif()
+
+if(GAMECUBE)
+    add_definitions(-D__GC__)
+    add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
+    add_subdirectory(src_rwby/weiss_test)
+endif()
+
+if(PSP)
+    add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
+endif()
+
+if(PS2)
+    add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
+    add_subdirectory(src_rwby/yang_test)
+endif()
+
+if(NXDK)
+    add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
+endif()
+
+if(DREAMCAST)
+    message("Building on Dreamcast")
+    include(/opt/toolchains/dc/kos/utils/cmake/kallistios.cmake)
+    add_definitions(-DGAMECONSOLE)
+    set(GAMECONSOLE ON)
     set(ROMFS_DIR "${CMAKE_SOURCE_DIR}/assets")
 endif()
 
@@ -28,11 +69,7 @@ if(APPLE)
         set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64" CACHE STRING "")
         set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11" CACHE STRING "")
     endif()
-endif()
 
-project(LuminaEngine)
-
-if(APPLE)
     if (SDL1_OVERRIDE)
         set(SDL_LIBRARIES "/usr/local/lib")
         set(SDL_INCLUDE_DIRS "/usr/local/include/SDL")
@@ -63,7 +100,18 @@ if(APPLE)
     set(APP_ICON "${CMAKE_SOURCE_DIR}/pbp_assets/AppIcon.icns")
 endif()
 
-if (WIN32)
+if (DREAMCAST)
+    set(SDL2_LIBRARIES SDL2)
+    set(SDL2_IMAGE_LIBRARIES SDL2_image)
+    set(SDL2_MIXER_LIBRARIES SDL2_mixer)
+
+    # Include paths
+    set(SDL2_INCLUDE_DIRS "/opt/toolchains/dc/kos/addons/include/SDL2")
+    set(SDL2_IMAGE_INCLUDE_DIRS "/opt/toolchains/dc/kos/addons/include/SDL2")
+    set(SDL2_MIXER_INCLUDE_DIRS "/opt/toolchains/dc/kos/addons/include/SDL2")
+endif()
+
+if (WIN32 AND (NOT NXDK))
     if (LE32BIT)
         message("Windows 32-Bit")
         set(SDL2_DIR "${CMAKE_SOURCE_DIR}/libs/mingw/i686-w64-mingw32")
@@ -100,10 +148,14 @@ add_executable(${PROJECT_NAME} ${SOURCES})
 add_library(lua STATIC ${LUA_SOURCES})
 
 target_include_directories(lua PUBLIC
-    external/lua/src
+     external/lua/src
 )
 
-if (NOT (PSP OR 3DS))
+#add_subdirectory(libs/lua-5.5.0)
+
+#target_link_libraries(${PROJECT_NAME} PRIVATE lua::lib)
+
+if (NOT (GAMECONSOLE))
     add_subdirectory(src_tools/lmap_compile)
     add_subdirectory(src_tools/lmap_info)
     add_subdirectory(src_tools/lua_test)
@@ -125,7 +177,13 @@ if(3DS)
     set(CTRU_LIBRARIES citro3d citro2d ctru m)
     #set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
     target_compile_options(${PROJECT_NAME} PRIVATE -g -Wall -Wextra -Wreturn-type -Werror=return-type)
-elseif (NOT (APPLE OR WIN32))
+elseif(GAMECUBE)
+    set(SDL2_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/gamecube/include")
+    set(SDL2_IMAGE_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/gamecube/include")
+    set(SDL2_MIXER_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/gamecube/include")
+
+    target_compile_options(${PROJECT_NAME} PRIVATE -g -Wall -Wextra -Wreturn-type -Werror=return-type)
+elseif (NOT (APPLE OR WIN32 OR DREAMCAST))
     find_package(PkgConfig REQUIRED)
     if (LIB_SDL1)
         pkg_check_modules(SDL REQUIRED IMPORTED_TARGET sdl)
@@ -170,6 +228,16 @@ if (PSP)
         /usr/local/pspdev/psp/include
         src/
     )
+elseif(DREAMCAST)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${SDL2_INCLUDE_DIRS}
+            ${SDL2_IMAGE_INCLUDE_DIRS}
+            ${SDL2_MIXER_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
+            /opt/toolchains/dc/kos-ports/include/
+            /opt/toolchains/dc/kos/include/
+            src/
+    )
 elseif(3DS)
     target_include_directories(${PROJECT_NAME} PRIVATE
             ${SDL2_INCLUDE_DIRS}
@@ -178,6 +246,13 @@ elseif(3DS)
             libs/lua-5.5.0/src/
             src/
             "$ENV{DEVKITPRO}/libctru/include"
+    )
+elseif(GAMECUBE)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${SDL2_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
+            src/
+            "$ENV{DEVKITPRO}/libogc/include"
     )
 elseif(SDL1_OVERRIDE)
     target_include_directories(${PROJECT_NAME} PRIVATE
@@ -252,6 +327,20 @@ elseif(3DS)
             SMDH ${PROJECT_NAME}.smdh
             ROMFS "${CMAKE_SOURCE_DIR}/assets"
     )
+elseif(GAMECUBE)
+    target_link_directories(${PROJECT_NAME} PRIVATE
+            "$ENV{DEVKITPRO}/libogc/lib"
+            "$ENV{DEVKITPRO}/portlibs/gamecube/lib"
+    )
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            SDL2 SDL2_image SDL2_mixer
+            lua
+            SDL2
+    )
+
+    ogc_create_dol(
+            ${PROJECT_NAME}
+    )
 elseif(LIB_SDL1)
     target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL SDL_image SDL_mixer
@@ -259,6 +348,40 @@ elseif(LIB_SDL1)
             #jpeg png z mad mikmod ogg vorbisidec
             SDL
             lua
+    )
+elseif(DREAMCAST)
+    message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
+    target_link_directories(${PROJECT_NAME} PRIVATE
+            /opt/toolchains/dc/kos/addons/lib/dreamcast/
+            /opt/toolchains/dc/kos-ports/lib/
+    )
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            SDL2 SDL2_image SDL2_mixer
+            lua
+            GL pthread
+    )
+
+    kos_add_romdisk(${PROJECT_NAME}
+            "${CMAKE_SOURCE_DIR}/assets"
+    )
+elseif(PS2)
+    message(STATUS "PS2SDK: $ENV{PS2SDK}")
+    target_link_directories(${PROJECT_NAME} PRIVATE
+            $ENV{PS2SDK}/ports/lib/
+            $ENV{PS2SDK}/ports_iop/lib/
+            $ENV{PS2SDK}/ee/lib/
+            $ENV{PS2SDK}/common/lib/
+            $ENV{PS2SDK}/iop/lib/
+	    $ENV{PS2SDK}/../gsKit/lib/
+    )
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            SDL2 SDL2_image SDL2_mixer
+            lua
+	        ps2_drivers xmp modplug gs gskit dmakit patches
+            kernel
+    )
+    add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+            COMMAND cp ${PROJECT_NAME} ${PROJECT_NAME}.elf
     )
 else()
     message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
@@ -274,9 +397,9 @@ if (PSP)
     # Create an EBOOT.PBP file
     create_pbp_file(
         TARGET ${PROJECT_NAME}
-        ICON_PATH        ${CMAKE_SOURCE_DIR}/pbp_assets/ICON0.PNG
-        BACKGROUND_PATH  ${CMAKE_SOURCE_DIR}/pbp_assets/PIC1.PNG
-        PREVIEW_PATH     ${CMAKE_SOURCE_DIR}/pbp_assets/PIC0.PNG
+        ICON_PATH        ${CMAKE_SOURCE_DIR}/pbp_assets/ICON0.png
+        BACKGROUND_PATH  ${CMAKE_SOURCE_DIR}/pbp_assets/PIC1.png
+        PREVIEW_PATH     ${CMAKE_SOURCE_DIR}/pbp_assets/PIC0.png
         TITLE ${PROJECT_NAME}
         VERSION 01.00
     )
@@ -404,7 +527,7 @@ endif()
 
 
 
-if (NOT (APPLE OR 3DS))
+if (NOT (APPLE OR 3DS OR DREAMCAST))
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
         COMMAND ${CMAKE_COMMAND} -E copy
         ${PNG_ASSETS}
@@ -501,9 +624,17 @@ if (WIN32)
     get_filename_component(MINGW_COMPILER_REAL ${CMAKE_C_COMPILER} REALPATH)
     get_filename_component(MINGW_TOOLCHAIN_DIR ${MINGW_COMPILER_REAL} DIRECTORY)
     if (LE32BIT)
-        set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../i686-w64-mingw32/bin")
+        if (CMAKE_HOST_APPLE)
+            set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../i686-w64-mingw32/bin")
+        else()
+            set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../i686-w64-mingw32/lib")
+        endif()
     else()
-        set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../x86_64-w64-mingw32/bin")
+        if (CMAKE_HOST_APPLE)
+            set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../x86_64-w64-mingw32/bin")
+        else()
+            set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../x86_64-w64-mingw32/lib")
+        endif()
     endif()
 
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
