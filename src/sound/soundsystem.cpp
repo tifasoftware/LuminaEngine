@@ -6,7 +6,13 @@
 
 SoundSystem::SoundSystem()
 {
+#ifdef PLATFORM_DREAMCAST
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+#elif defined(PLATFORM_PSP) || defined(PLATFORM_3DS)
     Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048);
+#else
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+#endif
 
     for (int i = 0; i < MAX_SFX; i++) {
         sfxBank[i] = nullptr;
