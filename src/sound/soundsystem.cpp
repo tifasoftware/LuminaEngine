@@ -7,7 +7,7 @@
 SoundSystem::SoundSystem()
 {
 #ifdef PLATFORM_DREAMCAST
-    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 2048);
+    Mix_OpenAudio(44100, MIX_DEFAULT_FORMAT, 2, 8192);
 #elif defined(PLATFORM_PSP) || defined(PLATFORM_3DS)
     Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 2048);
 #else
