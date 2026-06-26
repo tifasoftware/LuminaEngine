@@ -1,3 +1,4 @@
+
 add_executable(yang.elf main.cpp)
 
 set_target_properties(yang.elf PROPERTIES
@@ -12,10 +13,11 @@ target_link_directories(yang.elf PRIVATE
 )
 
 target_link_libraries(yang.elf PRIVATE
-	SDL2 SDL2_image SDL2_mixer
-	lua
-	ps2_drivers xmp modplug
-	gskit dmakit
-	kernel patches
-	elf-loader
+		SDL2 SDL2_image SDL2_mixer
+		modplug xmp audsrv atomic gskit dma dmakit
+		debug kernel patches config draw
+		ps2_drivers
+		SDL2main
+		stdc++ m c
+		elf-loader2
 )

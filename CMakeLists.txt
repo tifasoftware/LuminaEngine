@@ -39,6 +39,7 @@ if(PSP)
 endif()
 
 if(PS2)
+    include($ENV{PS2SDK}/ps2dev.cmake)
     add_definitions(-DGAMECONSOLE)
     set(GAMECONSOLE ON)
     add_subdirectory(src_rwby/yang_test)
@@ -368,11 +369,9 @@ elseif(PS2)
     message(STATUS "PS2SDK: $ENV{PS2SDK}")
     target_link_directories(${PROJECT_NAME} PRIVATE
             $ENV{PS2SDK}/ports/lib/
-            $ENV{PS2SDK}/ports_iop/lib/
             $ENV{PS2SDK}/ee/lib/
             $ENV{PS2SDK}/common/lib/
-            $ENV{PS2SDK}/iop/lib/
-	    $ENV{PS2SDK}/../gsKit/lib/
+	        $ENV{PS2SDK}/../gsKit/lib/
     )
     target_link_libraries(${PROJECT_NAME} PRIVATE
             SDL2 SDL2_image SDL2_mixer
