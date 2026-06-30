@@ -7,15 +7,12 @@ git clone -b SDL2 https://github.com/libsdl-org/SDL_image.git
 git clone -b SDL2 https://github.com/libsdl-org/SDL_mixer.git
 
 cd SDL
-\rm -rf .git
 cd ..
 cd SDL_image
-\rm -rf .git
 cd external
 ./download.sh
 cd ../..
 cd SDL_mixer
-\rm -rf .git
 cd external
 ./download.sh
 cd ../..
