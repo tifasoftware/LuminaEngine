@@ -65,3 +65,8 @@ EBOOT.PBP
 
 # Logs
 *.log
+
+# Android SDL2 Libraries
+/Android/app/jni/SDL/
+/Android/app/jni/SDL_image/
+/Android/app/jni/SDL_mixer/
