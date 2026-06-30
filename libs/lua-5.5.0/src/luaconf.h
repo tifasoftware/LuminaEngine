@@ -638,7 +638,11 @@
 ** macro must include the header 'locale.h'.)
 */
 #if !defined(lua_getlocaledecpoint)
+#if defined(ANDROID) && __ANDROID_API__ < 21
+#define lua_getlocaledecpoint()		('.')
+#else
 #define lua_getlocaledecpoint()		(localeconv()->decimal_point[0])
+#endif
 #endif
 
 

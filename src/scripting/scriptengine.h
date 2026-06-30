@@ -13,6 +13,7 @@ extern "C" {
 
 #include <string>
 #include <functional>
+#include <vector>
 
 struct ScriptSubroutine {
     lua_State* m_cr;
