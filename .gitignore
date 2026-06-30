@@ -70,3 +70,4 @@ EBOOT.PBP
 /Android/app/jni/SDL/
 /Android/app/jni/SDL_image/
 /Android/app/jni/SDL_mixer/
+/Android/app/jni/include/
