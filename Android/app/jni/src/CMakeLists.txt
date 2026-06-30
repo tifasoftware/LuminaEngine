@@ -17,13 +17,18 @@ file (GLOB OGG_ASSETS "${LUMINA_ROOT}/assets/*.ogg")
 file (GLOB WAV_ASSETS "${LUMINA_ROOT}/assets/*.wav")
 file (GLOB LMAP_ASSETS "${LUMINA_ROOT}/assets/*.lmap")
 
-
 add_library(${PROJECT_NAME} SHARED ${SOURCES})
 
 add_library(lua SHARED ${LUA_SOURCES})
 
 target_include_directories(lua PUBLIC
-        external/lua/src
+        ${LUMINA_ROOT}/external/lua/src
+)
+
+target_include_directories(${PROJECT_NAME} PRIVATE
+        ${LUMINA_ROOT}/src
+        ${LUMINA_ROOT}/libs/lua-5.5.0/src/
+        ../include
 )
 
 target_compile_definitions(lua PRIVATE LUA_32BITS)
