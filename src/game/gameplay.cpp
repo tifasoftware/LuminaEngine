@@ -40,7 +40,7 @@ GamePlay::GamePlay()
         0
     );
 #endif
-#ifdef PLATFORM_PC
+#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
     window = SDL_CreateWindow(
         "Lumina Engine",
         SDL_WINDOWPOS_UNDEFINED,

@@ -40,6 +40,12 @@
     #define SCREEN_H 480
     #define SCREEN_SCALE 1
     #define LIB_SDL2
+#elif defined(__ANDROID__)
+    #define PLATFORM_ANDROID
+    #define SCREEN_W 480
+    #define SCREEN_H 272
+    #define SCREEN_SCALE 1
+    #define LIB_SDL2
 #else
     #define PLATFORM_PC
     #define SCREEN_W 480

@@ -20,7 +20,11 @@ LMAPHeader* LMAPLoader::load()
     LMAPHeader* lmap = (LMAPHeader*)malloc(sizeof(LMAPHeader));
     if (!lmap) { return nullptr; }
 
+#if defined(PLATFORM_ANDROID)
+    SDL_RWops* in = SDL_RWFromFile(LuminaUtils::osPath(file).c_str(),"r+b");
+#else
     FILE* in = fopen(LuminaUtils::osPath(file).c_str(), "rb");
+#endif
     if (!in) {
         free(lmap);
 #ifdef PLATFORM_3DS
@@ -29,8 +33,14 @@ LMAPHeader* LMAPLoader::load()
         SDL_Log("Error opening file %s", LuminaUtils::osPath(file).c_str());
         return nullptr;
     }
+
+#if defined(PLATFORM_ANDROID)
+    SDL_RWread(in, lmap, sizeof(LMAPHeader), 1);
+    SDL_RWclose(in);
+#else
     fread(lmap, sizeof(LMAPHeader), 1, in);
     fclose(in);
+#endif
 
     return lmap;
 }

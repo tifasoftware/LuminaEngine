@@ -47,7 +47,7 @@ void LuminaUtils::LuminaDelay(int ms) {
     SDL_Delay(ms);
 #endif
 
-#ifdef PLATFORM_PC
+#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
     int delay = 1000 / FRAME_RATE;
     int cycles = ms / delay;
     for (int i = 0; i < cycles; i++) {
@@ -98,6 +98,9 @@ std::string LuminaUtils::osPath(const char *relpath) {
 #elif defined(PLATFORM_DREAMCAST)
     //base = "/cd/";
      base = "/rd/";
+#elif defined(PLATFORM_ANDROID)
+     //base = std::string(SDL_AndroidGetInternalStoragePath()) + "/";
+    base = "";
 #else
     if (base.empty()) {
         char* sdl_base = SDL_GetBasePath();

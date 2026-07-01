@@ -5,6 +5,8 @@ project(LuminaEngine)
 set(LE32BIT ON CACHE BOOL "Build for 32-bit")
 set(LUMINA_ROOT "../../../..")
 
+set(ANDROID_RESOURCES_DIR "${CMAKE_CURRENT_SOURCE_DIR}/../../src/main/assets/")
+
 if ((CMAKE_ANDROID_ARCH STREQUAL "arm64") OR (CMAKE_ANDROID_ARCH STREQUAL "x86_64"))
     set(LE32BIT OFF)
 endif ()
@@ -34,3 +36,35 @@ target_include_directories(${PROJECT_NAME} PRIVATE
 target_compile_definitions(lua PRIVATE LUA_32BITS)
 
 target_link_libraries(${PROJECT_NAME} lua SDL2 SDL2_image SDL2_mixer)
+
+file(MAKE_DIRECTORY ${ANDROID_RESOURCES_DIR})
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${PNG_ASSETS}
+        ${ANDROID_RESOURCES_DIR}
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${OGG_ASSETS}
+        ${ANDROID_RESOURCES_DIR}
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${WAV_ASSETS}
+        ${ANDROID_RESOURCES_DIR}
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${LMAP_ASSETS}
+        ${ANDROID_RESOURCES_DIR}
+)
+
+add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy
+        ${LUA_ASSETS}
+        ${ANDROID_RESOURCES_DIR}
+)
