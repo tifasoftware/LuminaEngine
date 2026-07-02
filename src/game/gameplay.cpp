@@ -97,44 +97,7 @@ GamePlay::GamePlay()
 
     snd->startMusic("bgm0.ogg");
 
-    r->loadTexture("splash.png");
-
-    f = new Fade(r);
-    f->FadeIn(1.0f);
-
-    while (f->isFading()){
-        r->clear();
-        r->drawSprite(0, 0, 0);
-        f->Render(1.0f / FRAME_RATE);
-        r->present();
-        LuminaUtils::LuminaDelay(REDRAW_DELAY);
-    }
-
-    for (int i = 0; i < 180; i++) {
-        r->clear();
-        r->drawSprite(0, 0, 0);
-        //f->Render(1.0f / FRAME_RATE);
-        r->present();
-        LuminaUtils::LuminaDelay(REDRAW_DELAY);
-    }
-    //LuminaUtils::LuminaDelay(3000);
-
-    f->FadeOut(1.0f);
-
-    while (f->isFading()){
-        r->clear();
-        r->drawSprite(0, 0, 0);
-        f->Render(1.0f / FRAME_RATE);
-        r->present();
-        LuminaUtils::LuminaDelay(REDRAW_DELAY);
-    }
-
-
-
-    r->unloadAllTextures();
-
-    r->clear();
-    r->present();
+    Splash();
 
     lumina = new Character();
     gps = GamePlayState();

@@ -27,6 +27,8 @@ class GamePlay
     void MenuExit();
     void BattleExit();
 
+    void Splash();
+
     void SwitchState();
     void ChangeMusic(const char* newMusic);
 
