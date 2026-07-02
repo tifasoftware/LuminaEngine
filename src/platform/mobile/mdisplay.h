@@ -2,9 +2,24 @@
 
 class MobileDisplay {
 public:
-    static int GetScreenHeight();
-    static int GetScreenWidth();
-    static int GetDrawHeight();
-    static int GetDrawWidth();
-    static int GetRecommendedScale();
+    static inline int GetScreenHeight()
+    {
+        return 600;
+    }
+    static inline int GetScreenWidth()
+    {
+        return 800;
+    }
+    static inline int GetDrawHeight()
+    {
+        return GetScreenHeight();
+    }
+    static inline int GetDrawWidth()
+    {
+        return GetScreenWidth();
+    }
+    static inline int GetRecommendedScale()
+    {
+        return 1;
+    }
 };
