@@ -4,7 +4,9 @@
 #include <platform/universalsdl.h>
 #include <graphics/Texture.h>
 
-static const int MAX_TEXTURES = 64;
+//MAX_TEXTURES
+// 8 SYSTEM + 64 USER = 72 TOTAL
+static const int MAX_TEXTURES = 72;
 static const int MAX_FONTS = 4;
 #ifdef PLATFORM_3DS
 static const int FRAME_RATE = 60;
@@ -12,6 +14,15 @@ static const int FRAME_RATE = 60;
 static const int FRAME_RATE = 60;
 #endif
 static const int REDRAW_DELAY = 1000 / FRAME_RATE;
+
+//SYSTEM TEXTURES
+static const int MAX_SYS_TEXTURES = 8;
+#define SYSTEX_FONT_REG 0
+#define SYSTEX_FONT_BOLD 1
+#define SYSTEX_FONT_ITAL 2
+#define SYSTEX_FONT_BDIT 3
+#define SYSTEX_OSC_BTNS 4
+#define SYSTEX_OSC_MENU 5
 
 class Renderer
 {

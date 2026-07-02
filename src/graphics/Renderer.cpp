@@ -36,11 +36,22 @@ Renderer::Renderer(SDL_Window * win) {
     height = SCREEN_H;
     width = SCREEN_W;
 #endif
+
+// Load System Textures
+    loadTexture("fontatlas.png", SYSTEX_FONT_REG);
+    //loadTexture("", SYSTEX_FONT_BOLD);
+    //loadTexture("", SYSTEX_FONT_ITAL);
+    //loadTexture("", SYSTEX_FONT_BDIT);
+
+#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+    loadTexture("mobilecontrols.png", SYSTEX_OSC_BTNS);
+    loadTexture("mobilecontrols2.png", SYSTEX_OSC_MENU);
+#endif
 }
 
 int Renderer::firstOpenSlot()
 {
-    for (int i = 0; i < MAX_TEXTURES; i++)
+    for (int i = MAX_SYS_TEXTURES; i < MAX_TEXTURES; i++)
     {
         if (m_textures[i].isTextureFree())
         {
@@ -76,7 +87,7 @@ void Renderer::loadTexture(const char* file, int index) {
 }
 
 int Renderer::unloadAllTextures(){
-    for (int i = 0; i < MAX_TEXTURES; i++){
+    for (int i = MAX_SYS_TEXTURES; i < MAX_TEXTURES; i++){
         m_textures[i].release();
     }
     m_texture_count = 0;
