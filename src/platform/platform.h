@@ -41,10 +41,8 @@
     #define SCREEN_SCALE 1
     #define LIB_SDL2
 #elif defined(__ANDROID__)
+    #include <platform/mobile/mdisplay.h>
     #define PLATFORM_ANDROID
-    #define SCREEN_W 480
-    #define SCREEN_H 272
-    #define SCREEN_SCALE 1
     #define LIB_SDL2
 #else
     #define PLATFORM_PC

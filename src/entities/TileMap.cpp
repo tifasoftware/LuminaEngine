@@ -88,8 +88,8 @@ bool TileMap::loadMap()
 void TileMap::drawMap()
 {
     if (skyIndex != -1) {
-        for (int x = 0; x < (SCREEN_W / skyTileSize) + 1; x++) {
-            for (int y = 0; y < (SCREEN_H / skyTileSize) + 1; y++) {
+        for (int x = 0; x < (renderer->GetWidth() / skyTileSize) + 1; x++) {
+            for (int y = 0; y < (renderer->GetHeight() / skyTileSize) + 1; y++) {
                 renderer->drawTile(skyIndex, x * skyTileSize, y * skyTileSize);
             }
         }
@@ -101,8 +101,8 @@ void TileMap::drawMap()
     if (startTileX < 0) startTileX = 0;
     if (startTileY < 0) startTileY = 0;
 
-    int endTileX = TILE_W + startTileX;
-    int endTileY = TILE_H + startTileY;
+    int endTileX = ((renderer->GetWidth() / TILE_SIZE) + 2) + startTileX;
+    int endTileY = ((renderer->GetHeight() / TILE_SIZE) + 2) + startTileY;
 
     for (int x = startTileX; x < endTileX; x++){
         for (int y = startTileY; y < endTileY; y++){
@@ -339,7 +339,7 @@ void TileMap::updateMap() {
 
 bool TileMap::scrollX(int x, int cX)
 {
-    if (cX > SCROLL_L && cX < SCROLL_R)
+    if (cX > SCROLL_B && cX < (renderer->GetWidth() - SCROLL_B))
     {
         return false;
     } 
@@ -354,7 +354,7 @@ bool TileMap::scrollX(int x, int cX)
 
 bool TileMap::scrollY(int y, int cY)
 {
-    if (cY > SCROLL_T && cY < SCROLL_D)
+    if (cY > SCROLL_B && cY < (renderer->GetHeight() - SCROLL_B))
     {
         return false;
     } 

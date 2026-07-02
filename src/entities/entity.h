@@ -27,7 +27,7 @@ public:
 
     bool isInTrigger(int charX, int charY);
 
-    bool canBeDrawn(int screenOffsetX, int screenOffsetY);
+    bool canBeDrawn(Renderer* r, int screenOffsetX, int screenOffsetY);
     void draw(Renderer* r, int screenOffsetX, int screenOffsetY);
 
     void update();

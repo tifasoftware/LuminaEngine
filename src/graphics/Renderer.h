@@ -38,6 +38,9 @@ public:
     Texture* getTexture(int index);
     SDL_Renderer* getRenderer() const { return sdl_r; }
 
+    int GetWidth() { return width; }
+    int GetHeight() { return height; }
+
 private:
     SDL_Renderer* sdl_r;
 
@@ -49,4 +52,7 @@ private:
     Texture m_fonts[MAX_FONTS];
     int m_texture_count = 0;
     int firstOpenSlot();
+
+    int width;
+    int height;
 };

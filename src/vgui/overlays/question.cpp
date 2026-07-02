@@ -3,7 +3,7 @@
 QuestionBox::QuestionBox(Renderer* r, IControllable* p) : Overlay(r,p) {
     characterName = new Text();
     imageBox = new ImageBox();
-    panel = new Panel(renderer, 3, SCREEN_H - 103, SCREEN_W - 6, 100);
+    panel = new Panel(r, 3, r->GetHeight() - 103, r->GetWidth() - 6, 100);
     answer1 = new Button("a1");
     answer2 = new Button("a2");
     answer3 = new Button("a3");
@@ -16,7 +16,7 @@ QuestionBox::QuestionBox(Renderer* r, IControllable* p) : Overlay(r,p) {
     panel->addElement(answer3, 68, 60);
     panel->addElement(answer4, 68, 80);
 
-    questionPanel = new Panel(renderer, 3, SCREEN_H - 124, SCREEN_W - 6, 20);
+    questionPanel = new Panel(renderer, 3, r->GetHeight() - 124, r->GetWidth() - 6, 20);
     questionText = new Text();
 
     questionPanel->addElement(questionText, 2, 2);

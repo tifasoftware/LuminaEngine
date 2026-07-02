@@ -4,7 +4,7 @@
 
 MessageBox::MessageBox(Renderer* r, IControllable* p) : Overlay(r, p) {
     text = new Text();
-    panel = new Panel(renderer, 3, SCREEN_H - 103, SCREEN_W - 6, 100);
+    panel = new Panel(renderer, 3, r->GetHeight() - 103, r->GetWidth() - 6, 100);
     underScore = new Text();
 
     panel->addElement(text, 2, 2);

@@ -10,6 +10,10 @@
 #include <platform/ps2.h>
 #endif
 
+#ifdef PLATFORM_ANDROID
+#include <platform/mobile/mdisplay.h>
+#endif
+
 GamePlay::GamePlay()
 {
 #ifdef PLATFORM_3DS
@@ -40,7 +44,7 @@ GamePlay::GamePlay()
         0
     );
 #endif
-#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+#ifdef PLATFORM_PC
     window = SDL_CreateWindow(
         "Lumina Engine",
         SDL_WINDOWPOS_UNDEFINED,
@@ -53,6 +57,18 @@ GamePlay::GamePlay()
     SDL_RaiseWindow(window);
     SDL_SetWindowInputFocus(window);
 #endif
+
+#ifdef PLATFORM_ANDROID
+    window = SDL_CreateWindow(
+            "Lumina Engine",
+            SDL_WINDOWPOS_UNDEFINED,
+            SDL_WINDOWPOS_UNDEFINED,
+            MobileDisplay::GetScreenWidth(),
+            MobileDisplay::GetScreenHeight(),
+            0
+    );
+#endif
+
 #ifdef PLATFORM_3DS
     window = SDL_CreateWindow(
         "window",

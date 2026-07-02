@@ -24,10 +24,10 @@ void GamePlay::WorldStart() {
     if (gps.newMap) {
         SpawnDef sp = tm->getSpawn();
 
-        gps.characterX = SCREEN_W / 2;
-        gps.characterY = SCREEN_H / 2;
-        gps.screenX = sp.location.x - (SCREEN_W / 2);
-        gps.screenY = sp.location.y - (SCREEN_H / 2);
+        gps.characterX = r->GetWidth() / 2;
+        gps.characterY = r->GetHeight() / 2;
+        gps.screenX = sp.location.x - (r->GetWidth() / 2);
+        gps.screenY = sp.location.y - (r->GetHeight() / 2);
         gps.newMap = false;
     }
     tm->preShift(gps.screenX, gps.screenY);

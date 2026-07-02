@@ -96,14 +96,14 @@ bool Entity::isInTrigger(int charX, int charY) {
     return false;
 }
 
-bool Entity::canBeDrawn(int screenOffsetX, int screenOffsetY) {
+bool Entity::canBeDrawn(Renderer *r, int screenOffsetX, int screenOffsetY) {
     if (sprite == nullptr) return false;
-    if (getRightX() >= screenOffsetX && getBottomY() >= screenOffsetY && getLeftX() < (screenOffsetX + SCREEN_W) && getTopY() < (screenOffsetY + SCREEN_H)) return true;
+    if (getRightX() >= screenOffsetX && getBottomY() >= screenOffsetY && getLeftX() < (screenOffsetX + r->GetWidth()) && getTopY() < (screenOffsetY + r->GetHeight())) return true;
     return false;
 }
 
 void Entity::draw(Renderer *r, int screenOffsetX, int screenOffsetY) {
-    if (canBeDrawn(screenOffsetX, screenOffsetY)) {
+    if (canBeDrawn(r, screenOffsetX, screenOffsetY)) {
         //r->drawSprite(texIndex, x - screenOffsetX, y - screenOffsetY);
 
         sprite->draw(getLeftX() - screenOffsetX + spriteOffsetX, getTopY() - screenOffsetY + spriteOffsetY, moveX, moveY, r);

@@ -4,6 +4,10 @@
 #include <graphics/Texture.h>
 #include <algorithm>
 
+#ifdef PLATFORM_ANDROID
+#include <platform/mobile/mdisplay.h>
+#endif
+
 Renderer::Renderer(SDL_Window * win) {
 #ifdef PLATFORM_DREAMCAST
     //sdl_r = SDL_CreateRenderer(win, -1, 0);
@@ -15,10 +19,22 @@ Renderer::Renderer(SDL_Window * win) {
     SDL_RenderSetLogicalSize(sdl_r, 480, 272);
     SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
 #endif
+#ifdef PLATFORM_ANDROID
+    SDL_RenderSetLogicalSize(sdl_r, MobileDisplay::GetDrawWidth(), MobileDisplay::GetDrawHeight());
+    SDL_SetHint(SDL_HINT_RENDER_SCALE_QUALITY, "0");
+#endif
 
 #ifdef LIB_SDL1
     fade_surface = SDL_DisplayFormatAlpha(win);
     SDL_SetAlpha(fade_surface, SDL_SRCALPHA, SDL_ALPHA_OPAQUE);
+#endif
+
+#ifdef PLATFORM_ANDROID
+    height = MobileDisplay::GetDrawHeight();
+    width = MobileDisplay::GetDrawWidth();
+#else
+    height = SCREEN_H;
+    width = SCREEN_W;
 #endif
 }
 
@@ -150,7 +166,7 @@ int Renderer::drawSubSprite(int texIndex, int x, int y, int cX, int cY, int cW, 
 void Renderer::floodOverlay(int r, int g, int b, int alpha)
 {
     alpha = std::max(0, std::min(255, alpha));
-    SDL_Rect screen = { 0, 0, SCREEN_W, SCREEN_H };
+    SDL_Rect screen = { 0, 0, GetWidth(), GetHeight() };
 
 #ifdef LIB_SDL1
     SDL_FillRect(fade_surface, &screen, SDL_MapRGBA(fade_surface->format, r, g, b, alpha));

@@ -6,7 +6,7 @@ Dialogue::Dialogue(Renderer* r, IControllable* p) : Overlay(r, p) {
     text = new Text();
     characterName = new Text();
     imageBox = new ImageBox();
-    panel = new Panel(renderer, 3, SCREEN_H - 103, SCREEN_W - 6, 100);
+    panel = new Panel(r, 3, r->GetHeight() - 103, r->GetWidth() - 6, 100);
     underScore = new Text();
 
     panel->addElement(characterName, 2, 2);

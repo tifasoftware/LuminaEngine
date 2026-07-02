@@ -14,8 +14,8 @@ Panel::Panel(Renderer* r, int x, int y, int w, int h)
 Panel::Panel(Renderer* r, int w, int h)
 {
     renderer = r;
-    this->x = (SCREEN_W / 2) - (w / 2);
-    this->y = (SCREEN_H / 2) - (h / 2);
+    this->x = (r->GetWidth() / 2) - (w / 2);
+    this->y = (r->GetHeight() / 2) - (h / 2);
     this->w = w;
     this->h = h;
 

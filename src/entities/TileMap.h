@@ -20,13 +20,7 @@
 
 static const int TILE_SIZE = 16;
 
-static const int SCROLL_T = 40;
-static const int SCROLL_D = SCREEN_H - 40;
-static const int SCROLL_L = 40;
-static const int SCROLL_R = SCREEN_W - 40;
-
-static const int TILE_W = (SCREEN_W / TILE_SIZE) + 2;
-static const int TILE_H = (SCREEN_H / TILE_SIZE) + 2;
+static const int SCROLL_B = 40;
 
 static const int MAX_SPAWNS = 16;
 
