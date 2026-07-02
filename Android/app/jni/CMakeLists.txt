@@ -2,6 +2,8 @@ cmake_minimum_required(VERSION 3.6)
 
 project(LuminaAndroid)
 
+# dumb ovveride to get rid of CMakeCache
+set(LUMINA_VERSION 0.17)
 
 # armeabi-v7a requires cpufeatures library
 if (CMAKE_ANDROID_ARCH_ABI STREQUAL "armeabi-v7a")
