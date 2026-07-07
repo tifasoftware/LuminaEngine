@@ -15,6 +15,12 @@ public:
     int get_sprite_width () const { return width; }
     bool isTextureFree() const { return isOpen; }
 
+    void SetColor() { SetColor(255,255,255); }
+    void SetColor(Uint8 r, Uint8 g, Uint8 b) { SDL_SetTextureColorMod(tex, r, g, b); }
+
+    void SetOpacity() { SetOpacity(255); }
+    void SetOpacity(Uint8 a) { SDL_SetTextureAlphaMod(tex, a); }
+
 private:
     SDL_Texture* tex;
     bool isOpen;

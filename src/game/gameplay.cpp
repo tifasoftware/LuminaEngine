@@ -103,6 +103,10 @@ GamePlay::GamePlay()
     gps = GamePlayState();
     controller = new Controller();
 
+#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+    osc = new OnScreenControls(r);
+#endif
+
     SDL_BP_SetClearColor(r->getRenderer(),0,150,255);
 
     for (int i = 0; i < 60; i++) {
@@ -119,6 +123,9 @@ GamePlay::GamePlay()
 
 void GamePlay::Exit()
 {
+#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+    delete osc;
+#endif
     snd->shutdown();
     r->shutdown();
     delete controller;
@@ -126,6 +133,7 @@ void GamePlay::Exit()
     delete snd;
     delete r;
     delete f;
+
 #ifdef PLATFORM_3DS
     romfsExit();
 #endif

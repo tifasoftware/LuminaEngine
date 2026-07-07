@@ -8,6 +8,9 @@
 #include "scripting/scriptengine.h"
 #include "vgui/menu.h"
 
+#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+#include "vgui/mobile/os_controls.h"
+#endif
 
 class GamePlay
 {
@@ -46,6 +49,10 @@ class GamePlay
     SoundSystem* snd;
     ScriptEngine* scriptEngine;
     Fade* f;
+
+#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+    OnScreenControls* osc;
+#endif
 
     SDL_Window* window;
     SDL_Event event;

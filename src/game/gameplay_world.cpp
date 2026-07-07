@@ -75,6 +75,10 @@ void GamePlay::WorldDraw()
             } else gps.unpauseScript = true;
         }
 
+#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+        osc->draw();
+#endif
+
         r->present();
         if (gps.wantCallScript) {
             scriptEngine->runScript(gps.nextScript, "onCall");

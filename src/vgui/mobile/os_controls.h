@@ -2,13 +2,31 @@
 #include <graphics/Renderer.h>
 #include <graphics/Texture.h>
 
+#include "mobile_button.h"
+
 class OnScreenControls {
 public:
     OnScreenControls(Renderer* r);
-    void draw();
+    ~OnScreenControls();
+    void draw() { draw(0); }
+    void draw(int pressedBtns);
+
+    int GetPressedButtons(int tX, int tY);
 
 private:
+    static const int OSC_TILE_SIZE = 48;
+
     Renderer* renderer;
-    int uiIndex1 = -1;
-    int uiIndex2 = -1;
+
+    MobileButton* buttonUp;
+    MobileButton* buttonDown;
+    MobileButton* buttonLeft;
+    MobileButton* buttonRight;
+
+    MobileButton* buttonA;
+    MobileButton* buttonB;
+    MobileButton* buttonX;
+    MobileButton* buttonY;
+
+    MobileButton* buttonMenu;
 };
