@@ -55,19 +55,19 @@ OnScreenControls::OnScreenControls(Renderer* r) {
         0, 0);
 }
 
-void OnScreenControls::draw(int pressedBtns) {
+void OnScreenControls::draw() {
 
-    buttonUp->drawButton(renderer, (pressedBtns & 1) != 0);
-    buttonDown->drawButton(renderer, (pressedBtns & 2) != 0);
-    buttonLeft->drawButton(renderer, (pressedBtns & 4) != 0);
-    buttonRight->drawButton(renderer, (pressedBtns & 8) != 0);
+    buttonUp->drawButton(renderer, buttonUp->isPressed);
+    buttonDown->drawButton(renderer, buttonDown->isPressed);
+    buttonLeft->drawButton(renderer, buttonLeft->isPressed);
+    buttonRight->drawButton(renderer, buttonRight->isPressed);
 
-    buttonA->drawButton(renderer, (pressedBtns & 16) != 0);
-    buttonB->drawButton(renderer, (pressedBtns & 32) != 0);
-    buttonX->drawButton(renderer, (pressedBtns & 64) != 0);
-    buttonY->drawButton(renderer, (pressedBtns & 128) != 0);
+    buttonA->drawButton(renderer, buttonA->isPressed);
+    buttonB->drawButton(renderer, buttonB->isPressed);
+    buttonX->drawButton(renderer, buttonX->isPressed);
+    buttonY->drawButton(renderer, buttonY->isPressed);
 
-    buttonMenu->drawButton(renderer, (pressedBtns & 256) != 0);
+    buttonMenu->drawButton(renderer, buttonMenu->isPressed);
 }
 
 OnScreenControls::~OnScreenControls() {
@@ -84,18 +84,18 @@ OnScreenControls::~OnScreenControls() {
     delete buttonMenu;
 }
 
-int OnScreenControls::GetPressedButtons(int tX, int tY) {
+int OnScreenControls::GetPressedButtons() {
     int r = 0;
 
-    if (buttonUp->isTouched(tX, tY)) r += 1;
-    if (buttonDown->isTouched(tX, tY)) r += 2;
-    if (buttonLeft->isTouched(tX, tY)) r += 4;
-    if (buttonRight->isTouched(tX, tY)) r += 8;
-    if (buttonA->isTouched(tX, tY)) r += 16;
-    if (buttonB->isTouched(tX, tY)) r += 32;
-    if (buttonX->isTouched(tX, tY)) r += 64;
-    if (buttonY->isTouched(tX, tY)) r += 128;
-    if (buttonMenu->isTouched(tX, tY)) r += 256;
+    if (buttonUp->isPressed) r += 1;
+    if (buttonDown->isPressed) r += 2;
+    if (buttonLeft->isPressed) r += 4;
+    if (buttonRight->isPressed) r += 8;
+    if (buttonA->isPressed) r += 16;
+    if (buttonB->isPressed) r += 32;
+    if (buttonX->isPressed) r += 64;
+    if (buttonY->isPressed) r += 128;
+    if (buttonMenu->isPressed) r += 256;
 
     return r;
 }

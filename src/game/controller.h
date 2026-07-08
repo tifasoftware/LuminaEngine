@@ -3,6 +3,10 @@
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
 
+#if defined(PLATFORM_ANDROID) || defined(PLATFORM_PC)
+#include "vgui/mobile/os_controls.h"
+#endif
+
 class Controller {
     public:
     Controller();
@@ -12,6 +16,10 @@ class Controller {
     void SendInput();
     void Release();
 
+#if defined(PLATFORM_ANDROID) || defined(PLATFORM_PC)
+    void ConnectOSC(OnScreenControls* o, int sW, int sH) { this->osc = o; screen_height = sH; screen_width = sW; }
+#endif
+
     private:
     IControllable* pawn;
     IControllable* queued_pawn;
@@ -19,6 +27,17 @@ class Controller {
     void PSP_ProcessInput();
     void PC_ProcessInput();
     void N3DS_ProcessInput();
+
+    void Mobile_ProcessInput();
+    void OSC_SendInput();
+
+#if defined(PLATFORM_ANDROID) || defined(PLATFORM_PC)
+    OnScreenControls* osc;
+    int screen_width = 480;
+    int screen_height = 272;
+#endif
+
+
 
 #ifdef LIB_SDL1
     SDL_Joystick* joystick;

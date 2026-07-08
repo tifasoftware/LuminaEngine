@@ -105,6 +105,7 @@ GamePlay::GamePlay()
 
 #if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
     osc = new OnScreenControls(r);
+    controller->ConnectOSC(osc, r->GetWidth(), r->GetHeight());
 #endif
 
     SDL_BP_SetClearColor(r->getRenderer(),0,150,255);

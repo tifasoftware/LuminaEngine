@@ -39,6 +39,10 @@ void Controller::SendInput() {
         #ifdef PLATFORM_PC
         PC_ProcessInput();
         #endif
+        #ifdef PLATFORM_ANDROID
+        Mobile_ProcessInput();
+        OSC_SendInput();
+        #endif
     } else {
         if (queued_pawn != nullptr) {
             pawn = queued_pawn;
