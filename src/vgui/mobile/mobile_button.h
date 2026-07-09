@@ -19,6 +19,7 @@ public:
     uint16_t x, y, w, h;
 
     bool isPressed = false;
+    int finger = -1;
 
     bool isTouched(int tX, int tY) {
         if ((tX <= (x+w)) && (tX >= x) && (tY <= (y+h)) && (tY >= y)) return true;
