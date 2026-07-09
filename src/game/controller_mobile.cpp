@@ -58,9 +58,11 @@ void Controller::Mobile_ProcessInput() {
                 break;
             case SDL_FINGERDOWN:
                 osc->OnButtonPress((event.tfinger.x * screen_width), (event.tfinger.y * screen_height));
+                SDL_Log("Button Press: %f, %f\n", (event.tfinger.x * screen_width), (event.tfinger.y * screen_height));
                 break;
             case SDL_FINGERUP:
                 osc->OnButtonDepress((event.tfinger.x * screen_width), (event.tfinger.y * screen_height));
+                SDL_Log("Button DePress: %f, %f\n", (event.tfinger.x * screen_width), (event.tfinger.y * screen_height));
                 break;
             default:
                 break;

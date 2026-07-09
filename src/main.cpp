@@ -30,6 +30,10 @@ int main(int argc, char *argv[])
     SDL_SetHint(SDL_HINT_DC_VIDEO_MODE, "SDL_DC_OPENGL_VIDEO");
 #endif
 
+#ifdef PLATFORM_ANDROID
+    SDL_SetHint(SDL_HINT_TOUCH_MOUSE_EVENTS, "0");
+#endif
+
 #ifdef PLATFORM_PSP
     //freopen("ms0:/log.txt", "w", stdout);
     //setvbuf(stdout, NULL, _IONBF, 0); // unbuffered

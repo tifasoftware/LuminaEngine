@@ -67,6 +67,7 @@ GamePlay::GamePlay()
             MobileDisplay::GetScreenHeight(),
             0
     );
+    SDL_SetWindowFullscreen(window, 1);
 #endif
 
 #ifdef PLATFORM_3DS
