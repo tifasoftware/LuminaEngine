@@ -6,6 +6,7 @@ set(3DS OFF CACHE BOOL "Build for 3DS")
 set(SDL1_OVERRIDE OFF CACHE BOOL "Debug for SDL1")
 set(LE32BIT OFF CACHE BOOL "Build for 32-bit")
 set(LE_OLD_OSX OFF CACHE BOOL "Build for Snow Leopard")
+set(LE_PPC_OSX OFF CACHE BOOL "Build for MacOS PPC/ Use MacPorts")
 set(LE_DEBUG OFF CACHE BOOL "Build with In-Engine Debugging")
 
 # set(DREAMCAST OFF CACHE BOOL "Build for Sega Dreamcast")
@@ -62,7 +63,11 @@ if(SDL1_OVERRIDE)
 endif()
 
 if(APPLE)
-    if(LE32BIT OR LE_OLD_OSX)
+	if (LE_PPC_OSX)
+		set(CMAKE_OSX_ARCHITECTURES "ppc" CACHE STRING "")
+		set(CMAKE_OSX_DEPLOYMENT_TARGET "10.4" CACHE STRING "")
+		set(LE_OLD_OSX ON)
+    elseif(LE32BIT OR LE_OLD_OSX)
         set(CMAKE_OSX_ARCHITECTURES "x86_64" CACHE STRING "")
         set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6" CACHE STRING "")
     else()
@@ -73,6 +78,16 @@ if(APPLE)
     if (SDL1_OVERRIDE)
         set(SDL_LIBRARIES "/usr/local/lib")
         set(SDL_INCLUDE_DIRS "/usr/local/include/SDL")
+	elseif (LE_PPC_OSX)
+		# Libraries (now .dylib instead of frameworks)
+		link_directories(/opt/local/lib)
+        set(SDL2_LIBRARIES SDL2)
+        set(SDL2_IMAGE_LIBRARIES SDL2_image)
+        set(SDL2_MIXER_LIBRARIES SDL2_mixer)
+
+        # Include paths
+        set(SDL2_INCLUDE_DIRS "/opt/local/include")
+        set(SDL2_IMAGE_INCLUDE_DIRS "/opt/local/include/SDL2")
     elseif (LE_OLD_OSX)
         # Libraries (now .dylib instead of frameworks)
         set(SDL2_LIBRARIES SDL2)
@@ -260,7 +275,7 @@ elseif(SDL1_OVERRIDE)
             libs/lua-5.5.0/src/
             src/
     )
-elseif(WIN32)
+elseif(WIN32 OR LE_PPC_OSX OR LE_OLD_OSX)
     target_include_directories(${PROJECT_NAME} PRIVATE
             ${SDL2_INCLUDE_DIRS}
             ${SDL2_IMAGE_INCLUDE_DIRS}
@@ -384,7 +399,7 @@ elseif(PS2)
             COMMAND cp ${PROJECT_NAME} ${PROJECT_NAME}.elf
     )
 else()
-    message(STATUS "SDL Include Dirs: ${SDL_INCLUDE_DIRS}")
+    message(STATUS "SDL Include Dirs: ${SDL2_INCLUDE_DIRS}")
     target_link_libraries(${PROJECT_NAME} PRIVATE
             ${SDL2_LIBRARIES}
             ${SDL2_IMAGE_LIBRARIES}
@@ -407,7 +422,56 @@ if (PSP)
 endif()
 
 if(APPLE)
-    if (LE_OLD_OSX)
+	if (LE_PPC_OSX)
+		set_target_properties(${PROJECT_NAME} PROPERTIES
+                # Bundle identity (your existing ones)
+                MACOSX_BUNDLE TRUE
+                MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME}
+                MACOSX_BUNDLE_BUNDLE_VERSION "1.0"
+                MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
+                MACOSX_BUNDLE_GUI_IDENTIFIER "org.infitechppc.${PROJECT_NAME}"
+
+                # Icons
+                MACOSX_BUNDLE_ICON_FILE "AppIcon.icns"
+
+                # ADD: Xcode universal binary settings
+                XCODE_ATTRIBUTE_ARCHS "ppc"
+                XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH "NO"
+                XCODE_ATTRIBUTE_VALID_ARCHS "ppc"
+                XCODE_ATTRIBUTE_MACOSX_DEPLOYMENT_TARGET "10.4"
+                XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++11"
+                XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libstdc++"
+
+                # ADD: Code signing ("-" = ad-hoc for local dev)
+                XCODE_ATTRIBUTE_CODE_SIGN_IDENTITY "-"
+                XCODE_ATTRIBUTE_CODE_SIGN_STYLE "Automatic"
+
+                # ADD: rpath so the binary finds embedded frameworks
+                INSTALL_RPATH "@executable_path/../Frameworks"
+                BUILD_WITH_INSTALL_RPATH TRUE
+
+                # ADD: Xcode scheme working directory (so assets resolve at runtime)
+                XCODE_GENERATE_SCHEME TRUE
+                XCODE_SCHEME_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
+        )
+
+        set(SDL2_DYLIB /opt/local/lib/libSDL2.dylib)
+        set(SDL2_IMAGE_DYLIB /opt/local/lib/libSDL2_image.dylib)
+        set(SDL2_MIXER_DYLIB /opt/local/lib/libSDL2_mixer.dylib)
+
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND mkdir -p $<TARGET_FILE_DIR:${PROJECT_NAME}>/../Frameworks
+
+                COMMAND cp ${SDL2_DYLIB} $<TARGET_FILE_DIR:${PROJECT_NAME}>/../Frameworks/
+                COMMAND cp ${SDL2_IMAGE_DYLIB} $<TARGET_FILE_DIR:${PROJECT_NAME}>/../Frameworks/
+                COMMAND cp ${SDL2_MIXER_DYLIB} $<TARGET_FILE_DIR:${PROJECT_NAME}>/../Frameworks/
+        )
+
+        # KEEP: your existing asset bundling
+        set_source_files_properties(${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS} ${LUA_ASSETS}
+                PROPERTIES MACOSX_PACKAGE_LOCATION Resources
+        )
+    elseif (LE_OLD_OSX)
         set_target_properties(${PROJECT_NAME} PROPERTIES
                 # Bundle identity (your existing ones)
                 MACOSX_BUNDLE TRUE
@@ -560,7 +624,36 @@ if (NOT (APPLE OR 3DS OR DREAMCAST))
 endif()
 
 if(APPLE)
-    if (LE_OLD_OSX)
+	if (LE_PPC_OSX)
+		# Versioned dylibs
+        set(SDL2_DYLIB /opt/local/lib/libSDL2-2.0.0.dylib)
+        set(SDL2_IMAGE_DYLIB /opt/local/lib/libSDL2_image-2.0.0.dylib)
+        set(SDL2_MIXER_DYLIB /opt/local/lib/libSDL2_mixer-2.0.0.dylib)
+
+        # Post-build: copy dylibs into the app bundle's Frameworks folder
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                # Create Frameworks directory inside bundle
+                COMMAND mkdir -p "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks"
+
+                # Copy SDL2 dylibs
+                COMMAND cp ${SDL2_DYLIB} "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/"
+                COMMAND cp ${SDL2_IMAGE_DYLIB} "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/"
+                COMMAND cp ${SDL2_MIXER_DYLIB} "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/"
+
+                # Fix install_name to @rpath inside the bundle
+                COMMAND install_name_tool -change ${SDL2_DYLIB} @executable_path/../Frameworks/libSDL2-2.0.0.dylib "$<TARGET_FILE:${PROJECT_NAME}>"
+                COMMAND install_name_tool -change ${SDL2_IMAGE_DYLIB} @executable_path/../Frameworks/libSDL2_image-2.0.0.dylib "$<TARGET_FILE:${PROJECT_NAME}>"
+                COMMAND install_name_tool -change ${SDL2_MIXER_DYLIB} @executable_path/../Frameworks/libSDL2_mixer-2.0.0.dylib "$<TARGET_FILE:${PROJECT_NAME}>"
+
+                # Optional: remove quarantine attributes (for local dev)
+                COMMAND xattr -cr "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
+
+                # Optional: ad-hoc code sign the bundle
+                #        COMMAND codesign --force --sign - "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
+
+                COMMENT "Embedding SDL2 dylibs and signing app bundle"
+        )
+    elseif (LE_OLD_OSX)
         # Versioned dylibs
         set(SDL2_DYLIB /usr/local/lib/libSDL2-2.0.0.dylib)
         set(SDL2_IMAGE_DYLIB /usr/local/lib/libSDL2_image-2.0.0.dylib)

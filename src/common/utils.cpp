@@ -14,6 +14,10 @@
 #include <3ds.h>
 #endif
 
+#if !defined(PATH_MAX)
+#define PATH_MAX 4096
+#endif
+
 #include "graphics/Renderer.h"
 
 Orientation LuminaUtils::FlipOrientation(Orientation orientation) {
