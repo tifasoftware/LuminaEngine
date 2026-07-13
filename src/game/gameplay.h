@@ -8,7 +8,7 @@
 #include "scripting/scriptengine.h"
 #include "vgui/menu.h"
 
-#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+#if (defined(PLATFORM_PC) && defined(USER_LIGHTNING)) || defined(PLATFORM_ANDROID)
 #include "vgui/mobile/os_controls.h"
 #endif
 
@@ -50,7 +50,7 @@ class GamePlay
     ScriptEngine* scriptEngine;
     Fade* f;
 
-#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+#if (defined(PLATFORM_PC) && defined(USER_LIGHTNING)) || defined(PLATFORM_ANDROID)
     OnScreenControls* osc;
 #endif
 

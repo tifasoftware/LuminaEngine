@@ -125,7 +125,7 @@ GamePlay::GamePlay()
 
 void GamePlay::Exit()
 {
-#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+#if (defined(PLATFORM_PC) && defined(USER_LIGHTNING)) || defined(PLATFORM_ANDROID)
     delete osc;
 #endif
     snd->shutdown();

@@ -43,7 +43,7 @@ Renderer::Renderer(SDL_Window * win) {
     //loadTexture("", SYSTEX_FONT_ITAL);
     //loadTexture("", SYSTEX_FONT_BDIT);
 
-#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+#if (defined(PLATFORM_PC) && defined(USER_LIGHTNING)) || defined(PLATFORM_ANDROID)
     loadTexture("mobilecontrols_15.png", SYSTEX_OSC_BTNS);
     loadTexture("mobilecontrols2.png", SYSTEX_OSC_MENU);
 #endif
