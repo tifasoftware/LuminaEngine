@@ -50,4 +50,5 @@ class LMAPLoader
 
     private:
     const char* file;
+    void convertEndianess(LMAPHeader* lmap);
 };

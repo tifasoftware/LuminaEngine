@@ -42,5 +42,37 @@ LMAPHeader* LMAPLoader::load()
     fclose(in);
 #endif
 
+#if defined(__BYTE_ORDER) && __BYTE_ORDER == __BIG_ENDIAN || \
+defined(__BIG_ENDIAN__) || \
+defined(__ARMEB__) || \
+defined(__THUMBEB__) || \
+defined(__AARCH64EB__) || \
+defined(_MIBSEB) || defined(__MIBSEB) || defined(__MIBSEB__)
+    printf("This is a  BE arch");
+    convertEndianess(lmap);
+#endif
+
     return lmap;
+}
+
+void LMAPLoader::convertEndianess(LMAPHeader* lmap) {
+    lmap->version = __builtin_bswap16(lmap->version);
+    lmap->width = __builtin_bswap16(lmap->width);
+    lmap->height = __builtin_bswap16(lmap->height);
+
+    for (int i = 0; i < (64 * 64); i++) {
+        lmap->tiles[i] = __builtin_bswap16(lmap->tiles[i]);
+    }
+
+    for (int i = 0; i < 64; i++) {
+        lmap->entities[i].width = __builtin_bswap16(lmap->entities[i].width);
+        lmap->entities[i].height = __builtin_bswap16(lmap->entities[i].height);
+        lmap->entities[i].x = __builtin_bswap16(lmap->entities[i].x);
+        lmap->entities[i].y = __builtin_bswap16(lmap->entities[i].y);
+    }
+
+    for (int i = 0; i < 16; i++) {
+        lmap->spawnpoints[i].location.x = __builtin_bswap16(lmap->spawnpoints[i].location.x);
+        lmap->spawnpoints[i].location.y = __builtin_bswap16(lmap->spawnpoints[i].location.y);
+    }
 }
