@@ -104,7 +104,7 @@ GamePlay::GamePlay()
     gps = GamePlayState();
     controller = new Controller();
 
-#if defined(PLATFORM_PC) || (defined(PLATFORM_PC) && defined(USER_LIGHTNING))
+#if (defined(PLATFORM_PC) && defined(USER_LIGHTNING)) || defined(PLATFORM_ANDROID)
     osc = new OnScreenControls(r);
     controller->ConnectOSC(osc, r->GetWidth(), r->GetHeight());
 #endif
