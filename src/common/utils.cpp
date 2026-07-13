@@ -51,7 +51,7 @@ void LuminaUtils::LuminaDelay(int ms) {
     SDL_Delay(ms);
 #endif
 
-#if (defined(PLATFORM_PC) && defined(USER_LIGHTNING)) || defined(PLATFORM_ANDROID)
+#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
     int delay = 1000 / FRAME_RATE;
     int cycles = ms / delay;
     for (int i = 0; i < cycles; i++) {
