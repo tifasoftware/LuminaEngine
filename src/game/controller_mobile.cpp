@@ -3,7 +3,7 @@
 
 #include "controller.h"
 
-#if defined(LIB_SDL2) && ( defined(PLATFORM_ANDROID) || defined(PLATFORM_PC) )
+#if defined(LIB_SDL2) && ( defined(PLATFORM_ANDROID) || (defined(PLATFORM_PC) && defined(USER_LIGHTNING)) )
 void Controller::Mobile_ProcessInput() {
     if (SDL_PollEvent(&event)) {
         switch (event.type) {

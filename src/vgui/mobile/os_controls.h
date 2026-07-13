@@ -92,6 +92,29 @@ public:
         }
     }
 
+    void ResetOSC() {
+        buttonUp->isPressed = false;
+        buttonUp->finger = -1;
+        buttonDown->isPressed = false;
+        buttonDown->finger = -1;
+        buttonLeft->isPressed = false;
+        buttonLeft->finger = -1;
+        buttonRight->isPressed = false;
+        buttonRight->finger = -1;
+
+        buttonA->isPressed = false;
+        buttonA->finger = -1;
+        buttonB->isPressed = false;
+        buttonB->finger = -1;
+        buttonX->isPressed = false;
+        buttonX->finger = -1;
+        buttonY->isPressed = false;
+        buttonY->finger = -1;
+
+        buttonMenu->isPressed = false;
+        buttonMenu->finger = -1;
+    }
+
     int GetPressedButtons();
 
 private:

@@ -3,7 +3,7 @@
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
 
-#if defined(PLATFORM_ANDROID) || defined(PLATFORM_PC)
+#if defined(PLATFORM_ANDROID) || (defined(PLATFORM_PC) && defined(USER_LIGHTNING))
 #include "vgui/mobile/os_controls.h"
 #endif
 
@@ -16,7 +16,7 @@ class Controller {
     void SendInput();
     void Release();
 
-#if defined(PLATFORM_ANDROID) || defined(PLATFORM_PC)
+#if defined(PLATFORM_ANDROID) || (defined(PLATFORM_PC) && defined(USER_LIGHTNING))
     void ConnectOSC(OnScreenControls* o, int sW, int sH) { this->osc = o; screen_height = sH; screen_width = sW; }
 #endif
 
@@ -31,7 +31,7 @@ class Controller {
     void Mobile_ProcessInput();
     void OSC_SendInput();
 
-#if defined(PLATFORM_ANDROID) || defined(PLATFORM_PC)
+#if defined(PLATFORM_ANDROID) || (defined(PLATFORM_PC) && defined(USER_LIGHTNING))
     OnScreenControls* osc;
     int screen_width = 480;
     int screen_height = 272;
