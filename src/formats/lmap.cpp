@@ -48,7 +48,7 @@ defined(__ARMEB__) || \
 defined(__THUMBEB__) || \
 defined(__AARCH64EB__) || \
 defined(_MIBSEB) || defined(__MIBSEB) || defined(__MIBSEB__)
-    printf("This is a  BE arch");
+    //printf("This is a  BE arch\n");
     convertEndianess(lmap);
 #endif
 
