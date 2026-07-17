@@ -1,3 +1,4 @@
+#include <ios>
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
 
@@ -41,6 +42,54 @@ void Controller::PC_ProcessInput() {
                     pawn->OnButtonRight();
                 }
                 break;
+#ifdef LIB_SDL2
+            case SDL_CONTROLLERBUTTONDOWN:
+                if(event.cbutton.button == SDL_CONTROLLER_BUTTON_START) {
+                    pawn->OnButtonStart();
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_BACK) {
+                    pawn->OnButtonSelect();
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+                    pawn->OnMoveUp();
+                    pawn->OnButtonUp();
+                    upDownController = true;
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+                    pawn->OnMoveDown();
+                    pawn->OnButtonDown();
+                    upDownController = true;
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+                    pawn->OnMoveLeft();
+                    pawn->OnButtonLeft();
+                    leftRightController = true;
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+                    pawn->OnMoveRight();
+                    pawn->OnButtonRight();
+                    leftRightController = true;
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_A) {
+                    pawn->OnButtonA();
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_B) {
+                    pawn->OnButtonB();
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_X) {
+                    pawn->OnButtonX();
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_Y) {
+                    pawn->OnButtonY();
+                }
+                break;
+            case SDL_CONTROLLERBUTTONUP:
+                if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_UP) {
+                    pawn->OnStopMoveUp();
+                    upDownController = false;
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_DOWN) {
+                    pawn->OnStopMoveDown();
+                    upDownController = false;
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_LEFT) {
+                    pawn->OnStopMoveLeft();
+                    leftRightController = false;
+                } else if (event.cbutton.button == SDL_CONTROLLER_BUTTON_DPAD_RIGHT) {
+                    pawn->OnStopMoveRight();
+                    leftRightController = false;
+                }
+                break;
+#endif
             default:
                 break;
         }
@@ -50,14 +99,14 @@ void Controller::PC_ProcessInput() {
         pawn->OnMoveUp();
     } else if (keys[SDL_SCANCODE_DOWN] || keys[SDL_SCANCODE_S]) {
         pawn->OnMoveDown();
-    } else {
+    } else if (!upDownController) {
         pawn->OnStopMoveDown();
     }
     if (keys[SDL_SCANCODE_LEFT] || keys[SDL_SCANCODE_A]) {
         pawn->OnMoveLeft();
     } else if (keys[SDL_SCANCODE_RIGHT] || keys[SDL_SCANCODE_D]) {
         pawn->OnMoveRight();
-    } else {
+    } else if (!leftRightController) {
         pawn->OnStopMoveRight();
     }
 

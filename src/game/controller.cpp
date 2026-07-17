@@ -7,6 +7,13 @@ Controller::Controller() {
 #ifdef LIB_SDL1
     joystick = SDL_JoystickOpen(0);
 #endif
+
+#if defined(PLATFORM_PC) || defined(PLATFORM_ANDROID)
+    for (int i = 0; i < SDL_NumJoysticks(); i++) {
+        printf("SDL Controller Added: %d \n", i);
+        SDL_GameControllerOpen(i);
+    }
+#endif
 }
 
 Controller::~Controller() {

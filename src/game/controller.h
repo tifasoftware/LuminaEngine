@@ -31,6 +31,9 @@ class Controller {
     void Mobile_ProcessInput();
     void OSC_SendInput();
 
+    bool upDownController = false;
+    bool leftRightController = false;
+
 #if defined(PLATFORM_ANDROID) || (defined(PLATFORM_PC) && defined(USER_LIGHTNING))
     OnScreenControls* osc;
     int screen_width = 480;
