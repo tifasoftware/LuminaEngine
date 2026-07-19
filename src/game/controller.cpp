@@ -1,5 +1,6 @@
 #include "controller.h"
 #include <platform/platform.h>
+#include <cstdio>
 
 Controller::Controller() {
     pawn = nullptr;

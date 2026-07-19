@@ -34,6 +34,8 @@ class Controller {
     bool upDownController = false;
     bool leftRightController = false;
 
+    int GetControllerCount() { return SDL_NumJoysticks(); }
+
 #if defined(PLATFORM_ANDROID) || (defined(PLATFORM_PC) && defined(USER_LIGHTNING))
     OnScreenControls* osc;
     int screen_width = 480;
