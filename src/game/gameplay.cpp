@@ -232,3 +232,11 @@ void GamePlay::SwitchState()
     gps.gameState = gps.newGameState;
     gps.wantNewState = false;
 }
+
+void GamePlay::ChangeMusic(const char *newMusic) {
+    if (strcmp(gps.music, newMusic) != 0 && strcmp(gps.music, "") != 0) {
+        strncpy(gps.music, newMusic, sizeof(gps.music) - 1);
+        snd->stopMusic();
+        snd->startMusic(gps.music);
+    }
+}
