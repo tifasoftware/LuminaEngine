@@ -54,21 +54,18 @@ private:
     int size;
 };
 
-class LTLCompiler {
-    public:
-    LTLCompiler();
-
-    private:
-
-};
-
 class CompiledLTL {
     public:
-    CompiledLTL(int length, int styles, int colors);
+    CompiledLTL(int length, int styles);
     ~CompiledLTL();
 
-    bool isChar(int index);
-    char getChar(int index);
+    static CompiledLTL* compile_string(const char* raw_ltl);
+    static CompiledLTL* compile_string(const char* raw_ltl, Color defaultColor);
+
+    bool isChar(int index) { return lucii_string[index] > 32; }
+    bool isEmpty(int index) { return lucii_string[index] == 0; }
+    bool isNewLine(int index) { return lucii_string[index] == 1; }
+    char getChar(int index) { return static_cast<char>(lucii_string[index]); }
     int getFont(int index);
     Color getColor(int index);
 
