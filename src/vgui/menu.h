@@ -32,7 +32,6 @@ private:
     MenuClass previousMenu = NO_MENU;
     char luafile[128] = "";
 
-    int fontAtlas = -1;
     int clink = -1;
     int chime = -1;
     Panel* panel;

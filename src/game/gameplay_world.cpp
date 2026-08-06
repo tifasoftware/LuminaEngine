@@ -6,13 +6,8 @@
 void GamePlay::WorldStart() {
     tm = new TileMap(gps.mapName, &gps, lumina, r);
 
-    fontAtlas = r->loadTexture("fontatlas.png");
-    gps.overlay = new Dialogue(r, tm);
-    gps.overlay->SetFont(fontAtlas);
-
     tm->loadMap();
     tm->findSpawn(gps.lastMapName);
-    tm->SetDebugFont(fontAtlas);
     tm->activate();
     controller->Possess(tm);
     ChangeMusic(tm->getBGMFile());
@@ -36,8 +31,6 @@ void GamePlay::WorldStart() {
     gps.inTransition = false;
     if (!gps.introShown) {
         scriptEngine->runScript("gamestart.lua", "onCall");
-        //dialogue->DisplayDialogue("Welcome to Lumina Engine");
-
     }
     gps.introShown = true;
     SDL_BP_SetClearColor(r->getRenderer(),255,0,255);
@@ -65,7 +58,6 @@ void GamePlay::WorldDraw()
 
         Overlay* overlay = gps.GetOverlay();
         if (overlay != nullptr) {
-            if (!overlay->IsFontSet()) overlay->SetFont(fontAtlas);
             if (overlay->isEngaged()) {
                 overlay->draw();
                 if (!overlay->getActive()) {

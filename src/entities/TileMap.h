@@ -76,14 +76,9 @@ class TileMap : public IControllable {
 
     void OnButtonPress(int id) override;
 
-    void SetDebugFont(int font) { debugText.SetFont(font); }
-
     private:
     bool loadFromFile(const char* file);
 
-    //void parse_textures(FILE* file);
-    //void parse_layout(FILE* file);
-    //void parse_collision(FILE* file);
     const char* file;
     Renderer* renderer;
     int tiles[64][64] = {};
@@ -97,8 +92,6 @@ class TileMap : public IControllable {
     int selectedSpawn = 0;
     char bgm[64] = "";
     char sky[64] = "";
-
-    Text debugText;
 
     int luminaMoveX = 0;
     int luminaMoveY = 0;
