@@ -1,18 +1,18 @@
 #include <cstring>
-#include <graphics/Renderer.h>
+#include <graphics/renderer.h>
 #include <vgui/text.h>
 
 Text::Text()
 {
     strcpy(text, "");
-    fontTexIndex = -1;
+    fontTexIndex = SYSTEX_FONT_REG;
     x = 0;
     y = 0;
 }
 
 Text::Text(const char* t, int fti, int _x, int _y)
 {
-    strncpy(text, t, 127);
+    strncpy(text, t, 255);
     fontTexIndex = fti;
     x = _x;
     y = _y;
@@ -20,7 +20,7 @@ Text::Text(const char* t, int fti, int _x, int _y)
 
 Text::Text(const char* t, int fti)
 {
-    strncpy(text, t, 127);
+    strncpy(text, t, 255);
     fontTexIndex = fti;
     x = 0;
     y = 0;
@@ -33,7 +33,7 @@ void Text::move(int x, int y)
 }
 
 void Text::SetText(const char *t) {
-    strncpy(text, t, 127);
+    strncpy(text, t, 255);
 }
 
 void Text::render(Renderer* r)

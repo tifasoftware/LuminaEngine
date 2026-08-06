@@ -1,7 +1,7 @@
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
-#include <graphics/Renderer.h>
-#include <graphics/Texture.h>
+#include <graphics/renderer.h>
+#include <graphics/texture.h>
 #include <algorithm>
 
 #ifdef PLATFORM_ANDROID
@@ -61,15 +61,6 @@ int Renderer::firstOpenSlot()
     return -1;
 }
 
-//Old Implemetation
-/* int Renderer::loadTexture(const char* file) {
-    if (m_texture_count >= MAX_TEXTURES) {
-        return -1;
-    }
-    m_textures[m_texture_count] = Texture(file, sdl_r);
-    return m_texture_count++;
-} */
-
 int Renderer::loadTexture(const char* file) 
 {
     int slot = firstOpenSlot();
@@ -100,79 +91,6 @@ int Renderer::unloadTexture(int index) {
     return 0;
 }
 
-int Renderer::drawTile(int texIndex, int tileIndex, int x, int y) {
-    return drawTile(texIndex, tileIndex, x, y, 16);
-}
-
-int Renderer::drawTile(int texIndex, int tileIndex, int x, int y, int tileSize){
-
-    Texture* tex = &m_textures[texIndex];
-
-    SDL_Rect sprite_rect;
-    sprite_rect.w = tileSize;
-    sprite_rect.h = tileSize;
-    sprite_rect.x = x;
-    sprite_rect.y = y;
-
-    SDL_Rect src_rect;
-    src_rect.w = tileSize;
-    src_rect.h = tileSize;
-    src_rect.x = (tileIndex % tileSize) * tileSize;
-    src_rect.y = (tileIndex / tileSize) * tileSize;
-
-    SDL_RenderCopy(sdl_r, tex->get_SDLTex() , &src_rect, &sprite_rect);
-
-    return 0;
-}
-
-int Renderer::drawTile(int texIndex, int x, int y) {
-    Texture* tex = &m_textures[texIndex];
-
-    SDL_Rect sprite_rect;
-    sprite_rect.w = tex->get_tile_size();
-    sprite_rect.h = tex->get_tile_size();
-    sprite_rect.x = x;
-    sprite_rect.y = y;
-
-    SDL_RenderCopy(sdl_r, tex->get_SDLTex() , NULL, &sprite_rect);
-    return 0;
-}
-
-int Renderer::drawSprite(int texIndex, int x, int y){
-
-    Texture* tex = &m_textures[texIndex];
-
-    SDL_Rect sprite_rect;
-    sprite_rect.w = tex->get_sprite_width();
-    sprite_rect.h = tex->get_sprite_height();
-    sprite_rect.x = x;
-    sprite_rect.y = y;
-
-    SDL_RenderCopy(sdl_r, tex->get_SDLTex() , NULL, &sprite_rect);
-
-    return 0;
-}
-
-int Renderer::drawSubSprite(int texIndex, int x, int y, int cX, int cY, int cW, int cH)
-{
-    Texture* tex = &m_textures[texIndex];
-
-    SDL_Rect sprite_rect;
-    sprite_rect.w = cW;
-    sprite_rect.h = cH;
-    sprite_rect.x = x;
-    sprite_rect.y = y;
-
-    SDL_Rect src_rect;
-    src_rect.w = cW;
-    src_rect.h = cH;
-    src_rect.x = cX;
-    src_rect.y = cY;
-
-    SDL_RenderCopy(sdl_r, tex->get_SDLTex() , &src_rect, &sprite_rect);
-
-    return 0;
-}
 
 void Renderer::floodOverlay(int r, int g, int b, int alpha)
 {

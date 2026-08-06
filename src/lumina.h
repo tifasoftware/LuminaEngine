@@ -1,7 +1,7 @@
 #pragma once
 
-#include <graphics/Renderer.h>
-#include <graphics/Texture.h>
+#include <graphics/renderer.h>
+#include <graphics/texture.h>
 #include <graphics/effects/fade.h>
 #include <entities/TileMap.h>
 #include <entities/character.h>

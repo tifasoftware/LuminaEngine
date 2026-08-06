@@ -1,6 +1,6 @@
 #pragma once
-#include "Renderer.h"
-#include "Texture.h"
+#include "renderer.h"
+#include "texture.h"
 
 class TextureOptimization {
     public:

@@ -1,4 +1,4 @@
-#include <graphics/Renderer.h>
+#include <graphics/renderer.h>
 #include <graphics/effects/fade.h>
 
 Fade::Fade(Renderer* r)

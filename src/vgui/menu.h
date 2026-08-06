@@ -3,7 +3,7 @@
 #include "game/gameplay_state.h"
 #include "game/IControllable.h"
 
-#include "graphics/Renderer.h"
+#include "graphics/renderer.h"
 #include "sound/soundsystem.h"
 #include "vgui/button.h"
 #include "vgui/panel.h"

@@ -1,6 +1,6 @@
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
-#include <graphics/Texture.h>
+#include <graphics/texture.h>
 
 #include "common/utils.h"
 

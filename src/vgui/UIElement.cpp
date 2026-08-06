@@ -1,4 +1,4 @@
-#include <graphics/Renderer.h>
+#include <graphics/renderer.h>
 #include <vgui/UIElement.h>
 
 void UIElement::addLowerElement(UIElement* element)

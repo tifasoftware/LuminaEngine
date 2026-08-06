@@ -4,7 +4,7 @@
 #include <platform/universalsdl.h>
 #include <cstdio>
 #include <cstring>
-#include <graphics/Renderer.h>
+#include <graphics/renderer.h>
 #include <vgui/text.h>
 #include <formats/lmap.h>
 

@@ -1,6 +1,6 @@
 #pragma once
-#include <graphics/Renderer.h>
-#include <graphics/Texture.h>
+#include <graphics/renderer.h>
+#include <graphics/texture.h>
 
 #include "mobile_button.h"
 

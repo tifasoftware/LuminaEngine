@@ -1,6 +1,6 @@
 #pragma once
 #include "game/IControllable.h"
-#include "graphics/Renderer.h"
+#include "graphics/renderer.h"
 
 class Overlay : public IControllable {
     public:

@@ -3,7 +3,7 @@
 
 #include "gameplay.h"
 #include "common/types.h"
-#include "graphics/Renderer.h"
+#include "graphics/renderer.h"
 #include "vgui/button.h"
 #include "vgui/panel.h"
 

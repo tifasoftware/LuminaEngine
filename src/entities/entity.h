@@ -1,6 +1,6 @@
 #pragma once
 #include "formats/lmap.h"
-#include "graphics/Renderer.h"
+#include "graphics/renderer.h"
 #include "graphics/sprites/sprite.h"
 #include "graphics/sprites/charactersprite.h"
 

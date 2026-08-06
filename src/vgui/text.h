@@ -1,6 +1,6 @@
 #pragma once
 
-#include <graphics/Renderer.h>
+#include <graphics/renderer.h>
 
 #include "UIElement.h"
 
@@ -21,12 +21,14 @@ class Text : public UIElement
     bool isFontSet() { return fontTexIndex != -1; }
 
     private:
-    char text[128];
-    int fontTexIndex = -1;
+    char text[256];
+    int fontTexIndex = SYSTEX_FONT_REG;
     int fg_r = 200;
     int fg_g = 200;
     int fg_b = 200;
 
     int x = 0;
     int y = 0;
+
+    bool useLTL = false;
 };

@@ -1,5 +1,5 @@
-#include <graphics/Renderer.h>
-#include <graphics/Texture.h>
+#include <graphics/renderer.h>
+#include <graphics/texture.h>
 #include <entities/character.h>
 
 Character::Character()

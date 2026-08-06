@@ -2,7 +2,7 @@
 #include <cstdint>
 
 #include "os_controls.h"
-#include "graphics/Renderer.h"
+#include "graphics/renderer.h"
 
 class MobileButton {
 public:

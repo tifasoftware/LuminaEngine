@@ -12,7 +12,7 @@
 #include <entities/TileMap.h>
 #include <formats/lmap.h>
 #include "entity.h"
-#include "graphics/TextureOptimization.h"
+#include "graphics/texture_optimization.h"
 
 TileMap::TileMap(const char* f, GamePlayState* cs, Character* mc, Renderer* r)
 {

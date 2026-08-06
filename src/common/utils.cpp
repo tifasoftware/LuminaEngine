@@ -18,7 +18,7 @@
 #define PATH_MAX 4096
 #endif
 
-#include "graphics/Renderer.h"
+#include "graphics/renderer.h"
 
 Orientation LuminaUtils::FlipOrientation(Orientation orientation) {
     if (orientation == FACE_UP) return FACE_DOWN;

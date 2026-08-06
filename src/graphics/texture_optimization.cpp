@@ -1,4 +1,4 @@
-#include "TextureOptimization.h"
+#include "texture_optimization.h"
 
 #include <cstring>
 

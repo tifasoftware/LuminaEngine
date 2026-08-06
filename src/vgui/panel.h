@@ -1,6 +1,6 @@
 #pragma once
 
-#include <graphics/Renderer.h>
+#include <graphics/renderer.h>
 #include <vgui/UIElement.h>
 
 static const int MAX_ELEMENTS = 16;

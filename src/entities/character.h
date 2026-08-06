@@ -1,6 +1,6 @@
 #pragma once
 
-#include <graphics/Renderer.h>
+#include <graphics/renderer.h>
 
 #include "graphics/sprites/charactersprite.h"
 
