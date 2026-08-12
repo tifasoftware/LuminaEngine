@@ -65,7 +65,7 @@ void Text::render(Renderer* r)
 {
     if (fontTexIndex == -1) return;
     //r->drawPlainText(text, x, y, fontTexIndex, fg.r, fg.g, fg.b);
-    r->drawLTLText(&compiled_ltl, fontTexIndex, x, y);
+    r->drawLTLText(&compiled_ltl, fontTexIndex, x, y, 0, trim);
 }
 
 void Text::SetFGColor(int r, int g, int b)
@@ -81,4 +81,8 @@ void Text::compile() {
     if (textSet) {
         CompiledLTL::compile_string(&compiled_ltl, text, fg);
     }
+}
+
+int Text::GetTextLength() {
+    return compiled_ltl.GetPrintableLength();
 }

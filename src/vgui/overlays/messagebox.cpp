@@ -48,10 +48,10 @@ void MessageBox::draw() {
     if (!completed) {
         if (frame % 2 == 0) {
             text->IncrementTrim();
-
+            displayTextLength++;
         }
         frame++;
-        if (displayTextLength > 256) { //TODO Replace with Proper Check
+        if (displayTextLength >= text->GetTextLength()) {
             completed = true;
             underScore->SetText("-");
         }

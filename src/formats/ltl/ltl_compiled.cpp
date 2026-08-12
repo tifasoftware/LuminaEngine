@@ -4,6 +4,8 @@ CompiledLTL::CompiledLTL() {
     /*lucii_string = new uint8_t[128];
     font_table = new uint8_t[30];
     color_table = new Color[30];*/
+
+    print_length = 0;
 }
 
 CompiledLTL::~CompiledLTL() {
@@ -32,6 +34,7 @@ void CompiledLTL::compile_string(CompiledLTL *result, const char *raw_ltl) {
 }
 
 void CompiledLTL::compile_string(CompiledLTL *result, const char *raw_ltl, Color defaultColor) {
+    result->print_length = 0;
 
     int font = 0;
     Color color = Color();
@@ -84,7 +87,7 @@ void CompiledLTL::compile_string(CompiledLTL *result, const char *raw_ltl, Color
         }
 
         result->set(lchar, c);
-
+        result->print_length++;
         lchar++;
     }
 

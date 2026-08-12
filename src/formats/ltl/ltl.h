@@ -73,10 +73,12 @@ class CompiledLTL {
     void setFont(int index, int value) { font_table[index] = value; }
     void setColor(int index, Color value) { color_table[index] = value; }
 
-    int GetPrintableLength();
+    int GetPrintableLength() { return print_length; }
 
     private:
     uint8_t lucii_string[128];
     uint8_t font_table[28];
     Color color_table[28];
+
+    int print_length;
 };

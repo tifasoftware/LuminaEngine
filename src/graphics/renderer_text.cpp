@@ -46,11 +46,12 @@ int Renderer::drawLTLText(CompiledLTL* ltl, int font, int x, int y, int start, i
     for (int i = 0; i < 4; i++) SDL_SetTextureColorMod(getTexture(font + i)->get_SDLTex(), 200, 200, 200);
 
     int skip = start;
+    int pchar = 0;
 
     int oX = 0;
     int oY = 0;
 
-    for (int lchar = 0; (!ltl->isEmpty(lchar)); lchar++) {
+    for (int lchar = 0; ((!ltl->isEmpty(lchar)) && ((pchar <= stop) || stop == -1)); lchar++) {
         if (ltl->isChar(lchar)) {
             char c = ltl->getChar(lchar);
 
@@ -75,6 +76,7 @@ int Renderer::drawLTLText(CompiledLTL* ltl, int font, int x, int y, int start, i
                 } else {
                     oX += 8;
                 }
+                pchar++;
             } else {
                 skip--;
             }

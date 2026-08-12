@@ -21,6 +21,8 @@ class Text : public UIElement
     void SetTrim(int t) { trim = t; }
     void IncrementTrim() { trim++; }
 
+    int GetTextLength();
+
     bool isFontSet() { return fontTexIndex != -1; }
 
     private:
