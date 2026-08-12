@@ -3,7 +3,7 @@
 #include "../button.h"
 #include "../imagebox.h"
 #include "overlay.h"
-#include "../text.h"
+#include "../rich_text.h"
 #include "../panel.h"
 #include "game/IControllable.h"
 
@@ -48,10 +48,10 @@ public:
 
 private:
     Panel* panel;
-    Text* characterName;
+    RichText* characterName;
 
     Panel* questionPanel;
-    Text* questionText;
+    RichText* questionText;
 
     Button* answer1;
     Button* answer2;

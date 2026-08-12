@@ -3,9 +3,9 @@
 #include "entities/TileMap.h"
 
 MessageBox::MessageBox(Renderer* r, IControllable* p) : Overlay(r, p) {
-    text = new Text();
+    text = new RichText();
     panel = new Panel(renderer, 3, r->GetHeight() - 103, r->GetWidth() - 6, 100);
-    underScore = new Text();
+    underScore = new RichText();
 
     panel->addElement(text, 2, 2);
     panel->addElement(underScore, panel->getW() - 20, panel->getH() - 20);

@@ -1,7 +1,7 @@
 #pragma once
 
 #include <vgui/UIElement.h>
-#include <vgui/text.h>
+#include <vgui/rich_text.h>
 
 class Button : public UIElement 
 {
@@ -28,7 +28,7 @@ class Button : public UIElement
 
     private:
     const char* tag;
-    Text t_obj;
+    RichText t_obj;
 
     //bool isSelected = false;
     

@@ -1,7 +1,7 @@
 #pragma once
 #include "../imagebox.h"
 #include "overlay.h"
-#include "../text.h"
+#include "../rich_text.h"
 #include "../panel.h"
 #include "game/IControllable.h"
 
@@ -24,9 +24,9 @@ class Dialogue : public Overlay {
 
     private:
     Panel* panel;
-    Text* text;
-    Text* characterName;
-    Text* underScore;
+    RichText* text;
+    RichText* characterName;
+    RichText* underScore;
 
     ImageBox* imageBox;
 

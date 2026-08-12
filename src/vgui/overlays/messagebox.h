@@ -1,6 +1,6 @@
 #pragma once
 #include "overlay.h"
-#include "../text.h"
+#include <vgui/rich_text.h>
 #include "../panel.h"
 #include "game/IControllable.h"
 
@@ -23,8 +23,8 @@ class MessageBox : public Overlay {
 
     private:
     Panel* panel;
-    Text* text;
-    Text* underScore;
+    RichText* text;
+    RichText* underScore;
     int displayTextLength;
 
     int frame;

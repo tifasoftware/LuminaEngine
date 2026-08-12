@@ -5,7 +5,7 @@
 #include <cstdio>
 #include <cstring>
 #include <graphics/renderer.h>
-#include <vgui/text.h>
+#include <vgui/rich_text.h>
 #include <formats/lmap.h>
 
 #include "character.h"
