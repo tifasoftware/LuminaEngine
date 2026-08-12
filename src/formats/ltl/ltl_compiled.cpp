@@ -68,7 +68,7 @@ void CompiledLTL::compile_string(CompiledLTL *result, const char *raw_ltl, Color
                 result->setColor(lstyle, color);
 
             } else {
-                result->setColor(lchar, defaultColor);
+                result->setColor(lstyle, defaultColor);
             }
         }
 
