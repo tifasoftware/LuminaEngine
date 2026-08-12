@@ -36,15 +36,21 @@ int Renderer::drawPlainText(const char *text, int x, int y, int font, int r, int
     return 0;
 }
 
-int Renderer::drawLTLText(CompiledLTL* ltl, int font, int x, int y) {
+int Renderer::drawLTLText(CompiledLTL *ltl, int font, int x, int y) {
+    drawLTLText(ltl, font, x, y, -1, -1);
+}
+
+int Renderer::drawLTLText(CompiledLTL* ltl, int font, int x, int y, int start, int stop) {
     int cfont = font;
 
     for (int i = 0; i < 4; i++) SDL_SetTextureColorMod(getTexture(font + i)->get_SDLTex(), 200, 200, 200);
 
+    int skip = start;
+
     int oX = 0;
     int oY = 0;
 
-    for (int lchar = 0; !ltl->isEmpty(lchar); lchar++) {
+    for (int lchar = 0; (!ltl->isEmpty(lchar)); lchar++) {
         if (ltl->isChar(lchar)) {
             char c = ltl->getChar(lchar);
 
@@ -59,14 +65,18 @@ int Renderer::drawLTLText(CompiledLTL* ltl, int font, int x, int y) {
             int cX = cW * charX;
             int cY = cH * charY;
 
-            drawSubSprite(cfont, x + oX, y + oY, cX, cY, cW, cH);
+            if (skip <= 0) {
+                drawSubSprite(cfont, x + oX, y + oY, cX, cY, cW, cH);
 
-            if (c == '\n')
-            {
-                oX = 0;
-                oY += 16;
+                if (c == '\n')
+                {
+                    oX = 0;
+                    oY += 16;
+                } else {
+                    oX += 8;
+                }
             } else {
-                oX += 8;
+                skip--;
             }
         } else {
             cfont = ltl->getFont(lchar) + font;

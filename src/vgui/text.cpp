@@ -8,6 +8,13 @@ Text::Text()
     fontTexIndex = SYSTEX_FONT_REG;
     x = 0;
     y = 0;
+
+    fg.r = 200;
+    fg.g = 200;
+    fg.b = 200;
+
+    textSet = false;
+    compiled_ltl = CompiledLTL();
 }
 
 Text::Text(const char* t, int fti, int _x, int _y)
@@ -16,6 +23,14 @@ Text::Text(const char* t, int fti, int _x, int _y)
     fontTexIndex = fti;
     x = _x;
     y = _y;
+
+    fg.r = 200;
+    fg.g = 200;
+    fg.b = 200;
+
+    textSet = true;
+    compiled_ltl = CompiledLTL();
+    compile();
 }
 
 Text::Text(const char* t, int fti)
@@ -24,6 +39,14 @@ Text::Text(const char* t, int fti)
     fontTexIndex = fti;
     x = 0;
     y = 0;
+
+    fg.r = 200;
+    fg.g = 200;
+    fg.b = 200;
+
+    textSet = true;
+    compiled_ltl = CompiledLTL();
+    compile();
 }
 
 void Text::move(int x, int y)
@@ -34,17 +57,28 @@ void Text::move(int x, int y)
 
 void Text::SetText(const char *t) {
     strncpy(text, t, 255);
+    textSet = true;
+    compile();
 }
 
 void Text::render(Renderer* r)
 {
     if (fontTexIndex == -1) return;
-    r->drawPlainText(text, x, y, fontTexIndex, fg_r, fg_g, fg_b);
+    //r->drawPlainText(text, x, y, fontTexIndex, fg.r, fg.g, fg.b);
+    r->drawLTLText(&compiled_ltl, fontTexIndex, x, y);
 }
 
 void Text::SetFGColor(int r, int g, int b)
 {
-    fg_r = r;
-    fg_g = g;
-    fg_b = b;
+    fg.r = r;
+    fg.g = g;
+    fg.b = b;
+
+    compile();
+}
+
+void Text::compile() {
+    if (textSet) {
+        CompiledLTL::compile_string(&compiled_ltl, text, fg);
+    }
 }

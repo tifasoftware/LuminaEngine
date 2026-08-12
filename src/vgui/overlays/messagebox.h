@@ -25,8 +25,6 @@ class MessageBox : public Overlay {
     Panel* panel;
     Text* text;
     Text* underScore;
-    char dialogueText[128];
-    char displayText[128];
     int displayTextLength;
 
     int frame;

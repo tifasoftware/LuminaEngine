@@ -56,13 +56,13 @@ private:
 
 class CompiledLTL {
     public:
-    CompiledLTL(int length, int styles);
+    CompiledLTL();
     ~CompiledLTL();
 
-    static CompiledLTL* compile_string(const char* raw_ltl);
-    static CompiledLTL* compile_string(const char* raw_ltl, Color defaultColor);
+    static void compile_string(CompiledLTL* result, const char* raw_ltl, Color defaultColor);
+    static void compile_string(CompiledLTL* result, const char* raw_ltl);
 
-    bool isChar(int index) { return lucii_string[index] > 32; }
+    bool isChar(int index) { return lucii_string[index] >= 32; }
     bool isEmpty(int index) { return lucii_string[index] == 0; }
     bool isNewLine(int index) { return lucii_string[index] == 1; }
     char getChar(int index) { return static_cast<char>(lucii_string[index]); }
@@ -73,8 +73,10 @@ class CompiledLTL {
     void setFont(int index, int value) { font_table[index] = value; }
     void setColor(int index, Color value) { color_table[index] = value; }
 
+    int GetPrintableLength();
+
     private:
-    uint8_t* lucii_string;
-    uint8_t* font_table;
-    Color* color_table;
+    uint8_t lucii_string[128];
+    uint8_t font_table[28];
+    Color color_table[28];
 };

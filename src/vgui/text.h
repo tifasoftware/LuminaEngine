@@ -13,22 +13,30 @@ class Text : public UIElement
     Text();
     void SetFGColor(int r, int g, int b);
     void SetText(const char* t);
-    void SetFont(int fti) { fontTexIndex = fti; }
+    void SetFont(int fti) { fontTexIndex = fti; compile(); }
     void render(Renderer* r) override;
     void move(int x, int y) override;
     void destroy() override {}
+
+    void SetTrim(int t) { trim = t; }
+    void IncrementTrim() { trim++; }
 
     bool isFontSet() { return fontTexIndex != -1; }
 
     private:
     char text[256];
+    CompiledLTL compiled_ltl;
+
+    bool textSet;
+    void compile();
+
     int fontTexIndex = SYSTEX_FONT_REG;
-    int fg_r = 200;
-    int fg_g = 200;
-    int fg_b = 200;
+    Color fg;
 
     int x = 0;
     int y = 0;
 
-    bool useLTL = false;
+    int trim = -1;
+
+    bool useLTL = true;
 };

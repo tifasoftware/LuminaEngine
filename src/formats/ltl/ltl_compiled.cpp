@@ -1,37 +1,50 @@
 #include "ltl.h"
 
-CompiledLTL::CompiledLTL(int length, int styles) {
-    lucii_string = new uint8_t[length];
-    font_table = new uint8_t[styles];
-    color_table = new Color[styles];
+CompiledLTL::CompiledLTL() {
+    /*lucii_string = new uint8_t[128];
+    font_table = new uint8_t[30];
+    color_table = new Color[30];*/
 }
 
 CompiledLTL::~CompiledLTL() {
-    delete lucii_string;
+    /*delete lucii_string;
     delete font_table;
-    delete color_table;
+    delete color_table;*/
 }
 
 Color CompiledLTL::getColor(int index) {
-    int style = lucii_string[index];
+    int style = lucii_string[index] - 2;
     return color_table[style];
 }
 
 int CompiledLTL::getFont(int index) {
-    int style = lucii_string[index];
+    int style = lucii_string[index] - 2;
     return font_table[style];
 }
 
-CompiledLTL* CompiledLTL::compile_string(const char *raw_ltl, Color defaultColor) {
-    CompiledLTL* result = new CompiledLTL(128, 30);
+void CompiledLTL::compile_string(CompiledLTL *result, const char *raw_ltl) {
+    Color dc = Color();
+    dc.r = 200;
+    dc.g = 200;
+    dc.b = 200;
+
+    compile_string(result, raw_ltl, dc);
+}
+
+void CompiledLTL::compile_string(CompiledLTL *result, const char *raw_ltl, Color defaultColor) {
 
     int font = 0;
     Color color = Color();
     bool applyColor = false;
     LTLParser parser;
 
-    int lchar = 0;
+    int lchar = 1;
     int lstyle = 0;
+
+    result->setColor(lstyle, defaultColor);
+    result->setFont(lstyle,font);
+    result->set(0, lstyle + 2);
+    lstyle++;
 
     parser.parseString(raw_ltl);
 
@@ -59,12 +72,13 @@ CompiledLTL* CompiledLTL::compile_string(const char *raw_ltl, Color defaultColor
         if (font != parser.nextFont()) {
             font = parser.nextFont();
             applyNewStyle = true;
-
-            result->setFont(lstyle, font);
         }
 
         if (applyNewStyle) {
-            result->set(lchar, lstyle);
+            result->setFont(lstyle, font);
+
+            result->set(lchar, lstyle + 2);
+
             lchar++;
             lstyle++;
         }
@@ -76,21 +90,13 @@ CompiledLTL* CompiledLTL::compile_string(const char *raw_ltl, Color defaultColor
 
     while (lchar < 128) {
         result->set(lchar, 0);
+        lchar++;
     }
 
-    while (lstyle < 30) {
-        result->setFont(lchar, 0);
-        result->setColor(lchar, defaultColor);
+    while (lstyle < 28) {
+        result->setFont(lstyle, 0);
+        result->setColor(lstyle, defaultColor);
+        lstyle++;
     }
 
-    return result;
-}
-
-CompiledLTL *CompiledLTL::compile_string(const char *raw_ltl) {
-    Color dc = Color();
-    dc.r = 200;
-    dc.g = 200;
-    dc.b = 200;
-
-    return compile_string(raw_ltl, dc);
 }
