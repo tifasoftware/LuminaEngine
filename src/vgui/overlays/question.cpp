@@ -1,7 +1,7 @@
 #include "question.h"
 
 QuestionBox::QuestionBox(Renderer* r, IControllable* p) : Overlay(r,p) {
-    characterName = new RichText();
+    characterName = new Text();
     imageBox = new ImageBox();
     panel = new Panel(r, 3, r->GetHeight() - 103, r->GetWidth() - 6, 100);
     answer1 = new Button("a1");

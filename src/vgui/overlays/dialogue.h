@@ -2,6 +2,7 @@
 #include "../imagebox.h"
 #include "overlay.h"
 #include "../rich_text.h"
+#include "../text.h"
 #include "../panel.h"
 #include "game/IControllable.h"
 
@@ -13,7 +14,7 @@ class Dialogue : public Overlay {
     void SetFont(int font) override { text->SetFont(font); characterName->SetFont(font); underScore->SetFont(font); }
     bool IsFontSet() override { return text->isFontSet(); }
 
-    void DisplayDialogue(const char* text, const char* charName, int textureIndex);
+    void DisplayDialogue(const char* t, const char* charName, int textureIndex);
     void advance();
     void draw() override;
 
@@ -25,13 +26,11 @@ class Dialogue : public Overlay {
     private:
     Panel* panel;
     RichText* text;
-    RichText* characterName;
-    RichText* underScore;
+    Text* characterName;
+    Text* underScore;
 
     ImageBox* imageBox;
 
-    char dialogueText[128];
-    char displayText[128];
     int displayTextLength;
 
     int frame;

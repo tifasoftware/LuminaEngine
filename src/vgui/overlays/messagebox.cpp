@@ -5,7 +5,7 @@
 MessageBox::MessageBox(Renderer* r, IControllable* p) : Overlay(r, p) {
     text = new RichText();
     panel = new Panel(renderer, 3, r->GetHeight() - 103, r->GetWidth() - 6, 100);
-    underScore = new RichText();
+    underScore = new Text();
 
     panel->addElement(text, 2, 2);
     panel->addElement(underScore, panel->getW() - 20, panel->getH() - 20);
@@ -59,7 +59,7 @@ void MessageBox::draw() {
 
     }
     panel->Render();
-    text->render(renderer);
+    //text->render(renderer);
 
     if (completed) underScore->render(renderer);
 }

@@ -4,6 +4,7 @@
 #include "../imagebox.h"
 #include "overlay.h"
 #include "../rich_text.h"
+#include "../text.h"
 #include "../panel.h"
 #include "game/IControllable.h"
 
@@ -48,7 +49,7 @@ public:
 
 private:
     Panel* panel;
-    RichText* characterName;
+    Text* characterName;
 
     Panel* questionPanel;
     RichText* questionText;
@@ -60,12 +61,7 @@ private:
 
     ImageBox* imageBox;
 
-    //char questionText[128];
-    //char answerText1[128];
-    //int displayTextLength;
-
     int totalAnswers = 0;
 
     Question* question;
-    //int frame;
 };
