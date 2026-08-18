@@ -68,6 +68,6 @@ void Dialogue::draw() {
     panel->Render();
     //text->render(renderer);
 
-    if (completed) underScore->render(renderer);
+    // if (completed) underScore->render(renderer);
 }
 
