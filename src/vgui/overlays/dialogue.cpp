@@ -43,6 +43,7 @@ void Dialogue::DisplayDialogue(const char *t, const char *charName, int textureI
 
 void Dialogue::advance() {
     if (!completed) {
+        text->SetTrim(-1);
         underScore->SetText("-");
         completed = true;
     } else {

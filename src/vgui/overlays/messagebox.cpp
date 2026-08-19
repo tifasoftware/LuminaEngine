@@ -36,6 +36,7 @@ void MessageBox::DisplayDialogue(const char *t) {
 
 void MessageBox::advance() {
     if (!completed) {
+        text->SetTrim(-1);
         underScore->SetText("-");
         completed = true;
     } else {
