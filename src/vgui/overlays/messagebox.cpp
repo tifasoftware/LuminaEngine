@@ -3,15 +3,13 @@
 #include "entities/TileMap.h"
 
 MessageBox::MessageBox(Renderer* r, IControllable* p) : Overlay(r, p) {
-    text = new Text();
+    text = new RichText();
     panel = new Panel(renderer, 3, r->GetHeight() - 103, r->GetWidth() - 6, 100);
     underScore = new Text();
 
     panel->addElement(text, 2, 2);
     panel->addElement(underScore, panel->getW() - 20, panel->getH() - 20);
 
-    strcpy(dialogueText, "");
-    strcpy(displayText, "");
     displayTextLength = 0;
 
     frame = 0;
@@ -28,9 +26,8 @@ MessageBox::~MessageBox() {
     underScore = nullptr;
 }
 
-void MessageBox::DisplayDialogue(const char *text) {
-    strncpy(dialogueText, text, 127);
-    strncpy(displayText, "", 127);
+void MessageBox::DisplayDialogue(const char *t) {
+    text->SetText(t);
     engaged = true;
     completed = false;
     displayTextLength = 0;
@@ -39,8 +36,7 @@ void MessageBox::DisplayDialogue(const char *text) {
 
 void MessageBox::advance() {
     if (!completed) {
-        strncpy(displayText, dialogueText, 127);
-        text->SetText(displayText);
+        text->SetTrim(-1);
         underScore->SetText("-");
         completed = true;
     } else {
@@ -52,13 +48,11 @@ void MessageBox::advance() {
 void MessageBox::draw() {
     if (!completed) {
         if (frame % 2 == 0) {
-            displayText[displayTextLength] = dialogueText[displayTextLength];
+            text->IncrementTrim();
             displayTextLength++;
-            text->SetText(displayText);
-
         }
         frame++;
-        if (dialogueText[displayTextLength] == '\0') {
+        if (displayTextLength >= text->GetTextLength()) {
             completed = true;
             underScore->SetText("-");
         }
@@ -66,8 +60,8 @@ void MessageBox::draw() {
 
     }
     panel->Render();
-    text->render(renderer);
+    //text->render(renderer);
 
-    if (completed) underScore->render(renderer);
+    // if (completed) underScore->render(renderer);
 }
 

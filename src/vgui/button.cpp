@@ -1,16 +1,16 @@
 #include <vgui/button.h>
 #include <vgui/UIElement.h>
-#include <vgui/text.h>
+#include <vgui/rich_text.h>
 
 Button::Button(const char* text, const char* tag, int fti)
 {
-    t_obj = Text(text, fti, x, y);
+    t_obj = RichText(text, fti, x, y);
     this->tag = tag;
     deSelect();
 }
 
 Button::Button(const char *tag) {
-    t_obj = Text();
+    t_obj = RichText();
     this->tag = tag;
     deSelect();
 }

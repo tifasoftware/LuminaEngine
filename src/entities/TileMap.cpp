@@ -27,10 +27,6 @@ TileMap::TileMap(const char* f, GamePlayState* cs, Character* mc, Renderer* r)
     memset(collision, 0, sizeof(collision));
     memset(spawns, 0, sizeof(spawns));
     memset(entities, 0, sizeof(entities));
-
-    //debugText = Text();
-    //debugText.Move(10,10);
-    //debugText.SetFont(renderer->loadTexture("fontatlas.png"));
 }
 
 Entity* TileMap::getCollidingTrigger(int charX, int charY) {
@@ -114,7 +110,6 @@ void TileMap::drawMap()
         if (entities[i] != nullptr) {
             Entity* e = entities[i];
             e->draw(renderer, offsetX, offsetY);
-            //renderer->drawTile(0,0,toScreenX(e->getX()), toScreenY(e->getY())); //Remove when working
 
         }
     }
@@ -122,19 +117,6 @@ void TileMap::drawMap()
     //debugText.Render(renderer);
     character->animate(FRAME_RATE, luminaMoveX, luminaMoveY);
     character->drawCharacter(gps->characterX, gps->characterY, luminaMoveX, luminaMoveY, renderer);
-
-/*#ifdef PLATFORM_PSP
-    void* test = malloc(4 * 1024 * 1024); // try 4MB
-
-    if (test) {
-        debugText.SetText("Good");
-        free(test);
-    } else {
-        debugText.SetText("Bad");
-    }
-
-    debugText.Render(renderer);
-#endif*/
 }
 
 void TileMap::disposeMap() {
@@ -164,7 +146,6 @@ bool TileMap::loadFromFile(const char* file)
     }
 
     textureAddress = renderer->loadTexture(lmap->tileset);
-    //textureAddress = renderer->loadTexture("grass.png");
 
     int offset = 0;
     
@@ -414,5 +395,5 @@ void TileMap::OnButtonA() {
 }
 
 void TileMap::OnButtonPress(int id) {
-    debugText.SetText(std::to_string(id).c_str());
+
 }

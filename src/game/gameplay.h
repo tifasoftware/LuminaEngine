@@ -58,6 +58,4 @@ class GamePlay
     SDL_Event event;
 
     Menu* menu;
-
-    int fontAtlas = -1;
 };

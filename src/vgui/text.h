@@ -6,7 +6,7 @@
 
 class Text : public UIElement
 {
-    public:
+public:
     Text(const char* t, int fti, int _x, int _y);
     Text(const char* t, int fti);
     ~Text() override {}
@@ -20,8 +20,8 @@ class Text : public UIElement
 
     bool isFontSet() { return fontTexIndex != -1; }
 
-    private:
-    char text[256];
+private:
+    char text[128];
     int fontTexIndex = SYSTEX_FONT_REG;
     int fg_r = 200;
     int fg_g = 200;
@@ -29,6 +29,4 @@ class Text : public UIElement
 
     int x = 0;
     int y = 0;
-
-    bool useLTL = false;
 };

@@ -11,15 +11,14 @@ Menu::Menu(MenuClass mc, Renderer* r, SoundSystem* snd, GamePlayState* gps) {
 
     clink = snd->loadSFX("hover.wav");
     chime = snd->loadSFX("select.wav");
-    fontAtlas = r->loadTexture("fontatlas.png");
     panel = new Panel(r, 300, 200);
 
     switch (mc) {
         case MAIN_MENU:
             break;
         case PAUSE_MENU: {
-            Button* b1 = new Button("Resume", "resume", fontAtlas);
-            Button* b2 = new Button("Quit", "quit", fontAtlas);
+            Button* b1 = new Button("Resume", "resume", SYSTEX_FONT_REG);
+            Button* b2 = new Button("Quit", "quit", SYSTEX_FONT_REG);
 
             b1->addLowerElement(b2);
             b2->addUpperElement(b1);
@@ -52,7 +51,6 @@ Menu::Menu(MenuClass mc, char const *lua, Renderer *r, SoundSystem *snd, GamePla
 
         clink = snd->loadSFX("hover.wav");
         chime = snd->loadSFX("select.wav");
-        fontAtlas = r->loadTexture("fontatlas.png");
         panel = new Panel(r, 300, 200);
     } else {
         Menu(mc, r, snd, gps);

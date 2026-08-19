@@ -10,7 +10,7 @@
 #include <common/utils.h>
 #include <common/vector.h>
 #include <sound/soundsystem.h>
-#include <vgui/text.h>
+#include <vgui/rich_text.h>
 #include <vgui/panel.h>
 #include <vgui/UIElement.h>
 #include <vgui/button.h>

@@ -3,7 +3,7 @@
 #include "entities/TileMap.h"
 
 Dialogue::Dialogue(Renderer* r, IControllable* p) : Overlay(r, p) {
-    text = new Text();
+    text = new RichText();
     characterName = new Text();
     imageBox = new ImageBox();
     panel = new Panel(r, 3, r->GetHeight() - 103, r->GetWidth() - 6, 100);
@@ -14,8 +14,6 @@ Dialogue::Dialogue(Renderer* r, IControllable* p) : Overlay(r, p) {
     panel->addElement(imageBox, 2, 20);
     panel->addElement(underScore, panel->getW() - 20, panel->getH() - 20);
 
-    strcpy(dialogueText, "");
-    strcpy(displayText, "");
     displayTextLength = 0;
 
     frame = 0;
@@ -31,11 +29,9 @@ Dialogue::~Dialogue() {
     underScore = nullptr;
 }
 
-void Dialogue::DisplayDialogue(const char *text, const char *charName, int textureIndex) {
-    strncpy(dialogueText, text, 127);
-    strncpy(displayText, "", 127);
-
+void Dialogue::DisplayDialogue(const char *t, const char *charName, int textureIndex) {
     characterName->SetText(charName);
+    text->SetText(t);
 
     imageBox->setTexture(textureIndex);
 
@@ -47,8 +43,7 @@ void Dialogue::DisplayDialogue(const char *text, const char *charName, int textu
 
 void Dialogue::advance() {
     if (!completed) {
-        strncpy(displayText, dialogueText, 127);
-        text->SetText(displayText);
+        text->SetTrim(-1);
         underScore->SetText("-");
         completed = true;
     } else {
@@ -60,13 +55,11 @@ void Dialogue::advance() {
 void Dialogue::draw() {
     if (!completed) {
         if (frame % 2 == 0) {
-            displayText[displayTextLength] = dialogueText[displayTextLength];
+            text->IncrementTrim();
             displayTextLength++;
-            text->SetText(displayText);
-
         }
         frame++;
-        if (dialogueText[displayTextLength] == '\0') {
+        if (displayTextLength >= text->GetTextLength()) {
             completed = true;
             underScore->SetText("-");
         }
@@ -76,6 +69,6 @@ void Dialogue::draw() {
     panel->Render();
     //text->render(renderer);
 
-    if (completed) underScore->render(renderer);
+    // if (completed) underScore->render(renderer);
 }
 
