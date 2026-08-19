@@ -12,7 +12,7 @@ Text::Text()
 
 Text::Text(const char* t, int fti, int _x, int _y)
 {
-    strncpy(text, t, 255);
+    strncpy(text, t, 127);
     fontTexIndex = fti;
     x = _x;
     y = _y;
@@ -20,7 +20,7 @@ Text::Text(const char* t, int fti, int _x, int _y)
 
 Text::Text(const char* t, int fti)
 {
-    strncpy(text, t, 255);
+    strncpy(text, t, 127);
     fontTexIndex = fti;
     x = 0;
     y = 0;
@@ -33,7 +33,7 @@ void Text::move(int x, int y)
 }
 
 void Text::SetText(const char *t) {
-    strncpy(text, t, 255);
+    strncpy(text, t, 127);
 }
 
 void Text::render(Renderer* r)

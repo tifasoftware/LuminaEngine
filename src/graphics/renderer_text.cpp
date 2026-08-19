@@ -37,7 +37,7 @@ int Renderer::drawPlainText(const char *text, int x, int y, int font, int r, int
 }
 
 int Renderer::drawLTLText(CompiledLTL *ltl, int font, int x, int y) {
-    drawLTLText(ltl, font, x, y, -1, -1);
+    return drawLTLText(ltl, font, x, y, -1, -1);
 }
 
 int Renderer::drawLTLText(CompiledLTL* ltl, int font, int x, int y, int start, int stop) {
