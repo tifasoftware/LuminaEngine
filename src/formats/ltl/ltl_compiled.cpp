@@ -8,11 +8,12 @@ CompiledLTL::CompiledLTL() {
     print_length = 0;
 }
 
-CompiledLTL::~CompiledLTL() {
-    /*delete lucii_string;
+/* CompiledLTL::~CompiledLTL() {
+    delete lucii_string;
     delete font_table;
-    delete color_table;*/
+    delete color_table;
 }
+*/
 
 Color CompiledLTL::getColor(int index) {
     int style = lucii_string[index] - 2;

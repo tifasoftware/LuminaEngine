@@ -57,7 +57,7 @@ private:
 class CompiledLTL {
     public:
     CompiledLTL();
-    ~CompiledLTL();
+    // ~CompiledLTL();
 
     static void compile_string(CompiledLTL* result, const char* raw_ltl, Color defaultColor);
     static void compile_string(CompiledLTL* result, const char* raw_ltl);
