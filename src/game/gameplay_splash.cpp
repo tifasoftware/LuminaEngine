@@ -3,8 +3,8 @@
 void GamePlay::Splash() {
     int s = r->loadTexture("splash.png");
 
-    int sx = (r->GetWidth() - 480) / 2;
-    int sy = (r->GetHeight() - 272) / 2;
+    int sx = (r->GetWidth() - 256) / 2;
+    int sy = (r->GetHeight() - 256) / 2;
 
     f = new Fade(r);
     f->FadeIn(1.0f);
