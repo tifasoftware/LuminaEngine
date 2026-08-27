@@ -37,10 +37,14 @@ Renderer::Renderer(SDL_Window * win) {
     width = SCREEN_W;
 #endif
 
-// Load System Textures
-    loadTexture("fontatlas.png", SYSTEX_FONT_REG);
-    //loadTexture("", SYSTEX_FONT_BOLD);
-    //loadTexture("", SYSTEX_FONT_ITAL);
+    // Load System Textures
+
+    // Brisby Sans
+    loadTexture("brisby0.png", SYSTEX_FONT_REG);
+    loadTexture("brisby1.png", SYSTEX_FONT_BOLD);
+    loadTexture("brisby2.png", SYSTEX_FONT_ITAL);
+
+
     //loadTexture("", SYSTEX_FONT_BDIT);
 
 #if (defined(PLATFORM_PC) && defined(USER_LIGHTNING)) || defined(PLATFORM_ANDROID)
