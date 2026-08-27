@@ -64,13 +64,6 @@ void CompiledLTL::compile_string(CompiledLTL *result, const char *raw_ltl, Color
         if (applyColor != parser.nextApplyColor()) {
             applyColor = parser.nextApplyColor();
             applyNewStyle = true;
-
-            if (applyColor) {
-                result->setColor(lstyle, color);
-
-            } else {
-                result->setColor(lstyle, defaultColor);
-            }
         }
 
         if (font != parser.nextFont()) {
@@ -80,6 +73,13 @@ void CompiledLTL::compile_string(CompiledLTL *result, const char *raw_ltl, Color
 
         if (applyNewStyle) {
             result->setFont(lstyle, font);
+
+            if (applyColor) {
+                result->setColor(lstyle, color);
+
+            } else {
+                result->setColor(lstyle, defaultColor);
+            }
 
             result->set(lchar, lstyle + 2);
 
