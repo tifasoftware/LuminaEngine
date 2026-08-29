@@ -43,7 +43,7 @@ Renderer::Renderer(SDL_Window * win) {
     loadTexture("brisby0.png", SYSTEX_FONT_REG);
     loadTexture("brisby1.png", SYSTEX_FONT_BOLD);
     loadTexture("brisby2.png", SYSTEX_FONT_ITAL);
-
+    loadTexture("brisby3.png", SYSTEX_FONT_BDIT);
 
     //loadTexture("", SYSTEX_FONT_BDIT);
 
