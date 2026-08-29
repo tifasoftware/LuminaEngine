@@ -16,19 +16,24 @@ class GamePlay
 {
     public:
     GamePlay();
-    void WorldDraw();
-    void MenuDraw();
-    void BattleDraw();
 
     void BlackDraw();
 
+    void WorldDraw();
     void WorldStart();
-    void MenuStart();
-    void BattleStart();
-
     void WorldExit();
+
+    void MenuDraw();
+    void MenuStart();
     void MenuExit();
+
+    void BattleDraw();
+    void BattleStart();
     void BattleExit();
+
+    void CinematicDraw();
+    void CinematicStart();
+    void CinematicExit();
 
     void Splash();
 

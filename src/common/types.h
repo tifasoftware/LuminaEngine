@@ -22,6 +22,7 @@ enum GameState : uint8_t
 {
     WORLD,
     BATTLE,
+    CINEMATIC,
     MENU,
     EXIT,
     TRANSITION

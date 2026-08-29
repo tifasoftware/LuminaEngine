@@ -168,6 +168,9 @@ void GamePlay::GameLoop()
                 case BATTLE:
                 break;
 
+                case CINEMATIC:
+                break;
+
                 case MENU:
                 MenuDraw();
                 break;
