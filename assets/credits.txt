@@ -1,0 +1,26 @@
+<b>Lumina Engine</>
+
+<b>Lead Developer</>
+InfiTechPPC
+
+<b>Pixel Artist</>
+InfiTechPPC
+
+<b>Software Used</>
+CLion
+Affinity
+Pixelorama
+
+<b>Special Thanks</>
+Gin The Penguin
+Niph0s
+KallistiOS Team
+Troy "GPF" Davis
+Falco Girgis
+SDL Team
+PSPDev
+
+Made with
+Lumina Engine
+by
+Materia Research

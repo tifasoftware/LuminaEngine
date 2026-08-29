@@ -3,15 +3,15 @@ function onCall()
     entityPic = lumina.loadTexture("enph.png")
     entityName = "Test Entity"
 
-    lumina.say("Isn't it nice that we can talk to each other!", entityName, entityPic)
-    answer = lumina.ask("Isn't it nice?", "Lumina", luminaPic, "Yeah", "Nah", "Maybe", "I Don't Know")
+    lumina.say("What do you want to try out?", entityName, entityPic)
+    answer = lumina.ask("What do you want to try out?", "Lumina", luminaPic, "LTL Text", "Cinematic", "Battle", "Nothing")
 
     if answer == 1 then
-        lumina.say("I agree", entityName, entityPic)
+        lumina.say("Regular <b>Bold</> <i>Italic</>", entityName, entityPic)
     elseif answer == 2 then
-        lumina.say("Well. Agree to disagree.", entityName, entityPic)
+        lumina.say("Not here yet!", entityName, entityPic)
     elseif answer == 3 then
-        lumina.say("Indecisive much?", entityName, entityPic)
+        lumina.say("Not here yet!", entityName, entityPic)
     elseif answer == 4 then
         lumina.say("umm... okay.", entityName, entityPic)
     end
