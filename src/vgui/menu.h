@@ -2,19 +2,20 @@
 #include "common/types.h"
 #include "game/gameplay_state.h"
 #include "game/IControllable.h"
+#include "game/ISecondaryActivity.h"
 
 #include "graphics/renderer.h"
 #include "sound/soundsystem.h"
 #include "vgui/button.h"
 #include "vgui/panel.h"
 
-class Menu : public IControllable {
+class Menu : public ISecondaryActivity{
     public:
     Menu(MenuClass mc, Renderer* r, SoundSystem* snd, GamePlayState* gps);
     Menu(MenuClass mc, char const* lua, Renderer* r, SoundSystem* snd, GamePlayState* gps);
-    ~Menu();
+    ~Menu() override;
 
-    void Render();
+    void render() override;
 
     //IControllable
     void OnButtonA() override;

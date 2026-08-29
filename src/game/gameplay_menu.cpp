@@ -28,7 +28,7 @@ void GamePlay::MenuStart()
     {
         r->clear();
 
-        menu->Render();
+        menu->render();
         // Draw everything on a white background
         
         if (f->isFading()){
@@ -52,7 +52,7 @@ void GamePlay::MenuDraw()
         r->clear();
 
         //if (text != nullptr)
-        menu->Render();
+        menu->render();
         // Draw everything on a white background
         
         r->present();
@@ -71,7 +71,7 @@ void GamePlay::MenuExit()
     {
         r->clear();
 
-        menu->Render();
+        menu->render();
         // Draw everything on a white background
         
         if (f->isFading()){

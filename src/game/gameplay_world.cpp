@@ -81,10 +81,6 @@ void GamePlay::WorldDraw()
 
 void GamePlay::WorldExit()
 {
-    char countText[32];
-    snprintf(countText, sizeof(countText), "%d", tm->getActiveEntities());
-    //Text t = Text(countText, fontAtlas);
-    //Text text = Text(mapName, fontAtlas, 16,16);
     gps.inTransition = true;
 
     gps.screenX = tm->getOffsetX();
@@ -96,12 +92,7 @@ void GamePlay::WorldExit()
     {
         r->clear();
 
-        // Draw the 'grass' sprite
         tm->drawMap();
-
-        //t.Render(r);
-
-        //lumina->drawCharacter(gps.characterX, gps.characterY, 0, 0, r);
 
         if (f->isFading()){
             f->Render(1.0f / FRAME_RATE);
@@ -120,9 +111,6 @@ void GamePlay::WorldExit()
     tm = nullptr;
     
     r->unloadAllTextures();
-
-    //delete text;
-    //delete dialogue;
 }
 
 

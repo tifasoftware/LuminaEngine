@@ -62,5 +62,5 @@ class GamePlay
     SDL_Window* window;
     SDL_Event event;
 
-    Menu* menu;
+    ISecondaryActivity* menu;
 };

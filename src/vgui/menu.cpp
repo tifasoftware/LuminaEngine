@@ -62,7 +62,7 @@ Menu::~Menu() {
     delete panel;
 }
 
-void Menu::Render() {
+void Menu::render() {
     panel->Render();
 }
 
