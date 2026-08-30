@@ -1,13 +1,9 @@
 #include "menu.h"
 
-Menu::Menu(MenuClass mc, Renderer* r, SoundSystem* snd, GamePlayState* gps) {
+Menu::Menu(MenuClass mc, Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryActivity(r, snd, gps) {
     for (int i = 0; i < 16; i++) {
         elements[i] = nullptr;
     }
-
-    renderer = r;
-    soundSystem = snd;
-    this->gps = gps;
 
     clink = snd->loadSFX("hover.wav");
     chime = snd->loadSFX("select.wav");
@@ -17,8 +13,8 @@ Menu::Menu(MenuClass mc, Renderer* r, SoundSystem* snd, GamePlayState* gps) {
         case MAIN_MENU:
             break;
         case PAUSE_MENU: {
-            Button* b1 = new Button("Resume", "resume", SYSTEX_FONT_REG);
-            Button* b2 = new Button("Quit", "quit", SYSTEX_FONT_REG);
+            Button *b1 = new Button("Resume", "resume", SYSTEX_FONT_REG);
+            Button *b2 = new Button("Quit", "quit", SYSTEX_FONT_REG);
 
             b1->addLowerElement(b2);
             b2->addUpperElement(b1);
@@ -39,15 +35,11 @@ Menu::Menu(MenuClass mc, Renderer* r, SoundSystem* snd, GamePlayState* gps) {
     }
 }
 
-Menu::Menu(MenuClass mc, char const *lua, Renderer *r, SoundSystem *snd, GamePlayState* gps) {
+Menu::Menu(MenuClass mc, char const *lua, Renderer *r, SoundSystem *snd, GamePlayState* gps) : SecondaryActivity(r, snd, gps) {
     if (mc == LUA_MENU) {
         for (int i = 0; i < 16; i++) {
             elements[i] = nullptr;
         }
-
-        renderer = r;
-        soundSystem = snd;
-        this->gps = gps;
 
         clink = snd->loadSFX("hover.wav");
         chime = snd->loadSFX("select.wav");

@@ -18,9 +18,9 @@
 
 void GamePlay::MenuStart()
 {
-    menu = new Menu(PAUSE_MENU, r, snd, &gps);
-    menu->activate();
-    controller->Possess(menu);
+    sec_act = new Menu(PAUSE_MENU, r, snd, &gps);
+    sec_act->activate();
+    controller->Possess(sec_act);
 
     f->FadeIn(0.5f);
 
@@ -28,7 +28,7 @@ void GamePlay::MenuStart()
     {
         r->clear();
 
-        menu->render();
+        sec_act->render();
         // Draw everything on a white background
         
         if (f->isFading()){
@@ -52,7 +52,7 @@ void GamePlay::MenuDraw()
         r->clear();
 
         //if (text != nullptr)
-        menu->render();
+        sec_act->render();
         // Draw everything on a white background
         
         r->present();
@@ -61,7 +61,7 @@ void GamePlay::MenuDraw()
 
 void GamePlay::MenuExit()
 {
-    menu->deactivate();
+    sec_act->deactivate();
     controller->Release();
     gps.inTransition = true;
 
@@ -71,7 +71,7 @@ void GamePlay::MenuExit()
     {
         r->clear();
 
-        menu->render();
+        sec_act->render();
         // Draw everything on a white background
         
         if (f->isFading()){
@@ -85,7 +85,7 @@ void GamePlay::MenuExit()
     snd->unloadAllSFX();
     r->unloadAllTextures();
 
-    delete menu;
-    menu = nullptr;
+    delete sec_act;
+    sec_act = nullptr;
 
 }

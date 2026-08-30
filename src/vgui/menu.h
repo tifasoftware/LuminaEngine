@@ -2,14 +2,14 @@
 #include "common/types.h"
 #include "game/gameplay_state.h"
 #include "game/IControllable.h"
-#include "game/ISecondaryActivity.h"
+#include "game/secondary_activity.h"
 
 #include "graphics/renderer.h"
 #include "sound/soundsystem.h"
 #include "vgui/button.h"
 #include "vgui/panel.h"
 
-class Menu : public ISecondaryActivity{
+class Menu : public SecondaryActivity{
     public:
     Menu(MenuClass mc, Renderer* r, SoundSystem* snd, GamePlayState* gps);
     Menu(MenuClass mc, char const* lua, Renderer* r, SoundSystem* snd, GamePlayState* gps);
@@ -35,10 +35,8 @@ private:
 
     int clink = -1;
     int chime = -1;
-    Panel* panel;
 
-    Renderer* renderer;
-    SoundSystem* soundSystem;
+    Panel* panel;
     UIElement* elements[16];
-    GamePlayState* gps;
+
 };
