@@ -29,6 +29,7 @@ void LuminaLibrary::registerLuminaLibrary(lua_State *L) {
         {"loadTexture", l_loadTexture},
         {"replaceTexture", l_replaceTexture},
         {"unloadTexture", l_unloadTexture},
+        {"startBattle", l_startBattle},
         {nullptr, nullptr}
     };
     luaL_newlib(L, funcs);
@@ -47,4 +48,13 @@ int LuminaLibrary::l_drawFrame(lua_State *L) {
     lua_pushstring(L, "wait");
     lua_pushnumber(L, seconds);
     return lua_yield(L, 2);
+}
+
+int LuminaLibrary::l_startBattle(lua_State *L) {
+    getLuaInstance(L)->StartBattle();
+    return 0;
+}
+
+void LuminaLibrary::StartBattle() {
+    gps->RequestSwitchState(BATTLE);
 }

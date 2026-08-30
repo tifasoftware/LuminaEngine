@@ -11,7 +11,7 @@ function onCall()
     elseif answer == 2 then
         lumina.say("Not here yet!", entityName, entityPic)
     elseif answer == 3 then
-        lumina.say("Not here yet!", entityName, entityPic)
+        lumina.startBattle()
     elseif answer == 4 then
         lumina.say("umm... okay.", entityName, entityPic)
     end

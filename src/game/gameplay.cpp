@@ -166,6 +166,7 @@ void GamePlay::GameLoop()
                 break;
 
                 case BATTLE:
+                BattleDraw();
                 break;
 
                 case CINEMATIC:
@@ -203,7 +204,7 @@ void GamePlay::SwitchState()
         break;
 
         case BATTLE:
-        //BattleExit();
+        BattleExit();
         break;
 
         default:
@@ -225,7 +226,7 @@ void GamePlay::SwitchState()
         break;
 
         case BATTLE:
-        //BattleStart();
+        BattleStart();
         break;
 
         default:

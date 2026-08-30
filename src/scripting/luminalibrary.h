@@ -29,6 +29,9 @@ class LuminaLibrary {
     void setGamePlayState(GamePlayState* g) { this->gps = g; }
     void setTileMap(TileMap* t) { this->tm = t; }
 
+    //State Switch
+    void StartBattle();
+
     //Lua Connections
     static LuminaLibrary* getLuaInstance(lua_State* L);
     static void registerLuminaLibrary(lua_State* L);
@@ -45,6 +48,8 @@ class LuminaLibrary {
     static int l_loadTexture(lua_State *L);
     static int l_replaceTexture(lua_State *L);
     static int l_unloadTexture(lua_State *L);
+
+    static int l_startBattle(lua_State *L);
 
 private:
     GamePlayState* gps;
