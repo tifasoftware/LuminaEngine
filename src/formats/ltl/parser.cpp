@@ -70,7 +70,7 @@ char LTLParser::nextChar() {
                         hexvalue[0] = workingString[index];
                         hexvalue[1] = workingString[index + 1];
 
-#ifdef PLATFORM_3DS
+#if defined(__3DS__)
                         c[i] = 200;
 #else
                         c[i] = std::stoi(hexvalue, 0, 16);
