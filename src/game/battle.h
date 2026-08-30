@@ -17,4 +17,5 @@ class Battle : public SecondaryActivity {
 
     private:
     Panel* actionPanel;
+    Panel* characterPanel;
 };
