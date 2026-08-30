@@ -52,3 +52,7 @@ static void SDL_SetTextureColorMod(SDL_Texture * texture, Uint8 r, Uint8 g, Uint
     SDL_UnlockSurface(texture->tinted_surface);
     texture->tinted = true;
 }
+
+static void SDL_SetTextureAlphaMod(SDL_Texture * texture, Uint8 a) {
+    //No Ops
+}
