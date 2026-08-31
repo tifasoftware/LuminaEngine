@@ -1,6 +1,7 @@
 #include "battle.h"
 
 #include "vgui/button.h"
+#include "vgui/battle/counter.h"
 
 Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryActivity(r, snd, gps) {
     actionPanel = new Panel(r, r->GetWidth() - 103, r->GetHeight() - 103, 100, 100);
@@ -35,6 +36,8 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
 
     battleGlyphIndex = renderer->loadTexture("battleglyphs.png");
 
+    BatCounter* bc = new BatCounter(battleGlyphIndex, 100,300);
+    characterPanel->addElement(bc, 4, 4);
 
     btnAttack->startFocus();
 }
