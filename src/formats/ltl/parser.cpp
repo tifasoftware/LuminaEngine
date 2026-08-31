@@ -152,7 +152,7 @@ int LTLParser::parseB16Char(char c) {
 }
 
 u_int8_t LTLParser::lstoi(const char *str) {
-    if (strlen(str) == 2) {
+    if (strlen(str) >= 2) {
         return parseB16Char(str[0]) * 16 + parseB16Char(str[1]);
     }
     return -1;
