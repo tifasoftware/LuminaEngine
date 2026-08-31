@@ -44,6 +44,11 @@ public:
     bool nextApplyColor() { return style_flag % 2 != 0; }
     Color nextColor() { return color; }
 
+#if defined(__3DS__)
+    static int parseB16Char(char c);
+    static uint8_t lstoi(const char* str);
+#endif
+
 private:
     char workingString[256];
     bool parsing;
