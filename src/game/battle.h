@@ -18,4 +18,6 @@ class Battle : public SecondaryActivity {
     private:
     Panel* actionPanel;
     Panel* characterPanel;
+
+    int battleGlyphIndex = -1;
 };

@@ -4,8 +4,8 @@
 
 Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryActivity(r, snd, gps) {
     actionPanel = new Panel(r, r->GetWidth() - 103, r->GetHeight() - 103, 100, 100);
-    characterPanel = new Panel(r, 3, r->GetHeight() - 103, r->GetWidth() - 109, 100);
 
+    // Initialize Action Panel
     Button* btnF = new Button("<i>Forfeit</>", "quitbattle", SYSTEX_FONT_REG);
     Button* btnAttack = new Button("Attack", "attack", SYSTEX_FONT_REG);
     Button* btnMagic = new Button("Magic", "magic", SYSTEX_FONT_REG);
@@ -29,6 +29,12 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
 
     btnItems->addLowerElement(btnF);
     btnF->addUpperElement(btnItems);
+
+    //Initialize Character Panel
+    characterPanel = new Panel(r, 3, r->GetHeight() - 103, r->GetWidth() - 109, 100);
+
+    battleGlyphIndex = renderer->loadTexture("battleglyphs.png");
+
 
     btnAttack->startFocus();
 }
