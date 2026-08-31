@@ -15,7 +15,6 @@ class RichText : public UIElement
     void SetText(const char* t);
     void SetFont(int fti) { fontTexIndex = fti; compile(); }
     void render(Renderer* r) override;
-    void move(int x, int y) override;
     void destroy() override {}
 
     void SetTrim(int t) { trim = t; }
@@ -35,8 +34,8 @@ class RichText : public UIElement
     int fontTexIndex = SYSTEX_FONT_REG;
     Color fg;
 
-    int x = 0;
-    int y = 0;
+    //int x = 0;
+    //int y = 0;
 
     int trim = -1;
 };

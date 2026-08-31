@@ -49,12 +49,6 @@ RichText::RichText(const char* t, int fti)
     compile();
 }
 
-void RichText::move(int x, int y)
-{
-    this->x = x;
-    this->y = y;
-}
-
 void RichText::SetText(const char *t) {
     strncpy(text, t, 255);
     textSet = true;

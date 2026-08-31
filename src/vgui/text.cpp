@@ -26,12 +26,6 @@ Text::Text(const char* t, int fti)
     y = 0;
 }
 
-void Text::move(int x, int y)
-{
-    this->x = x;
-    this->y = y;
-}
-
 void Text::SetText(const char *t) {
     strncpy(text, t, 127);
 }

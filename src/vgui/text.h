@@ -15,7 +15,6 @@ public:
     void SetText(const char* t);
     void SetFont(int fti) { fontTexIndex = fti; }
     void render(Renderer* r) override;
-    void move(int x, int y) override;
     void destroy() override {}
 
     bool isFontSet() { return fontTexIndex != -1; }
@@ -27,6 +26,6 @@ private:
     int fg_g = 200;
     int fg_b = 200;
 
-    int x = 0;
-    int y = 0;
+    //int x = 0;
+    //int y = 0;
 };

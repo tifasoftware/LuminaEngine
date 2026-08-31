@@ -9,7 +9,7 @@ class Button : public UIElement
     Button(const char* text, const char* tag, int fti);
     Button(const char* tag);
     void render(Renderer* r) override;
-    void destroy() override { return; };
+    void destroy() override {}
     void move(int x, int y) override;
 
     bool giveFocusUp() override;
