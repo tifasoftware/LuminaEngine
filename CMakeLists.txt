@@ -409,6 +409,14 @@ elseif(PS2)
     add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
             COMMAND cp ${PROJECT_NAME} ${PROJECT_NAME}.elf
     )
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
+    target_link_directories(${PROJECT_NAME} PRIVATE
+            "/boot/system/develop/lib"
+    )
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            SDL2 SDL2_image SDL2_mixer
+            lua
+    )
 else()
     message(STATUS "SDL Include Dirs: ${SDL2_INCLUDE_DIRS}")
     target_link_libraries(${PROJECT_NAME} PRIVATE
