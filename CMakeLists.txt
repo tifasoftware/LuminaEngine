@@ -14,7 +14,6 @@ set(GAMECUBE OFF CACHE BOOL "Build for Nintendo GameCube")
 
 set(GAMECONSOLE OFF CACHE BOOL "Game Console Settings")
 
-
 if (LE_DEBUG)
     add_definitions(-D__LEDEBUG__)
 endif()
@@ -198,6 +197,12 @@ elseif(GAMECUBE)
     set(SDL2_MIXER_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/gamecube/include")
 
     target_compile_options(${PROJECT_NAME} PRIVATE -g -Wall -Wextra -Wreturn-type -Werror=return-type)
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
+    #find_package(PkgConfig REQUIRED)
+
+    #pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
+
+    set(SDL2_INCLUDE_DIRS "/boot/system/develop/headers/SDL2")
 elseif (NOT (APPLE OR WIN32 OR DREAMCAST))
     find_package(PkgConfig REQUIRED)
     if (LIB_SDL1)
@@ -280,6 +285,12 @@ elseif(WIN32 OR LE_PPC_OSX OR LE_OLD_OSX)
             ${SDL2_INCLUDE_DIRS}
             ${SDL2_IMAGE_INCLUDE_DIRS}
             ${SDL2_MIXER_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
+            src/
+    )
+elseif(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${SDL2_INCLUDE_DIRS}
             libs/lua-5.5.0/src/
             src/
     )
