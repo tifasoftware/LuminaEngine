@@ -2,10 +2,12 @@
 
 #include "vgui/button.h"
 #include "vgui/glyph.h"
+#include "vgui/imagebox.h"
+#include "vgui/text.h"
 #include "vgui/battle/counter.h"
 
 Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryActivity(r, snd, gps) {
-    actionPanel = new Panel(r, r->GetWidth() - 103, r->GetHeight() - 103, 100, 100);
+    actionPanel = new Panel(r, r->GetWidth() - 103, r->GetHeight() - 113, 100, 110);
 
     // Initialize Action Panel
     Button* btnF = new Button("<i>Forfeit</>", "quitbattle", SYSTEX_FONT_REG);
@@ -33,9 +35,10 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
     btnF->addUpperElement(btnItems);
 
     //Initialize Character Panel
-    characterPanel = new Panel(r, 3, r->GetHeight() - 103, r->GetWidth() - 109, 100);
+    characterPanel = new Panel(r, 3, r->GetHeight() - 113, r->GetWidth() - 109, 110);
 
     battleGlyphIndex = renderer->loadTexture("battleglyphs.png");
+    characterProfileIndex = renderer->loadTexture("lumina_dialog.png");
 
     Glyph* g1 = new Glyph();
     g1->setAtlas(battleGlyphIndex);
@@ -48,11 +51,20 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
     BatCounter* bc = new BatCounter(battleGlyphIndex, 100,300);
     BatCounter* bc2 = new BatCounter(battleGlyphIndex, 12,30);
 
+    ImageBox* profile = new ImageBox();
+    profile->setTexture(characterProfileIndex);
 
-    characterPanel->addElement(g1, 4, 4);
-    characterPanel->addElement(bc, 4, 14);
-    characterPanel->addElement(g2, 4, 24);
-    characterPanel->addElement(bc2, 4, 34);
+    Text* text = new Text("Lumina", SYSTEX_FONT_REG);
+    //text->SetFGColor(255,0,0);
+
+    characterPanel->addElement(profile, 4, 20);
+    characterPanel->addElement(text, 4,2);
+
+    characterPanel->addElement(g1, 2, 90);
+    characterPanel->addElement(bc, 14, 90);
+    characterPanel->addElement(g2, 2, 100);
+    characterPanel->addElement(bc2, 14, 100);
+
 
     btnAttack->startFocus();
 }
