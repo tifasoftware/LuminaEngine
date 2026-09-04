@@ -203,8 +203,8 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
     #pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
 
     set(SDL2_INCLUDE_DIRS "/boot/system/develop/headers/SDL2")
-elseif(NOT BSD STREQUAL "")
-    set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
+elseif((NOT BSD STREQUAL "") AND NOT APPLE)
+    set(SDL2_INCLUDE_DIRS "/usr/local/include")
 elseif (NOT (APPLE OR WIN32 OR DREAMCAST))
     find_package(PkgConfig REQUIRED)
     if (LIB_SDL1)
@@ -296,7 +296,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
             libs/lua-5.5.0/src/
             src/
     )
-elseif(NOT BSD STREQUAL "")
+elseif((NOT BSD STREQUAL "") AND NOT APPLE)
     target_include_directories(${PROJECT_NAME} PRIVATE
             ${SDL2_INCLUDE_DIRS}
             libs/lua-5.5.0/src/
@@ -425,7 +425,8 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
             SDL2 SDL2_image SDL2_mixer
             lua
     )
-elseif(NOT BSD STREQUAL "")
+elseif((NOT BSD STREQUAL "") AND NOT APPLE)
+    message(BSD)
     target_link_directories(${PROJECT_NAME} PRIVATE
             "/usr/local/lib"
     )
