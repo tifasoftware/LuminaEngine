@@ -45,7 +45,27 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
         characterProfileIndex,
         "Lumina");
 
+    CharacterCard* cc2 = new CharacterCard(battleGlyphIndex,
+        characterProfileIndex,
+        "Azerath");
+
+    CharacterCard* cc3 = new CharacterCard(battleGlyphIndex,
+        characterProfileIndex,
+        "Synthia");
+
+    CharacterCard* cc4 = new CharacterCard(battleGlyphIndex,
+        characterProfileIndex,
+        "Clarence");
+
+    CharacterCard* cc5 = new CharacterCard(battleGlyphIndex,
+        characterProfileIndex,
+        "Lily");
+
     characterPanel->addElement(cc1, 2,2);
+    characterPanel->addElement(cc2, 72, 2);
+    characterPanel->addElement(cc3, 142, 2);
+    characterPanel->addElement(cc4, 212, 2);
+    characterPanel->addElement(cc5, 282, 2);
 
     btnAttack->startFocus();
 }
