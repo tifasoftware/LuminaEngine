@@ -4,6 +4,7 @@
 #include "vgui/glyph.h"
 #include "vgui/imagebox.h"
 #include "vgui/text.h"
+#include "vgui/battle/char_card.h"
 #include "vgui/battle/counter.h"
 
 Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryActivity(r, snd, gps) {
@@ -40,31 +41,11 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
     battleGlyphIndex = renderer->loadTexture("battleglyphs.png");
     characterProfileIndex = renderer->loadTexture("lumina_dialog.png");
 
-    Glyph* g1 = new Glyph();
-    g1->setAtlas(battleGlyphIndex);
-    g1->setGlyph(16, 16, 16, 8);
+    CharacterCard* cc1 = new CharacterCard(battleGlyphIndex,
+        characterProfileIndex,
+        "Lumina");
 
-    Glyph* g2 = new Glyph();
-    g2->setAtlas(battleGlyphIndex);
-    g2->setGlyph(16, 24, 16, 8);
-
-    BatCounter* bc = new BatCounter(battleGlyphIndex, 100,300);
-    BatCounter* bc2 = new BatCounter(battleGlyphIndex, 12,30);
-
-    ImageBox* profile = new ImageBox();
-    profile->setTexture(characterProfileIndex);
-
-    Text* text = new Text("Lumina", SYSTEX_FONT_REG);
-    //text->SetFGColor(255,0,0);
-
-    characterPanel->addElement(profile, 4, 20);
-    characterPanel->addElement(text, 4,2);
-
-    characterPanel->addElement(g1, 2, 90);
-    characterPanel->addElement(bc, 14, 90);
-    characterPanel->addElement(g2, 2, 100);
-    characterPanel->addElement(bc2, 14, 100);
-
+    characterPanel->addElement(cc1, 2,2);
 
     btnAttack->startFocus();
 }
