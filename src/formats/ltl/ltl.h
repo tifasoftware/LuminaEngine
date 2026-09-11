@@ -2,34 +2,7 @@
 #include <cstring>
 #include <string>
 #include <list>
-
-struct Color {
-    uint8_t r = 0;
-    uint8_t g = 0;
-    uint8_t b = 0;
-
-    Color() {
-        r = 0;
-        g = 0;
-        b = 0;
-    }
-
-    Color(uint8_t r, uint8_t g, uint8_t b) {
-        this->r = r;
-        this->g = g;
-        this->b = b;
-    }
-
-    bool operator==(const Color& c) const {
-        if (c.r == r && c.g == g && c.b == b) return true;
-        return false;
-    }
-
-    bool operator!=(const Color& c) const {
-        if (c.r != r || c.g != g || c.b != b) return true;
-        return false;
-    }
-};
+#include <common/colors.h>
 
 class LTLParser {
 public:

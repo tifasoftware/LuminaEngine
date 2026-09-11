@@ -3,6 +3,7 @@
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
 #include <graphics/texture.h>
+#include <common/colors.h>
 
 #include "formats/ltl/ltl.h"
 
@@ -36,9 +37,13 @@ public:
     int drawSprite(int texIndex, int x, int y);
     int drawSubSprite(int texIndex, int x, int y, int cX, int cY, int cW, int cH);
 
-    int drawPlainText(const char* text, int x, int y, int font, int r, int g, int b);
+    //int drawPlainText(const char* text, int x, int y, int font, int r, int g, int b);
+    int drawPlainText(const char* text, int x, int y, int font, ColorA c);
     int drawLTLText(CompiledLTL* ltl, int font, int x, int y);
     int drawLTLText(CompiledLTL* ltl, int font, int x, int y, int start, int stop);
+
+    void drawRect(int x, int y, int w, int h, ColorA c);
+    void fillRect(int x, int y, int w, int h, ColorA c);
 
     int loadTexture(const char* file);
     void loadTexture(const char* file, int index);

@@ -33,7 +33,7 @@ void Text::SetText(const char *t) {
 void Text::render(Renderer* r)
 {
     if (fontTexIndex == -1) return;
-    r->drawPlainText(text, x, y, fontTexIndex, fg_r, fg_g, fg_b);
+    r->drawPlainText(text, x, y, fontTexIndex, ColorA(fg_r, fg_g, fg_b, 255));
 }
 
 void Text::SetFGColor(int r, int g, int b)

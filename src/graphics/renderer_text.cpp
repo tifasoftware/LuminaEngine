@@ -1,8 +1,8 @@
 #include <graphics/renderer.h>
 #include <graphics/texture.h>
 
-int Renderer::drawPlainText(const char *text, int x, int y, int font, int r, int g, int b) {
-    SDL_SetTextureColorMod(getTexture(font)->get_SDLTex(), r, g, b);
+int Renderer::drawPlainText(const char *text, int x, int y, int font, ColorA c) {
+    SDL_SetTextureColorMod(getTexture(font)->get_SDLTex(), c.r, c.g, c.b);
     int oX = 0;
     int oY = 0;
 
