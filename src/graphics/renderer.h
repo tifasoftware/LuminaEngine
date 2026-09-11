@@ -37,7 +37,6 @@ public:
     int drawSprite(int texIndex, int x, int y);
     int drawSubSprite(int texIndex, int x, int y, int cX, int cY, int cW, int cH);
 
-    //int drawPlainText(const char* text, int x, int y, int font, int r, int g, int b);
     int drawPlainText(const char* text, int x, int y, int font, ColorA c);
     int drawLTLText(CompiledLTL* ltl, int font, int x, int y);
     int drawLTLText(CompiledLTL* ltl, int font, int x, int y, int start, int stop);

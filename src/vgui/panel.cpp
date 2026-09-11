@@ -32,14 +32,8 @@ void Panel::populateArray()
 
 void Panel::Render()
 {
-    SDL_Renderer* r = renderer->getRenderer();
-    SDL_SetRenderDrawColor(r, bg_r, bg_g, bg_b, 200);
-    SDL_SetRenderDrawBlendMode(r, SDL_BLENDMODE_BLEND);
-    SDL_Rect box = {x, y, w, h};
-    SDL_RenderFillRect(r, &box);
-
-    SDL_SetRenderDrawColor(r, fg_r, fg_g, fg_b, 255);
-    SDL_RenderDrawRect(r, &box);
+    renderer->fillRect(x,y,w,h, ColorA(bg_r, bg_g, bg_b, 200));
+    renderer->drawRect(x,y,w,h, ColorA(fg_r, fg_g, fg_b, 255));
 
     for (int i = 0; i < MAX_ELEMENTS; i++)
     {
