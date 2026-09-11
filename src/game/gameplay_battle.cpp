@@ -11,6 +11,8 @@ void GamePlay::BattleStart() {
     sec_act->activate();
     controller->Possess(sec_act);
 
+    ChangeMusic("bgm1.ogg");
+
     f->FadeIn(0.5f);
 
     while (f->isFading())
