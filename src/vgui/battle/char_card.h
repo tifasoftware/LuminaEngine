@@ -11,6 +11,7 @@ public:
     void move(int x, int y) override;
     void render(Renderer *r) override;
     void destroy() override;
+    void setActive(bool a) { highlight = a; }
 
 private:
     Glyph* glyph_hp;
@@ -21,5 +22,5 @@ private:
     BatCounter* hp_counter;
     BatCounter* mp_counter;
 
-
+    bool highlight = false;
 };

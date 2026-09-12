@@ -23,6 +23,9 @@ CharacterCard::CharacterCard(int battleGlyphIndex, int charImageIndex, const cha
 }
 
 void CharacterCard::move(int x, int y) {
+    this->x = x;
+    this->y = y;
+
     charText->move(x + 2,y + 0);
     imgbox->move(x + 2,y + 18);
 
@@ -33,6 +36,11 @@ void CharacterCard::move(int x, int y) {
 }
 
 void CharacterCard::render(Renderer *r) {
+    if (highlight) {
+        r->fillRect(x, y, 68, 106, ColorA(94, 62,82, 255));
+        r->drawRect(x, y, 68, 106, ColorA(255,255,255,255));
+    }
+
     imgbox->render(r);
     charText->render(r);
 

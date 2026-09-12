@@ -67,6 +67,8 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
     characterPanel->addElement(cc4, 212, 2);
     characterPanel->addElement(cc5, 282, 2);
 
+    cc1->setActive(true);
+
     btnAttack->startFocus();
 }
 
