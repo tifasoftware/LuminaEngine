@@ -67,6 +67,12 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
     characterPanel->addElement(cc4, 212, 2);
     characterPanel->addElement(cc5, 282, 2);
 
+    chars_ui.push_back(cc1);
+    chars_ui.push_back(cc2);
+    chars_ui.push_back(cc3);
+    chars_ui.push_back(cc4);
+    chars_ui.push_back(cc5);
+
     cc1->setActive(true);
 
     btnAttack->startFocus();
@@ -93,6 +99,12 @@ void Battle::OnButtonA() {
         {
             //soundSystem->playSFX(chime);
             gps->RequestSwitchState(WORLD);
+        } else {
+            turn++;
+            if (turn >= chars_ui.size()) {
+                turn = 0;
+            }
+            UpdateUI();
         }
     }
 }
@@ -116,5 +128,11 @@ void Battle::OnButtonDown() {
     if (actionPanel->focusedElement() != nullptr) {
         actionPanel->focusedElement()->giveFocusDown();
         //soundSystem->playSFX(clink);
+    }
+}
+
+void Battle::UpdateUI() {
+    for (int i = 0; i < chars_ui.size(); i++) {
+        chars_ui[i]->setActive(i == turn);
     }
 }

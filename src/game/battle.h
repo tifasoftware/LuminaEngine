@@ -1,6 +1,9 @@
 #pragma once
 #include "secondary_activity.h"
 #include "vgui/panel.h"
+#include <vector>
+
+#include "vgui/battle/char_card.h"
 
 class Battle : public SecondaryActivity {
     public:
@@ -21,4 +24,10 @@ class Battle : public SecondaryActivity {
 
     int battleGlyphIndex = -1;
     int characterProfileIndex = -1;
+
+    std::vector<CharacterCard*> chars_ui;
+
+    int turn = 0;
+
+    void UpdateUI();
 };

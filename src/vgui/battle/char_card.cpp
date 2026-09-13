@@ -2,6 +2,7 @@
 
 CharacterCard::CharacterCard(int battleGlyphIndex, int charImageIndex, const char* charName) {
     // Create Glyphs
+
     glyph_hp = new Glyph();
     glyph_hp->setAtlas(battleGlyphIndex);
     glyph_hp->setGlyph(16, 16, 16, 8);
