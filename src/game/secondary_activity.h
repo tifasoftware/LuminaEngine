@@ -10,6 +10,7 @@ class SecondaryActivity : public IControllable {
     SecondaryActivity(Renderer* r, SoundSystem* snd, GamePlayState* gps);
     //virtual ~ISecondaryActivity() = default;
 
+    virtual void update() {}
     virtual void render() {}
 
     protected:

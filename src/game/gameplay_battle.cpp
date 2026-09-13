@@ -19,6 +19,7 @@ void GamePlay::BattleStart() {
     {
         r->clear();
 
+        sec_act->update();
         sec_act->render();
         // Draw everything on a white background
 
@@ -41,12 +42,22 @@ void GamePlay::BattleDraw() {
     // Clear the screen
     r->clear();
 
-    //if (text != nullptr)
+    sec_act->update();
     sec_act->render();
-    // Draw everything on a white background
+
+    Overlay* overlay = gps.GetOverlay();
+    if (overlay != nullptr) {
+        if (overlay->isEngaged()) {
+            overlay->draw();
+            if (!overlay->getActive()) {
+                controller->Possess(overlay);
+                controller->QueuePawn(sec_act);
+            }
+        } else gps.unpauseScript = true;
+    }
 
     r->present();
-    if (gps.wantNewState) SwitchState();
+    if (gps.wantNewState) SwitchState(); //Investigate Moving this function
 }
 
 void GamePlay::BattleExit() {

@@ -11,8 +11,10 @@ class Battle : public SecondaryActivity {
     ~Battle() override;
 
     void render() override;
+    void update() override;
 
     void OnButtonA() override;
+    void OnButtonB() override;
     void OnButtonUp() override;
     void OnButtonDown() override;
     void OnButtonLeft() override;
@@ -27,7 +29,9 @@ class Battle : public SecondaryActivity {
 
     std::vector<CharacterCard*> chars_ui;
 
-    int turn = 0;
+    uint8_t turn = 0;
+
+    uint8_t stage = 0;
 
     void UpdateUI();
 };

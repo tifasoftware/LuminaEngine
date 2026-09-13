@@ -18,6 +18,7 @@ class GamePlayState {
     void RequestSwitchState(GameState newState);
     void RequestMapChange(const char* newMapName);
     void RequestRunScript(const char* scriptName);
+    void RequestChangeMusic(const char* newMusic);
 
     void DispatchOverlay(Overlay* ov);
     Overlay* GetOverlay() { return overlay; }
@@ -30,6 +31,7 @@ class GamePlayState {
     bool wantNewState = false;
     bool inTransition = true;
     bool wantCallScript = false;
+    bool wantNewMusic = false;
     bool newMap = false;
 
     char mapName[64] = "scrolltest.lmap";

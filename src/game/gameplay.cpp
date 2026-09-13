@@ -178,7 +178,8 @@ void GamePlay::GameLoop()
 
                 case EXIT:
                 break;
-            }      
+            }
+        if (gps.wantNewMusic) ChangeMusic();
     }
     LuminaUtils::LuminaDelay(REDRAW_DELAY);
 }
@@ -243,4 +244,10 @@ void GamePlay::ChangeMusic(const char *newMusic) {
         snd->stopMusic();
         snd->startMusic(gps.music);
     }
+}
+
+void GamePlay::ChangeMusic() {
+    snd->stopMusic();
+    snd->startMusic(gps.music);
+    gps.wantNewMusic = false;
 }

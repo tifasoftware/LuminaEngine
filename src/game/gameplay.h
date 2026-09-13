@@ -39,6 +39,7 @@ class GamePlay
 
     void SwitchState();
     void ChangeMusic(const char* newMusic);
+    void ChangeMusic();
 
     bool gameRunning();
     void Exit();

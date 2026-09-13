@@ -86,3 +86,10 @@ int GamePlayState::SaveToFile(const char *file) {
     free(lsav);
     return 0;
 }
+
+void GamePlayState::RequestChangeMusic(const char *newMusic) {
+    if (strcmp(music, newMusic) != 0 && strcmp(music, "") != 0) {
+        strncpy(music, newMusic, sizeof(music) - 1);
+        wantNewMusic = true;
+    }
+}

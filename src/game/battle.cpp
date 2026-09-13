@@ -6,6 +6,7 @@
 #include "vgui/text.h"
 #include "vgui/battle/char_card.h"
 #include "vgui/battle/counter.h"
+#include "vgui/overlays/messagebox.h"
 
 Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryActivity(r, snd, gps) {
     actionPanel = new Panel(r, r->GetWidth() - 103, r->GetHeight() - 113, 100, 110);
@@ -79,8 +80,11 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
 }
 
 void Battle::render() {
-    actionPanel->Render();
-    characterPanel->Render();
+    Overlay* o = gps->GetOverlay();
+    if (o == nullptr || !o->isEngaged()) {
+        actionPanel->Render();
+        characterPanel->Render();
+    }
 }
 
 Battle::~Battle() {
@@ -97,8 +101,7 @@ void Battle::OnButtonA() {
     {
         if (selB->GetTag() == "quitbattle")
         {
-            //soundSystem->playSFX(chime);
-            gps->RequestSwitchState(WORLD);
+            stage = 1;
         } else {
             turn++;
             if (turn >= chars_ui.size()) {
@@ -107,6 +110,14 @@ void Battle::OnButtonA() {
             UpdateUI();
         }
     }
+}
+
+void Battle::OnButtonB() {
+    turn--;
+    if (turn < 0) {
+        turn = static_cast<int>(chars_ui.size()) - 1;
+    }
+    UpdateUI();
 }
 
 void Battle::OnButtonUp() {
@@ -134,5 +145,25 @@ void Battle::OnButtonDown() {
 void Battle::UpdateUI() {
     for (int i = 0; i < chars_ui.size(); i++) {
         chars_ui[i]->setActive(i == turn);
+    }
+}
+
+void Battle::update() {
+    //soundSystem->playSFX(cwhime);
+    if (stage == 1) {
+        gps->RequestChangeMusic("victory.ogg");
+        MessageBox* o = new MessageBox(renderer, this);
+        o->DisplayDialogue("Your party has won!");
+        gps->DispatchOverlay(o);
+        stage = 2;
+    } else if (stage == 2) {
+        Overlay* o = gps->GetOverlay();
+        if (o != nullptr) {
+            if (!o->isEngaged()) stage = 3;
+        }
+    }
+    else if (stage == 3) {
+        stage = 4;
+        gps->RequestSwitchState(WORLD);
     }
 }
