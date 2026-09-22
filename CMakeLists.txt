@@ -71,7 +71,7 @@ if(APPLE)
         set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6")
     else()
         set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
-        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.11")
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.14")
     endif()
 
     if (SDL1_OVERRIDE)
@@ -101,14 +101,13 @@ if(APPLE)
         set(SDL2_LIBRARIES "-framework SDL2")
         set(SDL2_IMAGE_LIBRARIES "-framework SDL2_image")
         set(SDL2_MIXER_LIBRARIES "-framework SDL2_mixer")
-        set(SDL2_INCLUDE_DIRS "/Library/Frameworks/SDL2.framework/Headers")
-        set(SDL2_IMAGE_INCLUDE_DIRS "/Library/Frameworks/SDL2_image.framework/Headers")
-        set(SDL2_MIXER_INCLUDE_DIRS "/Library/Frameworks/SDL2_mixer.framework/Headers")
+
+        set(SDL2_INCLUDE_DIRS "libs/macos/include")
     endif()
 
     if(NOT LE_OLD_OSX)
-        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -F/Library/Frameworks")
-        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -F/Library/Frameworks")
+        set(CMAKE_EXE_LINKER_FLAGS "${CMAKE_EXE_LINKER_FLAGS} -F${CMAKE_SOURCE_DIR}/libs/macos")
+        set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -F${CMAKE_SOURCE_DIR}/libs/macos")
     endif()
 
     set(APP_ICON "${CMAKE_SOURCE_DIR}/pbp_assets/AppIcon.icns")
@@ -237,8 +236,8 @@ if (APPLE)
             ${PNG_ASSETS} ${OGG_ASSETS} ${WAV_ASSETS} ${LMAP_ASSETS} ${LUA_ASSETS} ${APP_ICON}
             PROPERTIES MACOSX_PACKAGE_LOCATION "Resources"
     )
-    target_compile_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
-    target_link_options(${PROJECT_NAME} PRIVATE "-F/Library/Frameworks")
+    target_compile_options(${PROJECT_NAME} PRIVATE "-F${CMAKE_SOURCE_DIR}/libs/macos")
+    target_link_options(${PROJECT_NAME} PRIVATE "-F${CMAKE_SOURCE_DIR}/libs/macos")
 endif()
 
 if (PSP)
@@ -293,6 +292,14 @@ elseif(WIN32 OR LE_PPC_OSX OR LE_OLD_OSX)
 elseif(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
     target_include_directories(${PROJECT_NAME} PRIVATE
             ${SDL2_INCLUDE_DIRS}
+            libs/lua-5.5.0/src/
+            src/
+    )
+elseif(APPLE)
+    target_include_directories(${PROJECT_NAME} PRIVATE
+            ${SDL2_INCLUDE_DIRS}
+            ${SDL2_IMAGE_INCLUDE_DIRS}
+            ${SDL2_MIXER_INCLUDE_DIRS}
             libs/lua-5.5.0/src/
             src/
     )
@@ -563,7 +570,7 @@ if(APPLE)
                 MACOSX_BUNDLE_BUNDLE_NAME ${PROJECT_NAME}
                 MACOSX_BUNDLE_BUNDLE_VERSION "1.0"
                 MACOSX_BUNDLE_SHORT_VERSION_STRING "1.0"
-                MACOSX_BUNDLE_GUI_IDENTIFIER "org.infitechppc.${PROJECT_NAME}"
+                MACOSX_BUNDLE_GUI_IDENTIFIER "com.materiaresearch.${PROJECT_NAME}"
 
                 # Icons
                 MACOSX_BUNDLE_ICON_FILE "AppIcon.icns"
@@ -572,7 +579,7 @@ if(APPLE)
                 XCODE_ATTRIBUTE_ARCHS "arm64 x86_64"
                 XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH "NO"
                 XCODE_ATTRIBUTE_VALID_ARCHS "arm64 x86_64"
-                XCODE_ATTRIBUTE_MACOSX_DEPLOYMENT_TARGET "10.11"
+                XCODE_ATTRIBUTE_MACOSX_DEPLOYMENT_TARGET "10.14"
                 XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++17"
                 XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++"
 
@@ -591,30 +598,30 @@ if(APPLE)
 
         # ADD: SDL2 frameworks embedded + signed in the bundle
         set_source_files_properties(
-                "/Library/Frameworks/SDL2.framework"
-                "/Library/Frameworks/SDL2_image.framework"
-                "/Library/Frameworks/SDL2_mixer.framework"
+                "libs/macos/SDL2.framework"
+                "libs/macos/SDL2_image.framework"
+                "libs/macos/SDL2_mixer.framework"
                 PROPERTIES
                 MACOSX_PACKAGE_LOCATION "Frameworks"
                 XCODE_FILE_ATTRIBUTES "CodeSignOnCopy"
         )
         target_sources(${PROJECT_NAME} PRIVATE
-                "/Library/Frameworks/SDL2.framework"
-                "/Library/Frameworks/SDL2_image.framework"
-                "/Library/Frameworks/SDL2_mixer.framework"
+                "libs/macos/SDL2.framework"
+                "libs/macos/SDL2_image.framework"
+                "libs/macos/SDL2_mixer.framework"
         )
 
         # KEEP: your existing dylibbundler install step
         execute_process(COMMAND ditto
-            /Library/Frameworks/SDL2.framework
-            ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/Frameworks/SDL2.framework
+                ${CMAKE_SOURCE_DIR}/libs/macos/SDL2.framework
+                ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/Frameworks/SDL2.framework
         )
         execute_process(COMMAND ditto
-                /Library/Frameworks/SDL2_image.framework
+                ${CMAKE_SOURCE_DIR}/libs/macos/SDL2_image.framework
                 ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/Frameworks/SDL2_image.framework
         )
         execute_process(COMMAND ditto
-                /Library/Frameworks/SDL2_mixer.framework
+                ${CMAKE_SOURCE_DIR}/libs/macos/SDL2_mixer.framework
                 ${CMAKE_BINARY_DIR}/${PROJECT_NAME}.app/Contents/Frameworks/SDL2_mixer.framework
         )
 
