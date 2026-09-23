@@ -91,11 +91,10 @@ if(APPLE)
         set(SDL2_IMAGE_LIBRARIES SDL2_image)
         set(SDL2_MIXER_LIBRARIES SDL2_mixer)
 
-        set(SDL2_LIBRARIES "-framework SDL2")
-        set(SDL2_IMAGE_LIBRARIES "-framework SDL2_image")
-        set(SDL2_MIXER_LIBRARIES "-framework SDL2_mixer")
-
-        set(SDL2_INCLUDE_DIRS "libs/macos/include")
+        # Include paths
+        set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
+        set(SDL2_IMAGE_INCLUDE_DIRS "/usr/local/include/SDL2")
+        set(SDL2_MIXER_INCLUDE_DIRS "/usr/local/include/SDL2")
     else()
         set(SDL2_LIBRARIES "-framework SDL2")
         set(SDL2_IMAGE_LIBRARIES "-framework SDL2_image")
