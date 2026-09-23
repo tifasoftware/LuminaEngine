@@ -92,7 +92,7 @@ if(APPLE)
         set(SDL2_MIXER_LIBRARIES SDL2_mixer)
 
         # Include paths
-        set(SDL2_INCLUDE_DIRS "/opt/local/include/SDL2")
+        set(SDL2_INCLUDE_DIRS "/opt/local/include")
         set(SDL2_IMAGE_INCLUDE_DIRS "/opt/local/include/SDL2")
         set(SDL2_MIXER_INCLUDE_DIRS "/opt/local/include/SDL2")
     else()
