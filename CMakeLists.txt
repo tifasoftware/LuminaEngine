@@ -75,8 +75,8 @@ if(APPLE)
     endif()
 
     if (SDL1_OVERRIDE)
-        set(SDL_LIBRARIES "/usr/local/lib")
-        set(SDL_INCLUDE_DIRS "/usr/local/include/SDL")
+        set(SDL_LIBRARIES "/opt/local/lib")
+        set(SDL_INCLUDE_DIRS "/opt/local/include/SDL")
 	elseif (LE_PPC_OSX)
 		link_directories(/opt/local/lib)
         set(SDL2_LIBRARIES SDL2)
@@ -92,9 +92,9 @@ if(APPLE)
         set(SDL2_MIXER_LIBRARIES SDL2_mixer)
 
         # Include paths
-        set(SDL2_INCLUDE_DIRS "/usr/local/include/SDL2")
-        set(SDL2_IMAGE_INCLUDE_DIRS "/usr/local/include/SDL2")
-        set(SDL2_MIXER_INCLUDE_DIRS "/usr/local/include/SDL2")
+        set(SDL2_INCLUDE_DIRS "/opt/local/include/SDL2")
+        set(SDL2_IMAGE_INCLUDE_DIRS "/opt/local/include/SDL2")
+        set(SDL2_MIXER_INCLUDE_DIRS "/opt/local/include/SDL2")
     else()
         set(SDL2_LIBRARIES "-framework SDL2")
         set(SDL2_IMAGE_LIBRARIES "-framework SDL2_image")
@@ -545,9 +545,9 @@ if(APPLE)
                 XCODE_SCHEME_WORKING_DIRECTORY "${CMAKE_SOURCE_DIR}"
         )
 
-        set(SDL2_DYLIB /usr/local/lib/libSDL2.dylib)
-        set(SDL2_IMAGE_DYLIB /usr/local/lib/libSDL2_image.dylib)
-        set(SDL2_MIXER_DYLIB /usr/local/lib/libSDL2_mixer.dylib)
+        set(SDL2_DYLIB /opt/local/lib/libSDL2.dylib)
+        set(SDL2_IMAGE_DYLIB /opt/local/lib/libSDL2_image.dylib)
+        set(SDL2_MIXER_DYLIB /opt/local/lib/libSDL2_mixer.dylib)
 
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND mkdir -p $<TARGET_FILE_DIR:${PROJECT_NAME}>/../Frameworks
@@ -696,9 +696,9 @@ if(APPLE)
         )
     elseif (LE_OLD_OSX)
         # Versioned dylibs
-        set(SDL2_DYLIB /usr/local/lib/libSDL2-2.0.0.dylib)
-        set(SDL2_IMAGE_DYLIB /usr/local/lib/libSDL2_image-2.0.0.dylib)
-        set(SDL2_MIXER_DYLIB /usr/local/lib/libSDL2_mixer-2.0.0.dylib)
+        set(SDL2_DYLIB /opt/local/lib/libSDL2-2.0.0.dylib)
+        set(SDL2_IMAGE_DYLIB /opt/local/lib/libSDL2_image-2.0.0.dylib)
+        set(SDL2_MIXER_DYLIB /opt/local/lib/libSDL2_mixer-2.0.0.dylib)
 
         # Post-build: copy dylibs into the app bundle's Frameworks folder
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
