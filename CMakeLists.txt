@@ -319,6 +319,11 @@ else()
 endif ()
 
 if (WIN32)
+    target_compile_definitions(${PROJECT_NAME} PRIVATE
+        _WIN32_WINNT=0x0501
+        WINVER=0x0501
+    )
+
     target_link_libraries(${PROJECT_NAME} PRIVATE
 	    mingw32
         ${SDL2_LIBRARIES}
