@@ -431,7 +431,7 @@ elseif(CMAKE_SYSTEM_NAME STREQUAL "Haiku")
             SDL2 SDL2_image SDL2_mixer
             lua
     )
-elseif((NOT BSD STREQUAL "") AND NOT APPLE)
+elseif(UNIX AND (NOT APPLE OR LINUX OR CYGWIN OR PSP))
     message(BSD)
     target_link_directories(${PROJECT_NAME} PRIVATE
             "/usr/local/lib"
