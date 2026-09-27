@@ -71,7 +71,7 @@ if(APPLE)
         set(CMAKE_OSX_DEPLOYMENT_TARGET "10.6")
     else()
         set(CMAKE_OSX_ARCHITECTURES "arm64;x86_64")
-        set(CMAKE_OSX_DEPLOYMENT_TARGET "10.14")
+        set(CMAKE_OSX_DEPLOYMENT_TARGET "11.0")
     endif()
 
     if (SDL1_OVERRIDE)
@@ -578,7 +578,7 @@ if(APPLE)
                 XCODE_ATTRIBUTE_ARCHS "arm64 x86_64"
                 XCODE_ATTRIBUTE_ONLY_ACTIVE_ARCH "NO"
                 XCODE_ATTRIBUTE_VALID_ARCHS "arm64 x86_64"
-                XCODE_ATTRIBUTE_MACOSX_DEPLOYMENT_TARGET "10.14"
+                XCODE_ATTRIBUTE_MACOSX_DEPLOYMENT_TARGET "11.0"
                 XCODE_ATTRIBUTE_CLANG_CXX_LANGUAGE_STANDARD "c++17"
                 XCODE_ATTRIBUTE_CLANG_CXX_LIBRARY "libc++"
 
@@ -727,11 +727,11 @@ if(APPLE)
     else()
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
                 COMMAND xattr -cr "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
-                COMMAND codesign --deep --force --sign -
+                COMMAND codesign --force --sign -
                 "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2.framework"
-                COMMAND codesign --deep --force --sign -
+                COMMAND codesign --force --sign -
                 "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2_image.framework"
-                COMMAND codesign --deep --force --sign -
+                COMMAND codesign --force --sign -
                 "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>/Contents/Frameworks/SDL2_mixer.framework"
                 COMMAND codesign --force --sign -
                 "$<TARGET_BUNDLE_DIR:${PROJECT_NAME}>"
