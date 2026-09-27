@@ -8,6 +8,7 @@ set(LE32BIT OFF CACHE BOOL "Build for 32-bit")
 set(LE_OLD_OSX OFF CACHE BOOL "Build for Snow Leopard")
 set(LE_PPC_OSX OFF CACHE BOOL "Build for MacOS PPC/ Use MacPorts")
 set(LE_DEBUG OFF CACHE BOOL "Build with In-Engine Debugging")
+set(LE_WINXP OFF CACHE BOOL "Build for Windows XP")
 
 # set(DREAMCAST OFF CACHE BOOL "Build for Sega Dreamcast")
 set(GAMECUBE OFF CACHE BOOL "Build for Nintendo GameCube")
@@ -759,22 +760,40 @@ if (WIN32)
     get_filename_component(MINGW_COMPILER_REAL ${CMAKE_C_COMPILER} REALPATH)
     get_filename_component(MINGW_TOOLCHAIN_DIR ${MINGW_COMPILER_REAL} DIRECTORY)
     if (LE32BIT)
-        if (CMAKE_HOST_APPLE)
+        if (CMAKE_HOST_APPLE OR LE_WINXP)
             set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../i686-w64-mingw32/bin")
         else()
             set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../i686-w64-mingw32/lib")
         endif()
     else()
-        if (CMAKE_HOST_APPLE)
+        if (CMAKE_HOST_APPLE OR LE_WINXP)
             set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../x86_64-w64-mingw32/bin")
         else()
             set(MINGW_DLL_DIR "${MINGW_TOOLCHAIN_DIR}/../x86_64-w64-mingw32/lib")
         endif()
     endif()
 
+    if (LE_WINXP)
         add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
-            COMMAND ${CMAKE_COMMAND} -E copy_if_different
-            "${MINGW_DLL_DIR}/libwinpthread-1.dll"
-            $<TARGET_FILE_DIR:${PROJECT_NAME}>
-    )
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${MINGW_DLL_DIR}/libwinpthread-1.dll"
+                $<TARGET_FILE_DIR:${PROJECT_NAME}>
+        )
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${MINGW_DLL_DIR}/libc++.dll"
+                $<TARGET_FILE_DIR:${PROJECT_NAME}>
+        )
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${MINGW_DLL_DIR}/libunwind.dll"
+                $<TARGET_FILE_DIR:${PROJECT_NAME}>
+        )
+    else()
+        add_custom_command(TARGET ${PROJECT_NAME} POST_BUILD
+                COMMAND ${CMAKE_COMMAND} -E copy_if_different
+                "${MINGW_DLL_DIR}/libwinpthread-1.dll"
+                $<TARGET_FILE_DIR:${PROJECT_NAME}>
+        )
+    endif ()
 endif()
