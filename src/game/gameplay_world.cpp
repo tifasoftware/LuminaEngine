@@ -4,35 +4,36 @@
 #include "entities/entity.h"
 
 void GamePlay::WorldStart() {
-    tm = new TileMap(gps.mapName, &gps, lumina, r);
+    Character* lumina = gps->party->GetPartyMember(0);
+    tm = new TileMap(gps->mapName, gps, lumina, r);
 
     tm->loadMap();
-    tm->findSpawn(gps.lastMapName);
+    tm->findSpawn(gps->lastMapName);
     tm->activate();
     controller->Possess(tm);
     ChangeMusic(tm->getBGMFile());
     lumina->loadCharacterSprite(r);
 
-    scriptEngine = new ScriptEngine(&gps, tm);
-    gps.unpauseScript = false;
+    scriptEngine = new ScriptEngine(gps, tm);
+    gps->unpauseScript = false;
 
-    if (gps.newMap) {
+    if (gps->newMap) {
         SpawnDef sp = tm->getSpawn();
 
-        gps.characterX = r->GetWidth() / 2;
-        gps.characterY = r->GetHeight() / 2;
-        gps.screenX = sp.location.x - (r->GetWidth() / 2);
-        gps.screenY = sp.location.y - (r->GetHeight() / 2);
-        gps.newMap = false;
+        gps->characterX = r->GetWidth() / 2;
+        gps->characterY = r->GetHeight() / 2;
+        gps->screenX = sp.location.x - (r->GetWidth() / 2);
+        gps->screenY = sp.location.y - (r->GetHeight() / 2);
+        gps->newMap = false;
     }
-    tm->preShift(gps.screenX, gps.screenY);
+    tm->preShift(gps->screenX, gps->screenY);
     f->FadeIn(0.5f);
 
-    gps.inTransition = false;
-    if (!gps.introShown) {
+    gps->inTransition = false;
+    if (!gps->introShown) {
         scriptEngine->runScript("gamestart.lua", "onCall");
     }
-    gps.introShown = true;
+    gps->introShown = true;
     SDL_BP_SetClearColor(r->getRenderer(),255,0,255);
 
 }
@@ -41,8 +42,8 @@ void GamePlay::WorldDraw()
 {
         controller->SendInput();
 
-        scriptEngine->updateScripts(gps.unpauseScript);
-        gps.unpauseScript = false;
+        scriptEngine->updateScripts(gps->unpauseScript);
+        gps->unpauseScript = false;
 
         tm->updateMap();
 
@@ -56,7 +57,7 @@ void GamePlay::WorldDraw()
         }
 
 
-        Overlay* overlay = gps.GetOverlay();
+        Overlay* overlay = gps->GetOverlay();
         if (overlay != nullptr) {
             if (overlay->isEngaged()) {
                 overlay->draw();
@@ -64,7 +65,7 @@ void GamePlay::WorldDraw()
                     controller->Possess(overlay);
                     controller->QueuePawn(tm);
                 }
-            } else gps.unpauseScript = true;
+            } else gps->unpauseScript = true;
         }
 
 #if (defined(PLATFORM_PC) && defined(USER_LIGHTNING)) || defined(PLATFORM_ANDROID)
@@ -72,19 +73,19 @@ void GamePlay::WorldDraw()
 #endif
 
         r->present();
-        if (gps.wantCallScript) {
-            scriptEngine->runScript(gps.nextScript, "onCall");
-            gps.wantCallScript = false;
+        if (gps->wantCallScript) {
+            scriptEngine->runScript(gps->nextScript, "onCall");
+            gps->wantCallScript = false;
         }
-        if (gps.wantNewState) SwitchState();
+        if (gps->wantNewState) SwitchState();
 }
 
 void GamePlay::WorldExit()
 {
-    gps.inTransition = true;
+    gps->inTransition = true;
 
-    gps.screenX = tm->getOffsetX();
-    gps.screenY = tm->getOffsetY();
+    gps->screenX = tm->getOffsetX();
+    gps->screenY = tm->getOffsetY();
 
     f->FadeOut(0.5f);
 

@@ -12,7 +12,7 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
     actionPanel = new Panel(r, r->GetWidth() - 103, r->GetHeight() - 113, 100, 110);
 
     // Initialize Action Panel
-    Button* btnF = new Button("<i>Forfeit</>", "quitbattle", SYSTEX_FONT_REG);
+    Button* btnF = new Button("<i>InstaKill</>", "quitbattle", SYSTEX_FONT_REG);
     Button* btnAttack = new Button("Attack", "attack", SYSTEX_FONT_REG);
     Button* btnMagic = new Button("Magic", "magic", SYSTEX_FONT_REG);
     Button* btnGuard = new Button("Guard", "guard", SYSTEX_FONT_REG);
@@ -114,9 +114,10 @@ void Battle::OnButtonA() {
 
 void Battle::OnButtonB() {
     turn--;
-    if (turn < 0) {
-        turn = static_cast<int>(chars_ui.size()) - 1;
+    if (turn >= chars_ui.size()) {
+        turn = chars_ui.size() - 1;
     }
+    chars_ui[0]->setHealth(turn);
     UpdateUI();
 }
 

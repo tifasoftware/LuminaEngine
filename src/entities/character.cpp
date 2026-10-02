@@ -6,11 +6,55 @@ Character::Character()
 {
     characterName = "Lumina";
     textureFile = "lumina.png";
-    health = 1000;
+    profileFile = "lumina_dialog.png";
+    health = 100;
+    health_max = 100;
     magic = 50;
+    magic_max = 50;
     level = 1;
     sprite = nullptr;
 
+    charWidth = 32;
+    charHeight = 32;
+}
+
+Character::Character(int preset) {
+    switch (preset) {
+        case 1:
+            characterName = "Azerath";
+            textureFile = "azerath.png";
+            profileFile = "azerath_dialog.png";
+            break;
+        case 2:
+            characterName = "Synthia";
+            textureFile = "synthia.png";
+            profileFile = "synthia_dialog.png";
+            break;
+        case 3:
+            characterName = "Clarence";
+            textureFile = "clarence.png";
+            profileFile = "clarence_dialog.png";
+            break;
+        case 4:
+            characterName = "Lily";
+            textureFile = "lily.png";
+            profileFile = "lily_dialog.png";
+            break;
+        case 0:
+        default:
+            characterName = "Lumina";
+            textureFile = "lumina.png";
+            profileFile = "lumina_dialog.png";
+            break;
+    }
+
+    health = 100;
+    health_max = 100;
+    magic = 50;
+    magic_max = 50;
+    level = 1;
+
+    sprite = nullptr;
     charWidth = 32;
     charHeight = 32;
 }

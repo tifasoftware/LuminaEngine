@@ -7,6 +7,8 @@ public:
     BatCounter(int atlas, int init_value, int max_value);
 
     void render(Renderer *r) override;
+    void setValue(int v) {value = v;}
+    void setMaxValue(int v) {maxValue = v;}
 
     //No Ops
     void destroy() override {}

@@ -100,8 +100,7 @@ GamePlay::GamePlay()
 
     Splash();
 
-    lumina = new Character();
-    gps = GamePlayState();
+    gps = new GamePlayState();
     controller = new Controller();
 
 #if (defined(PLATFORM_PC) && defined(USER_LIGHTNING)) || defined(PLATFORM_ANDROID)
@@ -118,8 +117,8 @@ GamePlay::GamePlay()
         LuminaUtils::LuminaDelay(REDRAW_DELAY);
     }
 
-    strncpy(gps.lastMapName, "start", sizeof(gps.lastMapName) - 1);
-    gps.newMap = true;
+    strncpy(gps->lastMapName, "start", sizeof(gps->lastMapName) - 1);
+    gps->newMap = true;
     WorldStart();
 }
 
@@ -131,10 +130,10 @@ void GamePlay::Exit()
     snd->shutdown();
     r->shutdown();
     delete controller;
-    delete lumina;
     delete snd;
     delete r;
     delete f;
+    delete gps;
 
 #ifdef PLATFORM_3DS
     romfsExit();
@@ -157,9 +156,9 @@ void GamePlay::Exit()
 
 void GamePlay::GameLoop()
 {
-    if (!gps.inTransition)
+    if (!gps->inTransition)
     {
-        switch (gps.gameState)
+        switch (gps->gameState)
             {
                 case WORLD:
                 WorldDraw();
@@ -179,21 +178,21 @@ void GamePlay::GameLoop()
                 case EXIT:
                 break;
             }
-        if (gps.wantNewMusic) ChangeMusic();
+        if (gps->wantNewMusic) ChangeMusic();
     }
     LuminaUtils::LuminaDelay(REDRAW_DELAY);
 }
 
 bool GamePlay::gameRunning()
 {
-    if (gps.gameState == EXIT) return false;
+    if (gps->gameState == EXIT) return false;
     return true;
 }
 
 void GamePlay::SwitchState()
 {
-    GameState oldState = gps.gameState;
-    gps.gameState = TRANSITION;
+    GameState oldState = gps->gameState;
+    gps->gameState = TRANSITION;
     switch (oldState)
     {
         case WORLD:
@@ -216,7 +215,7 @@ void GamePlay::SwitchState()
     r->present();
     LuminaUtils::LuminaDelay(200);
 
-    switch (gps.newGameState)
+    switch (gps->newGameState)
     {
         case WORLD:
         WorldStart();
@@ -234,20 +233,20 @@ void GamePlay::SwitchState()
         break;
     }
 
-    gps.gameState = gps.newGameState;
-    gps.wantNewState = false;
+    gps->gameState = gps->newGameState;
+    gps->wantNewState = false;
 }
 
 void GamePlay::ChangeMusic(const char *newMusic) {
-    if (strcmp(gps.music, newMusic) != 0 && strcmp(gps.music, "") != 0) {
-        strncpy(gps.music, newMusic, sizeof(gps.music) - 1);
+    if (strcmp(gps->music, newMusic) != 0 && strcmp(gps->music, "") != 0) {
+        strncpy(gps->music, newMusic, sizeof(gps->music) - 1);
         snd->stopMusic();
-        snd->startMusic(gps.music);
+        snd->startMusic(gps->music);
     }
 }
 
 void GamePlay::ChangeMusic() {
     snd->stopMusic();
-    snd->startMusic(gps.music);
-    gps.wantNewMusic = false;
+    snd->startMusic(gps->music);
+    gps->wantNewMusic = false;
 }

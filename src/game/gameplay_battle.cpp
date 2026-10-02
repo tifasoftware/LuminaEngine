@@ -7,7 +7,7 @@
 #include "graphics/renderer.h"
 
 void GamePlay::BattleStart() {
-    sec_act = new Battle(r, snd, &gps);
+    sec_act = new Battle(r, snd, gps);
     sec_act->activate();
     controller->Possess(sec_act);
 
@@ -32,11 +32,11 @@ void GamePlay::BattleStart() {
         SDL_Delay(REDRAW_DELAY);
     }
 
-    gps.inTransition = false;
+    gps->inTransition = false;
 }
 
 void GamePlay::BattleDraw() {
-    if (gps.inTransition) return;
+    if (gps->inTransition) return;
     controller->SendInput();
 
     // Clear the screen
@@ -45,7 +45,7 @@ void GamePlay::BattleDraw() {
     sec_act->update();
     sec_act->render();
 
-    Overlay* overlay = gps.GetOverlay();
+    Overlay* overlay = gps->GetOverlay();
     if (overlay != nullptr) {
         if (overlay->isEngaged()) {
             overlay->draw();
@@ -53,17 +53,17 @@ void GamePlay::BattleDraw() {
                 controller->Possess(overlay);
                 controller->QueuePawn(sec_act);
             }
-        } else gps.unpauseScript = true;
+        } else gps->unpauseScript = true;
     }
 
     r->present();
-    if (gps.wantNewState) SwitchState(); //Investigate Moving this function
+    if (gps->wantNewState) SwitchState(); //Investigate Moving this function
 }
 
 void GamePlay::BattleExit() {
     sec_act->deactivate();
     controller->Release();
-    gps.inTransition = true;
+    gps->inTransition = true;
 
     f->FadeOut(0.5f);
 

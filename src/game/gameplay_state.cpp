@@ -8,10 +8,13 @@
 
 GamePlayState::GamePlayState() {
     overlay = nullptr;
+
+    party = new Party();
 }
 
 GamePlayState::~GamePlayState() {
     if (overlay != nullptr) delete overlay;
+    if (party != nullptr) delete party;
 }
 
 void GamePlayState::RequestMapChange(const char *newMapName) {

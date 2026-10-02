@@ -18,7 +18,7 @@
 
 void GamePlay::MenuStart()
 {
-    sec_act = new Menu(PAUSE_MENU, r, snd, &gps);
+    sec_act = new Menu(PAUSE_MENU, r, snd, gps);
     sec_act->activate();
     controller->Possess(sec_act);
 
@@ -40,12 +40,12 @@ void GamePlay::MenuStart()
         SDL_Delay(REDRAW_DELAY);
     }
 
-    gps.inTransition = false;
+    gps->inTransition = false;
 }
 
 void GamePlay::MenuDraw()
 {
-    if (gps.inTransition) return;
+    if (gps->inTransition) return;
         controller->SendInput();
 
         // Clear the screen
@@ -56,14 +56,14 @@ void GamePlay::MenuDraw()
         // Draw everything on a white background
         
         r->present();
-        if (gps.wantNewState) SwitchState();
+        if (gps->wantNewState) SwitchState();
 }
 
 void GamePlay::MenuExit()
 {
     sec_act->deactivate();
     controller->Release();
-    gps.inTransition = true;
+    gps->inTransition = true;
 
     f->FadeOut(0.5f);
 

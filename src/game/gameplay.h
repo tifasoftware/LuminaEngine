@@ -48,8 +48,7 @@ class GamePlay
 
     private:
     Controller* controller;
-    GamePlayState gps;
-    Character* lumina;
+    GamePlayState* gps;
     TileMap* tm;
     Renderer* r;
     SoundSystem* snd;

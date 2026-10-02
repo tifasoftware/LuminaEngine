@@ -1,6 +1,7 @@
 #pragma once
 #include "common/types.h"
 #include "../vgui/overlays/overlay.h"
+#include "entities/party.h"
 
 class GamePlayState {
     public:
@@ -40,6 +41,8 @@ class GamePlayState {
     char music[64] = "bgm0.ogg";
 
     Overlay* overlay;
+
+    Party* party;
 
     bool introShown = false;
 

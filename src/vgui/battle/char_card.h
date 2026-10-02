@@ -12,6 +12,8 @@ public:
     void render(Renderer *r) override;
     void destroy() override;
     void setActive(bool a) { highlight = a; }
+    void setHealth(int h) { hp_counter->setValue(h); }
+    void setMagic(int m) { mp_counter->setValue(m); }
 
 private:
     Glyph* glyph_hp;

@@ -43,7 +43,7 @@ void BatCounter::drawDigit(Renderer *r, uint8_t val, int x, int y) {
 
     if (val > 7) {
         cY += 8;
-        cX = (val - 7) * 8;
+        cX = (val - 8) * 8;
     } else {
         cX = val * 8;
     }
