@@ -40,41 +40,29 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
     characterPanel = new Panel(r, 3, r->GetHeight() - 113, r->GetWidth() - 109, 110);
 
     battleGlyphIndex = renderer->loadTexture("battleglyphs.png");
-    characterProfileIndex = renderer->loadTexture("lumina_dialog.png");
 
-    CharacterCard* cc1 = new CharacterCard(battleGlyphIndex,
-        characterProfileIndex,
-        "Lumina");
+    Party* party = gps->party;
 
-    CharacterCard* cc2 = new CharacterCard(battleGlyphIndex,
-        characterProfileIndex,
-        "Azerath");
+    int size = gps->party->members();
+    if (size > 5) size = 5;
 
-    CharacterCard* cc3 = new CharacterCard(battleGlyphIndex,
-        characterProfileIndex,
-        "Synthia");
+    for (int i = 0; i < size; i++) {
+        Character* c = party->GetPartyMember(i);
 
-    CharacterCard* cc4 = new CharacterCard(battleGlyphIndex,
-        characterProfileIndex,
-        "Clarence");
+        characterProfileIndex = c->loadCharacterProfile(renderer);
 
-    CharacterCard* cc5 = new CharacterCard(battleGlyphIndex,
-        characterProfileIndex,
-        "Lily");
+        CharacterCard* cc = new CharacterCard(battleGlyphIndex,
+            characterProfileIndex,
+            c->GetCharacterName());
 
-    characterPanel->addElement(cc1, 2,2);
-    characterPanel->addElement(cc2, 72, 2);
-    characterPanel->addElement(cc3, 142, 2);
-    characterPanel->addElement(cc4, 212, 2);
-    characterPanel->addElement(cc5, 282, 2);
+        cc->setHealth(c->GetHealth());
+        //cc->setMagic()
 
-    chars_ui.push_back(cc1);
-    chars_ui.push_back(cc2);
-    chars_ui.push_back(cc3);
-    chars_ui.push_back(cc4);
-    chars_ui.push_back(cc5);
+        characterPanel->addElement(cc, 2 + (70 * i), 2);
+        chars_ui.push_back(cc);
+    }
 
-    cc1->setActive(true);
+    if (!chars_ui.empty()) chars_ui[0]->setActive(true);
 
     btnAttack->startFocus();
 }

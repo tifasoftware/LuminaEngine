@@ -10,6 +10,7 @@ public:
     int AddCharacter(Character* chr);
     //void RemoveCharacter(int index);
     int FindCharacter(const char* name);
+    int members() { return static_cast<int>(party.size()); }
 
     private:
     std::vector<Character*> party;

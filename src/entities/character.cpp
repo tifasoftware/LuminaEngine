@@ -70,6 +70,11 @@ void Character::loadCharacterSprite(Renderer* r)
     sprite = new CharacterSprite(texIndex, charWidth, charHeight);
 }
 
+int Character::loadCharacterProfile(Renderer *r) {
+    profile_index = r->loadTexture(profileFile);
+    return profile_index;
+}
+
 void Character::drawCharacter(int x, int y, int mx, int my, Renderer* r)
 {
     sprite->draw(x, y, mx, my, r);

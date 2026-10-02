@@ -13,12 +13,13 @@ class Character
     ~Character() { deleteCharacterSprite(); }
     void animate(int framerate, int mx, int my);
     void drawCharacter(int x, int y, int mx, int my, Renderer* r);
-    void loadCharacterSprite(Renderer* r);
 
+    void loadCharacterSprite(Renderer* r);
     int loadCharacterProfile(Renderer* r);
-    void unloadCharacterProfile();
+
 
     int GetHealth() { return health; }
+    int GetCharacterProfile() { return profile_index; }
     const char* GetCharacterName() { return characterName; }
 
     void Heal(int points);
@@ -43,4 +44,5 @@ class Character
     int charHeight;
 
     CharacterSprite* sprite;
+    int profile_index = -1;
 };
