@@ -108,7 +108,7 @@ void Renderer::floodOverlay(int r, int g, int b, int alpha)
 #else
     SDL_SetRenderDrawBlendMode(sdl_r, SDL_BLENDMODE_BLEND);
     SDL_SetRenderDrawColor(sdl_r, r, g, b, alpha);
-
+    
 
     SDL_RenderFillRect(sdl_r, &screen);
 
