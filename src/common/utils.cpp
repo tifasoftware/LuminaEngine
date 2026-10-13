@@ -2,6 +2,8 @@
 
 #include <string>
 #include <unistd.h>
+#include <cstdio>
+#include <cstdlib>
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
 
@@ -115,4 +117,10 @@ std::string LuminaUtils::osPath(const char *relpath) {
 
     return path;
 #endif
+}
+
+int LuminaUtils::RandomInt(int min, int max) {
+    srand(time(0));
+    int rng = rand();
+    return rng % (max - min + 1) + min;
 }

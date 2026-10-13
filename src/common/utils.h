@@ -10,4 +10,6 @@ class LuminaUtils {
     const char* appendExtension(const char* filename, const char* extension);
     static void LuminaDelay(int ms);
     static std::string osPath(const char* relpath);
+
+    static int RandomInt(int min, int max);
 };
