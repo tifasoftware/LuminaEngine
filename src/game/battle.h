@@ -3,6 +3,7 @@
 #include "vgui/panel.h"
 #include <vector>
 
+#include "entities/monster.h"
 #include "vgui/battle/char_card.h"
 
 class Battle : public SecondaryActivity {
@@ -28,10 +29,14 @@ class Battle : public SecondaryActivity {
     int characterProfileIndex = -1;
 
     std::vector<CharacterCard*> chars_ui;
+    uint8_t party_size = 1;
+
+    Monster* monster;
 
     uint8_t turn = 0;
 
     uint8_t stage = 0;
 
     void UpdateUI();
+    void runMonsterAttacks();
 };

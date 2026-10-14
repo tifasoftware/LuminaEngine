@@ -36,6 +36,10 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
     btnItems->addLowerElement(btnF);
     btnF->addUpperElement(btnItems);
 
+    monster = new Monster();
+    monster->LoadMonsterSprite(renderer);
+    monster->Move(renderer->GetWidth() / 2 - 64, renderer->GetHeight() / 2 - 128);
+
     //Initialize Character Panel
     characterPanel = new Panel(r, 3, r->GetHeight() - 113, r->GetWidth() - 109, 110);
 
@@ -45,6 +49,8 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
 
     int size = gps->party->members();
     if (size > 5) size = 5;
+
+    party_size = size;
 
     for (int i = 0; i < size; i++) {
         Character* c = party->GetPartyMember(i);
@@ -68,6 +74,8 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
 }
 
 void Battle::render() {
+    monster->DrawMonster(renderer);
+
     Overlay* o = gps->GetOverlay();
     if (o == nullptr || !o->isEngaged()) {
         actionPanel->Render();
@@ -80,6 +88,7 @@ Battle::~Battle() {
     characterPanel->destroy();
     delete actionPanel;
     delete characterPanel;
+    delete monster;
 }
 
 void Battle::OnButtonA() {
@@ -92,8 +101,8 @@ void Battle::OnButtonA() {
             stage = 1;
         } else {
             turn++;
-            if (turn >= chars_ui.size()) {
-                turn = 0;
+            if (turn >= party_size) {
+                runMonsterAttacks();
             }
             UpdateUI();
         }
@@ -101,11 +110,7 @@ void Battle::OnButtonA() {
 }
 
 void Battle::OnButtonB() {
-    turn--;
-    if (turn >= chars_ui.size()) {
-        turn = chars_ui.size() - 1;
-    }
-    chars_ui[0]->setHealth(turn);
+    if (turn < 0) turn--;
     UpdateUI();
 }
 
@@ -134,6 +139,7 @@ void Battle::OnButtonDown() {
 void Battle::UpdateUI() {
     for (int i = 0; i < chars_ui.size(); i++) {
         chars_ui[i]->setActive(i == turn);
+        chars_ui[i]->setHealth(gps->party->GetPartyMember(i)->GetHealth());
     }
 }
 
@@ -155,4 +161,11 @@ void Battle::update() {
         stage = 4;
         gps->RequestSwitchState(WORLD);
     }
+}
+
+void Battle::runMonsterAttacks() {
+    monster->nextAction();
+    gps->party->GetPartyMember(monster->getTarget())->Hurt(monster->getDamagePoints());
+    UpdateUI();
+    turn = 0;
 }
