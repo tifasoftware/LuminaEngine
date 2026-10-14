@@ -104,6 +104,8 @@ void Character::deleteCharacterSprite() {
 }
 
 void Character::Hurt(int points) {
-    health -= points;
-    if (points < 0) points = 0;
+    if (health > 0) {
+        health -= points;
+        if (health < 0) health = 0;
+    }
 }

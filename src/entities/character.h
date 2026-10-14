@@ -19,6 +19,9 @@ class Character
 
 
     int GetHealth() { return health; }
+    int GetMaxHealth() { return health_max; }
+    int GetMagic() { return magic; }
+    int GetMaxMagic() { return magic_max; }
     int GetCharacterProfile() { return profile_index; }
     const char* GetCharacterName() { return characterName; }
 

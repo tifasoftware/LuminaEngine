@@ -19,8 +19,10 @@ CharacterCard::CharacterCard(int battleGlyphIndex, int charImageIndex, const cha
     charText = new Text(charName, SYSTEX_FONT_REG);
 
     // Create Battle Counters
-    hp_counter = new BatCounter(battleGlyphIndex, 100,300);
-    mp_counter = new BatCounter(battleGlyphIndex, 12,30);
+    hp_counter = new BatCounter(battleGlyphIndex, 300,300);
+    hp_counter->setBarColor(ColorA(30,100,40,255));
+    mp_counter = new BatCounter(battleGlyphIndex, 30,30);
+    mp_counter->setBarColor(ColorA(30,40,100,255));
 }
 
 void CharacterCard::move(int x, int y) {
@@ -30,10 +32,10 @@ void CharacterCard::move(int x, int y) {
     charText->move(x + 2,y + 0);
     imgbox->move(x + 2,y + 18);
 
-    glyph_hp->move(x + 0, y + 88);
-    glyph_mp->move(x + 0, y + 98);
-    hp_counter->move(x + 12, y + 88);
-    mp_counter->move(x + 12, y + 98);
+    glyph_hp->move(x + 0, y + 83);
+    glyph_mp->move(x + 0, y + 94);
+    hp_counter->move(x + 12, y + 83);
+    mp_counter->move(x + 12, y + 94);
 }
 
 void CharacterCard::render(Renderer *r) {

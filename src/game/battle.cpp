@@ -62,7 +62,9 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
             c->GetCharacterName());
 
         cc->setHealth(c->GetHealth());
-        //cc->setMagic()
+        cc->setMaxHealth(c->GetMaxHealth());
+        cc->setMagic(c->GetMagic());
+        cc->setMaxMagic(c->GetMaxMagic());
 
         characterPanel->addElement(cc, 2 + (70 * i), 2);
         chars_ui.push_back(cc);

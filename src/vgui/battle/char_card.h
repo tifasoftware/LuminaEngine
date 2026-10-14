@@ -13,7 +13,9 @@ public:
     void destroy() override;
     void setActive(bool a) { highlight = a; }
     void setHealth(int h) { hp_counter->setValue(h); }
+    void setMaxHealth(int mh) {hp_counter->setMaxValue(mh); }
     void setMagic(int m) { mp_counter->setValue(m); }
+    void setMaxMagic(int mm) {mp_counter->setMaxValue(mm); }
 
 private:
     Glyph* glyph_hp;
