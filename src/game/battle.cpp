@@ -190,8 +190,8 @@ void Battle::update() {
         if (advance) stage = 8;
     } else if (stage == 8) {
         stage = 0;
-        UpdateUI();
         turn = 0;
+        UpdateUI();
     }
 }
 
