@@ -100,7 +100,6 @@ class TileMap : public IControllable {
     int activeEntites = 0;
 
     int skyIndex = -1;
-    int skyTileSize = -1;
 
     int textureAddress = -1;
 

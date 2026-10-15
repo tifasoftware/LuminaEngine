@@ -9,6 +9,8 @@
 #include "vgui/overlays/messagebox.h"
 
 Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryActivity(r, snd, gps) {
+    skyIndex = renderer->loadTexture("battlesky.png");
+
     actionPanel = new Panel(r, r->GetWidth() - 103, r->GetHeight() - 113, 100, 110);
 
     // Initialize Action Panel
@@ -76,6 +78,7 @@ Battle::Battle(Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryAct
 }
 
 void Battle::render() {
+    if (skyIndex != -1) renderer->fillTile(skyIndex);
     monster->DrawMonster(renderer);
 
     Overlay* o = gps->GetOverlay();

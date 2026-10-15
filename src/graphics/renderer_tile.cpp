@@ -38,3 +38,17 @@ int Renderer::drawTile(int texIndex, int x, int y) {
     SDL_RenderCopy(sdl_r, tex->get_SDLTex() , NULL, &sprite_rect);
     return 0;
 }
+
+int Renderer::fillTile(int texIndex) {
+    if (m_textures[texIndex].isTextureFree()) return -1;
+
+    int skyTileSize = m_textures[texIndex].get_sprite_height();
+
+    for (int x = 0; x < (GetWidth() / skyTileSize) + 1; x++) {
+        for (int y = 0; y < (GetHeight() / skyTileSize) + 1; y++) {
+            drawTile(texIndex, x * skyTileSize, y * skyTileSize);
+        }
+    }
+
+    return 0;
+}

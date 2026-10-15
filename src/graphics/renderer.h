@@ -36,6 +36,7 @@ public:
     int drawTile(int texIndex, int x, int y);
     int drawSprite(int texIndex, int x, int y);
     int drawSubSprite(int texIndex, int x, int y, int cX, int cY, int cW, int cH);
+    int fillTile(int texIndex);
 
     int drawPlainText(const char* text, int x, int y, int font, ColorA c);
     int drawLTLText(CompiledLTL* ltl, int font, int x, int y);

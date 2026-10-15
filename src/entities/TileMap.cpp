@@ -84,11 +84,8 @@ bool TileMap::loadMap()
 void TileMap::drawMap()
 {
     if (skyIndex != -1) {
-        for (int x = 0; x < (renderer->GetWidth() / skyTileSize) + 1; x++) {
-            for (int y = 0; y < (renderer->GetHeight() / skyTileSize) + 1; y++) {
-                renderer->drawTile(skyIndex, x * skyTileSize, y * skyTileSize);
-            }
-        }
+
+        renderer->fillTile(skyIndex);
     }
 
     int startTileX = (offsetX / TILE_SIZE) - 1;
@@ -192,9 +189,6 @@ bool TileMap::loadFromFile(const char* file)
 
     if (strcmp(sky, "") != 0) {
         skyIndex = renderer->loadTexture(sky);
-
-        auto skyTex = renderer->getTexture(skyIndex);
-        skyTileSize = skyTex->get_tile_size();
     } else {
         skyIndex = -1;
     }

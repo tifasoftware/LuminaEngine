@@ -27,6 +27,7 @@ class Battle : public SecondaryActivity {
 
     int battleGlyphIndex = -1;
     int characterProfileIndex = -1;
+    int skyIndex = -1;
 
     std::vector<CharacterCard*> chars_ui;
     uint8_t party_size = 1;
