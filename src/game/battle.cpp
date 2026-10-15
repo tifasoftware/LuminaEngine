@@ -105,8 +105,7 @@ void Battle::OnButtonA() {
             turn++;
             if (turn >= party_size) {
                 runMonsterAttacks();
-            }
-            UpdateUI();
+            } else UpdateUI();
         }
     }
 }
