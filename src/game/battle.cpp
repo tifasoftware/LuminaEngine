@@ -80,7 +80,7 @@ void Battle::render() {
 
     Overlay* o = gps->GetOverlay();
     if (o == nullptr || !o->isEngaged()) {
-        actionPanel->Render();
+        if (stage == 0) actionPanel->Render();
         characterPanel->Render();
     }
 }
@@ -142,6 +142,7 @@ void Battle::UpdateUI() {
     for (int i = 0; i < chars_ui.size(); i++) {
         chars_ui[i]->setActive(i == turn);
         chars_ui[i]->setHealth(gps->party->GetPartyMember(i)->GetHealth());
+        chars_ui[i]->setMagic(gps->party->GetPartyMember(i)->GetMagic());
     }
 }
 
@@ -162,12 +163,48 @@ void Battle::update() {
     else if (stage == 3) {
         stage = 4;
         gps->RequestSwitchState(WORLD);
+    } else if (stage == 5) {
+        MessageBox* o = new MessageBox(renderer, this);
+        char combine[256];
+        strcpy(combine, monster->GetCharacterName());
+        strcat(combine, " Uses <i>");
+        strcat(combine, monster->getActionTitle());
+        strcat(combine, "</> against ");
+        strcat(combine, gps->party->GetPartyMember(monster->getTarget())->GetCharacterName());
+        o->DisplayDialogue(combine);
+        gps->DispatchOverlay(o);
+        stage = 6;
+    } else if (stage == 6) {
+        Overlay* o = gps->GetOverlay();
+        if (o != nullptr) {
+            if (!o->isEngaged()) {
+                stage = 7;
+            }
+        }
+    } else if (stage == 7) {
+        bool advance = true;
+        for (int i = 0; i < party_size; i++) {
+            BatCounter* b = chars_ui[i]->getHPCounter();
+            b->animate();
+            if (b->inAnimation()) advance = false;
+        }
+        if (advance) stage = 8;
+    } else if (stage == 8) {
+        stage = 0;
+        UpdateUI();
+        turn = 0;
     }
 }
 
 void Battle::runMonsterAttacks() {
-    monster->nextAction();
-    gps->party->GetPartyMember(monster->getTarget())->Hurt(monster->getDamagePoints());
     UpdateUI();
-    turn = 0;
+    monster->nextAction();
+    int target = monster->getTarget();
+
+    BatCounter* b = chars_ui[target]->getHPCounter();
+    b->slideValue(gps->party->GetPartyMember(target)->GetHealth() - monster->getDamagePoints(), 30);
+
+    gps->party->GetPartyMember(target)->Hurt(monster->getDamagePoints());
+
+    stage = 5;
 }

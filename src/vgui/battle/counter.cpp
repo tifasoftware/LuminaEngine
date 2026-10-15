@@ -91,3 +91,40 @@ void BatCounter::calculateBarFill() {
 
     barFill = static_cast<int>(bF);
 }
+
+void BatCounter::slideValue(int v, uint8_t frames) {
+    if (v == value) return;
+    newValue = v;
+    frame = frames;
+
+    int diff = abs(value - newValue);
+
+    if (diff > frames) {
+        float dC = static_cast<float>(diff) / static_cast<float>(frames);
+        delta = static_cast<int>(dC);
+    } else if (diff < frames) {
+        frameSkips = frames - diff;
+        delta = 1;
+    } else delta = 1;
+}
+
+void BatCounter::animate() {
+    if (!inAnimation()) return;
+    if (frameSkips > 0)
+        frameSkips--;
+    else
+        value -= delta;
+    frame--;
+    if (frame <= 0) {
+        value = newValue;
+        newValue = -1;
+        frameSkips = 0;
+    }
+
+    calculateBarFill();
+}
+
+void BatCounter::cancelAnimation() {
+    frame = 0;
+    value = newValue;
+}

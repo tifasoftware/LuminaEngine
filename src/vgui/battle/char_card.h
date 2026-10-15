@@ -17,6 +17,9 @@ public:
     void setMagic(int m) { mp_counter->setValue(m); }
     void setMaxMagic(int mm) {mp_counter->setMaxValue(mm); }
 
+    BatCounter* getHPCounter() { return hp_counter; }
+    BatCounter* getMPCounter() { return mp_counter; }
+
 private:
     Glyph* glyph_hp;
     Glyph* glyph_mp;
