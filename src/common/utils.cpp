@@ -4,6 +4,7 @@
 #include <unistd.h>
 #include <cstdio>
 #include <cstdlib>
+#include <ctime>
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
 
