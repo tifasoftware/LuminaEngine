@@ -1,5 +1,6 @@
 #pragma once
 #include "character.h"
+#include <vector>
 
 class Party {
 public:
