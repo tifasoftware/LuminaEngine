@@ -117,6 +117,15 @@ void Battle::OnButtonA() {
         if (selB->GetTag() == "quitbattle") {
             stage = BATTLESTAGE_WIN_INITMESSAGE;
         } else {
+
+            if (selB->CompareTag("attack") == 0) {
+                actions.push_back(CharacterAction(0, 0));
+            } else if (selB->CompareTag("guard") == 0) {
+                actions.push_back(CharacterAction(1, 0));
+            } else {
+                actions.push_back(CharacterAction(2, 0));
+            }
+
             turn++;
             if (turn >= party_size) {
                 runMonsterAttacks();
@@ -205,8 +214,11 @@ void Battle::update() {
         if (advance)
             runPartyAttacks();
     } else if (stage == BATTLESTAGE_NEXTROUND) {
+        actions.clear();
+
         stage = BATTLESTAGE_PARTY_PROMPT;
         turn = 0;
+
         UpdateUI();
     } else if (stage == BATTLESTAGE_PARTY_RUNATTACKS) {
         monster_health->animate();
@@ -218,8 +230,11 @@ void Battle::update() {
                 stage = BATTLESTAGE_NEXTROUND;
             } else {
                 turn++;
-                monster->Damage(10);
-                monster_health->slideValue(monster->GetHealth(), 30);
+
+                if (actions[turn].action == 0) {
+                    monster->Damage(10);
+                    monster_health->slideValue(monster->GetHealth(), 30);
+                }
                 UpdateUI();
             }
         }
@@ -236,7 +251,8 @@ void Battle::runMonsterAttacks() {
                       monster->getDamagePoints(),
                   30);
 
-    gps->party->GetPartyMember(target)->Hurt(monster->getDamagePoints());
+    if (actions[target].action != 1)
+        gps->party->GetPartyMember(target)->Hurt(monster->getDamagePoints());
 
     stage = BATTLESTAGE_MONSTER_INITMESSAGE;
 }
@@ -245,7 +261,11 @@ void Battle::runPartyAttacks() {
     turn = 0;
     stage = BATTLESTAGE_PARTY_RUNATTACKS;
 
-    monster->Damage(10);
-    monster_health->slideValue(monster->GetHealth(), 30);
+    // TODO Condense with the other party attacks
+    if (actions[0].action == 0) {
+        monster->Damage(10);
+        monster_health->slideValue(monster->GetHealth(), 30);
+    }
+
     UpdateUI();
 }

@@ -20,6 +20,16 @@ enum BattleStage : u_int8_t {
     BATTLESTAGE_NOOPS
 };
 
+struct CharacterAction {
+    CharacterAction(int a, int m) {
+        action = a;
+        modifier = m;
+    }
+
+    u_int8_t action;
+    u_int8_t modifier;
+};
+
 class Battle : public SecondaryActivity {
   public:
     Battle(Renderer *r, SoundSystem *snd, GamePlayState *gps);
@@ -44,6 +54,8 @@ class Battle : public SecondaryActivity {
     int skyIndex = -1;
 
     std::vector<CharacterCard *> chars_ui;
+    std::vector<CharacterAction> actions;
+
     uint8_t party_size = 1;
 
     Monster *monster;
