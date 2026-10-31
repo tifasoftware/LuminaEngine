@@ -1,14 +1,15 @@
 #pragma once
 
+#include <common/colors.h>
+#include <common/types.h>
+#include <graphics/texture.h>
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
-#include <graphics/texture.h>
-#include <common/colors.h>
 
 #include "formats/ltl/ltl.h"
 
-//MAX_TEXTURES
-// 8 SYSTEM + 64 USER = 72 TOTAL
+// MAX_TEXTURES
+//  8 SYSTEM + 64 USER = 72 TOTAL
 static const int MAX_TEXTURES = 72;
 static const int MAX_FONTS = 4;
 #ifdef PLATFORM_3DS
@@ -18,7 +19,7 @@ static const int FRAME_RATE = 60;
 #endif
 static const int REDRAW_DELAY = 1000 / FRAME_RATE;
 
-//SYSTEM TEXTURES
+// SYSTEM TEXTURES
 static const int MAX_SYS_TEXTURES = 8;
 #define SYSTEX_FONT_REG 0
 #define SYSTEX_FONT_BOLD 1
@@ -27,26 +28,28 @@ static const int MAX_SYS_TEXTURES = 8;
 #define SYSTEX_OSC_BTNS 4
 #define SYSTEX_OSC_MENU 5
 
-class Renderer
-{
-public:
-    Renderer(SDL_Window* win);
+class Renderer {
+  public:
+    Renderer(SDL_Window *win);
     int drawTile(int texIndex, int tileIndex, int x, int y);
     int drawTile(int texIndex, int tileIndex, int x, int y, int tileSize);
     int drawTile(int texIndex, int x, int y);
     int drawSprite(int texIndex, int x, int y);
-    int drawSubSprite(int texIndex, int x, int y, int cX, int cY, int cW, int cH);
+    int drawSubSprite(int texIndex, int x, int y, int cX, int cY, int cW,
+                      int cH);
     int fillTile(int texIndex);
+    int fillTile(int texIndex, int tileSize);
 
-    int drawPlainText(const char* text, int x, int y, int font, ColorA c);
-    int drawLTLText(CompiledLTL* ltl, int font, int x, int y);
-    int drawLTLText(CompiledLTL* ltl, int font, int x, int y, int start, int stop);
+    int drawPlainText(const char *text, int x, int y, int font, ColorA c);
+    int drawLTLText(CompiledLTL *ltl, int font, int x, int y);
+    int drawLTLText(CompiledLTL *ltl, int font, int x, int y, int start,
+                    int stop);
 
     void drawRect(int x, int y, int w, int h, ColorA c);
     void fillRect(int x, int y, int w, int h, ColorA c);
 
-    int loadTexture(const char* file);
-    void loadTexture(const char* file, int index);
+    int loadTexture(const char *file);
+    void loadTexture(const char *file, int index);
     int unloadAllTextures();
     int unloadTexture(int index);
     void floodOverlay(int r, int g, int b, int alpha);
@@ -58,18 +61,18 @@ public:
     void clear();
     void present();
     void shutdown();
-    Texture* getTexture(int index);
-    SDL_Renderer* getRenderer() const { return sdl_r; }
+    Texture *getTexture(int index);
+    SDL_Renderer *getRenderer() const { return sdl_r; }
 
     int GetWidth() { return width; }
     int GetHeight() { return height; }
 
-private:
-    SDL_Renderer* sdl_r;
+  private:
+    SDL_Renderer *sdl_r;
 
-    #ifdef LIB_SDL1
-    SDL_Surface* fade_surface;
-    #endif
+#ifdef LIB_SDL1
+    SDL_Surface *fade_surface;
+#endif
 
     Texture m_textures[MAX_TEXTURES];
     Texture m_fonts[MAX_FONTS];

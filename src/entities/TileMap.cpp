@@ -4,18 +4,17 @@
 #include "common/utils.h"
 
 #ifdef PLATFORM_PSP
-    #include <pspkernel.h>
-    #include <pspdisplay.h>
-    #include <vgui/text.h>
+#include <pspdisplay.h>
+#include <pspkernel.h>
+#include <vgui/text.h>
 #endif
 
-#include <entities/TileMap.h>
-#include <formats/lmap.h>
 #include "entity.h"
 #include "graphics/texture_optimization.h"
+#include <entities/TileMap.h>
+#include <formats/lmap.h>
 
-TileMap::TileMap(const char* f, GamePlayState* cs, Character* mc, Renderer* r)
-{
+TileMap::TileMap(const char *f, GamePlayState *cs, Character *mc, Renderer *r) {
     renderer = r;
 
     file = f;
@@ -29,35 +28,33 @@ TileMap::TileMap(const char* f, GamePlayState* cs, Character* mc, Renderer* r)
     memset(entities, 0, sizeof(entities));
 }
 
-Entity* TileMap::getCollidingTrigger(int charX, int charY) {
+Entity *TileMap::getCollidingTrigger(int charX, int charY) {
     int globalX = toWorldX(charX);
     int globalY = toWorldY(charY);
 
     for (int i = 0; i < MAX_ENTITIES; i++) {
-        Entity* e = entities[i];
+        Entity *e = entities[i];
 
-        if (e != nullptr && e->isInTrigger(globalX, globalY)) return e;
+        if (e != nullptr && e->isInTrigger(globalX, globalY))
+            return e;
     }
     return nullptr;
 }
 
-bool TileMap::loadMap()
-{
+bool TileMap::loadMap() {
     if (loadFromFile(file)) {
         return true;
     } else {
         renderer->loadTexture("grass.png");
         renderer->loadTexture("grass.png");
 
-        for (int x = 0; x < 64; x++){
-            for (int y = 0; y < 64; y++){
+        for (int x = 0; x < 64; x++) {
+            for (int y = 0; y < 64; y++) {
                 tiles[x][y] = 1;
             }
         }
-        for (int x = 0; x < 64; x++)
-        {
-            for (int y = 0; y < 64; y++)
-            {
+        for (int x = 0; x < 64; x++) {
+            for (int y = 0; y < 64; y++) {
                 collision[x][y] = NONE;
             }
         }
@@ -81,39 +78,43 @@ bool TileMap::loadMap()
     return false;
 }
 
-void TileMap::drawMap()
-{
+void TileMap::drawMap() {
     if (skyIndex != -1) {
 
-        renderer->fillTile(skyIndex);
+        renderer->fillTile(skyIndex, skySize);
     }
 
     int startTileX = (offsetX / TILE_SIZE) - 1;
     int startTileY = (offsetY / TILE_SIZE) - 1;
 
-    if (startTileX < 0) startTileX = 0;
-    if (startTileY < 0) startTileY = 0;
+    if (startTileX < 0)
+        startTileX = 0;
+    if (startTileY < 0)
+        startTileY = 0;
 
     int endTileX = ((renderer->GetWidth() / TILE_SIZE) + 2) + startTileX;
     int endTileY = ((renderer->GetHeight() / TILE_SIZE) + 2) + startTileY;
 
-    for (int x = startTileX; x < endTileX; x++){
-        for (int y = startTileY; y < endTileY; y++){
-            if (tiles[x][y] > 0) renderer->drawTile(textureAddress, tiles[x][y], (x * TILE_SIZE) - offsetX, (y * TILE_SIZE) - offsetY);
+    for (int x = startTileX; x < endTileX; x++) {
+        for (int y = startTileY; y < endTileY; y++) {
+            if (tiles[x][y] > 0)
+                renderer->drawTile(textureAddress, tiles[x][y],
+                                   (x * TILE_SIZE) - offsetX,
+                                   (y * TILE_SIZE) - offsetY);
         }
     }
 
     for (int i = 0; i < 64; i++) {
         if (entities[i] != nullptr) {
-            Entity* e = entities[i];
+            Entity *e = entities[i];
             e->draw(renderer, offsetX, offsetY);
-
         }
     }
 
-    //debugText.Render(renderer);
+    // debugText.Render(renderer);
     character->animate(FRAME_RATE, luminaMoveX, luminaMoveY);
-    character->drawCharacter(gps->characterX, gps->characterY, luminaMoveX, luminaMoveY, renderer);
+    character->drawCharacter(gps->characterX, gps->characterY, luminaMoveX,
+                             luminaMoveY, renderer);
 }
 
 void TileMap::disposeMap() {
@@ -123,21 +124,18 @@ void TileMap::disposeMap() {
             entities[i] = nullptr;
         }
     }
-
 }
 
-bool TileMap::loadFromFile(const char* file)
-{
+bool TileMap::loadFromFile(const char *file) {
     LMAPLoader ll = LMAPLoader(file);
 
     SDL_BP_SetClearColor(renderer->getRenderer(), 255, 0, 0);
 
-    LMAPHeader* lmap = ll.load();
+    LMAPHeader *lmap = ll.load();
 
     SDL_BP_SetClearColor(renderer->getRenderer(), 0, 255, 0);
 
-    if (strncmp(lmap->magic, "LMAP", 4) != 0)
-    {
+    if (strncmp(lmap->magic, "LMAP", 4) != 0) {
         SDL_Log("TileMap: failed to open %s", file);
         return false;
     }
@@ -145,11 +143,9 @@ bool TileMap::loadFromFile(const char* file)
     textureAddress = renderer->loadTexture(lmap->tileset);
 
     int offset = 0;
-    
-    for (int x = 0; x < 64; x++)
-    {
-        for (int y = 0; y < 64; y++)
-        {
+
+    for (int x = 0; x < 64; x++) {
+        for (int y = 0; y < 64; y++) {
             int t = lmap->tiles[offset + y];
             tiles[x][y] = t;
             collision[x][y] = lmap->colTile[t];
@@ -162,7 +158,7 @@ bool TileMap::loadFromFile(const char* file)
     for (int i = 0; i < MAX_ENTITIES; i++) {
         EntityDef def = lmap->entities[i];
 
-        Entity* e = Entity::spawnEntity(def);
+        Entity *e = Entity::spawnEntity(def);
 
         if (e != nullptr) {
             activeEntites++;
@@ -189,8 +185,10 @@ bool TileMap::loadFromFile(const char* file)
 
     if (strcmp(sky, "") != 0) {
         skyIndex = renderer->loadTexture(sky);
+        skySize = renderer->getTexture(skyIndex)->get_tile_size();
     } else {
         skyIndex = -1;
+        skySize = 16;
     }
 
     free(lmap);
@@ -198,8 +196,7 @@ bool TileMap::loadFromFile(const char* file)
     return true;
 }
 
-bool TileMap::isColliding(int x, int y)
-{
+bool TileMap::isColliding(int x, int y) {
     int playerTileX = (toWorldX(x) / TILE_SIZE);
     int playerTileY = (toWorldY(y) / TILE_SIZE);
 
@@ -208,25 +205,24 @@ bool TileMap::isColliding(int x, int y)
 
     CollisionType ct = collision[playerTileX][playerTileY];
 
-    switch (ct)
-    {
-        case NORTH:
-        case SOUTH:
-        case EAST:
-        case WEST:
-        case NEI:
-        case SEI:
-        case NWI:
-        case SWI:
-        case NEO:
-        case SEO:
-        case NWO:
-        case SWO:
-            return true;
-        case NONE:
-            return false;
-        default:
-            return false;
+    switch (ct) {
+    case NORTH:
+    case SOUTH:
+    case EAST:
+    case WEST:
+    case NEI:
+    case SEI:
+    case NWI:
+    case SWI:
+    case NEO:
+    case SEO:
+    case NWO:
+    case SWO:
+        return true;
+    case NONE:
+        return false;
+    default:
+        return false;
         break;
     }
 }
@@ -240,71 +236,76 @@ bool TileMap::isColliding(int x, int y, int mX, int mY) {
 
     CollisionType ct = collision[nextTileX][nextTileY];
 
-    switch (ct)
-    {
-        case NORTH:
-        case SOUTH:
-        case EAST:
-        case WEST:
-        case NEI:
-        case SEI:
-        case NWI:
-        case SWI:
-        case NEO:
-        case SEO:
-        case NWO:
-        case SWO:
-            return true;
-        case NONE:
-            return false;
-        default:
-            return false;
-            break;
+    switch (ct) {
+    case NORTH:
+    case SOUTH:
+    case EAST:
+    case WEST:
+    case NEI:
+    case SEI:
+    case NWI:
+    case SWI:
+    case NEO:
+    case SEO:
+    case NWO:
+    case SWO:
+        return true;
+    case NONE:
+        return false;
+    default:
+        return false;
+        break;
     }
 }
 
 void TileMap::updateMap() {
     for (int i = 0; i < MAX_ENTITIES; i++) {
-        if (entities[i] != nullptr) entities[i]->update();
+        if (entities[i] != nullptr)
+            entities[i]->update();
     }
 
-    if (!isColliding(gps->characterX + luminaMoveX, gps->characterY + luminaMoveY)){
-        //characterState->moveCharacter(luminaMoveX, luminaMoveY);
-        if (!scrollX(luminaMoveX, gps->characterX + luminaMoveX)) gps->characterX += luminaMoveX;
-        if (!scrollY(luminaMoveY, gps->characterY + luminaMoveY)) gps->characterY += luminaMoveY;
+    if (!isColliding(gps->characterX + luminaMoveX,
+                     gps->characterY + luminaMoveY)) {
+        // characterState->moveCharacter(luminaMoveX, luminaMoveY);
+        if (!scrollX(luminaMoveX, gps->characterX + luminaMoveX))
+            gps->characterX += luminaMoveX;
+        if (!scrollY(luminaMoveY, gps->characterY + luminaMoveY))
+            gps->characterY += luminaMoveY;
     }
 
     if (luminaMoveX != 0 || luminaMoveY != 0 || requestInteract) {
-        Entity* colTrig = getCollidingTrigger(gps->characterX, gps->characterY);
+        Entity *colTrig = getCollidingTrigger(gps->characterX, gps->characterY);
         if (colTrig != nullptr) {
 
             if (requestInteract) {
                 // Interacts go in here
                 switch (colTrig->getType()) {
-                    case INTERACT_LUA:
-                        if (colTrig->hasProperty("lua")) gps->RequestRunScript(colTrig->getProperty("lua"));
-                        break;
-                    case INTERACT_NPC:
-                        //TODO
-                        break;
-                    default:
-                        break;
+                case INTERACT_LUA:
+                    if (colTrig->hasProperty("lua"))
+                        gps->RequestRunScript(colTrig->getProperty("lua"));
+                    break;
+                case INTERACT_NPC:
+                    // TODO
+                    break;
+                default:
+                    break;
                 }
 
             } else {
                 // Triggers go in here
                 switch (colTrig->getType()) {
-                    case TRIGGER_WARP:
-                        if (colTrig->hasProperty("map")) gps->RequestMapChange(colTrig->getProperty("map"));
-                        break;
-                    case TRIGGER_BATTLEFIELD:
-                        //TODO
-                        break;
-                    case TRIGGER_LUA:
-                        //TODO
-                        break;
-                    default:
-                        break;
+                case TRIGGER_WARP:
+                    if (colTrig->hasProperty("map"))
+                        gps->RequestMapChange(colTrig->getProperty("map"));
+                    break;
+                case TRIGGER_BATTLEFIELD:
+                    // TODO
+                    break;
+                case TRIGGER_LUA:
+                    // TODO
+                    break;
+                default:
+                    break;
                 }
             }
         }
@@ -312,82 +313,50 @@ void TileMap::updateMap() {
     }
 }
 
-bool TileMap::scrollX(int x, int cX)
-{
-    if (cX > SCROLL_B && cX < (renderer->GetWidth() - SCROLL_B))
-    {
+bool TileMap::scrollX(int x, int cX) {
+    if (cX > SCROLL_B && cX < (renderer->GetWidth() - SCROLL_B)) {
         return false;
-    } 
-    else 
-    {
+    } else {
         offsetX += x;
-        //if (offsetX + x <= 0) offsetX = 0;
+        // if (offsetX + x <= 0) offsetX = 0;
         return true;
     }
-
 }
 
-bool TileMap::scrollY(int y, int cY)
-{
-    if (cY > SCROLL_B && cY < (renderer->GetHeight() - SCROLL_B))
-    {
+bool TileMap::scrollY(int y, int cY) {
+    if (cY > SCROLL_B && cY < (renderer->GetHeight() - SCROLL_B)) {
         return false;
-    } 
-    else 
-    {
+    } else {
         offsetY += y;
-        //if (offsetY + y <= 0) offsetY = 0;
+        // if (offsetY + y <= 0) offsetY = 0;
         return true;
     }
-
 }
 
 int TileMap::findSpawn(const char *spawnname) {
     for (int i = 0; i < MAX_SPAWNS; i++) {
-        if (strcmp(spawns[i].name, spawnname) == 0) selectedSpawn = i;
+        if (strcmp(spawns[i].name, spawnname) == 0)
+            selectedSpawn = i;
     }
     return selectedSpawn;
 }
 
-void TileMap::preShift(int x, int y)
-{
+void TileMap::preShift(int x, int y) {
     offsetX = x;
     offsetY = y;
 }
 
-void TileMap::OnMoveUp() {
-    luminaMoveY = -1 * luminaMoveRate;
-}
-void TileMap::OnMoveDown() {
-    luminaMoveY = luminaMoveRate;
-}
-void TileMap::OnMoveLeft() {
-    luminaMoveX = -1 * luminaMoveRate;
-}
-void TileMap::OnMoveRight() {
-    luminaMoveX = luminaMoveRate;
-}
+void TileMap::OnMoveUp() { luminaMoveY = -1 * luminaMoveRate; }
+void TileMap::OnMoveDown() { luminaMoveY = luminaMoveRate; }
+void TileMap::OnMoveLeft() { luminaMoveX = -1 * luminaMoveRate; }
+void TileMap::OnMoveRight() { luminaMoveX = luminaMoveRate; }
 
-void TileMap::OnStopMoveUp() {
-    luminaMoveY = 0;
-}
-void TileMap::OnStopMoveDown() {
-    luminaMoveY = 0;
-}
-void TileMap::OnStopMoveLeft() {
-    luminaMoveX = 0;
-}
-void TileMap::OnStopMoveRight() {
-    luminaMoveX = 0;
-}
-void TileMap::OnButtonStart() {
-    gps->RequestSwitchState(MENU);
-}
+void TileMap::OnStopMoveUp() { luminaMoveY = 0; }
+void TileMap::OnStopMoveDown() { luminaMoveY = 0; }
+void TileMap::OnStopMoveLeft() { luminaMoveX = 0; }
+void TileMap::OnStopMoveRight() { luminaMoveX = 0; }
+void TileMap::OnButtonStart() { gps->RequestSwitchState(MENU); }
 
-void TileMap::OnButtonA() {
-    requestInteract = true;
-}
+void TileMap::OnButtonA() { requestInteract = true; }
 
-void TileMap::OnButtonPress(int id) {
-
-}
+void TileMap::OnButtonPress(int id) {}

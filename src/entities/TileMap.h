@@ -1,22 +1,22 @@
 #pragma once
 
-#include <platform/platform.h>
-#include <platform/universalsdl.h>
 #include <cstdio>
 #include <cstring>
-#include <graphics/renderer.h>
-#include <vgui/rich_text.h>
 #include <formats/lmap.h>
+#include <graphics/renderer.h>
+#include <platform/platform.h>
+#include <platform/universalsdl.h>
+#include <vgui/rich_text.h>
 
 #include "character.h"
 #include "entity.h"
-#include "game/gameplay_state.h"
 #include "game/IControllable.h"
+#include "game/gameplay_state.h"
 
-//PSP Resolution Width - 480
-//PSP Resolution Height - 272
-//static const int SCREEN_W = 480;
-//static const int SCREEN_H = 272;
+// PSP Resolution Width - 480
+// PSP Resolution Height - 272
+// static const int SCREEN_W = 480;
+// static const int SCREEN_H = 272;
 
 static const int TILE_SIZE = 16;
 
@@ -24,13 +24,12 @@ static const int SCROLL_B = 40;
 
 static const int MAX_SPAWNS = 16;
 
-
 class TileMap : public IControllable {
-    public:
-    TileMap(const char* f, GamePlayState* cs, Character* mc, Renderer* r);
+  public:
+    TileMap(const char *f, GamePlayState *cs, Character *mc, Renderer *r);
     void drawMap();
     void disposeMap();
-    //void shiftMap(int x, int y);
+    // void shiftMap(int x, int y);
     bool isColliding(int x, int y);
     bool isColliding(int x, int y, int mX, int mY);
     void updateMap();
@@ -45,23 +44,23 @@ class TileMap : public IControllable {
     int toScreenY(int y) { return y - offsetY; }
 
     SpawnDef getSpawn() { return spawns[selectedSpawn]; }
-    int findSpawn(const char* spawnname);
+    int findSpawn(const char *spawnname);
 
     void preShift(int x, int y);
 
     int getOffsetX() { return offsetX; }
     int getOffsetY() { return offsetY; }
 
-    Entity* getCollidingTrigger(int charX, int charY);
+    Entity *getCollidingTrigger(int charX, int charY);
 
     bool loadMap();
 
-    Renderer* getRenderer() { return renderer; }
+    Renderer *getRenderer() { return renderer; }
 
-    const char* getBGMFile() { return bgm; }
-    const char* getSkyboxFile() { return sky; }
+    const char *getBGMFile() { return bgm; }
+    const char *getSkyboxFile() { return sky; }
 
-    //IControllable Overrides
+    // IControllable Overrides
     void OnMoveUp() override;
     void OnMoveDown() override;
     void OnMoveLeft() override;
@@ -76,16 +75,16 @@ class TileMap : public IControllable {
 
     void OnButtonPress(int id) override;
 
-    private:
-    bool loadFromFile(const char* file);
+  private:
+    bool loadFromFile(const char *file);
 
-    const char* file;
-    Renderer* renderer;
+    const char *file;
+    Renderer *renderer;
     int tiles[64][64] = {};
     CollisionType collision[64][64] = {};
-    Entity* entities[64] = {};
-    GamePlayState* gps;
-    Character* character;
+    Entity *entities[64] = {};
+    GamePlayState *gps;
+    Character *character;
     int offsetX = 0;
     int offsetY = 0;
     SpawnDef spawns[16] = {};
@@ -100,9 +99,9 @@ class TileMap : public IControllable {
     int activeEntites = 0;
 
     int skyIndex = -1;
+    uint8_t skySize = -1;
 
     int textureAddress = -1;
 
     bool requestInteract = false;
-
 };

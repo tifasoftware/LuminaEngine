@@ -1,5 +1,7 @@
 #pragma once
 
+#include <common/types.h>
+
 struct Color {
     uint8_t r = 0;
     uint8_t g = 0;
@@ -17,13 +19,15 @@ struct Color {
         this->b = b;
     }
 
-    bool operator==(const Color& c) const {
-        if (c.r == r && c.g == g && c.b == b) return true;
+    bool operator==(const Color &c) const {
+        if (c.r == r && c.g == g && c.b == b)
+            return true;
         return false;
     }
 
-    bool operator!=(const Color& c) const {
-        if (c.r != r || c.g != g || c.b != b) return true;
+    bool operator!=(const Color &c) const {
+        if (c.r != r || c.g != g || c.b != b)
+            return true;
         return false;
     }
 };
@@ -48,13 +52,15 @@ struct ColorA {
         this->a = a;
     }
 
-    bool operator==(const ColorA& c) const {
-        if (c.r == r && c.g == g && c.b == b && c.a == a) return true;
+    bool operator==(const ColorA &c) const {
+        if (c.r == r && c.g == g && c.b == b && c.a == a)
+            return true;
         return false;
     }
 
-    bool operator!=(const ColorA& c) const {
-        if (c.r != r || c.g != g || c.b != b || c.a != a) return true;
+    bool operator!=(const ColorA &c) const {
+        if (c.r != r || c.g != g || c.b != b || c.a != a)
+            return true;
         return false;
     }
 };
