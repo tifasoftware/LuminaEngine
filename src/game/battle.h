@@ -27,8 +27,8 @@ struct CharacterAction {
         modifier = m;
     }
 
-    u_int8_t action;
-    u_int8_t modifier;
+    uint8_t action;
+    uint8_t modifier;
 };
 
 class Battle : public SecondaryActivity {
