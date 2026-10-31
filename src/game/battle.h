@@ -9,6 +9,7 @@
 
 enum BattleStage : u_int8_t {
     BATTLESTAGE_PARTY_PROMPT,
+    BATTLESTAGE_PARTY_SUBPROMPT,
     BATTLESTAGE_PARTY_RUNATTACKS,
     BATTLESTAGE_WIN_INITMESSAGE,
     BATTLESTAGE_WIN_IDLEMESSAGE,
@@ -48,6 +49,7 @@ class Battle : public SecondaryActivity {
   private:
     Panel *actionPanel;
     Panel *characterPanel;
+    Panel *subMenuPanel;
 
     int battleGlyphIndex = -1;
     int characterProfileIndex = -1;
@@ -68,4 +70,6 @@ class Battle : public SecondaryActivity {
     void UpdateUI();
     void runMonsterAttacks();
     void runPartyAttacks();
+
+    void createSubMenu();
 };

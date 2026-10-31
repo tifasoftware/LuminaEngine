@@ -6,11 +6,14 @@
 #include "vgui/glyph.h"
 #include "vgui/imagebox.h"
 #include "vgui/overlays/messagebox.h"
+#include "vgui/overlays/question.h"
 #include "vgui/text.h"
 
 Battle::Battle(Renderer *r, SoundSystem *snd, GamePlayState *gps)
     : SecondaryActivity(r, snd, gps) {
     skyIndex = renderer->loadTexture("battlesky.png");
+
+    subMenuPanel = nullptr;
 
     actionPanel =
         new Panel(r, r->GetWidth() - 103, r->GetHeight() - 113, 100, 110);
@@ -93,9 +96,15 @@ void Battle::render() {
 
     Overlay *o = gps->GetOverlay();
     if (o == nullptr || !o->isEngaged()) {
-        if (stage == 0)
+        if (stage == BATTLESTAGE_PARTY_PROMPT)
             actionPanel->Render();
-        characterPanel->Render();
+        if (stage == BATTLESTAGE_PARTY_SUBPROMPT) {
+            if (subMenuPanel != nullptr) {
+                subMenuPanel->Render();
+            } else
+                stage = BATTLESTAGE_PARTY_PROMPT;
+        } else
+            characterPanel->Render();
     }
     if (stage == BATTLESTAGE_PARTY_RUNATTACKS) {
         monster_health->render(renderer);
@@ -111,22 +120,49 @@ Battle::~Battle() {
 }
 
 void Battle::OnButtonA() {
-    Button *selB = dynamic_cast<Button *>(actionPanel->focusedElement());
+    if (stage == BATTLESTAGE_PARTY_PROMPT) {
+        Button *selB = dynamic_cast<Button *>(actionPanel->focusedElement());
 
-    if (selB != nullptr) {
-        if (selB->GetTag() == "quitbattle") {
-            stage = BATTLESTAGE_WIN_INITMESSAGE;
-        } else {
-
-            if (selB->CompareTag("attack") == 0) {
-                actions.push_back(CharacterAction(0, 0));
-            } else if (selB->CompareTag("guard") == 0) {
-                actions.push_back(CharacterAction(1, 0));
+        if (selB != nullptr) {
+            if (selB->CompareTag("quitbattle") == 0) {
+                stage = BATTLESTAGE_WIN_INITMESSAGE;
             } else {
-                actions.push_back(CharacterAction(2, 0));
+
+                if (selB->CompareTag("attack") == 0) {
+                    actions.push_back(CharacterAction(0, 0));
+                    turn++;
+                } else if (selB->CompareTag("guard") == 0) {
+                    actions.push_back(CharacterAction(1, 0));
+                    turn++;
+                } else {
+                    actions.push_back(CharacterAction(2, 0));
+                    createSubMenu();
+                    stage = BATTLESTAGE_PARTY_SUBPROMPT;
+                }
+
+                if (turn >= party_size) {
+                    runMonsterAttacks();
+                } else
+                    UpdateUI();
+            }
+        }
+    } else if (stage == BATTLESTAGE_PARTY_SUBPROMPT) {
+        Button *selB = dynamic_cast<Button *>(subMenuPanel->focusedElement());
+
+        if (selB != nullptr) {
+            if (selB->CompareTag("btn1") == 0) {
+                actions[actions.size() - 1].modifier = 1;
+            } else if (selB->CompareTag("btn2") == 0) {
+                actions[actions.size() - 1].modifier = 2;
+            } else if (selB->CompareTag("btn3") == 0) {
+                actions[actions.size() - 1].modifier = 3;
+            } else if (selB->CompareTag("btn4") == 0) {
+                actions[actions.size() - 1].modifier = 4;
             }
 
             turn++;
+            stage = BATTLESTAGE_PARTY_PROMPT;
+
             if (turn >= party_size) {
                 runMonsterAttacks();
             } else
@@ -136,9 +172,14 @@ void Battle::OnButtonA() {
 }
 
 void Battle::OnButtonB() {
-    if (turn < 0)
-        turn--;
-    UpdateUI();
+    if (stage == BATTLESTAGE_PARTY_PROMPT) {
+        if (turn < 0)
+            turn--;
+        UpdateUI();
+    } else if (stage == BATTLESTAGE_PARTY_SUBPROMPT) {
+        actions.pop_back();
+        stage = BATTLESTAGE_PARTY_PROMPT;
+    }
 }
 
 void Battle::OnButtonUp() {
@@ -268,4 +309,19 @@ void Battle::runPartyAttacks() {
     }
 
     UpdateUI();
+}
+
+void Battle::createSubMenu() {
+
+    if (subMenuPanel != nullptr) {
+        subMenuPanel->destroy();
+        delete subMenuPanel;
+    }
+
+    subMenuPanel = new Panel(renderer, 3, renderer->GetHeight() - 113,
+                             renderer->GetWidth() - 3, 110);
+
+    Button *b = new Button("btn1", "btn1", SYSTEX_FONT_REG);
+    subMenuPanel->addElement(b, 3, 3);
+    b->startFocus();
 }
