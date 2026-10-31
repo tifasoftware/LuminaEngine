@@ -7,7 +7,7 @@
 #include "vgui/battle/char_card.h"
 #include "vgui/battle/counter.h"
 
-enum BattleStage : u_int8_t {
+enum BattleStage : uint8_t {
     BATTLESTAGE_PARTY_PROMPT,
     BATTLESTAGE_PARTY_SUBPROMPT,
     BATTLESTAGE_PARTY_RUNATTACKS,

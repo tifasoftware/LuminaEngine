@@ -40,6 +40,6 @@ class Monster {
     const char *monsterName;
     const char *actionTitle;
 
-    u_int16_t damagePoints;
-    u_int8_t target;
+    uint16_t damagePoints;
+    uint8_t target;
 };
