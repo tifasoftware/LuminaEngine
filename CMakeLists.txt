@@ -191,6 +191,11 @@ if(3DS)
     set(CTRU_LIBRARIES citro3d citro2d ctru m)
     #set_target_properties(${PROJECT_NAME} PROPERTIES SUFFIX ".3dsx")
     target_compile_options(${PROJECT_NAME} PRIVATE -g -Wall -Wextra -Wreturn-type -Werror=return-type)
+elseif (PSP)
+    find_package(PkgConfig REQUIRED)
+        pkg_check_modules(SDL2 REQUIRED IMPORTED_TARGET sdl2)
+        pkg_check_modules(SDL2_IMAGE REQUIRED IMPORTED_TARGET SDL2_image)
+        pkg_check_modules(SDL2_MIXER REQUIRED IMPORTED_TARGET SDL2_mixer)
 elseif(GAMECUBE)
     set(SDL2_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/gamecube/include")
     set(SDL2_IMAGE_INCLUDE_DIRS "$ENV{DEVKITPRO}/portlibs/gamecube/include")
@@ -243,13 +248,11 @@ endif()
 
 if (PSP)
     target_include_directories(${PROJECT_NAME} PRIVATE
-        ${SDL2_INCLUDE_DIRS}
-        ${SDL2_IMAGE_INCLUDE_DIRS}
-        ${SDL2_MIXER_INCLUDE_DIRS}
+	$ENV{PSPDEV}/psp/include/
         libs/lua-5.5.0/src/
-        /usr/local/pspdev/psp/include
         src/
     )
+
 elseif(DREAMCAST)
     target_include_directories(${PROJECT_NAME} PRIVATE
             ${SDL2_INCLUDE_DIRS}
@@ -442,8 +445,22 @@ elseif(UNIX AND (NOT APPLE OR LINUX OR CYGWIN OR PSP))
             SDL2 SDL2_image SDL2_mixer
             lua
     )
+elseif(PSP)
+    message(STATUS "PlayStation Portable")
+
+    target_link_directories(${PROJECT_NAME} PRIVATE
+	    "$ENV{PSPDEV}/psp/lib"	
+    )
+
+    target_link_libraries(${PROJECT_NAME} PRIVATE
+            ${SDL2_LIBRARIES}
+            ${SDL2_IMAGE_LIBRARIES}
+            ${SDL2_MIXER_LIBRARIES}
+            lua
+    )
 else()
     message(STATUS "SDL Include Dirs: ${SDL2_INCLUDE_DIRS}")
+    message(STATUS "SDL Link Dirs: ${SDL2_LIBRARIES}")
     target_link_libraries(${PROJECT_NAME} PRIVATE
             ${SDL2_LIBRARIES}
             ${SDL2_IMAGE_LIBRARIES}
