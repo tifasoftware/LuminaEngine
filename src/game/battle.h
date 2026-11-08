@@ -14,6 +14,9 @@ enum BattleStage : uint8_t {
     BATTLESTAGE_WIN_INITMESSAGE,
     BATTLESTAGE_WIN_IDLEMESSAGE,
     BATTLESTAGE_WIN_CLOSEBATTLE,
+    BATTLESTAGE_LOSE_INITMESSAGE,
+    BATTLESTAGE_LOSE_IDLEMESSAGE,
+    BATTLESTAGE_LOSE_CLOSEBATTLE,
     BATTLESTAGE_MONSTER_INITMESSAGE,
     BATTLESTAGE_MONSTER_IDLEMESSAGE,
     BATTLESTAGE_MONSTER_RUNATTACKS,
@@ -70,6 +73,7 @@ class Battle : public SecondaryActivity {
     void UpdateUI();
     void runMonsterAttacks();
     void runPartyAttacks();
+    void nextPartyTurn();
 
     void createSubMenu();
 };

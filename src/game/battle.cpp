@@ -112,6 +112,12 @@ void Battle::render() {
 }
 
 Battle::~Battle() {
+
+    if (subMenuPanel != nullptr) {
+        subMenuPanel->destroy();
+        delete subMenuPanel;
+    }
+
     actionPanel->destroy();
     characterPanel->destroy();
     delete actionPanel;
@@ -130,10 +136,10 @@ void Battle::OnButtonA() {
 
                 if (selB->CompareTag("attack") == 0) {
                     actions.push_back(CharacterAction(0, 0));
-                    turn++;
+                    nextPartyTurn();
                 } else if (selB->CompareTag("guard") == 0) {
                     actions.push_back(CharacterAction(1, 0));
-                    turn++;
+                    nextPartyTurn();
                 } else {
                     actions.push_back(CharacterAction(2, 0));
                     createSubMenu();
@@ -142,8 +148,7 @@ void Battle::OnButtonA() {
 
                 if (turn >= party_size) {
                     runMonsterAttacks();
-                } else
-                    UpdateUI();
+                }
             }
         }
     } else if (stage == BATTLESTAGE_PARTY_SUBPROMPT) {
@@ -160,13 +165,12 @@ void Battle::OnButtonA() {
                 actions[actions.size() - 1].modifier = 4;
             }
 
-            turn++;
             stage = BATTLESTAGE_PARTY_PROMPT;
+            nextPartyTurn();
 
             if (turn >= party_size) {
                 runMonsterAttacks();
-            } else
-                UpdateUI();
+            }
         }
     }
 }
@@ -183,9 +187,16 @@ void Battle::OnButtonB() {
 }
 
 void Battle::OnButtonUp() {
-    if (actionPanel->focusedElement() != nullptr) {
-        actionPanel->focusedElement()->giveFocusUp();
-        // soundSystem->playSFX(clink);
+    if (stage == BATTLESTAGE_PARTY_PROMPT) {
+        if (actionPanel->focusedElement() != nullptr) {
+            actionPanel->focusedElement()->giveFocusUp();
+            // soundSystem->playSFX(clink);
+        }
+    } else if (stage == BATTLESTAGE_PARTY_SUBPROMPT) {
+        if (subMenuPanel->focusedElement() != nullptr) {
+            subMenuPanel->focusedElement()->giveFocusUp();
+            // soundSystem->playSFX(clink);
+        }
     }
 }
 
@@ -194,9 +205,16 @@ void Battle::OnButtonLeft() {}
 void Battle::OnButtonRight() {}
 
 void Battle::OnButtonDown() {
-    if (actionPanel->focusedElement() != nullptr) {
-        actionPanel->focusedElement()->giveFocusDown();
-        // soundSystem->playSFX(clink);
+    if (stage == BATTLESTAGE_PARTY_PROMPT) {
+        if (actionPanel->focusedElement() != nullptr) {
+            actionPanel->focusedElement()->giveFocusDown();
+            // soundSystem->playSFX(clink);
+        }
+    } else if (stage == BATTLESTAGE_PARTY_SUBPROMPT) {
+        if (subMenuPanel->focusedElement() != nullptr) {
+            subMenuPanel->focusedElement()->giveFocusDown();
+            // soundSystem->playSFX(clink);
+        }
     }
 }
 
@@ -223,6 +241,21 @@ void Battle::update() {
                 stage = BATTLESTAGE_WIN_CLOSEBATTLE;
         }
     } else if (stage == BATTLESTAGE_WIN_CLOSEBATTLE) {
+        stage = BATTLESTAGE_NOOPS;
+        gps->RequestSwitchState(WORLD);
+    } else if (stage == BATTLESTAGE_LOSE_INITMESSAGE) {
+        gps->RequestChangeMusic("defeat.ogg");
+        MessageBox *o = new MessageBox(renderer, this);
+        o->DisplayDialogue("Your party was defeated.");
+        gps->DispatchOverlay(o);
+        stage = BATTLESTAGE_LOSE_IDLEMESSAGE;
+    } else if (stage == BATTLESTAGE_LOSE_IDLEMESSAGE) {
+        Overlay *o = gps->GetOverlay();
+        if (o != nullptr) {
+            if (!o->isEngaged())
+                stage = BATTLESTAGE_LOSE_CLOSEBATTLE;
+        }
+    } else if (stage == BATTLESTAGE_LOSE_CLOSEBATTLE) {
         stage = BATTLESTAGE_NOOPS;
         gps->RequestSwitchState(WORLD);
     } else if (stage == BATTLESTAGE_MONSTER_INITMESSAGE) {
@@ -266,17 +299,11 @@ void Battle::update() {
         if (!monster_health->inAnimation()) {
             if (monster->GetHealth() <= 0) {
                 stage = BATTLESTAGE_WIN_INITMESSAGE;
-            } else if (turn >= party_size - 1) {
+            } else if (turn >= party_size - 1 && turn != 255) {
                 turn = 0;
                 stage = BATTLESTAGE_NEXTROUND;
             } else {
-                turn++;
-
-                if (actions[turn].action == 0) {
-                    monster->Damage(10);
-                    monster_health->slideValue(monster->GetHealth(), 30);
-                }
-                UpdateUI();
+                nextPartyTurn();
             }
         }
     }
@@ -299,16 +326,8 @@ void Battle::runMonsterAttacks() {
 }
 
 void Battle::runPartyAttacks() {
-    turn = 0;
+    turn = 255;
     stage = BATTLESTAGE_PARTY_RUNATTACKS;
-
-    // TODO Condense with the other party attacks
-    if (actions[0].action == 0) {
-        monster->Damage(10);
-        monster_health->slideValue(monster->GetHealth(), 30);
-    }
-
-    UpdateUI();
 }
 
 void Battle::createSubMenu() {
@@ -321,7 +340,37 @@ void Battle::createSubMenu() {
     subMenuPanel = new Panel(renderer, 3, renderer->GetHeight() - 113,
                              renderer->GetWidth() - 3, 110);
 
-    Button *b = new Button("btn1", "btn1", SYSTEX_FONT_REG);
-    subMenuPanel->addElement(b, 3, 3);
-    b->startFocus();
+    Button *b1 = new Button("Skip Turn", "btn1", SYSTEX_FONT_REG);
+    Button *b2 = new Button("Suicide", "btn2", SYSTEX_FONT_REG);
+    subMenuPanel->addElement(b1, 3, 3);
+    subMenuPanel->addElement(b2, 3, 23);
+
+    b1->addLowerElement(b2);
+    b2->addUpperElement(b1);
+
+    b1->startFocus();
+}
+
+void Battle::nextPartyTurn() {
+    Party *party = gps->party;
+    if (turn == 255) {
+        turn = 0;
+    } else
+        turn++;
+
+    while (turn < party_size && party->GetPartyMember(turn)->GetHealth() <= 0) {
+        turn++;
+    }
+
+    if (turn < party_size && stage == BATTLESTAGE_PARTY_RUNATTACKS) {
+        if (actions[turn].action == 0) {
+            monster->Damage(10);
+            monster_health->slideValue(monster->GetHealth(), 30);
+        } else if (actions[turn].action == 2 && actions[turn].modifier == 2) {
+            Character *c = party->GetPartyMember(turn);
+            c->Hurt(c->GetHealth());
+        }
+    }
+
+    UpdateUI();
 }
