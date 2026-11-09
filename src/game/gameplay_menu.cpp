@@ -1,8 +1,8 @@
 #include <platform/platform.h>
 #include <platform/universalsdl.h>
 
-#include "gameplay.h"
 #include "common/types.h"
+#include "gameplay.h"
 #include "graphics/renderer.h"
 #include "vgui/button.h"
 #include "vgui/panel.h"
@@ -16,65 +16,62 @@
 
 #include "common/utils.h"
 
-void GamePlay::MenuStart()
-{
-    sec_act = new Menu(PAUSE_MENU, r, snd, gps);
+void GamePlay::MenuStart() {
+    sec_act = new Menu(gps->activeMenu, r, snd, gps);
     sec_act->activate();
     controller->Possess(sec_act);
 
     f->FadeIn(0.5f);
 
-    while (f->isFading())
-    {
+    while (f->isFading()) {
         r->clear();
 
         sec_act->render();
         // Draw everything on a white background
-        
-        if (f->isFading()){
+
+        if (f->isFading()) {
             f->Render(1.0f / FRAME_RATE);
         }
 
         r->present();
-        
+
         SDL_Delay(REDRAW_DELAY);
     }
 
     gps->inTransition = false;
 }
 
-void GamePlay::MenuDraw()
-{
-    if (gps->inTransition) return;
-        controller->SendInput();
+void GamePlay::MenuDraw() {
+    if (gps->inTransition)
+        return;
+    controller->SendInput();
 
-        // Clear the screen
-        r->clear();
+    // Clear the screen
+    r->clear();
 
-        //if (text != nullptr)
-        sec_act->render();
-        // Draw everything on a white background
-        
-        r->present();
-        if (gps->wantNewState) SwitchState();
+    // if (text != nullptr)
+    sec_act->render();
+    // Draw everything on a white background
+
+    r->present();
+    if (gps->wantNewState)
+        SwitchState();
 }
 
-void GamePlay::MenuExit()
-{
+void GamePlay::MenuExit() {
     sec_act->deactivate();
     controller->Release();
     gps->inTransition = true;
 
     f->FadeOut(0.5f);
 
-    while (f->isFading())
-    {
+    while (f->isFading()) {
         r->clear();
 
         sec_act->render();
         // Draw everything on a white background
-        
-        if (f->isFading()){
+
+        if (f->isFading()) {
             f->Render(1.0f / FRAME_RATE);
         }
 
@@ -87,5 +84,4 @@ void GamePlay::MenuExit()
 
     delete sec_act;
     sec_act = nullptr;
-
 }

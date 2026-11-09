@@ -1,10 +1,10 @@
 #pragma once
-#include "common/types.h"
 #include "../vgui/overlays/overlay.h"
+#include "common/types.h"
 #include "entities/party.h"
 
 class GamePlayState {
-    public:
+  public:
     GamePlayState();
     ~GamePlayState();
 
@@ -13,19 +13,27 @@ class GamePlayState {
     int screenX = 0;
     int screenY = 0;
 
-    void moveCharacter(int x, int y) { characterX += x; characterY += y; }
-    void moveScreen(int x, int y) { screenX += x; screenY += y; }
+    void moveCharacter(int x, int y) {
+        characterX += x;
+        characterY += y;
+    }
+    void moveScreen(int x, int y) {
+        screenX += x;
+        screenY += y;
+    }
 
     void RequestSwitchState(GameState newState);
-    void RequestMapChange(const char* newMapName);
-    void RequestRunScript(const char* scriptName);
-    void RequestChangeMusic(const char* newMusic);
+    void RequestMapChange(const char *newMapName);
+    void RequestRunScript(const char *scriptName);
+    void RequestChangeMusic(const char *newMusic);
+    void RequestStartMenu(MenuClass mc);
 
-    void DispatchOverlay(Overlay* ov);
-    Overlay* GetOverlay() { return overlay; }
+    void DispatchOverlay(Overlay *ov);
+    Overlay *GetOverlay() { return overlay; }
 
-    int LoadFromFile(const char* file);
-    int SaveToFile(const char* file);
+    int LoadFromFile(const char *file);
+    int SaveToFile(const char *file);
+    void ResetGame();
 
     GameState gameState = WORLD;
     GameState newGameState = WORLD;
@@ -40,9 +48,11 @@ class GamePlayState {
     char lastMapName[64] = "start";
     char music[64] = "bgm0.ogg";
 
-    Overlay* overlay;
+    MenuClass activeMenu = PAUSE_MENU;
 
-    Party* party;
+    Overlay *overlay;
+
+    Party *party;
 
     bool introShown = false;
 

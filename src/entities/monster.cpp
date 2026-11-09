@@ -16,16 +16,15 @@ Monster::Monster() {
     damagePoints = 0;
 }
 
-Monster::~Monster() {
-
-}
+Monster::~Monster() {}
 
 void Monster::DrawMonster(Renderer *r) {
-    if (sprite_index != -1) r->drawSprite(sprite_index, x, y);
+    if (sprite_index != -1)
+        r->drawSprite(sprite_index, x, y);
 }
 
 void Monster::nextAction() {
-    damagePoints = LuminaUtils::RandomInt(0,20);
-    target = LuminaUtils::RandomInt(0,4);
-    //Customize Hit names later
+    damagePoints = LuminaUtils::RandomInt(0, 100);
+    target = LuminaUtils::RandomInt(0, 4);
+    // Customize Hit names later
 }

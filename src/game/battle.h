@@ -74,6 +74,7 @@ class Battle : public SecondaryActivity {
     void runMonsterAttacks();
     void runPartyAttacks();
     void nextPartyTurn();
+    bool isPartyAlive();
 
     void createSubMenu();
 };

@@ -13,19 +13,20 @@ GamePlayState::GamePlayState() {
 }
 
 GamePlayState::~GamePlayState() {
-    if (overlay != nullptr) delete overlay;
-    if (party != nullptr) delete party;
+    if (overlay != nullptr)
+        delete overlay;
+    if (party != nullptr)
+        delete party;
 }
 
 void GamePlayState::RequestMapChange(const char *newMapName) {
     wantNewState = true;
     newMap = true;
-    strncpy(lastMapName, mapName, 63);  // copy current into last
+    strncpy(lastMapName, mapName, 63); // copy current into last
     strncpy(mapName, newMapName, 63);
 }
 
-void GamePlayState::RequestSwitchState(GameState newState)
-{
+void GamePlayState::RequestSwitchState(GameState newState) {
     newGameState = newState;
     wantNewState = true;
 }
@@ -36,17 +37,21 @@ void GamePlayState::RequestRunScript(const char *scriptName) {
 }
 
 void GamePlayState::DispatchOverlay(Overlay *ov) {
-    if (overlay != nullptr) delete overlay;
+    if (overlay != nullptr)
+        delete overlay;
     overlay = ov;
 }
 
 int GamePlayState::LoadFromFile(const char *file) {
     LSAVLoader loader = LSAVLoader(file);
-    LSAVHeader* lsav = loader.load();
+    LSAVHeader *lsav = loader.load();
 
-    if (!lsav) return -1;
-    if (strncmp(lsav->magic, "LSAV", 4) != 0) return -1;
-    if (strncmp(lsav->gameID, LUMINA_ENGINE_DEMO_ID, 255) != 0) return -1;
+    if (!lsav)
+        return -1;
+    if (strncmp(lsav->magic, "LSAV", 4) != 0)
+        return -1;
+    if (strncmp(lsav->gameID, LUMINA_ENGINE_DEMO_ID, 255) != 0)
+        return -1;
 
     this->characterX = lsav->charX;
     this->characterY = lsav->charY;
@@ -68,7 +73,7 @@ int GamePlayState::LoadFromFile(const char *file) {
 
 int GamePlayState::SaveToFile(const char *file) {
     LSAVWriter writer = LSAVWriter(file);
-    LSAVHeader* lsav = (LSAVHeader*)malloc(sizeof(LSAVHeader));
+    LSAVHeader *lsav = (LSAVHeader *)malloc(sizeof(LSAVHeader));
 
     if (!lsav) {
         return -1;
@@ -95,4 +100,12 @@ void GamePlayState::RequestChangeMusic(const char *newMusic) {
         strncpy(music, newMusic, sizeof(music) - 1);
         wantNewMusic = true;
     }
+}
+
+void GamePlayState::RequestStartMenu(MenuClass mc) {
+    if (gameState != MENU) {
+        newGameState = MENU;
+    }
+    wantNewState = true;
+    activeMenu = mc;
 }

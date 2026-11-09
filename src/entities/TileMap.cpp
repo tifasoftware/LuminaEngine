@@ -355,7 +355,7 @@ void TileMap::OnStopMoveUp() { luminaMoveY = 0; }
 void TileMap::OnStopMoveDown() { luminaMoveY = 0; }
 void TileMap::OnStopMoveLeft() { luminaMoveX = 0; }
 void TileMap::OnStopMoveRight() { luminaMoveX = 0; }
-void TileMap::OnButtonStart() { gps->RequestSwitchState(MENU); }
+void TileMap::OnButtonStart() { gps->RequestStartMenu(PAUSE_MENU); }
 
 void TileMap::OnButtonA() { requestInteract = true; }
 

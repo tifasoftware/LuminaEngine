@@ -1,8 +1,7 @@
 #pragma once
 #include <stdint.h>
 
-enum CollisionType : uint8_t
-{
+enum CollisionType : uint8_t {
     NONE,
     NORTH,
     SOUTH,
@@ -18,33 +17,25 @@ enum CollisionType : uint8_t
     SWI
 };
 
-enum GameState : uint8_t
-{
-    WORLD,
-    BATTLE,
-    CINEMATIC,
-    MENU,
-    EXIT,
-    TRANSITION
-};
+enum GameState : uint8_t { WORLD, BATTLE, CINEMATIC, MENU, EXIT, TRANSITION };
 
 enum MenuClass : uint8_t {
     MAIN_MENU,
     PAUSE_MENU,
     LUA_MENU,
+    DEFEAT_MENU,
     NO_MENU,
     NO_MENU_RETURNTOWORLD
 };
 
 enum OverlayClass : uint8_t {
     DIALOGUE_OVERLAY, // Character says something
-    MSGBOX_OVERLAY, // Message from the game
+    MSGBOX_OVERLAY,   // Message from the game
     QUESTION_OVERLAY, // Character asks something
-    MENU_OVERLAY  // Game asks something
+    MENU_OVERLAY      // Game asks something
 };
 
-enum EntityType : uint8_t
-{
+enum EntityType : uint8_t {
     TRIGGER_LUA,
     TRIGGER_WARP,
     TRIGGER_BATTLEFIELD,
@@ -59,7 +50,7 @@ enum Orientation : uint8_t {
     FACE_DOWN,
     FACE_LEFT,
     FACE_RIGHT,
-    //For Poly-directional entities
+    // For Poly-directional entities
     FACE_LR,
     FACE_UD,
     FACE_ALL,

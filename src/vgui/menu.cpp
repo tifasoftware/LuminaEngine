@@ -1,6 +1,7 @@
 #include "menu.h"
 
-Menu::Menu(MenuClass mc, Renderer* r, SoundSystem* snd, GamePlayState* gps) : SecondaryActivity(r, snd, gps) {
+Menu::Menu(MenuClass mc, Renderer *r, SoundSystem *snd, GamePlayState *gps)
+    : SecondaryActivity(r, snd, gps) {
     for (int i = 0; i < 16; i++) {
         elements[i] = nullptr;
     }
@@ -10,32 +11,52 @@ Menu::Menu(MenuClass mc, Renderer* r, SoundSystem* snd, GamePlayState* gps) : Se
     panel = new Panel(r, 300, 200);
 
     switch (mc) {
-        case MAIN_MENU:
-            break;
-        case PAUSE_MENU: {
-            Button *b1 = new Button("Resume", "resume", SYSTEX_FONT_REG);
-            Button *b2 = new Button("Quit", "quit", SYSTEX_FONT_REG);
+    case MAIN_MENU:
+        break;
+    case PAUSE_MENU: {
+        Button *b1 = new Button("Resume", "resume", SYSTEX_FONT_REG);
+        Button *b2 = new Button("Quit", "quit", SYSTEX_FONT_REG);
 
-            b1->addLowerElement(b2);
-            b2->addUpperElement(b1);
+        b1->addLowerElement(b2);
+        b2->addUpperElement(b1);
 
-            panel->addElement(b1, 4, 4);
-            panel->addElement(b2, 4, 24);
+        panel->addElement(b1, 4, 4);
+        panel->addElement(b2, 4, 24);
 
-            b1->startFocus();
+        b1->startFocus();
 
-            elements[0] = b1;
-            elements[1] = b2;
-            break;
-        }
-        case LUA_MENU:
-            break;
-        default:
-            break;
+        elements[0] = b1;
+        elements[1] = b2;
+        break;
+    }
+    case DEFEAT_MENU: {
+        Text *t1 = new Text("Game Over", SYSTEX_FONT_BOLD);
+        Button *b1 = new Button("Restart", "restart", SYSTEX_FONT_REG);
+        Button *b2 = new Button("Quit", "quit", SYSTEX_FONT_REG);
+
+        b1->addLowerElement(b2);
+        b2->addUpperElement(b1);
+
+        panel->addElement(t1, 4, 4);
+        panel->addElement(b1, 4, 34);
+        panel->addElement(b2, 4, 54);
+
+        b1->startFocus();
+
+        elements[0] = b1;
+        elements[1] = b2;
+        break;
+    }
+    case LUA_MENU:
+        break;
+    default:
+        break;
     }
 }
 
-Menu::Menu(MenuClass mc, char const *lua, Renderer *r, SoundSystem *snd, GamePlayState* gps) : SecondaryActivity(r, snd, gps) {
+Menu::Menu(MenuClass mc, char const *lua, Renderer *r, SoundSystem *snd,
+           GamePlayState *gps)
+    : SecondaryActivity(r, snd, gps) {
     if (mc == LUA_MENU) {
         for (int i = 0; i < 16; i++) {
             elements[i] = nullptr;
@@ -54,9 +75,7 @@ Menu::~Menu() {
     delete panel;
 }
 
-void Menu::render() {
-    panel->Render();
-}
+void Menu::render() { panel->Render(); }
 
 void Menu::OnButtonStart() {
     soundSystem->playSFX(chime);
@@ -64,26 +83,20 @@ void Menu::OnButtonStart() {
 }
 
 void Menu::OnButtonA() {
-    Button* selB = dynamic_cast<Button*>(panel->focusedElement());
+    Button *selB = dynamic_cast<Button *>(panel->focusedElement());
 
-    if (selB != nullptr)
-    {
-        if (selB->GetTag() == "resume")
-        {
+    if (selB != nullptr) {
+        if (selB->CompareTag("resume") == 0) {
             soundSystem->playSFX(chime);
             gps->RequestSwitchState(WORLD);
-        }
-        else if (selB->GetTag() == "quit")
-        {
+        } else if (selB->CompareTag("quit") == 0) {
             soundSystem->playSFX(chime);
             gps->RequestSwitchState(EXIT);
         }
     }
 }
 
-void Menu::OnButtonB() {
-    OnButtonStart();
-}
+void Menu::OnButtonB() { OnButtonStart(); }
 
 void Menu::OnButtonUp() {
     if (panel->focusedElement() != nullptr) {
@@ -99,11 +112,6 @@ void Menu::OnButtonDown() {
     }
 }
 
-void Menu::OnButtonLeft() {
+void Menu::OnButtonLeft() {}
 
-}
-
-void Menu::OnButtonRight() {
-
-}
-
+void Menu::OnButtonRight() {}

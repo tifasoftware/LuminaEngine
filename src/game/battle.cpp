@@ -257,7 +257,7 @@ void Battle::update() {
         }
     } else if (stage == BATTLESTAGE_LOSE_CLOSEBATTLE) {
         stage = BATTLESTAGE_NOOPS;
-        gps->RequestSwitchState(WORLD);
+        gps->RequestStartMenu(DEFEAT_MENU);
     } else if (stage == BATTLESTAGE_MONSTER_INITMESSAGE) {
         MessageBox *o = new MessageBox(renderer, this);
         char combine[256];
@@ -285,8 +285,12 @@ void Battle::update() {
             if (b->inAnimation())
                 advance = false;
         }
-        if (advance)
-            runPartyAttacks();
+        if (advance) {
+            if (isPartyAlive())
+                runPartyAttacks();
+            else
+                stage = BATTLESTAGE_LOSE_INITMESSAGE;
+        }
     } else if (stage == BATTLESTAGE_NEXTROUND) {
         actions.clear();
 
@@ -369,8 +373,21 @@ void Battle::nextPartyTurn() {
         } else if (actions[turn].action == 2 && actions[turn].modifier == 2) {
             Character *c = party->GetPartyMember(turn);
             c->Hurt(c->GetHealth());
+
+            if (!isPartyAlive())
+                stage = BATTLESTAGE_LOSE_INITMESSAGE;
         }
     }
 
     UpdateUI();
+}
+
+bool Battle::isPartyAlive() {
+    Party *party = gps->party;
+    for (int i = 0; i < party_size; i++) {
+        if (party->GetPartyMember(i)->GetHealth() > 0)
+            return true;
+    }
+
+    return false;
 }
