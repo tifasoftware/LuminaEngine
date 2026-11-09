@@ -10,26 +10,27 @@ BatCounter::BatCounter(int atlas, int init_value, int max_value) {
 }
 
 void BatCounter::render(Renderer *r) {
-    r->fillRect(x + 1, y,barFill,10, barColor);
-    r->drawRect(x + 1, y,53,10, ColorA(255,255,255,255));
+    r->fillRect(x + 1, y, barFill, 10, barColor);
+    r->drawRect(x + 1, y, 53, 10, ColorA(255, 255, 255, 255));
     drawNumber(r, value, x + 2, y + 1);
 
-    //drawSlash(r, x + 24, y);
-    //drawNumber(r, maxValue, x + 32, y);
+    // drawSlash(r, x + 24, y);
+    // drawNumber(r, maxValue, x + 32, y);
 }
 
 void BatCounter::drawNumber(Renderer *r, int val, int x, int y) {
     int dx = x;
-    if (val > 10000) val = 9999;
+    if (val > 10000)
+        val = 9999;
 
     if (val < 1000) {
-        //drawDigit(r,0,x,y);
+        // drawDigit(r,0,x,y);
     } else {
         drawDigit(r, val / 1000, dx, y);
         dx += 8;
 
         if (val % 1000 < 100) {
-            drawDigit(r,0,dx,y);
+            drawDigit(r, 0, dx, y);
             dx += 8;
         }
 
@@ -37,13 +38,13 @@ void BatCounter::drawNumber(Renderer *r, int val, int x, int y) {
     }
 
     if (val < 100) {
-        //drawDigit(r,0, dx, y);
+        // drawDigit(r,0, dx, y);
     } else {
         drawDigit(r, val / 100, dx, y);
         dx += 8;
 
         if (val % 100 < 10) {
-            drawDigit(r,0,dx,y);
+            drawDigit(r, 0, dx, y);
             dx += 8;
         }
 
@@ -51,7 +52,7 @@ void BatCounter::drawNumber(Renderer *r, int val, int x, int y) {
     }
 
     if (val < 10) {
-        //drawDigit(r, 0, dx, y);
+        // drawDigit(r, 0, dx, y);
     } else {
         drawDigit(r, val / 10, dx, y);
         val = val % 10;
@@ -93,8 +94,13 @@ void BatCounter::calculateBarFill() {
 }
 
 void BatCounter::slideValue(int v, uint8_t frames) {
-    if (v == value) return;
+    if (v == value || value <= 0)
+        return;
     newValue = v;
+
+    if ((newValue) < 0)
+        newValue = 0;
+
     frame = frames;
 
     int diff = abs(value - newValue);
@@ -105,11 +111,13 @@ void BatCounter::slideValue(int v, uint8_t frames) {
     } else if (diff < frames) {
         frameSkips = frames - diff;
         delta = 1;
-    } else delta = 1;
+    } else
+        delta = 1;
 }
 
 void BatCounter::animate() {
-    if (!inAnimation()) return;
+    if (!inAnimation())
+        return;
     if (frameSkips > 0)
         frameSkips--;
     else

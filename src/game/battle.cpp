@@ -295,7 +295,8 @@ void Battle::update() {
         actions.clear();
 
         stage = BATTLESTAGE_PARTY_PROMPT;
-        turn = 0;
+        turn = 255;
+        nextPartyTurn();
 
         UpdateUI();
     } else if (stage == BATTLESTAGE_PARTY_RUNATTACKS) {
@@ -304,7 +305,6 @@ void Battle::update() {
             if (monster->GetHealth() <= 0) {
                 stage = BATTLESTAGE_WIN_INITMESSAGE;
             } else if (turn >= party_size - 1 && turn != 255) {
-                turn = 0;
                 stage = BATTLESTAGE_NEXTROUND;
             } else {
                 nextPartyTurn();
@@ -363,6 +363,8 @@ void Battle::nextPartyTurn() {
         turn++;
 
     while (turn < party_size && party->GetPartyMember(turn)->GetHealth() <= 0) {
+        if (stage == BATTLESTAGE_PARTY_PROMPT)
+            actions.push_back(CharacterAction(255, 0));
         turn++;
     }
 
