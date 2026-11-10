@@ -1,4 +1,5 @@
 #pragma once
+#include "entities/party.h"
 #include "graphics/renderer.h"
 
 class Monster {
@@ -21,6 +22,7 @@ class Monster {
     }
 
     void nextAction();
+    void nextAction(Party *party);
     uint16_t getDamagePoints() { return damagePoints; }
     uint8_t getTarget() { return target; }
     const char *getActionTitle() { return actionTitle; }

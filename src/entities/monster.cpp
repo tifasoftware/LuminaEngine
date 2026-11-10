@@ -28,3 +28,20 @@ void Monster::nextAction() {
     target = LuminaUtils::RandomInt(0, 4);
     // Customize Hit names later
 }
+
+void Monster::nextAction(Party *party) {
+    damagePoints = LuminaUtils::RandomInt(0, 100);
+
+    uint8_t party_size = party->members();
+    uint8_t alive_members = party_size;
+    std::vector<uint8_t> map;
+
+    for (int i = 0; i < party_size; i++) {
+        if (party->GetPartyMember(i)->GetHealth() <= 0)
+            alive_members--;
+        else
+            map.push_back(i);
+    }
+
+    target = map[LuminaUtils::RandomInt(0, alive_members)];
+}

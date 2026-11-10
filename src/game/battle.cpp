@@ -315,7 +315,7 @@ void Battle::update() {
 
 void Battle::runMonsterAttacks() {
     UpdateUI();
-    monster->nextAction();
+    monster->nextAction(gps->party);
     int target = monster->getTarget();
 
     BatCounter *b = chars_ui[target]->getHPCounter();
