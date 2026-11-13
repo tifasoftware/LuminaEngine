@@ -5,6 +5,7 @@
 class Monster {
   public:
     Monster();
+    Monster(int type);
     ~Monster();
 
     int LoadMonsterSprite(Renderer *r) {
@@ -28,10 +29,12 @@ class Monster {
     const char *getActionTitle() { return actionTitle; }
 
     int GetHealth() { return health; }
+    int GetMaxHealth() { return max_health; }
     void Damage(int points) { health -= points; }
 
   private:
     int health;
+    int max_health;
     int difficulty;
     int sprite_index;
 

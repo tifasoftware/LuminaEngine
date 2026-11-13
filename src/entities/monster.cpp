@@ -16,6 +16,34 @@ Monster::Monster() {
     damagePoints = 0;
 }
 
+Monster::Monster(int type) {
+    switch (type) {
+    case 1:
+        monsterName = "Turret";
+        textureFile = "turret.png";
+        actionTitle = "Gun";
+        health = 100;
+        difficulty = 1;
+        break;
+
+    case 0:
+    default:
+        monsterName = "Tree Mafia";
+        textureFile = "treemafia.png";
+        actionTitle = "Hit";
+        health = 1000;
+        difficulty = 10;
+        break;
+    }
+
+    max_health = health;
+    x = 0;
+    y = 0;
+    sprite_index = 0;
+    target = 0;
+    damagePoints = 0;
+}
+
 Monster::~Monster() {}
 
 void Monster::DrawMonster(Renderer *r) {
@@ -30,7 +58,7 @@ void Monster::nextAction() {
 }
 
 void Monster::nextAction(Party *party) {
-    damagePoints = LuminaUtils::RandomInt(0, 100);
+    damagePoints = LuminaUtils::RandomInt(0, 10 * difficulty);
 
     uint8_t party_size = party->members();
     uint8_t alive_members = party_size;

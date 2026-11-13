@@ -1,5 +1,6 @@
 #include "battle.h"
 
+#include "common/utils.h"
 #include "vgui/battle/char_card.h"
 #include "vgui/battle/counter.h"
 #include "vgui/button.h"
@@ -43,7 +44,7 @@ Battle::Battle(Renderer *r, SoundSystem *snd, GamePlayState *gps)
     btnItems->addLowerElement(btnF);
     btnF->addUpperElement(btnItems);
 
-    monster = new Monster();
+    monster = new Monster(LuminaUtils::RandomInt(0, 2));
     monster->LoadMonsterSprite(renderer);
     monster->Move(renderer->GetWidth() / 2 - 64,
                   renderer->GetHeight() / 2 - 128);
@@ -54,7 +55,8 @@ Battle::Battle(Renderer *r, SoundSystem *snd, GamePlayState *gps)
 
     battleGlyphIndex = renderer->loadTexture("battleglyphs.png");
 
-    monster_health = new BatCounter(battleGlyphIndex, 100, 100);
+    monster_health = new BatCounter(battleGlyphIndex, monster->GetHealth(),
+                                    monster->GetMaxHealth());
     monster_health->move(renderer->GetWidth() / 2 - 32,
                          renderer->GetHeight() / 2);
 
