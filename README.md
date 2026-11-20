@@ -9,8 +9,8 @@ A 2D RPG game engine for the PC, Mac, Linux, and the Sony PSP, built with C++ an
 ## Features
 
 - SDL2 based rendering
-- SDL2 -> SDL1.2 translation for SDL1 only platforms
-- Lua 5.5 scripting (WIP)
+- SDL2 -> SDL1.2 static translation for SDL1 only platforms
+- Lua 5.5 scripting
 - Tile map system with custom LMAP format
 - Memory-efficient Texture management
 - Multiplatform controller and keyboard input
@@ -20,7 +20,6 @@ A 2D RPG game engine for the PC, Mac, Linux, and the Sony PSP, built with C++ an
 
 - [ ] WAD style asset packaging
 - [ ] NPC system
-- 🏗️ Battle system
 - [ ] Save/load system
 
 ---
@@ -135,14 +134,4 @@ make
 
 ---
 
-## Contributing
-
-Contributions are welcome! If you'd like to help:
-
-1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/my-feature`)
-3. Commit your changes (`git commit -m "add my feature"`)
-4. Push to the branch (`git push origin feature/my-feature`)
-5. Open a Pull Request
-
-Please keep PSP hardware constraints in mind — 32MB RAM, 480x272 resolution.
+(C) 2026 Materia Research.
